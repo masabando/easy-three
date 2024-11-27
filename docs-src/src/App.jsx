@@ -8,8 +8,20 @@ import Reference from "./pages/reference/Top";
 import NotFound from "./pages/NotFound";
 import Footer from "./components/Footer";
 import { UserProvider } from "./components/Lang";
+import { useEffect } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 
 function App() {
+  const search = useLocation().search;
+  const path = new URLSearchParams(search).get("path");
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (path) {
+      navigate(path);
+    }
+    // eslint-disable-next-line
+  }, []);
   return (
     <UserProvider>
       <div className="App">
