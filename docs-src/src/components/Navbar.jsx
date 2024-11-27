@@ -8,7 +8,7 @@ import T, { LangSwitcher } from './Lang';
 export default function Navbar() {
   return (
     <RBNavbar
-      expand="lg"
+      expand="md"
       data-bs-theme="dark"
       className="bg-body-tertiary sticky-top"
     >
@@ -24,10 +24,6 @@ export default function Navbar() {
             <BsGithub style={{ fontSize: "180%" }} />
           </Nav.Link>
         </Nav>
-        <div>
-          <LangSwitcher />
-          <RBNavbar.Toggle className="ms-3" aria-controls="basic-navbar-nav" />
-        </div>
         <RBNavbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto">
             <Nav.Link as={Link} to="/getting-started">
@@ -50,6 +46,10 @@ export default function Navbar() {
             </Nav.Link>
           </Nav>
         </RBNavbar.Collapse>
+        <div>
+          <LangSwitcher />
+          <RBNavbar.Toggle className="ms-3" aria-controls="basic-navbar-nav" />
+        </div>
       </Container>
     </RBNavbar>
   );
