@@ -29,6 +29,7 @@ export function init(targetName) {
 
   const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true })
   renderer.shadowMap.enabled = true
+  renderer.setPixelRatio(window.devicePixelRatio)
 
   const controls = new OrbitControls(camera, renderer.domElement)
   controls.disconnect()

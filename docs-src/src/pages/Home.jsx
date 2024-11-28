@@ -56,10 +56,11 @@ export default function Home() {
         </Container>
       </div>
 
-      <div className="py-5 mw-100">
+      <div className="py-5 mw-100 d-flex justify-content-center">
         <Demo.World style={{
-          width: "100%",
-          height: "500px",
+          width: "600px",
+          aspectRatio: "6 / 4",
+          maxWidth: "100%",
         }} />
       </div>
       <div>
