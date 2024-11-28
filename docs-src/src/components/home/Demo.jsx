@@ -1,7 +1,6 @@
 import { init } from "https://cdn.jsdelivr.net/gh/masabando/easy-three@0.0.7/dist/easy-three.js";
 import { useEffect, useRef } from "react";
 
-
 export const Demo = {
   Simple: (props) => {
     const ref = useRef()
@@ -54,4 +53,15 @@ export const Demo = {
       <div ref={ref} {...props}></div>
     )
   },
+  World: (props) => {
+    const ref = useRef()
+    useEffect(() => {
+      const { camera, scene, create, controls, animate, load } = init(ref.current)
+      load.background('./texture/symmetrical_garden_02_1k.hdr')
+      animate()
+    }, [])
+    return (
+      <div ref={ref} {...props}></div>
+    )
+  }
 }

@@ -3,6 +3,8 @@ import * as THREE from 'three'
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js'
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import { VRMLoaderPlugin, VRMUtils } from 'https://cdn.jsdelivr.net/npm/@pixiv/three-vrm@3/lib/three-vrm.module.min.js';
+import { RGBELoader } from "three/addons/loaders/RGBELoader.js";
+
 
 
 
@@ -214,6 +216,13 @@ export function init(targetName) {
       model.scene.scale.set(...scale);
       if (autoAdd) scene.add(model.scene);
       return model;
+    },
+    background: (url) => {
+      new RGBELoader().load(url, (texture) => {
+        texture.mapping = THREE.EquirectangularReflectionMapping
+        scene.background = texture
+        scene.environment = texture
+      })
     }
   }
 

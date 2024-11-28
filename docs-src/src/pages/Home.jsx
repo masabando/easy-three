@@ -5,6 +5,12 @@ import T from "../components/Lang";
 import { Demo } from "../components/home/Demo";
 import CodeBlock from "../components/CodeBlock";
 
+function Note({ children }) {
+  return (
+    <span className="fw-bold">{children}</span>
+  );
+}
+
 export default function Home() {
   return (
     <div className="pb-5">
@@ -49,6 +55,13 @@ export default function Home() {
           </div>
         </Container>
       </div>
+
+      <div className="py-5 mw-100">
+        <Demo.World style={{
+          width: "100%",
+          height: "500px",
+        }} />
+      </div>
       <div>
         <Container className="py-5 mw-100">
           <div className="mb-5">
@@ -60,18 +73,33 @@ export default function Home() {
             </h4>
             <p>
               <T>
-                <>No special software or configuration is required.<br />You can start right away with just a browser.</>
-                <>特別なソフトや設定は必要ありません。<br />ブラウザだけですぐに始められます。</>
+                <>
+                  No special software or configuration is required.
+                  <br />
+                  You can start right away with <Note>just a browser</Note>.
+                  <br />
+                  It can also be used in environments where software
+                  installation is restricted, such as schools.
+                </>
+                <>
+                  特別なソフトや設定は必要ありません。
+                  <br />
+                  <Note>Webブラウザだけ</Note>ですぐに始められます。
+                  <br />
+                  学校など、インストールできるソフトウェアが制限されている環境でも利用可能です。
+                </>
               </T>
             </p>
           </div>
           <div className="d-flex justify-content-center justify-content-md-space-between flex-wrap flex-md-nowrap mw-100 mb-5">
-            <Demo.Simple style={{
-              width: "500px",
-              maxWidth: "100%",
-              aspectRatio: "4 / 3",
-              overflow: "hidden",
-            }} />
+            <Demo.Simple
+              style={{
+                width: "500px",
+                maxWidth: "100%",
+                aspectRatio: "4 / 3",
+                overflow: "hidden",
+              }}
+            />
             <div className="w-100" style={{ maxWidth: "600px" }}>
               <h4>
                 <T>
@@ -86,14 +114,13 @@ export default function Home() {
                     Animations can also be set up easily.
                   </>
                   <>
-                    短いコードで3Dを作成できます。<br />
+                    短いコードで3Dを作成できます。
+                    <br />
                     アニメーションも簡単に設定できます。
                   </>
                 </T>
               </p>
-              <CodeBlock
-                filename="index.js"
-              >
+              <CodeBlock filename="index.js">
                 {`const { camera, create, animate } = init()
 camera.position.set(5, 5, 5);
 create.ambientLight()
@@ -108,12 +135,14 @@ animate(({ clock }) => {
             </div>
           </div>
           <div className="d-flex justify-content-center justify-content-md-space-between flex-wrap flex-md-nowrap mw-100 mb-5">
-            <Demo.Model style={{
-              width: "500px",
-              maxWidth: "100%",
-              aspectRatio: "4 / 3",
-              overflow: "hidden",
-            }} />
+            <Demo.Model
+              style={{
+                width: "500px",
+                maxWidth: "100%",
+                aspectRatio: "4 / 3",
+                overflow: "hidden",
+              }}
+            />
             <div className="w-100" style={{ maxWidth: "600px" }}>
               <h4>
                 <T>
@@ -128,14 +157,13 @@ animate(({ clock }) => {
                     Camera operation with a mouse is also available.
                   </>
                   <>
-                    VRMモデルの表示なども簡単にできます。<br />
+                    VRMモデルの表示なども簡単にできます。
+                    <br />
                     カメラの操作も簡単です。
                   </>
                 </T>
               </p>
-              <CodeBlock
-                filename="index.js"
-              >
+              <CodeBlock filename="index.js">
                 {`const { camera, create, animate, controls, helper, load } = init();
 
 controls.connect()
@@ -173,18 +201,17 @@ animate(({ clock, delta }) => {
             <p>
               <T>
                 <>
-                  You can create 3D objects with short code. <br />
-                  Animations can also be set up easily.
+                  You can also use it directly with React. <br />
+                  Perfect for adding a touch of 3D to your web page.
                 </>
                 <>
-                  短いコードで3Dを作成できます。<br />
-                  アニメーションも簡単に設定できます。
+                  そのままReactで利用することも可能です。
+                  <br />
+                  Webページのちょっとしたアクセントに。
                 </>
               </T>
             </p>
-            <CodeBlock
-              filename="index.js"
-            >
+            <CodeBlock filename="index.js">
               {`const Simple = (props) => {
   const ref = useRef()
   useEffect(() => {
