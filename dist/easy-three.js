@@ -1,6 +1,9 @@
 
 import * as THREE from 'three'
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js'
+import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+import { VRMLoaderPlugin, VRMUtils } from 'https://cdn.jsdelivr.net/npm/@pixiv/three-vrm@3/lib/three-vrm.module.min.js';
+
 
 
 function sizeToArray(size, n = 3) {
@@ -164,15 +167,66 @@ export function init(targetName) {
     },
   }
 
+  const helper = {
+    grid: function ({
+      size = 10,
+      divisions = 10,
+      colorCenterLine = 0x444444,
+      colorGrid = 0x888888,
+    } = {}) {
+      const g = new THREE.GridHelper(size, divisions, colorCenterLine, colorGrid)
+      g.position.y = 0.005
+      scene.add(g)
+      return g;
+    },
+    axes: function ({
+      size = 10,
+    } = {}) {
+      const a = new THREE.AxesHelper(size)
+      a.position.y = 0.01
+      scene.add(a)
+      return a;
+    }
+  }
+
+  const load = {
+    vrm: async function (url, {
+      position = [0, 0, 0],
+      rotation = [0, 0, 0],
+      scale = [1, 1, 1],
+      autoAdd = true
+    } = {}) {
+      const vrmLoader = new GLTFLoader();
+      vrmLoader.register(parser => new VRMLoaderPlugin(parser));
+      const gltf = await vrmLoader.loadAsync(url);
+      const model = gltf.userData.vrm;
+      VRMUtils.removeUnnecessaryVertices(model.scene);
+      //VRMUtils.removeUnnecessaryJoints(model.scene); // deprecated
+      VRMUtils.combineSkeletons(model.scene);
+      model.scene.traverse((obj) => {
+        obj.frustumCulled = false;
+        if (obj.isMesh) {
+          obj.castShadow = true;
+        }
+      });
+      model.scene.position.set(...position);
+      model.scene.rotation.set(...rotation);
+      model.scene.scale.set(...scale);
+      if (autoAdd) scene.add(model.scene);
+      return model;
+    }
+  }
+
   function color(col) {
     return new THREE.Color(col)
   }
 
-  const clock = new THREE.Clock();
   function animate(proc = () => { }) {
+    const clock = new THREE.Clock();
     function loop() {
       controls.update()
-      proc({ clock })
+      const delta = clock.getDelta()
+      proc({ clock, delta })
       renderer.render(scene, camera)
     }
     renderer.setAnimationLoop(loop)
@@ -187,6 +241,8 @@ export function init(targetName) {
     animate,
     color,
     THREE,
+    helper,
+    load,
   }
 }
 

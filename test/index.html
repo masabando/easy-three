@@ -18,15 +18,31 @@
 <body>
   <script type="module">
     import { init } from "../dist/easy-three.js";
-    const { camera, create, animate, controls } = init();
+    const { camera, create, animate, controls, helper, load } = init();
 
     controls.connect()
-    camera.position.set(-2, 2, 2)
+    camera.position.set(0, 2, -2)
+    controls.target.set(0, 1, 0)
     create.ambientLight()
     create.directionalLight()
-    create.cube()
+    helper.axes();
+    helper.grid();
 
-    animate()
+    const cube = create.cube({ size: 0.5, position: [1, 1, 0] })
+
+    let model;
+    load.vrm("../docs-src/public/model/sample.vrm").then(m => {
+      model = m
+    })
+
+    animate(({ clock, delta }) => {
+      cube.rotation.y += delta
+      cube.rotation.x += delta
+      if (model) {
+        model.humanoid.getNormalizedBoneNode("leftUpperArm").rotation.z = Math.sin(clock.getElapsedTime()) * Math.PI * 0.25
+        model.update(delta)
+      }
+    })
   </script>
 </body>
 
