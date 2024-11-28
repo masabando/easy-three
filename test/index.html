@@ -20,7 +20,7 @@
     import { init } from "../dist/easy-three.js";
     const { camera, create, animate, controls } = init();
 
-    controls.enabled = true;
+    controls.connect()
     camera.position.set(-2, 2, 2)
     create.ambientLight()
     create.directionalLight()

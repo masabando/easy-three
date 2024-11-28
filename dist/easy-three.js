@@ -26,7 +26,7 @@ export function init(targetName) {
   renderer.shadowMap.enabled = true
 
   const controls = new OrbitControls(camera, renderer.domElement)
-  controls.enabled = false
+  controls.disconnect()
 
 
   const sizeTarget = domElement === document.body ? window : domElement;

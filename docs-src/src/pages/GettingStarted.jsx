@@ -102,7 +102,7 @@ export default function GettingStarted() {
 </script>`}
       </CodeBlock>
       <CodeBlock filename="JavaScript" language="javascript">
-        {`import { init } from "https://cdn.jsdelivr.net/gh/masabando/easy-three@0.0.2/dist/easy-three.js";`}
+        {`import { init } from "https://cdn.jsdelivr.net/gh/masabando/easy-three@0.0.4/dist/easy-three.js";`}
       </CodeBlock>
 
       <T>
@@ -137,10 +137,10 @@ export default function GettingStarted() {
 
 <body>
   <script type="module">
-    import { init } from "https://cdn.jsdelivr.net/gh/masabando/easy-three@0.0.2/dist/easy-three.js";
+    import { init } from "https://cdn.jsdelivr.net/gh/masabando/easy-three@0.0.4/dist/easy-three.js";
     const { camera, create, animate, controls } = init();
 
-    controls.enabled = true;
+    controls.connect()
     camera.position.set(-2, 2, 2)
     create.ambientLight()
     create.directionalLight()

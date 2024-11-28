@@ -2,6 +2,7 @@ import Container from "react-bootstrap/Container";
 import Button from "react-bootstrap/Button";
 import { Link } from "react-router-dom";
 import T from "../components/Lang";
+import { Demo } from "../components/home/Demo";
 
 export default function Home() {
   return (
@@ -49,7 +50,10 @@ export default function Home() {
       </div>
       <div>
         <Container className="py-5">
-
+          <Demo.Simple />
+          <Demo.Simple />
+          <Demo.Simple />
+          <Demo.Simple />
         </Container>
       </div>
     </>
