@@ -17,6 +17,9 @@ export function init(targetName) {
   const Default = {
     material: "Physical",
     color: 0x1155ff,
+    texture: {
+      wrapping: "Repeat"
+    }
   }
 
   const domElement = targetName ?
@@ -192,6 +195,7 @@ export function init(targetName) {
     }
   }
 
+  const textureLoader = new THREE.TextureLoader();
   const load = {
     vrm: async function (url, {
       position = [0, 0, 0],
@@ -224,6 +228,17 @@ export function init(targetName) {
         scene.background = texture
         scene.environment = texture
       })
+    },
+    texture: (url, {
+      wrapS = Default.texture.wrapping,
+      wrapT = Default.texture.wrapping,
+      repeat = [1, 1]
+    } = {}) => {
+        const texture = textureLoader.load(url);
+        texture.wrapS = THREE[`${wrapS}Wrapping`];
+        texture.wrapT = THREE[`${wrapT}Wrapping`];
+        texture.repeat = new THREE.Vector2(...repeat);
+        return repeat;
     }
   }
 

@@ -372,6 +372,35 @@ export default function Reference() {
           </div>
           指定されたHDR形式の画像をロードし、シーンの背景と環境マップに設定します。
         </div>
+        <h3>
+          load.texture(url : String, props : Object) : <span>Texture</span>
+        </h3>
+        <div>
+          <div>
+            <div>
+              <span>url</span> - テクスチャのURL。
+            </div>
+            <div>
+              <span>props</span> - 設定オブジェクト。
+              <ul>
+                <li>
+                  wrapS (number) : テクスチャのラッピングモード (デフォルト : &quot;Repeat&quot;)。
+                </li>
+                <li>
+                  wrapT (number) : テクスチャのラッピングモード (デフォルト : &quot;Repeat&quot;)。
+                </li>
+                <li>
+                  repeat (Array) : テクスチャの繰り返し回数 (デフォルト : [1, 1])。
+                </li>
+              </ul>
+            </div>
+          </div>
+          指定された画像をロードし、テクスチャを作成します。
+          <br />
+          テクスチャの繰り返しを有効にするには、wrapSおよびwrapTを
+          &quot;Repeat&quot; または &quot;MirroredRepeat&quot;
+          に設定する必要があります。
+        </div>
       </div>
     </Container>
   );
