@@ -24,6 +24,7 @@ export function init(targetName) {
   renderer.shadowMap.enabled = true
 
   const controls = new OrbitControls(camera, renderer.domElement)
+  controls.enabled = false
 
 
   const sizeTarget = domElement === document.body ? window : domElement;
@@ -137,8 +138,15 @@ export function init(targetName) {
       return l;
     },
   }
-  function animate() {
+
+  function color(col) {
+    return new THREE.Color(col)
+  }
+
+  const clock = new THREE.Clock();
+  function animate(proc = () => { }) {
     function loop() {
+      proc({ clock })
       renderer.render(scene, camera)
     }
     renderer.setAnimationLoop(loop)
@@ -151,6 +159,8 @@ export function init(targetName) {
     controls,
     create,
     animate,
+    color,
+    THREE,
   }
 }
 
