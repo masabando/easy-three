@@ -29,8 +29,8 @@ function App() {
   }, []);
   return (
     <UserProvider>
-      <div className="App">
-        <div className="flex-grow-1">
+      <div className="App mw-100">
+        <div className="flex-grow-1 mw-100">
           <Navbar />
           <Routes>
             <Route path="/" element={<Home />} />

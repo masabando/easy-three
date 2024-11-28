@@ -1,4 +1,4 @@
-import { init } from "https://cdn.jsdelivr.net/gh/masabando/easy-three@0.0.5/dist/easy-three.js";
+import { init } from "https://cdn.jsdelivr.net/gh/masabando/easy-three@0.0.6/dist/easy-three.js";
 import { useEffect, useRef } from "react";
 
 
@@ -7,12 +7,10 @@ export const Demo = {
     const ref = useRef()
     useEffect(() => {
       const { camera, create, animate } = init(ref.current)
-      camera.position.set(-2, 2, 2)
+      camera.position.set(5, 5, 5);
       create.ambientLight()
       create.directionalLight()
-      const cube = create.cube({
-        size: 2
-      })
+      const cube = create.cube({ size: 3 })
       animate(({ clock }) => {
         cube.rotation.x = clock.getElapsedTime()
         cube.rotation.y = clock.getElapsedTime()

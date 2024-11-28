@@ -7,10 +7,12 @@ import T from "./Lang";
 export default function CodeBlock({
   language = "javascript",
   filename,
+  className = "",
+  style = {},
   children,
 }) {
   return (
-    <div className="my-3">
+    <div className={`my-3 ${className}`} style={style}>
       {filename && (
         <Flex
           justify="space-between"
