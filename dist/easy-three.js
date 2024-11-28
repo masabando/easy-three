@@ -238,7 +238,7 @@ export function init(targetName) {
         texture.wrapS = THREE[`${wrapS}Wrapping`];
         texture.wrapT = THREE[`${wrapT}Wrapping`];
         texture.repeat = new THREE.Vector2(...repeat);
-        return repeat;
+        return texture;
     }
   }
 
