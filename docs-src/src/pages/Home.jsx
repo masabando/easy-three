@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import T from "../components/Lang";
 import { Demo } from "../components/home/Demo";
 import CodeBlock from "../components/CodeBlock";
+import { Tag } from "antd";
 
 function Note({ children }) {
   return (
@@ -14,10 +15,15 @@ function Note({ children }) {
 export default function Home() {
   return (
     <div className="pb-5">
-      <div className="bg-body-tertiary">
+      <div className="bg-body-tertiary pb-4">
         <Container className="py-3">
           <title>Home | easy-three</title>
           <h1 className="headTitle mt-5 mb-4">easy-three</h1>
+          <div className="text-center mb-4">
+            <Tag color="blue" size>
+              v0.0.9
+            </Tag>
+          </div>
           <div className="headMessage">
             <T>
               <>
@@ -56,15 +62,39 @@ export default function Home() {
         </Container>
       </div>
 
-      <div className="py-5 mw-100 d-flex justify-content-center">
-        <Demo.World style={{
-          width: "600px",
-          aspectRatio: "6 / 4",
-          maxWidth: "100%",
-        }} />
+      <div className="py-0 mw-100 d-flex justify-content-center">
+        <Demo.World
+          style={{
+            width: "600px",
+            aspectRatio: "6 / 4",
+            maxWidth: "100%",
+          }}
+        />
       </div>
       <div>
         <Container className="py-5 mw-100">
+          <div className="mb-5">
+            <h4>
+              <T>
+                <>Three.js made simple</>
+                <>Three.js を簡単に</>
+              </T>
+            </h4>
+            <p>
+              <T>
+                <>
+                  Three.js&apos;s powerful features, simplified for beginners.<br />
+                  easy-three supports everything from creating objects to
+                  animations and lighting setups.
+                </>
+                <>
+                  Three.jsのパワフルな機能を、初心者でも簡単に。
+                  <br />
+                  easy-threeは、オブジェクトの作成からアニメーション、ライト設定までを一括でサポートします。
+                </>
+              </T>
+            </p>
+          </div>
           <div className="mb-5">
             <h4>
               <T>
