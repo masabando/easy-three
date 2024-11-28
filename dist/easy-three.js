@@ -14,7 +14,9 @@ export function init(targetName) {
     color: 0x1155ff,
   }
 
-  const domElement = targetName ? document.querySelector(targetName) : document.body;
+  const domElement = targetName ?
+    (typeof targetName === "string" ? document.querySelector(targetName) : targetName) :
+    document.body;
 
   const scene = new THREE.Scene()
 
@@ -146,6 +148,7 @@ export function init(targetName) {
   const clock = new THREE.Clock();
   function animate(proc = () => { }) {
     function loop() {
+      controls.update()
       proc({ clock })
       renderer.render(scene, camera)
     }

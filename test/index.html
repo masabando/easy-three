@@ -18,19 +18,15 @@
 <body>
   <script type="module">
     import { init } from "../dist/easy-three.js";
-    const { camera, create, animate, controls, scene, color } = init();
+    const { camera, create, animate, controls } = init();
 
-    scene.background = color(0x000000);
     controls.enabled = true;
-    camera.position.set(0, 0, 5)
+    camera.position.set(-2, 2, 2)
     create.ambientLight()
     create.directionalLight()
-    const cube = create.cube()
+    create.cube()
 
-    animate(({ clock }) => {
-      cube.rotation.x = clock.getElapsedTime()
-      cube.rotation.y = clock.getElapsedTime()
-    });
+    animate()
   </script>
 </body>
 
