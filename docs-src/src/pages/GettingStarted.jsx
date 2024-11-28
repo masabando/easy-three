@@ -5,6 +5,7 @@ import T from "../components/Lang";
 import { Link } from "react-router-dom";
 
 export default function GettingStarted() {
+  const currentVersion = "0.0.9";
   return (
     <Container className="pt-4 pb-5">
       <title>Getting Started | easy-three</title>
@@ -102,7 +103,7 @@ export default function GettingStarted() {
 </script>`}
       </CodeBlock>
       <CodeBlock filename="JavaScript" language="javascript">
-        {`import { init } from "https://cdn.jsdelivr.net/gh/masabando/easy-three@0.0.8/dist/easy-three.js";`}
+        {`import { init } from "https://cdn.jsdelivr.net/gh/masabando/easy-three@${currentVersion}/dist/easy-three.js";`}
       </CodeBlock>
 
       <T>
@@ -137,7 +138,7 @@ export default function GettingStarted() {
 
 <body>
   <script type="module">
-    import { init } from "https://cdn.jsdelivr.net/gh/masabando/easy-three@0.0.8/dist/easy-three.js";
+    import { init } from "https://cdn.jsdelivr.net/gh/masabando/easy-three@${currentVersion}/dist/easy-three.js";
     const { camera, create, animate, controls } = init();
 
     controls.connect()
