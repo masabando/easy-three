@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>easy-three template</title>
+  <script type="importmap">
+    {
+      "imports": {
+        "three": "https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.js",
+        "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.170.0/examples/jsm/"
+      }
+    }
+  </script>
+</head>
+
+<body>
+  <script type="module">
+    import { init } from "https://cdn.jsdelivr.net/gh/masabando/easy-three@0.0.1/dist/easy-three.js";
+    const { camera, create, animate } = init();
+
+    camera.position.set(0, 0, 5)
+    create.ambientLight()
+    create.directionalLight()
+    create.cube()
+
+    animate();
+  </script>
+</body>
+
+</html>
