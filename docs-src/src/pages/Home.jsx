@@ -3,6 +3,7 @@ import Button from "react-bootstrap/Button";
 import { Link } from "react-router-dom";
 import T from "../components/Lang";
 import { Demo } from "../components/home/Demo";
+import { Flex } from "antd";
 
 export default function Home() {
   return (
@@ -48,13 +49,22 @@ export default function Home() {
           </div>
         </Container>
       </div>
-      <div>
-        <Container className="py-5">
-          <Demo.Simple />
-          <Demo.Simple />
-          <Demo.Simple />
-          <Demo.Simple />
-        </Container>
+      <Container className="py-5">
+        ほげ
+      </Container>
+      <div className="bg-body-tertiary">
+      <Container className="py-5">
+        <Flex>
+          <Demo.Simple className="w-100" />
+          <div className="w-100">
+            <h2>hoge</h2>
+            <p>ほげほげ</p>
+          </div>
+        </Flex>
+        <Demo.Simple />
+        <Demo.Simple />
+        <Demo.Simple />
+      </Container>
       </div>
     </>
   );
