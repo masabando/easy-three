@@ -15,10 +15,12 @@
   </script>
 </head>
 
+<div id="foo" style="width: 100%; height: 300px;"></div>
+
 <body>
   <script type="module">
     import { init } from "../dist/easy-three.js";
-    const { camera, create, animate, controls } = init();
+    const { camera, create, animate, controls } = init("#foo");
 
     controls.connect()
     camera.position.set(-2, 2, 2)

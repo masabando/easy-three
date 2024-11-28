@@ -41,7 +41,6 @@ export function init(targetName) {
   domElement.appendChild(renderer.domElement)
 
   sizeTarget.addEventListener("resize", (e) => {
-    console.log("resize")
     if (sizeTarget === window) {
       renderer.setSize(sizeTarget.innerWidth, sizeTarget.innerHeight)
       camera.aspect = sizeTarget.innerWidth / sizeTarget.innerHeight
@@ -51,6 +50,18 @@ export function init(targetName) {
     }
     camera.updateProjectionMatrix()
   })
+
+  if (sizeTarget !== window) {
+    window.addEventListener("resize", (e) => {
+      renderer.setSize(sizeTarget.scrollWidth, sizeTarget.scrollHeight, false)
+      camera.aspect = sizeTarget.scrollWidth / sizeTarget.scrollHeight
+      camera.updateProjectionMatrix()
+    })
+  }
+
+  renderer.domElement.style.aspectRatio = renderer.domElement.width / renderer.domElement.height;
+  renderer.domElement.style.width = "100%"
+  renderer.domElement.style.height = "auto"
 
   const create = {
     object: function (geometry, {
