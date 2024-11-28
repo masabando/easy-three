@@ -10,6 +10,7 @@ import Footer from "./components/Footer";
 import { UserProvider } from "./components/Lang";
 import { useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+import Reference_Create_Cube from "./pages/reference/create/Cube";
 
 function App() {
   const search = useLocation().search;
@@ -37,6 +38,7 @@ function App() {
             <Route path="/getting-started" element={<GettingStarted />} />
             <Route path="/examples" element={<Examples />} />
             <Route path="/reference" element={<Reference />} />
+            <Route path="/reference/create_cube" element={<Reference_Create_Cube />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </div>

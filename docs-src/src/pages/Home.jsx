@@ -51,11 +51,26 @@ export default function Home() {
       </div>
       <div>
         <Container className="py-5 mw-100">
+          <div className="mb-5">
+            <h4>
+              <T>
+                <>No Installation Required</>
+                <>インストール不要</>
+              </T>
+            </h4>
+            <p>
+              <T>
+                <>No special software or configuration is required.<br />You can start right away with just a browser.</>
+                <>特別なソフトや設定は必要ありません。<br />ブラウザだけですぐに始められます。</>
+              </T>
+            </p>
+          </div>
           <div className="d-flex justify-content-center justify-content-md-space-between flex-wrap flex-md-nowrap mw-100 mb-5">
             <Demo.Simple style={{
               width: "500px",
               maxWidth: "100%",
               aspectRatio: "4 / 3",
+              overflow: "hidden",
             }} />
             <div className="w-100" style={{ maxWidth: "600px" }}>
               <h4>
@@ -92,19 +107,61 @@ animate(({ clock }) => {
               </CodeBlock>
             </div>
           </div>
-          <div className="mb-5">
-            <h4>
-              <T>
-                <>No Installation Required</>
-                <>インストール不要</>
-              </T>
-            </h4>
-            <p>
-              <T>
-                <>No special software or configuration is required.<br />You can start right away with just a browser.</>
-                <>特別なソフトや設定は必要ありません。<br />ブラウザだけですぐに始められます。</>
-              </T>
-            </p>
+          <div className="d-flex justify-content-center justify-content-md-space-between flex-wrap flex-md-nowrap mw-100 mb-5">
+            <Demo.Model style={{
+              width: "500px",
+              maxWidth: "100%",
+              aspectRatio: "4 / 3",
+              overflow: "hidden",
+            }} />
+            <div className="w-100" style={{ maxWidth: "600px" }}>
+              <h4>
+                <T>
+                  <>Quick and Easy Model Setup</>
+                  <>簡単でスピーディーなモデルセットアップ</>
+                </T>
+              </h4>
+              <p>
+                <T>
+                  <>
+                    You can easily display models such as VRM. <br />
+                    Camera operation with a mouse is also available.
+                  </>
+                  <>
+                    VRMモデルの表示なども簡単にできます。<br />
+                    カメラの操作も簡単です。
+                  </>
+                </T>
+              </p>
+              <CodeBlock
+                filename="index.js"
+              >
+                {`const { camera, create, animate, controls, helper, load } = init();
+
+controls.connect()
+controls.autoRotate = true
+camera.position.set(0, 2, -2)
+controls.target.set(0, 1, 0)
+create.ambientLight()
+create.directionalLight({ intensity: 2, position: [10, 10, -10] })
+helper.axes();
+helper.grid();
+const cube = create.cube({ size: 0.5, position: [1, 1, 0] })
+let model;
+load.vrm("./model/sample.vrm").then(m => {
+  model = m
+})
+animate(({ clock, delta }) => {
+  cube.rotation.y += delta
+  cube.rotation.x += delta
+  if (model) {
+    model.humanoid.getNormalizedBoneNode("leftUpperArm").rotation.z = Math.sin(clock.getElapsedTime()) * Math.PI * 0.25
+    model.update(delta)
+  }
+})
+`}
+              </CodeBlock>
+            </div>
           </div>
           <div className="mb-5">
             <h4>

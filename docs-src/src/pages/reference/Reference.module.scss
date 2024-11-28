@@ -1,0 +1,32 @@
+.reference {
+  a {
+    text-decoration: none;
+  }
+  h3 {
+    font-size: 1.1rem;
+    margin-top: 3em;
+
+    span {
+      color: #666;
+    }
+  }
+  > div {
+    > div {
+      margin-top: 1em;
+      margin-bottom: 1em;
+      > div {
+        margin-top: 1em;
+        ul li {
+          margin-top: 0.5em;
+          margin-bottom: 0.5em;
+        }
+      }
+
+      span {
+        color: #666;
+        font-weight: bold;
+        margin-right: 0.5em;
+      }
+    }
+  }
+}

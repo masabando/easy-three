@@ -19,5 +19,39 @@ export const Demo = {
     return (
       <div ref={ref} {...props}></div>
     )
-  }
+  },
+  Model: (props) => {
+    const ref = useRef()
+    useEffect(() => {
+      const { camera, create, animate, controls, helper, load } = init(ref.current);
+
+      controls.connect()
+      controls.autoRotate = true
+      camera.position.set(0, 2, -2)
+      controls.target.set(0, 1, 0)
+      create.ambientLight()
+      create.directionalLight({ intensity: 2, position: [10, 10, -10] })
+      helper.axes();
+      helper.grid();
+
+      const cube = create.cube({ size: 0.5, position: [1, 1, 0] })
+
+      let model;
+      load.vrm("./model/sample.vrm").then(m => {
+        model = m
+      })
+
+      animate(({ clock, delta }) => {
+        cube.rotation.y += delta
+        cube.rotation.x += delta
+        if (model) {
+          model.humanoid.getNormalizedBoneNode("leftUpperArm").rotation.z = Math.sin(clock.getElapsedTime()) * Math.PI * 0.25
+          model.update(delta)
+        }
+      })
+    }, [])
+    return (
+      <div ref={ref} {...props}></div>
+    )
+  },
 }

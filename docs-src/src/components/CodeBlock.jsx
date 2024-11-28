@@ -58,7 +58,7 @@ export default function CodeBlock({
       <SyntaxHighlighter
         language={language}
         style={a11yDark}
-        className="rounded-bottom p-3"
+        className={`${filename ? "rounded-bottom" : "rounded"} p-3`}
       >
         {children}
       </SyntaxHighlighter>
