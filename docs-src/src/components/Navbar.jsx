@@ -24,6 +24,8 @@ export default function Navbar() {
             <BsGithub style={{ fontSize: "180%" }} />
           </Nav.Link>
         </Nav>
+        <LangSwitcher />
+        <RBNavbar.Toggle className="ms-3 px-1 py-0" aria-controls="basic-navbar-nav" />
         <RBNavbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto">
             <Nav.Link as={Link} to="/getting-started">
@@ -46,10 +48,6 @@ export default function Navbar() {
             </Nav.Link>
           </Nav>
         </RBNavbar.Collapse>
-        <div>
-          <LangSwitcher />
-          <RBNavbar.Toggle className="ms-3" aria-controls="basic-navbar-nav" />
-        </div>
       </Container>
     </RBNavbar>
   );

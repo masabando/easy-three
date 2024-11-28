@@ -46,9 +46,10 @@ export function LangSwitcher() {
       }}
     >
       <Segmented
+        className="mx-1"
         size="small"
         options={[
-          { label: "English", value: "en" },
+          { label: "Eng", value: "en" },
           { label: "日本語", value: "ja" },
         ]}
         value={config.lang}

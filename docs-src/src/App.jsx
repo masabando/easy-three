@@ -15,6 +15,11 @@ function App() {
   const search = useLocation().search;
   const path = new URLSearchParams(search).get("path");
   const navigate = useNavigate();
+  const { pathname } = useLocation();
+
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "instant" });
+  }, [pathname]);
 
   useEffect(() => {
     if (path) {

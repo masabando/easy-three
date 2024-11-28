@@ -13,14 +13,14 @@ export default function Home() {
           <div className="headMessage">
             <T>
               <>
-                <span>Turn your first line of code into a</span>
+                <span>Create stunning</span>
                 <span className="impacted">3D</span>
-                <span>masterpiece.</span>
+                <span>with simple code.</span>
               </>
               <>
-                <span>最初の1行から、</span>
+                <span>シンプルなコードで、魅力的な</span>
                 <span className="impacted">3D</span>
-                <span>の傑作を。</span>
+                <span>を。</span>
               </>
             </T>
           </div>
