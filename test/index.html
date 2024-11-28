@@ -24,7 +24,7 @@
     camera.position.set(0, 2, -2)
     controls.target.set(0, 1, 0)
     create.ambientLight()
-    create.directionalLight()
+    create.directionalLight({intensity: 2, position: [10, 10, -10]})
     helper.axes();
     helper.grid();
 

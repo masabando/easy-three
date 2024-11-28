@@ -1,4 +1,4 @@
-import { init } from "https://cdn.jsdelivr.net/gh/masabando/easy-three@0.0.6/dist/easy-three.js";
+import { init } from "https://cdn.jsdelivr.net/gh/masabando/easy-three@0.0.7/dist/easy-three.js";
 import { useEffect, useRef } from "react";
 
 
