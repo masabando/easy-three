@@ -18,12 +18,16 @@
 <body>
   <script type="module">
     import { init } from "../dist/easy-three.js";
-    const { camera, scene, create, controls, animate, load } = init()
-    load.background('../docs-src/public/texture/symmetrical_garden_02_1k.hdr')
+    const { camera, create, controls, animate } = init()
     camera.position.set(-2, 2, 2)
-    create.cube()
+    create.ambientLight()
+    create.directionalLight()
+    const cube = create.cube()
     controls.connect()
-    animate()
+    animate(({delta}) => {
+      cube.rotation.x += delta
+      cube.rotation.y += delta
+    })
   </script>
 </body>
 

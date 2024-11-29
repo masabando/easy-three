@@ -4,7 +4,9 @@ import { Link } from "react-router-dom";
 import T from "../components/Lang";
 import { Demo } from "../components/home/Demo";
 import CodeBlock from "../components/CodeBlock";
-import { Tag } from "antd";
+import { Progress, Tag } from "antd";
+import Row from "react-bootstrap/Row";
+import Col from "react-bootstrap/Col";
 
 function Note({ children }) {
   return <span className="fw-bold">{children}</span>;
@@ -12,7 +14,7 @@ function Note({ children }) {
 
 export default function Home() {
   return (
-    <div className="pb-5">
+    <div>
       <div className="bg-body-tertiary pb-4">
         <Container className="py-3">
           <title>Home | easy-three</title>
@@ -67,8 +69,8 @@ export default function Home() {
           }}
         />
       </div>
-      <div>
-        <Container className="py-5 mw-100">
+      <div className="bg-body-tertiary py-5">
+        <Container className="mw-100">
           <div className="mb-5">
             <h4>
               <T>
@@ -162,7 +164,7 @@ export default function Home() {
                   </>
                 </T>
               </p>
-              <CodeBlock filename="index.js">
+              <CodeBlock>
                 {`const { camera, create, animate } = init()
 camera.position.set(5, 5, 5);
 create.ambientLight()
@@ -195,8 +197,7 @@ animate(({ clock }) => {
               <p>
                 <T>
                   <>
-                    Displaying models like VRM is simple ( internally uses
-                    {" "}
+                    Displaying models like VRM is simple ( internally uses{" "}
                     <a href="https://github.com/pixiv/three-vrm">three-vrm</a>).
                     <br />
                     Mouse-based camera operation is also easy.
@@ -210,7 +211,7 @@ animate(({ clock }) => {
                   </>
                 </T>
               </p>
-              <CodeBlock filename="index.js">
+              <CodeBlock>
                 {`const { camera, create, animate, controls, helper, load } = init();
 
 controls.connect()
@@ -258,7 +259,7 @@ animate(({ clock, delta }) => {
                 </>
               </T>
             </p>
-            <CodeBlock filename="index.js">
+            <CodeBlock>
               {`const Simple = (props) => {
   const ref = useRef()
   useEffect(() => {
@@ -279,6 +280,128 @@ animate(({ clock, delta }) => {
 `}
             </CodeBlock>
           </div>
+        </Container>
+      </div>
+
+      <div className="pb-5">
+        <Container>
+          <h2>
+            <T>
+              <>Comparison with vanilla Three.js</>
+              <>vanilla Three.js との比較</>
+            </T>
+          </h2>
+          <div className="text-center text-md-start">
+            <div className="d-inline-block text-center">
+              <div className="mb-3">
+                easy-three
+              </div>
+              <Progress
+                type="dashboard"
+                percent={~~((100 * 11) / 31)}
+                strokeWidth={10}
+              />
+            </div>
+            <div className="d-inline-block text-center ms-3">
+              <div className="mb-3">
+                vanilla Three.js
+              </div>
+              <Progress
+                type="dashboard"
+                percent={100}
+                strokeWidth={10}
+                percentPosition={{
+                  align: "center",
+                  type: "inner",
+                }}
+                strokeColor="red"
+                status="normal"
+              />
+            </div>
+            <div className="mt-3">
+              <T>
+                <>
+                  Compared to vanilla Three.js, the code is simplified and
+                  easier to understand.
+                </>
+                <>
+                  通常の Three.js
+                  と比較して、コードが簡略化され、理解しやすくなっています。
+                </>
+              </T>
+            </div>
+          </div>
+          <Row xs={1} lg={2}>
+            <Col>
+              <CodeBlock showLineNumbers filename="easy-three">
+                {`import { init } from "../dist/easy-three.js";
+const { camera, create, controls, animate } = init()
+
+// camera settings
+camera.position.set(-2, 2, 2)
+
+// use OrbitControls
+controls.connect()
+
+// add lights
+create.ambientLight()
+create.directionalLight()
+
+// add cube
+const cube = create.cube()
+
+// animation
+animate(({delta}) => {
+  cube.rotation.x += delta
+  cube.rotation.y += delta
+})`}
+              </CodeBlock>
+            </Col>
+            <Col>
+              <CodeBlock showLineNumbers filename="vanilla Three.js">
+                {`import * as THREE from "three";
+import { OrbitControls } from "three/addons/controls/OrbitControls.js";
+const scene = new THREE.Scene();
+const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true })
+renderer.setSize(window.innerWidth, window.innerHeight)
+document.body.appendChild(renderer.domElement)
+renderer.shadowMap.enabled = true
+renderer.setPixelRatio(window.devicePixelRatio)
+
+// camera settings
+const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000)
+camera.position.set(-2, 2, 2)
+
+// use OrbitControls
+const controls = new OrbitControls(camera, renderer.domElement)
+
+// add lights
+const ambientLight = new THREE.AmbientLight(0xffffff, 0.5)
+scene.add(ambientLight)
+const directionalLight = new THREE.DirectionalLight(0xffffff, 1)
+directionalLight.position.set(5, 5, 5)
+scene.add(directionalLight)
+
+// add cube
+const box = new THREE.Mesh(
+  new THREE.BoxGeometry(1, 1, 1),
+  new THREE.MeshStandardMaterial({ color: 0x1155ff })
+)
+scene.add(box)
+
+// animation
+const clock = new THREE.Clock()
+function animate() {
+  controls.update()
+  const delta = clock.getDelta()
+  box.rotation.x += delta
+  box.rotation.y += delta
+  renderer.render(scene, camera)
+}
+renderer.setAnimationLoop(animate)`}
+              </CodeBlock>
+            </Col>
+          </Row>
         </Container>
       </div>
     </div>

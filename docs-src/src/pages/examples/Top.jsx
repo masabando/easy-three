@@ -2,15 +2,22 @@ import Container from "react-bootstrap/Container";
 import styles from "./Examples.module.scss";
 import { Flex } from "antd";
 
-function ExampleLink({ name, dir }) {
+function ExampleLink({ name, dir, creator }) {
   return (
-    <a
-      className={styles.exampleLink}
-      href={`/easy-three/page/examples/${dir}/index.html`}
-    >
-      <img src={`/easy-three/page/examples/${dir}.png`} alt="Dice" />
-      <div>{name}</div>
-    </a>
+    <div className={styles.exampleLink}>
+      <a href={`/easy-three/page/examples/${dir}/index.html`}>
+        <img src={`/easy-three/page/examples/${dir}.png`} alt="Dice" />
+      </a>
+      <div className="bg-dark">
+        <div>{name}</div>
+        {creator && <div>by {creator}</div>}
+        <a
+          href={`https://github.com/masabando/easy-three/blob/dev/docs/page/examples/${dir}/index.html`}
+        >
+          View Code
+        </a>
+      </div>
+    </div>
   );
 }
 
@@ -23,13 +30,8 @@ export default function Examples() {
       <Flex justify="start" wrap gap={20} className="mt-5">
         <ExampleLink
           dir="dice"
-          name={
-            <>
-              Dice
-              <br />
-              (KUTC-KaedeYuto)
-            </>
-          }
+          name="Dice"
+          creator="KUTC-KaedeYuto"
         />
       </Flex>
     </Container>

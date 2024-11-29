@@ -9,6 +9,7 @@ export default function CodeBlock({
   filename,
   className = "",
   style = {},
+  showLineNumbers = false,
   children,
 }) {
   return (
@@ -56,6 +57,7 @@ export default function CodeBlock({
         </Flex>
       )}
       <SyntaxHighlighter
+        showLineNumbers={showLineNumbers}
         language={language}
         style={a11yDark}
         className={`${filename ? "rounded-bottom" : "rounded"} p-3`}
