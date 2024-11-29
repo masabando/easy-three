@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>easy-three template</title>
+  <script type="importmap">
+    {
+      "imports": {
+        "three": "https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.js",
+        "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.170.0/examples/jsm/"
+      }
+    }
+  </script>
+</head>
+
+<img id="foo" src="../docs-src/public/texture/img/red_brick_diff_1k.jpg" />
+
+<body>
+  <script type="module">
+    import { init } from "https://cdn.jsdelivr.net/gh/masabando/easy-three@0.0.9/dist/easy-three.js";
+    const { camera, scene, create, controls, animate, load, THREE } = init()
+    //load.background('../docs-src/public/texture/symmetrical_garden_02_1k.hdr')
+    create.ambientLight()
+    create.directionalLight()
+    camera.position.set(-2, 2, 2)
+    const textureLoader = new THREE.TextureLoader()
+    textureLoader.crossOrigin = 'anonymous'
+    textureLoader.load("./red_brick_diff_1k.jpg")
+    create.cube()
+    controls.connect()
+    animate()
+  </script>
+</body>
+
+</html>

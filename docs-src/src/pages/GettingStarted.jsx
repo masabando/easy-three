@@ -3,9 +3,10 @@ import CodeBlock from "../components/CodeBlock";
 import Button from "react-bootstrap/Button";
 import T from "../components/Lang";
 import { Link } from "react-router-dom";
+import { Tag } from "antd";
 
 export default function GettingStarted() {
-  const currentVersion = "0.0.9";
+  const currentVersion = "0.0.10";
   return (
     <Container className="pt-4 pb-5">
       <title>Getting Started | easy-three</title>
@@ -51,12 +52,15 @@ export default function GettingStarted() {
             You can display it by dragging and dropping the index.html file into
             a web browser.
             <br />
-            To edit the code, use an editor like VSCode.
+            To edit the code, use an editor like{" "}
+            <a href="https://code.visualstudio.com">VSCode</a>.
           </>
           <>
             index.html をWebブラウザにドラッグ＆ドロップすると表示できます。
             <br />
-            コードを書き換えるには、VSCodeなどのエディタを使ってください。
+            コードを書き換えるには、
+            <a href="https://code.visualstudio.com">VSCode</a>
+            などのエディタを使ってください。
           </>
         </T>
       </p>
@@ -152,6 +156,88 @@ export default function GettingStarted() {
 </body>
 
 </html>`}</CodeBlock>
+
+      <h2 id="server">
+        <T>
+          <>Using Resources Such as Images</>
+          <>画像などのリソースを使う場合</>
+        </T>
+      </h2>
+      <T>
+        <>
+          If you want to use resources such as images or VRM models, you need to
+          start a local server.
+          <br />
+          Here, we introduce how to use VSCode&apos;s Live Server, Node.js, and
+          Python.
+        </>
+        <>
+          画像やVRMモデルなどのリソースを使いたい場合は、ローカルサーバを立ち上げる必要があります。
+          <br />
+          ここでは、VSCode の Live Server を使う方法、Node.js を使う方法、Python
+          を使う方法を紹介します。
+        </>
+      </T>
+      <h3 className="mt-4">
+        VSCode Live Server
+        <Tag color="blue" className="ms-2 align-middle">
+          <T>
+            <>Recommended</>
+            <>おすすめ！</>
+          </T>
+        </Tag>
+      </h3>
+      <T>
+        <>
+          If you are using VSCode, you can use the Live Server extension.
+          <br />
+          Right-click on the HTML file and select &quot;Open with Live
+          Server&quot;.
+        </>
+        <>
+          VSCode を使っている場合は、Live Server 拡張機能を使うことができます。
+          <br />
+          VSCode内でHTMLファイルを右クリックして、「Live Server
+          で開く」を選択します。
+        </>
+      </T>
+      <h3 className="mt-4">Node.js</h3>
+      <T>
+        <>
+          If you have Node.js installed, you can use the serve package.
+          <br />
+          Run the following command in the directory where the HTML file is
+          located.
+        </>
+        <>
+          Node.js をインストールしている場合は、serve
+          パッケージを使うことができます。
+          <br />
+          HTMLファイルがあるディレクトリで、以下のコマンドを実行します。
+        </>
+      </T>
+      <CodeBlock filename="Command" language="bash">
+        {`npx serve`}
+      </CodeBlock>
+
+      <h3 className="mt-4">Python</h3>
+      <T>
+        <>
+          If you have Python installed, you can use the http.server module.
+          <br />
+          Run the following command in the directory where the HTML file is
+          located.
+        </>
+        <>
+          Python をインストールしている場合は、http.server
+          モジュールを使うことができます。
+          <br />
+          HTMLファイルがあるディレクトリで、以下のコマンドを実行します。
+        </>
+      </T>
+      <CodeBlock filename="Command" language="bash">
+        {`python3 -m http.server`}
+      </CodeBlock>
     </Container>
   );
 }

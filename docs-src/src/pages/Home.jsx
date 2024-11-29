@@ -7,9 +7,7 @@ import CodeBlock from "../components/CodeBlock";
 import { Tag } from "antd";
 
 function Note({ children }) {
-  return (
-    <span className="fw-bold">{children}</span>
-  );
+  return <span className="fw-bold">{children}</span>;
 }
 
 export default function Home() {
@@ -20,9 +18,7 @@ export default function Home() {
           <title>Home | easy-three</title>
           <h1 className="headTitle mt-5 mb-4">easy-three</h1>
           <div className="text-center mb-4">
-            <Tag color="blue" size>
-              v0.0.9
-            </Tag>
+            <Tag color="blue">v0.0.10</Tag>
           </div>
           <div className="headMessage">
             <T>
@@ -83,7 +79,8 @@ export default function Home() {
             <p>
               <T>
                 <>
-                  Three.js&apos;s powerful features, simplified for beginners.<br />
+                  Three.js&apos;s powerful features, simplified for beginners.
+                  <br />
                   easy-three supports everything from creating objects to
                   animations and lighting setups.
                 </>
@@ -105,12 +102,16 @@ export default function Home() {
             <p>
               <T>
                 <>
-                  No special software or configuration is required.
-                  <br />
-                  You can start right away with <Note>just a browser</Note>.
-                  <br />
+                  No special software or configuration is required. You can
+                  start right away with <Note>just a browser</Note>.<br />
                   It can also be used in environments where software
                   installation is restricted, such as schools.
+                  <br />※ A server is required when loading resources such as
+                  images (
+                  <Link to={{ pathname: "/getting-started", hash: "#server" }}>
+                    details here
+                  </Link>
+                  ).{" "}
                 </>
                 <>
                   特別なソフトや設定は必要ありません。
@@ -118,6 +119,16 @@ export default function Home() {
                   <Note>Webブラウザだけ</Note>ですぐに始められます。
                   <br />
                   学校など、インストールできるソフトウェアが制限されている環境でも利用可能です。
+                  <br />※ 画像などのリソースを読み込む場合は、サーバが必要です (
+                  <Link
+                    to={{
+                      pathname: "/getting-started",
+                      hash: "#server",
+                    }}
+                  >
+                    詳細はこちら
+                  </Link>
+                  )。
                 </>
               </T>
             </p>
@@ -184,11 +195,16 @@ animate(({ clock }) => {
               <p>
                 <T>
                   <>
-                    You can easily display models such as VRM. <br />
-                    Camera operation with a mouse is also available.
+                    Displaying models like VRM is simple ( internally uses
+                    {" "}
+                    <a href="https://github.com/pixiv/three-vrm">three-vrm</a>).
+                    <br />
+                    Mouse-based camera operation is also easy.
                   </>
                   <>
-                    VRMモデルの表示なども簡単にできます。
+                    VRMモデルの表示なども簡単にできます (内部で{" "}
+                    <a href="https://github.com/pixiv/three-vrm">three-vrm</a>{" "}
+                    を使用しています)。
                     <br />
                     カメラの操作も簡単です。
                   </>
