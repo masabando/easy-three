@@ -23,8 +23,7 @@ export const Demo = {
       const { camera, create, animate, controls, helper, load } = init(
         ref.current
       );
-
-      controls.connect();
+      //controls.connect();
       controls.autoRotate = true;
       camera.position.set(0, 2, -2);
       controls.target.set(0, 1, 0);
@@ -52,16 +51,37 @@ export const Demo = {
     }, []);
     return <div ref={ref} {...props}></div>;
   },
-  World: (props) => {
+  World: ({ worldControl, ...props }) => {
     const ref = useRef();
+    const controlsRef = useRef();
     useEffect(() => {
-      const { camera, create, scene, renderer, controls, animate, load, THREE } = init(
-        ref.current
-      );
+      if (controlsRef.current) {
+        if (worldControl) {
+          controlsRef.current.connect();
+        } else {
+          controlsRef.current.disconnect();
+        }
+      }
+    }, [worldControl]);
+
+    useEffect(() => {
+      const {
+        camera,
+        create,
+        scene,
+        renderer,
+        controls,
+        animate,
+        load,
+        THREE,
+      } = init(ref.current);
       const textureLoader = new THREE.TextureLoader();
       renderer.outputEncoding = THREE.sRGBEncoding;
       renderer.toneMapping = THREE.ACESFilmicToneMapping;
-      controls.connect();
+      controlsRef.current = controls;
+      if (worldControl) {
+        controls.connect();
+      }
       camera.position.set(0, 2, 5);
       create.ambientLight({ intensity: 0.5 });
       create.directionalLight({ intensity: 1 });
@@ -109,21 +129,21 @@ export const Demo = {
           create[i % 2 === 0 ? "cube" : "sphere"]({
             size: 1,
             position: [
-              3 * Math.sin(i * Math.PI * 2 / 4),
+              3 * Math.sin((i * Math.PI * 2) / 4),
               0.5,
-              3 * Math.cos(i * Math.PI * 2 / 4),
+              3 * Math.cos((i * Math.PI * 2) / 4),
             ],
             autoAdd: false,
             option: {
               metalness: 0.5,
               roughness: 0,
               color: 0xffffff,
-            }
+            },
           })
         );
       }
       scene.add(group);
-      create.cube({position: [0, 2.5, 0]});
+      create.cube({ position: [0, 2.5, 0] });
       animate();
     }, []);
     return <div ref={ref} {...props}></div>;

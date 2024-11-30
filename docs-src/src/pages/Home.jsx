@@ -4,15 +4,17 @@ import { Link } from "react-router-dom";
 import T from "../components/Lang";
 import { Demo } from "../components/home/Demo";
 import CodeBlock from "../components/CodeBlock";
-import { Progress, Tag } from "antd";
+import { Progress, Switch, Tag } from "antd";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
+import { useState } from "react";
 
 function Note({ children }) {
   return <span className="fw-bold">{children}</span>;
 }
 
 export default function Home() {
+  const [worldControl, setWorldControl] = useState(false);
   return (
     <div>
       <div className="bg-body-tertiary pb-4">
@@ -60,14 +62,28 @@ export default function Home() {
         </Container>
       </div>
 
-      <div className="py-0 mw-100 d-flex justify-content-center">
-        <Demo.World
-          style={{
-            width: "600px",
-            aspectRatio: "6 / 4",
-            maxWidth: "100%",
-          }}
-        />
+      <div className="py-0 mw-100 d-flex flex-column justify-content-center align-items-center">
+        <div className="position-relative d-inline-block mw-100">
+          <Switch
+            style={{
+              position: "absolute",
+              top: "10px",
+              right: "10px",
+            }}
+            defaultChecked={worldControl}
+            onChange={setWorldControl}
+            checkedChildren="World"
+            unCheckedChildren="Simple"
+          />
+          <Demo.World
+            worldControl={worldControl}
+            style={{
+              width: "600px",
+              aspectRatio: "6 / 4",
+              maxWidth: "100%",
+            }}
+          />
+        </div>
       </div>
       <div className="bg-body-tertiary py-5">
         <Container className="mw-100">
@@ -293,9 +309,7 @@ animate(({ clock, delta }) => {
           </h2>
           <div className="text-center text-md-start">
             <div className="d-inline-block text-center">
-              <div className="mb-3">
-                easy-three
-              </div>
+              <div className="mb-3">easy-three</div>
               <Progress
                 type="dashboard"
                 percent={~~((100 * 11) / 31)}
@@ -303,9 +317,7 @@ animate(({ clock, delta }) => {
               />
             </div>
             <div className="d-inline-block text-center ms-3">
-              <div className="mb-3">
-                vanilla Three.js
-              </div>
+              <div className="mb-3">vanilla Three.js</div>
               <Progress
                 type="dashboard"
                 percent={100}
