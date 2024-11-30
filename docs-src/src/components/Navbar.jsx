@@ -1,14 +1,31 @@
-import RBNavbar from 'react-bootstrap/Navbar';
-import Nav from 'react-bootstrap/Nav';
-import Container from 'react-bootstrap/Container';
-import { BsGithub } from 'react-icons/bs';
-import { Link } from 'react-router-dom';
-import T, { LangSwitcher } from './Lang';
+import RBNavbar from "react-bootstrap/Navbar";
+import Nav from "react-bootstrap/Nav";
+import Container from "react-bootstrap/Container";
+import Offcanvas from "react-bootstrap/Offcanvas";
+import { BsGithub } from "react-icons/bs";
+import { Link } from "react-router-dom";
+import T, { LangSwitcher } from "./Lang";
+import { useState } from "react";
 
 export default function Navbar() {
+  const [show, setShow] = useState(false);
+  function NavLink({ to, children }) {
+    return (
+      <Nav.Link
+        className="my-1"
+        as={Link}
+        to={to}
+        onClick={() => {
+          setShow(false);
+        }}
+      >
+        {children}
+      </Nav.Link>
+    );
+  }
   return (
     <RBNavbar
-      expand="md"
+      expand={false}
       data-bs-theme="dark"
       className="bg-body-tertiary sticky-top"
     >
@@ -25,29 +42,52 @@ export default function Navbar() {
           </Nav.Link>
         </Nav>
         <LangSwitcher />
-        <RBNavbar.Toggle className="ms-3 px-1 py-0" aria-controls="basic-navbar-nav" />
-        <RBNavbar.Collapse id="basic-navbar-nav">
-          <Nav className="me-auto">
-            <Nav.Link as={Link} to="/getting-started">
-              <T>
-                <>Getting Started</>
-                <>使ってみる</>
-              </T>
-            </Nav.Link>
-            <Nav.Link as={Link} to="/examples">
-              <T>
-                <>Examples</>
-                <>使い方の例</>
-              </T>
-            </Nav.Link>
-            <Nav.Link as={Link} to="/reference">
-              <T>
-                <>Reference</>
-                <>ドキュメント</>
-              </T>
-            </Nav.Link>
-          </Nav>
-        </RBNavbar.Collapse>
+        <RBNavbar.Toggle
+          className="ms-3 px-1 py-0"
+          // aria-controls="basic-navbar-nav"
+          onClick={() => setShow(true)}
+        />
+        <Offcanvas
+          show={show}
+          onHide={() => setShow(false)}
+          placement="end"
+          className="bg-dark text-light"
+          style={{ maxWidth: "60%" }}
+        >
+          <Offcanvas.Header closeButton closeVariant="white">
+            <Offcanvas.Title>Menu</Offcanvas.Title>
+          </Offcanvas.Header>
+          <Offcanvas.Body>
+            {/* <RBNavbar.Collapse id="basic-navbar-nav"> */}
+            <Nav className="me-auto">
+              <NavLink to="/">
+                <T>
+                  <>home</>
+                  <>ホーム</>
+                </T>
+              </NavLink>
+              <NavLink to="/getting-started">
+                <T>
+                  <>Getting Started</>
+                  <>使ってみる</>
+                </T>
+              </NavLink>
+              <NavLink to="/examples">
+                <T>
+                  <>Examples</>
+                  <>使い方の例</>
+                </T>
+              </NavLink>
+              <NavLink to="/reference">
+                <T>
+                  <>Reference</>
+                  <>ドキュメント</>
+                </T>
+              </NavLink>
+            </Nav>
+            {/* </RBNavbar.Collapse> */}
+          </Offcanvas.Body>
+        </Offcanvas>
       </Container>
     </RBNavbar>
   );
