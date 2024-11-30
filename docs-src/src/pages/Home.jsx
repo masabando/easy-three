@@ -22,7 +22,7 @@ export default function Home() {
           <title>Home | easy-three</title>
           <h1 className="headTitle mt-5 mb-4">easy-three</h1>
           <div className="text-center mb-4">
-            <Tag color="blue">v0.0.10</Tag>
+            <Tag color="blue">v0.0.11</Tag>
           </div>
           <div className="headMessage">
             <T>
@@ -72,8 +72,8 @@ export default function Home() {
             }}
             defaultChecked={worldControl}
             onChange={setWorldControl}
-            checkedChildren="World"
-            unCheckedChildren="Simple"
+            checkedChildren="タッチ操作ON"
+            unCheckedChildren="タッチ操作OFF"
           />
           <Demo.World
             worldControl={worldControl}

@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 import { Tag } from "antd";
 
 export default function GettingStarted() {
-  const currentVersion = "0.0.10";
+  const currentVersion = "0.0.11";
   return (
     <Container className="pt-4 pb-5">
       <title>Getting Started | easy-three</title>
