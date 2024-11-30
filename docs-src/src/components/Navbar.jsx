@@ -30,23 +30,45 @@ export default function Navbar() {
       className="bg-body-tertiary sticky-top"
     >
       <Container fluid>
-        <RBNavbar.Brand as={Link} to="/">
-          easy-three
-        </RBNavbar.Brand>
-        <Nav>
-          <Nav.Link
-            className="py-0"
-            href="https://github.com/masabando/easy-three"
-          >
-            <BsGithub style={{ fontSize: "180%" }} />
-          </Nav.Link>
-        </Nav>
-        <LangSwitcher />
-        <RBNavbar.Toggle
-          className="ms-3 px-1 py-0"
-          // aria-controls="basic-navbar-nav"
-          onClick={() => setShow(true)}
-        />
+        <div className="d-flex align-items-center">
+          <RBNavbar.Brand as={Link} to="/">
+            easy-three
+          </RBNavbar.Brand>
+          <Nav className="d-none d-md-flex flex-row align-items-center column-gap-2">
+            <Nav.Link
+              className="py-0"
+              href="https://github.com/masabando/easy-three"
+            >
+              <BsGithub style={{ fontSize: "180%" }} />
+            </Nav.Link>
+            <NavLink to="/getting-started">
+              <T>
+                <>Getting Started</>
+                <>使ってみる</>
+              </T>
+            </NavLink>
+            <NavLink to="/examples">
+              <T>
+                <>Examples</>
+                <>使い方の例</>
+              </T>
+            </NavLink>
+            <NavLink to="/reference">
+              <T>
+                <>Reference</>
+                <>ドキュメント</>
+              </T>
+            </NavLink>
+          </Nav>
+        </div>
+        <div className="d-flex align-items-center">
+          <LangSwitcher />
+          <RBNavbar.Toggle
+            className="ms-3 px-1 py-0"
+            // aria-controls="basic-navbar-nav"
+            onClick={() => setShow(true)}
+          />
+        </div>
         <Offcanvas
           show={show}
           onHide={() => setShow(false)}
