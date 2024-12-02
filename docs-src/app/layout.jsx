@@ -13,19 +13,6 @@ const noto = Noto_Sans_JP({
 });
 
 export default function RootLayout({ children }) {
-  useEffect(() => {
-    const searchParams = useSearchParams();
-    const path = searchParams.get("path");
-    const pathname = usePathname();
-    window.scrollTo({ top: 0, behavior: "instant" });
-  }, [pathname]);
-
-  // useEffect(() => {
-  //   if (path) {
-  //     navigate(path);
-  //   }
-  // eslint-disable-next-line
-  // }, []);
 
   return (
     <html lang="ja">
