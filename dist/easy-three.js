@@ -173,6 +173,24 @@ export function init(targetName) {
       scene.add(l);
       return l;
     },
+    group: function ({
+      position = [0, 0, 0],
+      rotation = [0, 0, 0],
+      children = [],
+      autoAdd = true,
+      ...props
+    } = {}) {
+      const result = new THREE.Group();
+      result.position.set(...position);
+      result.rotation.set(...rotation);
+      children.forEach((c) => {
+        if(c instanceof THREE.Object3D){
+          result.add(c);
+        }
+      });
+      if (autoAdd) scene.add(result);
+      return result;
+    }
   }
 
   const helper = {
@@ -236,11 +254,11 @@ export function init(targetName) {
       wrapT = Default.texture.wrapping,
       repeat = [1, 1]
     } = {}) => {
-        const texture = textureLoader.load(url);
-        texture.wrapS = THREE[`${wrapS}Wrapping`];
-        texture.wrapT = THREE[`${wrapT}Wrapping`];
-        texture.repeat = new THREE.Vector2(...repeat);
-        return texture;
+      const texture = textureLoader.load(url);
+      texture.wrapS = THREE[`${wrapS}Wrapping`];
+      texture.wrapT = THREE[`${wrapT}Wrapping`];
+      texture.repeat = new THREE.Vector2(...repeat);
+      return texture;
     }
   }
 

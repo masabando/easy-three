@@ -187,6 +187,26 @@ export default function Reference() {
         </div>
 
         <h3>
+          create.group(props : Object) : <span>Group</span>
+        </h3>
+        <div>
+          <div>
+            <div>
+              <span>props</span> - 設定オブジェクト。
+              <ul>
+                <li>position (Array) : 位置 (デフォルト : [0, 0, 0])。</li>
+                <li>rotation (Array) : 回転 (デフォルト : [0, 0, 0])。</li>
+                <li>children (Array&lt;Object3D&gt;) : 子要素の配列 (デフォルト : [])</li>
+                <li>
+                  autoAdd (Boolean) : 自動でシーンに追加 (デフォルト : true)。
+                </li>
+              </ul>
+            </div>
+          </div>
+          グループを作成してシーンに追加します。引数で最初に追加する子要素を指定できます。
+        </div>
+
+        <h3>
           create.ambientLight(props : Object) : <span>Light</span>
         </h3>
         <div>
