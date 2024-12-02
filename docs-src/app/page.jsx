@@ -127,7 +127,7 @@ export default function Page() {
                   installation is restricted, such as schools.
                   <br />※ A server is required when loading resources such as
                   images (
-                  <Link to={{ pathname: "/getting-started", hash: "#server" }}>
+                  <Link href="/getting-started#server">
                     details here
                   </Link>
                   ).{" "}
