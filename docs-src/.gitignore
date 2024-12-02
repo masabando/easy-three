@@ -23,3 +23,6 @@ dist-ssr
 *.sln
 *.sw?
 .DS_Store
+/docs
+/.next
+/next.lock
