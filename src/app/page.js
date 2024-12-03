@@ -9,6 +9,7 @@ import { Progress, Switch, Tag } from "antd";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import { useState } from "react";
+import { currentVersion } from "@/components/CurrentVersion";
 
 function Note({ children }) {
   return <span className="fw-bold">{children}</span>;
@@ -23,7 +24,7 @@ export default function Page() {
           <title>Home | easy-three</title>
           <h1 className="headTitle mt-5 mb-4">easy-three</h1>
           <div className="text-center mb-4">
-            <Tag color="blue">v0.0.11</Tag>
+            <Tag color="blue">v{currentVersion}</Tag>
           </div>
           <div className="headMessage">
             <T>
@@ -352,7 +353,7 @@ animate(({ clock, delta }) => {
           <Row xs={1} lg={2}>
             <Col>
               <CodeBlock showLineNumbers filename="easy-three">
-                {`import { init } from "../dist/easy-three.js";
+                {`import { init } from "easy-three";
 const { camera, create, controls, animate } = init()
 
 // camera settings

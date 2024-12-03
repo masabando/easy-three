@@ -5,9 +5,9 @@ import Button from "react-bootstrap/Button";
 import T from "@/components/Lang";
 import { Link } from "@/components/BaseKit";
 import { Tag } from "antd";
+import { currentVersion } from "@/components/CurrentVersion";
 
 export default function Page() {
-  const currentVersion = "0.0.12";
   return (
     <Container className="pt-4 pb-5">
       <title>Getting Started | easy-three</title>
@@ -137,7 +137,9 @@ export default function Page() {
     {
       "imports": {
         "three": "https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.js",
-        "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.170.0/examples/jsm/"
+        "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.170.0/examples/jsm/",
+        "@pixiv/three-vrm": "https://cdn.jsdelivr.net/npm/@pixiv/three-vrm@3/lib/three-vrm.module.min.js",
+        "easy-three": "https://cdn.jsdelivr.net/gh/masabando/easy-three@${currentVersion}/dist/easy-three.js"
       }
     }
   </script>
@@ -145,7 +147,7 @@ export default function Page() {
 
 <body>
   <script type="module">
-    import { init } from "https://cdn.jsdelivr.net/gh/masabando/easy-three@${currentVersion}/dist/easy-three.js";
+    import { init } from "easy-three";
     const { camera, create, animate, controls } = init();
 
     controls.connect()
