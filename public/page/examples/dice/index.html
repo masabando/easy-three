@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>easy-three template</title>
+  <script type="importmap">
+    {
+      "imports": {
+        "three": "https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.js",
+        "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.170.0/examples/jsm/"
+      }
+    }
+  </script>
+</head>
+
+<body>
+  <script type="module">
+    import { init } from "https://cdn.jsdelivr.net/gh/masabando/easy-three@0.0.10/dist/easy-three.js";
+    import * as THREE from 'three';
+    const { camera, create, animate, controls, scene } = init();
+    const textureLoader = new THREE.TextureLoader();
+    const textures = [];
+    for(let i = 1; i <= 6; i++){
+      textures.push({
+        diff: textureLoader.load(`./textures/${i}_diff.png`),
+        bump: textureLoader.load(`./textures/${i}_bump.png`),
+        normal: textureLoader.load(`./textures/${i}_normal.png`)
+      });
+    }
+    const materials = textures.map(texture => new THREE.MeshStandardMaterial({
+      map: texture.diff,
+      bumpMap: texture.bump,
+      normalMap: texture.normal,
+      roughness: 0
+    }));
+    
+    controls.connect();
+    scene.background = new THREE.Color(0x888888);
+    camera.position.set(-2, 2, 2);
+    create.ambientLight({intensity: 2});
+    create.directionalLight({intensity: 3});
+    const box1 = create.cube();
+    box1.material = materials;
+
+    animate(({clock, delta}) => {
+      const t = clock.elapsedTime;
+      box1.position.y = Math.abs(0.5 * Math.sin(1.5 * t));
+      box1.rotation.x += 0.005;
+      box1.rotation.y += 0.005;
+    });
+  </script>
+</body>
+
+</html>
