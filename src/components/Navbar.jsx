@@ -62,15 +62,16 @@ export default function Navbar() {
                 <>ドキュメント</>
               </T>
             </NavLink>
+            <NavLink to="/classroom">
+              <T>
+                <>Educational Use Cases</>
+                <>教育機関向け</>
+              </T>
+            </NavLink>
           </Nav>
         </div>
         <div className="d-flex flex-row align-items-center">
           <LangSwitcher />
-          {/* <RBNavbar.Toggle
-            className="ms-3 px-1 py-0"
-            // aria-controls="basic-navbar-nav"
-            onClick={() => setShow(true)}
-          /> */}
           <div
             className="text-white d-flex align-items-center ms-3"
             onClick={() => setShow(true)}
@@ -92,7 +93,6 @@ export default function Navbar() {
             <Offcanvas.Title>Menu</Offcanvas.Title>
           </Offcanvas.Header>
           <Offcanvas.Body>
-            {/* <RBNavbar.Collapse id="basic-navbar-nav"> */}
             <Nav className="me-auto">
               <NavLink to="/">
                 <T>
@@ -116,6 +116,12 @@ export default function Navbar() {
                 <T>
                   <>Reference</>
                   <>ドキュメント</>
+                </T>
+              </NavLink>
+              <NavLink to="/classroom">
+                <T>
+                  <>Educational Use Cases</>
+                  <>教育機関向け活用例</>
                 </T>
               </NavLink>
             </Nav>

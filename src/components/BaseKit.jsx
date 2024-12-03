@@ -12,3 +12,16 @@ export function Link({ href = "", locale="/easy-three", children, ...props }) {
     </NextLink>
   )
 }
+
+export function Note({ children }) {
+  return (
+    <span
+      style={{
+        background: "linear-gradient(transparent 60%, #fff3cd 60%)",
+        fontWeight: 500,
+      }}
+    >
+      {children}
+    </span>
+  );
+}
