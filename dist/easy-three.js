@@ -1,11 +1,8 @@
-
 import * as THREE from 'three'
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js'
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
-import { VRMLoaderPlugin, VRMUtils } from 'https://cdn.jsdelivr.net/npm/@pixiv/three-vrm@3/lib/three-vrm.module.min.js';
+import { VRMLoaderPlugin, VRMUtils } from '@pixiv/three-vrm';
 import { RGBELoader } from "three/addons/loaders/RGBELoader.js";
-
-
 
 
 function sizeToArray(size, n = 3) {
