@@ -2,7 +2,7 @@
 import Container from "react-bootstrap/Container";
 import CodeBlock from "@/components/CodeBlock";
 import { useEffect, useRef } from "react";
-import { init } from "https://cdn.jsdelivr.net/gh/masabando/easy-three@0.0.11/dist/easy-three.js";
+import { init } from "@dist/easy-three.js";
 
 function Ex1(props) {
   const ref = useRef();
