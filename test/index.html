@@ -22,7 +22,7 @@
     camera.position.set(-2, 2, 2)
     create.ambientLight()
     create.directionalLight()
-    const cube = create.cube()
+    const cube = create.sphere({ segments: 4 })
     controls.connect()
     animate(({delta}) => {
       cube.rotation.x += delta

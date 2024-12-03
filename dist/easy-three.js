@@ -76,7 +76,7 @@ export function init(targetName) {
 
   const create = {
     object: function (geometry, {
-      size = [1, 1, 1],
+      args = [1, 1, 1],
       position = [0, 0, 0],
       rotation = [0, 0, 0],
       option = {
@@ -88,7 +88,7 @@ export function init(targetName) {
       autoAdd = true,
     } = {}) {
       const m = new THREE.Mesh(
-        new THREE[geometry](...size),
+        new THREE[geometry](...args),
         new THREE[`Mesh${material}Material`](material === "Normal" ? {} : option)
       )
       m.position.set(...position)
@@ -98,19 +98,20 @@ export function init(targetName) {
       if (autoAdd) scene.add(m);
       return m;
     },
-    cube: function (props = {}) {
+    cube: function ({ size = 1, ...props } = {}) {
       return create.object("BoxGeometry", {
-        ...props, size: sizeToArray(props.size, 3)
+        ...props,
+        args: sizeToArray(size, 3)
       });
     },
-    sphere: function (props = {}) {
+    sphere: function ({ size = 1, segments = 64, ...props } = {}) {
       return create.object("SphereGeometry", {
-        ...props, size: sizeToArray(props.size, 1)
+        ...props, args: [...sizeToArray(size, 1), ...sizeToArray(segments, 2)]
       });
     },
-    plane: function (props = {}) {
+    plane: function ({ size = 1, ...props } = {}) {
       return create.object("PlaneGeometry", {
-        ...props, size: sizeToArray(props.size, 2)
+        ...props, args: sizeToArray(size, 2)
       });
     },
     ambientLight: function ({
@@ -266,6 +267,11 @@ export function init(targetName) {
     return new THREE.Color(col)
   }
 
+  function destroy() {
+    renderer.dispose();
+    renderer.forceContextLoss();
+  }
+
   function animate(proc = () => { }) {
     const clock = new THREE.Clock();
     function loop() {
@@ -285,6 +291,7 @@ export function init(targetName) {
     create,
     animate,
     color,
+    destroy,
     THREE,
     helper,
     load,

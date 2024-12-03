@@ -77,7 +77,7 @@ export default function Page() {
           <br />
         </div>
         <h3>
-          <Link href="/reference/create_cube/">create.cube</Link>(props : Object)
+          <Link href="/reference/create/cube/">create.cube</Link>(props : Object)
           : <span>Mesh</span>
         </h3>
         <div>
@@ -116,7 +116,7 @@ export default function Page() {
         </div>
 
         <h3>
-          create.sphere(props : Object) : <span>Mesh</span>
+          <Link href="/reference/create/cube/">create.sphere</Link>(props : Object) : <span>Mesh</span>
         </h3>
         <div>
           <div>

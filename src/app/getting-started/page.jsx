@@ -7,7 +7,7 @@ import { Link } from "@/components/BaseKit";
 import { Tag } from "antd";
 
 export default function Page() {
-  const currentVersion = "0.0.11";
+  const currentVersion = "0.0.12";
   return (
     <Container className="pt-4 pb-5">
       <title>Getting Started | easy-three</title>

@@ -1,0 +1,29 @@
+/*!***********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[13].oneOf[9].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[13].oneOf[9].use[3]!./node_modules/next/dist/build/webpack/loaders/resolve-url-loader/index.js??ruleSet[1].rules[13].oneOf[9].use[4]!./node_modules/next/dist/compiled/sass-loader/cjs.js??ruleSet[1].rules[13].oneOf[9].use[5]!./src/app/reference/Reference.module.scss ***!
+  \***********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+.Reference_reference__OJFGU a {
+  text-decoration: none;
+}
+.Reference_reference__OJFGU h3 {
+  font-size: 1.1rem;
+  margin-top: 3em;
+}
+.Reference_reference__OJFGU h3 span {
+  color: #666;
+}
+.Reference_reference__OJFGU > div > div {
+  margin-top: 1em;
+  margin-bottom: 1em;
+}
+.Reference_reference__OJFGU > div > div > div {
+  margin-top: 1em;
+}
+.Reference_reference__OJFGU > div > div > div ul li {
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
+}
+.Reference_reference__OJFGU > div > div span {
+  color: #666;
+  font-weight: bold;
+  margin-right: 0.5em;
+}
