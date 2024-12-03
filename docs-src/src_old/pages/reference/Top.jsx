@@ -1,3 +1,4 @@
+"use client"
 import Container from "react-bootstrap/Container";
 import styles from "./Reference.module.scss";
 import { Link } from "react-router-dom";

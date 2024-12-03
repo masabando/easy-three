@@ -1,0 +1,1 @@
+self.__NEXT_FONT_MANIFEST="{\"pages\":{},\"app\":{\"/Users/bando/Documents/GitHub/easy-three/docs-src/app/layout\":[\"static/media/6c1d3e1a02c4bd06-s.p.woff2\"]},\"appUsingSizeAdjust\":true,\"pagesUsingSizeAdjust\":false}"

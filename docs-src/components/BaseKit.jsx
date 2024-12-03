@@ -1,3 +1,4 @@
+"use client"
 import NextLink from "next/link"
 
 export function Link({ href = "", locale="/easy-three", children, ...props }) {

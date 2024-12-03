@@ -4,8 +4,6 @@ import { AntdRegistry } from "@ant-design/nextjs-registry";
 import Navbar from "@/components/Navbar";
 import { UserProvider } from "@/components/Lang";
 import Footer from "@/components/Footer";
-import { useEffect } from "react";
-import { useSearchParams, usePathname } from "next/navigation";
 import { Noto_Sans_JP } from "next/font/google";
 
 const noto = Noto_Sans_JP({
@@ -36,17 +34,12 @@ export default function RootLayout({ children }) {
           name="twitter:image"
           content="https://masabando.github.io/easy-three/easy-three.png"
         />
-        {/* <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link
-          rel="preconnect"
-          href="https://fonts.gstatic.com"
-          crossOrigin="anonymous"
-        /> */}
         <title>easy-three</title>
       </head>
 
       <body className={noto.className}>
-        <AntdRegistry>
+        {children}
+        {/* <AntdRegistry>
           <UserProvider>
             <div className="App mw-100">
               <Navbar />
@@ -54,7 +47,7 @@ export default function RootLayout({ children }) {
               <Footer />
             </div>
           </UserProvider>
-        </AntdRegistry>
+        </AntdRegistry> */}
       </body>
     </html>
   );

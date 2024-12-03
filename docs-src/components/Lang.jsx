@@ -1,3 +1,4 @@
+"use client"
 import { ConfigProvider, Segmented } from "antd";
 import { createContext, useContext, useEffect, useState } from "react";
 

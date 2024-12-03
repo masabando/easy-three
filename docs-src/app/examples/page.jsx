@@ -1,3 +1,4 @@
+"use client"
 import Container from "react-bootstrap/Container";
 import styles from "./Examples.module.scss";
 import { Flex } from "antd";

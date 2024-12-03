@@ -1,3 +1,4 @@
+"use client"
 import { ConfigProvider, Flex, Popover } from "antd";
 import { BsCopy } from "react-icons/bs";
 import SyntaxHighlighter from "react-syntax-highlighter";

@@ -41,7 +41,12 @@ export default function Page() {
           </div>
 
           <div className="text-center my-5">
-            <Button variant="primary" size="lg" as={Link} to="/getting-started">
+            <Button
+              variant="primary"
+              size="lg"
+              as={Link}
+              to="/getting-started"
+            >
               <T>
                 <>Get Started</>
                 <>使ってみる</>
