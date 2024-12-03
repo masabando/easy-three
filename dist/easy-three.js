@@ -257,6 +257,13 @@ export function init(targetName) {
       texture.wrapT = THREE[`${wrapT}Wrapping`];
       texture.repeat = new THREE.Vector2(...repeat);
       return texture;
+    },
+    cubeTexture: (urls, {
+      path = "./"
+    } = {}) => {
+      const texture = new THREE.CubeTextureLoader().setPath(path).load(urls);
+      console.log(texture)
+      return texture;
     }
   }
 

@@ -7,12 +7,15 @@ import { init } from "@dist/easy-three.js";
 function Ex1(props) {
   const ref = useRef();
   useEffect(() => {
-    const { camera, create, animate } = init(ref.current);
+    const { camera, create, animate, destroy } = init(ref.current);
     camera.position.set(0, 0, 2);
     create.ambientLight();
     create.directionalLight();
     create.cube();
     animate();
+    return () => {
+      destroy();
+    };
   }, []);
   return <div ref={ref} {...props}></div>;
 }
@@ -20,7 +23,7 @@ function Ex1(props) {
 function Ex2(props) {
   const ref = useRef();
   useEffect(() => {
-    const { camera, create, animate } = init(ref.current);
+    const { camera, create, animate, destroy } = init(ref.current);
     camera.position.set(0, 0, 2);
     create.ambientLight();
     create.directionalLight();
@@ -28,6 +31,9 @@ function Ex2(props) {
     animate(({ delta }) => {
       cube.rotation.x += delta;
     });
+    return () => {
+      destroy();
+    };
   }, []);
   return <div ref={ref} {...props}></div>;
 }
@@ -35,7 +41,7 @@ function Ex2(props) {
 function Ex3(props) {
   const ref = useRef();
   useEffect(() => {
-    const { camera, create, animate } = init(ref.current);
+    const { camera, create, animate, destroy } = init(ref.current);
     camera.position.set(0, 0, 4);
     create.ambientLight();
     create.directionalLight();
@@ -67,6 +73,9 @@ function Ex3(props) {
       cube3.rotation.z += delta;
       cube3.position.y = Math.sin(clock.getElapsedTime()) * 2;
     });
+    return () => {
+      destroy();
+    };
   }, []);
   return <div ref={ref} {...props}></div>;
 }

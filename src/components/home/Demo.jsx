@@ -6,7 +6,7 @@ export const Demo = {
   Simple: (props) => {
     const ref = useRef();
     useEffect(() => {
-      const { camera, create, animate } = init(ref.current);
+      const { camera, create, animate, destroy } = init(ref.current);
       camera.position.set(5, 5, 5);
       create.ambientLight();
       create.directionalLight();
@@ -15,13 +15,16 @@ export const Demo = {
         cube.rotation.x = clock.getElapsedTime();
         cube.rotation.y = clock.getElapsedTime();
       });
+      return () => {
+        destroy();
+      };
     }, []);
     return <div ref={ref} {...props}></div>;
   },
   Model: (props) => {
     const ref = useRef();
     useEffect(() => {
-      const { camera, create, animate, controls, helper, load } = init(
+      const { camera, create, animate, controls, helper, load, destroy } = init(
         ref.current
       );
       //controls.connect();
@@ -49,6 +52,9 @@ export const Demo = {
           model.update(delta);
         }
       });
+      return () => {
+        destroy();
+      }
     }, []);
     return <div ref={ref} {...props}></div>;
   },
@@ -75,6 +81,7 @@ export const Demo = {
         animate,
         load,
         THREE,
+        destroy,
       } = init(ref.current);
       const textureLoader = new THREE.TextureLoader();
       renderer.outputEncoding = THREE.sRGBEncoding;
@@ -146,6 +153,9 @@ export const Demo = {
       scene.add(group);
       create.cube({ position: [0, 2.5, 0] });
       animate();
+      return () => {
+        destroy()
+      }
     }, []);
     return <div ref={ref} {...props}></div>;
   },

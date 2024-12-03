@@ -9,7 +9,9 @@
     {
       "imports": {
         "three": "https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.js",
-        "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.170.0/examples/jsm/"
+        "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.170.0/examples/jsm/",
+        "@pixiv/three-vrm": "https://cdn.jsdelivr.net/npm/@pixiv/three-vrm@3/lib/three-vrm.module.min.js",
+        "easy-three": "https://cdn.jsdelivr.net/gh/masabando/easy-three@0.0.13/dist/easy-three.js"
       }
     }
   </script>
@@ -17,16 +19,15 @@
 
 <body>
   <script type="module">
-    import { init } from "https://cdn.jsdelivr.net/gh/masabando/easy-three@0.0.10/dist/easy-three.js";
+    import { init } from "../../../../dist/easy-three.js";
     import * as THREE from 'three';
-    const { camera, create, animate, controls, scene } = init();
-    const textureLoader = new THREE.TextureLoader();
+    const { camera, create, animate, controls, scene, load } = init();
     const textures = [];
-    for(let i = 1; i <= 6; i++){
+    for (let i = 1; i <= 6; i++) {
       textures.push({
-        diff: textureLoader.load(`./textures/${i}_diff.png`),
-        bump: textureLoader.load(`./textures/${i}_bump.png`),
-        normal: textureLoader.load(`./textures/${i}_normal.png`)
+        diff: load.texture(`./textures/${i}_diff.png`),
+        bump: load.texture(`./textures/${i}_bump.png`),
+        normal: load.texture(`./textures/${i}_normal.png`)
       });
     }
     const materials = textures.map(texture => new THREE.MeshStandardMaterial({
@@ -35,16 +36,18 @@
       normalMap: texture.normal,
       roughness: 0
     }));
-    
+
     controls.connect();
     scene.background = new THREE.Color(0x888888);
     camera.position.set(-2, 2, 2);
-    create.ambientLight({intensity: 2});
-    create.directionalLight({intensity: 3});
+    create.ambientLight({ intensity: 2 });
+    create.directionalLight({ intensity: 3 });
     const box1 = create.cube();
-    box1.material = materials;
+    box1.material = [
+      materials[0], materials[5], materials[2], materials[3], materials[4], materials[1]
+    ];
 
-    animate(({clock, delta}) => {
+    animate(({ clock }) => {
       const t = clock.elapsedTime;
       box1.position.y = Math.abs(0.5 * Math.sin(1.5 * t));
       box1.rotation.x += 0.005;

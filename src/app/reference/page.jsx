@@ -46,7 +46,7 @@ export default function Page() {
               <span>props</span>- 設定オブジェクト。
               <ul>
                 <li>
-                  size (Array | Number) : サイズ (デフォルト : [1, 1,
+                  args (Array | Number) : ジオメトリの引数 (デフォルト : [1, 1,
                   1]、ジオメトリによって次元は異なる)。
                 </li>
                 <li>position (Array) : 位置 (デフォルト : [0, 0, 0])。</li>
@@ -116,14 +116,15 @@ export default function Page() {
         </div>
 
         <h3>
-          <Link href="/reference/create/cube/">create.sphere</Link>(props : Object) : <span>Mesh</span>
+          <Link href="/reference/create/sphere/">create.sphere</Link>(props : Object) : <span>Mesh</span>
         </h3>
         <div>
           <div>
             <div>
               <span>props</span> - 設定オブジェクト。
               <ul>
-                <li>size (Array | Number) : 半径 (デフォルト : 1)。</li>
+                <li>size (Number) : 半径 (デフォルト : 1)。</li>
+                <li>segments (Array | Number) : セグメント (デフォルト : 64)。</li>
                 <li>position (Array) : 位置 (デフォルト : [0, 0, 0])。</li>
                 <li>rotation (Array) : 回転 (デフォルト : [0, 0, 0])。</li>
                 <li>

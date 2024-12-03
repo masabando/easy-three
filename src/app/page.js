@@ -146,10 +146,7 @@ export default function Page() {
                   学校など、インストールできるソフトウェアが制限されている環境でも利用可能です。
                   <br />※ 画像などのリソースを読み込む場合は、サーバが必要です (
                   <Link
-                    to={{
-                      pathname: "/getting-started",
-                      hash: "#server",
-                    }}
+                    href="/getting-started#server"
                   >
                     詳細はこちら
                   </Link>
@@ -286,7 +283,7 @@ animate(({ clock, delta }) => {
               {`const Simple = (props) => {
   const ref = useRef()
   useEffect(() => {
-    const { camera, create, animate } = init(ref.current)
+    const { camera, create, animate, destroy } = init(ref.current)
     camera.position.set(5, 5, 5);
     create.ambientLight()
     create.directionalLight()
@@ -295,6 +292,9 @@ animate(({ clock, delta }) => {
       cube.rotation.x = clock.getElapsedTime()
       cube.rotation.y = clock.getElapsedTime()
     })
+    return () => {
+      destroy()
+    }
   }, [])
   return (
     <div ref={ref} {...props}></div>
