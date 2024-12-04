@@ -63,7 +63,7 @@ export default function Page() {
       <h3 className="mt-5">学習内容 (基礎編)</h3>
       <ListGroup style={{ maxWidth: "500px" }}>
         <ListGroup.Item action as={Link} href="/classroom/basics/part1">
-          1. 立方体を表示する
+          1. プログラムの基礎と立方体の表示
         </ListGroup.Item>
         <ListGroup.Item action as={Link} href="/classroom/basics/part2">
           2. 球体と平面を表示する

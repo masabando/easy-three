@@ -55,3 +55,57 @@ ul, ol {
     margin-bottom: 0.5em;
   }
 }
+
+.classroomPart {
+  h3 {
+    margin-top: 2em;
+    margin-bottom: 1em;
+    padding: 0.2em 0.5em 0.4em 1em;
+    position: relative;
+    text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.2);
+
+    &::after {// bottom border
+      content: "";
+      display: block;
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      width: 100%;
+      height: 1px;
+      background-color: #007bff;
+      box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.2);
+    }
+
+    &::before {// left border
+      content: "";
+      display: block;
+      position: absolute;
+      left: 0;
+      top: 0;
+      height: calc(100% - 1px);
+      width: 12px;
+      background-color: #007bff;
+      box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.2);
+    }
+  }
+
+  h4 {
+    margin-top: 2em;
+    margin-bottom: 1em;
+    padding: 0.2em 0.5em 0.4em 0.8em;
+    position: relative;
+    text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.2);
+    &::before {// left border
+      content: "";
+      display: block;
+      position: absolute;
+      left: 0;
+      top: 0;
+      height: calc(100% - 1px);
+      width: 6px;
+      background-color: #007bff;
+      box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.2);
+    }
+
+  }
+}
