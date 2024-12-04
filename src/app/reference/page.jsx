@@ -94,7 +94,7 @@ export default function Page() {
                 <li>
                   rounded (Boolean) : 角丸にするか？ (デフォルト : false)。
                 </li>
-                <li>radius (Number) : 角丸の半径の割合 (デフォルト : 0.1)。</li>
+                <li>radius (Number) : 角丸の半径 (デフォルト : 0.1)。</li>
                 <li>
                   option (Object) : オプション (デフォルト :{" "}
                   {`{color: 0x1155ff }`})。

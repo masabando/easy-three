@@ -87,7 +87,7 @@ camera.position.set(0, 2, 2)
 const physicalCube = create.cube({ position: [-1, 0, 0] })
 const basicCube = create.cube({ material: "Basic", position: [1, 0, 0] })
 
-animate(({ delta}) => {
+animate(({ delta }) => {
   physicalCube.rotation.x += delta
   physicalCube.rotation.y += delta
   basicCube.rotation.x += delta
@@ -134,7 +134,7 @@ create.directionalLight()
 const physicalCube = create.cube({ position: [-1, 0, 0] })
 const basicCube = create.cube({ material: "Basic", position: [1, 0, 0] })
 
-animate(({ delta}) => {
+animate(({ delta }) => {
   physicalCube.rotation.x += delta
   physicalCube.rotation.y += delta
   basicCube.rotation.x += delta
@@ -431,7 +431,7 @@ animate()
         {`const { camera, create, animate, controls, helper } = init();
 
 controls.connect()
-camera.position.set(0, 0, 2);
+camera.position.set(0, 0, 2.5);
 create.ambientLight();
 create.directionalLight();
 const cube = create.cube({
@@ -455,7 +455,7 @@ animate(({ delta, time }) => {
         effect={(r, controlsFlag) => {
           const { camera, create, animate, controls, destroy } = init(r);
           if (controlsFlag) controls.connect();
-          camera.position.set(0, 0, 2);
+          camera.position.set(0, 0, 2.5);
           create.ambientLight();
           create.directionalLight();
           const cube = create.cube({
@@ -479,8 +479,130 @@ animate(({ delta, time }) => {
       />
 
       <h3>Toon マテリアル</h3>
+      <p>
+        <Note>Toonマテリアルは、3Dアニメ調のマテリアル</Note>
+        です。
+      </p>
+      <p>
+        下のコードは、左側に Physical マテリアル、右側に Toon
+        マテリアルのトーラス結び目を表示するものです。
+      </p>
+      <CodeBlock filename="index.html">
+        {`const { camera, create, animate, controls, helper } = init();
+
+controls.connect()
+camera.position.set(0, 0, 5);
+create.ambientLight();
+create.directionalLight();
+const physicalTorusKnot = create.torusKnot({
+  position: [-2, 0, 0],
+  material: "Physical",
+});
+const toonTorusKnot = create.torusKnot({
+  position: [2, 0, 0],
+  material: "Toon",
+});
+animate(({ delta }) => {
+  physicalTorusKnot.rotation.x += delta;
+  physicalTorusKnot.rotation.y += delta;
+  toonTorusKnot.rotation.x += delta;
+  toonTorusKnot.rotation.y += delta;
+});
+`}
+      </CodeBlock>
+      <EasyThreeBox
+        toggleControls
+        effect={(r, controlsFlag) => {
+          const { camera, create, animate, controls, destroy } = init(r);
+          if (controlsFlag) controls.connect();
+          camera.position.set(0, 0, 5);
+          create.ambientLight();
+          create.directionalLight();
+          const physicalTorusKnot = create.torusKnot({
+            position: [-2, 0, 0],
+            material: "Physical",
+          });
+          const toonTorusKnot = create.torusKnot({
+            position: [2, 0, 0],
+            material: "Toon",
+          });
+          animate(({ delta }) => {
+            physicalTorusKnot.rotation.x += delta;
+            physicalTorusKnot.rotation.y += delta;
+            toonTorusKnot.rotation.x += delta;
+            toonTorusKnot.rotation.y += delta;
+          });
+          return () => {
+            destroy();
+          };
+        }}
+      />
 
       <h3>Normal マテリアル</h3>
+      <p>
+        <Note>Normalマテリアルは、法線マップを使ったマテリアル</Note>
+        です。
+        <br />
+        法線マップは、オブジェクトの凹凸を表現するために使用されます。
+        <br />
+        Normal マテリアルを使うことで、面がどの方向を向いているかがわかりやすくなります。
+        <br />
+        x軸方向を向いている面は赤、y軸方向を向いている面は緑、z軸方向を向いている面は青で表示されます。
+      </p>
+      <p>
+        下のコードは、左側に Physical マテリアル、右側に Normal
+        マテリアルの立方体を表示するものです。
+      </p>
+      <CodeBlock filename="index.html">
+        {`const { camera, create, animate, controls, helper } = init();
+
+controls.connect()
+camera.position.set(0, 0, 5);
+create.ambientLight();
+create.directionalLight();
+const physicalTorusKnot = create.torusKnot({
+  position: [-2, 0, 0],
+  material: "Physical",
+});
+const toonTorusKnot = create.torusKnot({
+  position: [2, 0, 0],
+  material: "Toon",
+});
+animate(({ delta }) => {
+  physicalTorusKnot.rotation.x += delta;
+  physicalTorusKnot.rotation.y += delta;
+  toonTorusKnot.rotation.x += delta;
+  toonTorusKnot.rotation.y += delta;
+});
+`}
+      </CodeBlock>
+      <EasyThreeBox
+        toggleControls
+        effect={(r, controlsFlag) => {
+          const { camera, create, animate, controls, destroy } = init(r);
+          if (controlsFlag) controls.connect();
+          camera.position.set(0, 0, 3);
+          create.ambientLight();
+          create.directionalLight();
+          const physicalCube = create.cube({
+            position: [-1, 0, 0],
+            material: "Physical",
+          });
+          const normalCube = create.cube({
+            position: [1, 0, 0],
+            material: "Normal",
+          });
+          animate(({ delta }) => {
+            physicalCube.rotation.x += delta;
+            physicalCube.rotation.y += delta;
+            normalCube.rotation.x += delta;
+            normalCube.rotation.y += delta;
+          });
+          return () => {
+            destroy();
+          };
+        }}
+      />
     </div>
   );
 }
