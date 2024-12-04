@@ -69,7 +69,7 @@ export default function Page() {
           2. カメラコントロールとガイド
         </ListGroup.Item>
         <ListGroup.Item action as={Link} href="/classroom/basics/part3">
-          3. 球体・平面の表示
+          3. 球体・平面・角丸立方体の表示
         </ListGroup.Item>
         <ListGroup.Item action as={Link} href="/classroom/basics/part4">
           4. アニメーションの基礎

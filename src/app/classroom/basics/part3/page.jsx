@@ -6,8 +6,10 @@ import { init } from "@dist/easy-three";
 export default function Page() {
   return (
     <div className="classroomPart">
-      <h2>3. 球体・平面の表示</h2>
-      <p>このセクションでは、球体と平面を表示する方法を学びます。</p>
+      <h2>3. 球体・平面・角丸立方体の表示</h2>
+      <p>
+        このセクションでは、球体、平面、そして角丸の立方体を表示する方法を学びます。
+      </p>
       <h3>球体の表示</h3>
       <p>
         球体を表示するには、<code>create.sphere()</code> を使います。
@@ -45,7 +47,7 @@ animate()
         }}
       />
       <p>立方体と同様に、デフォルトでは原点 (0, 0, 0) に表示されます。</p>
-      <h3>サイズ、位置、色の変更</h3>
+      <h4>サイズ、位置、色の変更</h4>
       <p>球体のサイズ、位置、色の変更も、立方体と同様にできます。</p>
       <CodeBlock filename="index.html">
         {`const { camera, create, animate, controls, helper } = init();
@@ -192,11 +194,175 @@ animate()
       />
 
       <h3>平面の表示</h3>
+      <p>
+        球体を表示するには、<code>create.plane()</code> を使います。
+      </p>
+      <CodeBlock filename="index.html">
+        {`const { camera, create, animate, controls, helper } = init();
+
+controls.connect()
+helper.grid()
+helper.axes()
+camera.position.set(-1, 1, 1)
+create.ambientLight()
+create.directionalLight()
+create.plane()
+
+animate()
+`}
+      </CodeBlock>
       <EasyThreeBox
         toggleControls
         effect={(r, controlsFlag) => {
-          const { camera, create, animate, controls, load, destroy, THREE, scene } =
+          const { camera, create, animate, controls, helper, destroy } =
             init(r);
+          if (controlsFlag) controls.connect();
+          helper.grid();
+          helper.axes();
+          camera.position.set(-1, 1, 1);
+          create.ambientLight();
+          create.directionalLight();
+          create.plane();
+          animate();
+          return () => {
+            destroy();
+          };
+        }}
+      />
+      <p>
+        立方体と同様に、デフォルトでは原点 (0, 0, 0) に表示されます。
+        <br />
+        向きは、<code>x-z</code> 平面になります。
+      </p>
+      <h4>サイズ、位置、色の変更</h4>
+      <p>平面のサイズ、位置、色の変更も、立方体と同様にできます。</p>
+      <CodeBlock filename="index.html">
+        {`const { camera, create, animate, controls, helper } = init();
+
+controls.connect()
+helper.grid()
+helper.axes()
+camera.position.set(-1, 1, 1)
+create.ambientLight()
+create.directionalLight()
+create.plane({
+  size: 1.5,
+  position: [1, 0, 0],
+  option: {
+    color: 0xff0000,
+  }
+})
+
+animate()
+`}
+      </CodeBlock>
+      <EasyThreeBox
+        toggleControls
+        effect={(r, controlsFlag) => {
+          const { camera, create, animate, controls, helper, destroy } =
+            init(r);
+          if (controlsFlag) controls.connect();
+          helper.grid();
+          helper.axes();
+          camera.position.set(-1, 1, 1);
+          create.ambientLight();
+          create.directionalLight();
+          create.plane({
+            size: 1.5,
+            position: [1, 0, 0],
+            option: {
+              color: 0xff0000,
+            },
+          });
+          animate();
+          return () => {
+            destroy();
+          };
+        }}
+      />
+      <h4>平面の回転</h4>
+      <p>
+        <code>rotation</code> を指定することで、平面を回転させることができます。
+        <br />
+        <code>rotation</code> は、<code>[x, y, z]</code> の配列で指定します。<br />
+        回転角はラジアンで指定します
+        (つまり、180度が <code>Math.PI</code> です)。
+      </p>
+      <p>
+        例えば、x軸周りに <code>-90</code> 度回転させることで、
+        <code>x-z</code> 平面上に平面を表示することができます。
+      </p>
+      <CodeBlock filename="index.html">
+        {`const { camera, create, animate, controls, helper } = init();
+
+controls.connect()
+helper.grid()
+helper.axes()
+camera.position.set(-1, 1, 1)
+create.ambientLight()
+create.directionalLight()
+create.plane({
+  size: 1.5,
+  rotation: [-Math.PI/2, 0, 0],
+})
+
+animate()
+`}
+      </CodeBlock>
+      <EasyThreeBox
+        toggleControls
+        effect={(r, controlsFlag) => {
+          const { camera, create, animate, controls, helper, destroy } =
+            init(r);
+          if (controlsFlag) controls.connect();
+          helper.grid();
+          helper.axes();
+          camera.position.set(-1, 1, 1);
+          create.ambientLight();
+          create.directionalLight();
+          create.plane({
+            size: 1.5,
+            rotation: [-Math.PI/2, 0, 0],
+          });
+          animate();
+          return () => {
+            destroy();
+          };
+        }}
+      />
+      <Note>回転は、平面以外のオブジェクト(立方体、球など)にも適用できます。</Note>
+
+      <h3>角丸の立方体の表示</h3>
+      <p>
+        立方体を作成するとき、<code>rounded: true</code>{" "}
+        を指定することで、角丸の立方体を表示することができます。
+        <br />
+        <code>segments</code> で角丸の滑らかさを指定します。
+        <br />
+        <code>radius</code> で角丸の半径(割合)を指定します。
+      </p>
+      <CodeBlock filename="index.html">
+        {`const { camera, create, animate, controls, helper } = init();
+
+controls.connect()
+helper.grid()
+helper.axes()
+camera.position.set(-1, 1, 1)
+create.ambientLight()
+create.directionalLight()
+create.cube({
+  rounded: true,
+  segments: 7,
+  radius: 0.1,
+})
+
+animate()
+`}
+      </CodeBlock>
+      <EasyThreeBox
+        toggleControls
+        effect={(r, controlsFlag) => {
+          const { camera, create, animate, controls, destroy } = init(r);
           if (controlsFlag) controls.connect();
           camera.position.set(-1, 1, 1);
           create.ambientLight();
@@ -204,9 +370,9 @@ animate()
           create.box({
             rounded: true,
             segments: 7,
-            radius: 0.1
-          })
-          animate()
+            radius: 0.1,
+          });
+          animate();
           return () => {
             destroy();
           };
