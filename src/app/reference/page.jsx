@@ -27,11 +27,12 @@ export default function Page() {
           <br />
           指定されたターゲットに対して、シーン、カメラ、レンダラー、コントロールを初期化します。
           <br />
-          ウィンドウサイズ変更時の自動リサイズに対応。
+          ウィンドウサイズ変更時の自動リサイズに対応。<br />
+          戻り値は、Default, scene, camera, renderer, controls, create, animate, color, helper, load, THREE, destroy のオブジェクトです。
         </div>
 
         <h3>
-          create.object(geometry : String, props : Object) : <span>Mesh</span>
+          create.object(geometry : Geometry, props : Object) : <span>Mesh</span>
         </h3>
         <div>
           <div>
@@ -39,8 +40,8 @@ export default function Page() {
               <span>geometry</span>
               - 作成するジオメトリのタイプ。
               <br />
-              &quot;BoxGeometry&quot;, &quot;SphereGeometry&quot;,
-              &quot;PlaneGeometry&quot; など。
+              THREE.BoxGeometry, THREE.SphereGeometry, THREE.PlaneGeometry
+              など。
             </div>
             <div>
               <span>props</span>- 設定オブジェクト。
@@ -91,6 +92,10 @@ export default function Page() {
                 <li>position (Array) : 位置 (デフォルト : [0, 0, 0])。</li>
                 <li>rotation (Array) : 回転 (デフォルト : [0, 0, 0])。</li>
                 <li>
+                  rounded (Boolean) : 角丸にするか？ (デフォルト : false)。
+                </li>
+                <li>radius (Number) : 角丸の半径の割合 (デフォルト : 0.1)。</li>
+                <li>
                   option (Object) : オプション (デフォルト :{" "}
                   {`{color: 0x1155ff }`})。
                 </li>
@@ -114,6 +119,12 @@ export default function Page() {
           </div>
           キューブ (立方体) を作成してシーンに追加します。
         </div>
+
+        <h3>
+          <Link href="/reference/create/cube/">create.box</Link>(props : Object)
+          : <span>Mesh</span>
+        </h3>
+        <div>create.cube と同じです。</div>
 
         <h3>
           <Link href="/reference/create/sphere/">create.sphere</Link>(props :
@@ -397,28 +408,6 @@ export default function Page() {
           GLTFモデルを読み込み、オプションに基づいてシーンに追加します。
         </div>
         <h3>
-          animate(proc : Function) : <span>undefined</span>
-        </h3>
-        <div>
-          <div>
-            <div>
-              <span>proc({`{ clock, delta }`})</span> -
-              各フレームごとに実行される関数。
-              <ul>
-                <li>
-                  clock (THREE.Clock) : フレーム間の時間を管理するオブジェクト。
-                </li>
-                <li>
-                  delta (Number) : 前回のフレームからの経過時間（秒単位）。
-                </li>
-              </ul>
-            </div>
-          </div>
-          アニメーションループを開始します。
-          <br />
-          指定した関数を各フレームごとに実行し、レンダリングを行います。
-        </div>
-        <h3>
           load.background(url : String) : <span>undefined</span>
         </h3>
         <div>
@@ -460,6 +449,31 @@ export default function Page() {
           テクスチャの繰り返しを有効にするには、wrapSおよびwrapTを
           &quot;Repeat&quot; または &quot;MirroredRepeat&quot;
           に設定する必要があります。
+        </div>
+        <h3>
+          animate(proc : Function) : <span>undefined</span>
+        </h3>
+        <div>
+          <div>
+            <div>
+              <span>proc({`{ clock, delta }`})</span> -
+              各フレームごとに実行される関数。
+              <ul>
+                <li>
+                  clock (THREE.Clock) : フレーム間の時間を管理するオブジェクト。
+                </li>
+                <li>
+                  delta (Number) : 前回のフレームからの経過時間（秒単位）。
+                </li>
+                <li>
+                  time (Number) : アニメーション開始からの経過時間（秒単位）。
+                </li>
+              </ul>
+            </div>
+          </div>
+          アニメーションループを開始します。
+          <br />
+          指定した関数を各フレームごとに実行し、レンダリングを行います。
         </div>
       </div>
     </Container>

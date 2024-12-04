@@ -3,6 +3,7 @@ import { OrbitControls } from 'three/addons/controls/OrbitControls.js'
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import { VRMLoaderPlugin, VRMUtils } from '@pixiv/three-vrm';
 import { RGBELoader } from "three/addons/loaders/RGBELoader.js";
+import { RoundedBoxGeometry } from "three/addons/geometries/RoundedBoxGeometry";
 
 
 function sizeToArray(size, n = 3) {
@@ -48,7 +49,7 @@ export function init(targetName) {
   }
   domElement.appendChild(renderer.domElement)
 
-  sizeTarget.addEventListener("resize", (e) => {
+  function sizeTargetResize() {
     if (sizeTarget === window) {
       renderer.setSize(sizeTarget.innerWidth, sizeTarget.innerHeight)
       camera.aspect = sizeTarget.innerWidth / sizeTarget.innerHeight
@@ -57,14 +58,16 @@ export function init(targetName) {
       camera.aspect = sizeTarget.scrollWidth / sizeTarget.scrollHeight
     }
     camera.updateProjectionMatrix()
-  })
+  }
+  sizeTarget.addEventListener("resize", sizeTargetResize)
 
+  function windowResize() {
+    renderer.setSize(sizeTarget.scrollWidth, sizeTarget.scrollHeight, false)
+    camera.aspect = sizeTarget.scrollWidth / sizeTarget.scrollHeight
+    camera.updateProjectionMatrix()
+  }
   if (sizeTarget !== window) {
-    window.addEventListener("resize", (e) => {
-      renderer.setSize(sizeTarget.scrollWidth, sizeTarget.scrollHeight, false)
-      camera.aspect = sizeTarget.scrollWidth / sizeTarget.scrollHeight
-      camera.updateProjectionMatrix()
-    })
+    window.addEventListener("resize", windowResize)
   }
 
   renderer.domElement.style.aspectRatio = renderer.domElement.width / renderer.domElement.height;
@@ -85,7 +88,8 @@ export function init(targetName) {
       autoAdd = true,
     } = {}) {
       const m = new THREE.Mesh(
-        new THREE[geometry](...args),
+        //new THREE[geometry](...args),
+        new geometry(...args),
         new THREE[`Mesh${material}Material`](material === "Normal" ? {} : option)
       )
       m.position.set(...position)
@@ -95,20 +99,46 @@ export function init(targetName) {
       if (autoAdd) scene.add(m);
       return m;
     },
-    cube: function ({ size = 1, ...props } = {}) {
-      return create.object("BoxGeometry", {
+    cube: function ({
+      size = 1,
+      segments = 1,
+      rounded = false,
+      radius = 0.1,
+      ...props
+    } = {}) {
+      return create.object(rounded ? RoundedBoxGeometry : THREE.BoxGeometry, {
         ...props,
-        args: sizeToArray(size, 3)
+        args: [
+          ...sizeToArray(size, 3),
+          ...(rounded ? [segments, radius] : sizeToArray(segments, 3))
+        ]
+      });
+    },
+    box: function ({
+      size = 1,
+      segments = 1,
+      rounded = false,
+      radius = 0.1,
+      ...props
+    } = {}) {
+      return create.object(rounded ? RoundedBoxGeometry : THREE.BoxGeometry, {
+        ...props,
+        args: [
+          ...sizeToArray(size, 3),
+          ...(rounded ? [segments, radius] : sizeToArray(segments, 3))
+        ]
       });
     },
     sphere: function ({ size = 1, segments = 64, ...props } = {}) {
-      return create.object("SphereGeometry", {
-        ...props, args: [...sizeToArray(size, 1), ...sizeToArray(segments, 2)]
+      return create.object(THREE.SphereGeometry, {
+        ...props,
+        args: [...sizeToArray(size, 1), ...sizeToArray(segments, 2)]
       });
     },
-    plane: function ({ size = 1, ...props } = {}) {
-      return create.object("PlaneGeometry", {
-        ...props, args: sizeToArray(size, 2)
+    plane: function ({ size = 1, segments = 1, ...props } = {}) {
+      return create.object(THREE.PlaneGeometry, {
+        ...props,
+        args: [...sizeToArray(size, 2), ...sizeToArray(segments, 2)]
       });
     },
     ambientLight: function ({
@@ -182,7 +212,7 @@ export function init(targetName) {
       result.position.set(...position);
       result.rotation.set(...rotation);
       children.forEach((c) => {
-        if(c instanceof THREE.Object3D){
+        if (c instanceof THREE.Object3D) {
           result.add(c);
         }
       });
@@ -285,6 +315,11 @@ export function init(targetName) {
   }
 
   function destroy() {
+    sizeTarget.removeEventListener("resize", sizeTargetResize)
+    if (sizeTarget !== window) {
+      window.removeEventListener("resize", windowResize)
+    }
+    domElement.removeChild(renderer.domElement);
     renderer.dispose();
     renderer.forceContextLoss();
   }
@@ -294,7 +329,8 @@ export function init(targetName) {
     function loop() {
       controls.update()
       const delta = clock.getDelta()
-      proc({ clock, delta })
+      const time = clock.getElapsedTime()
+      proc({ clock, delta, time })
       renderer.render(scene, camera)
     }
     renderer.setAnimationLoop(loop)

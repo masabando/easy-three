@@ -135,7 +135,7 @@ export default function Page() {
       <p>
         つまり、上のサンプルコードで、 大切な部分は以下の部分だけになります。
       </p>
-      <CodeBlock language="html" filename="index.html">
+      <CodeBlock filename="index.html">
         {`const { camera, create, animate } = init();
 
 camera.position.set(-2, 2, 2)
@@ -234,7 +234,7 @@ animate()
       <p>指向性光を作るには、以下のようにします。</p>
       <CodeBlock>{`create.directionalLight()`}</CodeBlock>
       <p>指向性光では影ができます。</p>
-      <p>どちらの光も、光の強さ(intensity)を指定することができます。</p>
+      <p>どちらの光も、<Note>光の強さ(intensity)を指定することができます</Note>。</p>
       <CodeBlock>{`create.ambientLight({ intensity: 2 })`}</CodeBlock>
       <CodeBlock>{`create.directionalLight({ intensity: 2 })`}</CodeBlock>
       <p>また、指向性光の位置(position)を変更することもできます。</p>
@@ -326,7 +326,8 @@ animate()
         色については、
         <a href="https://www.colordic.org" target="_blank" rel="noreferrer">
           WEB色見本 原色大辞典
-        </a> などのサイトで色を調べることができます。
+        </a>{" "}
+        などのサイトで色を調べることができます。
       </p>
       <h4>直方体の作成</h4>
       <p>3辺の長さを変えることで、立方体ではなく直方体を作ることもできます。</p>
@@ -342,10 +343,11 @@ animate()
       <h4>やってみよう</h4>
       <p>
         赤、緑、青の立方体または直方体をそれぞれ作成して、
-        それぞれの位置やサイズを変えて表示してみましょう。<br />
-        赤は <code>"red"</code> または <code>0xff0000</code> 、
-        緑は <code>"green"</code> または <code>0x00ff00</code> 、
-        青は <code>"blue"</code> または <code>0x0000ff</code> で指定します。
+        それぞれの位置やサイズを変えて表示してみましょう。
+        <br />
+        赤は <code>"red"</code> または <code>0xff0000</code> 、 緑は{" "}
+        <code>"green"</code> または <code>0x00ff00</code> 、 青は{" "}
+        <code>"blue"</code> または <code>0x0000ff</code> で指定します。
       </p>
       <EasyThreeBox
         effect={(r) => {
@@ -372,6 +374,48 @@ animate()
           };
         }}
       />
+      <h3>初期化</h3>
+      <p>
+        ここまでの内容で、カメラの位置、環境光、指向性光、立方体の表示を行いました。<br />
+        このセクションの最後に、プログラムの1行目と最終行について説明します。
+      </p>
+      <CodeBlock filename="index.html">
+        {`const { camera, create, animate } = init();
+
+camera.position.set(-2, 2, 2)
+create.ambientLight()
+create.directionalLight()
+create.cube()
+
+animate()
+`}
+      </CodeBlock>
+      <p>
+        1行目の
+      </p>
+      <CodeBlock>{`const { camera, create, animate } = init();`}</CodeBlock>
+      <p>
+        は、easy-threeライブラリを初期化して、
+        カメラ(camera)、オブジェクト等を作成するためのオブジェクト(create)、
+        アニメーション(animate)を行うための関数を取得しています。
+      </p>
+      <p>
+        簡単に言うと、この1行目は「<Note>プログラム中でつかうものを用意する</Note>」行です。<br />
+        今回は、カメラ、オブジェクト、アニメーションを使うために、
+        <code>camera</code>、<code>create</code>、<code>animate</code> を用意しています。
+      </p>
+      <p>
+        最終行の
+      </p>
+      <CodeBlock>{`animate()`}</CodeBlock>
+      <p>
+        は、アニメーションを開始するための関数です。
+        <br />
+        この関数を呼び出すことで、アニメーションが開始されます。
+      </p>
+      <p>
+        原則として <code>animate</code> は必ず最後に呼び出すようにします。
+      </p>
     </div>
   );
 }
