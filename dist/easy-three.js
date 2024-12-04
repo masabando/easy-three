@@ -215,6 +215,19 @@ export function init(targetName) {
 
   const textureLoader = new THREE.TextureLoader();
   const load = {
+    gltf: async function (url, {
+      position = [0, 0, 0],
+      rotation = [0, 0, 0],
+      scale = [1, 1, 1],
+      autoAdd = true
+    } = {}) {
+      const gltf = await new GLTFLoader().loadAsync(url);
+      gltf.scene.position.set(...position);
+      gltf.scene.rotation.set(...rotation);
+      gltf.scene.scale.set(...scale);
+      if (autoAdd) scene.add(gltf.scene);
+      return gltf;
+    },
     vrm: async function (url, {
       position = [0, 0, 0],
       rotation = [0, 0, 0],

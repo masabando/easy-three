@@ -77,8 +77,8 @@ export default function Page() {
           <br />
         </div>
         <h3>
-          <Link href="/reference/create/cube/">create.cube</Link>(props : Object)
-          : <span>Mesh</span>
+          <Link href="/reference/create/cube/">create.cube</Link>(props :
+          Object) : <span>Mesh</span>
         </h3>
         <div>
           <div>
@@ -116,7 +116,8 @@ export default function Page() {
         </div>
 
         <h3>
-          <Link href="/reference/create/sphere/">create.sphere</Link>(props : Object) : <span>Mesh</span>
+          <Link href="/reference/create/sphere/">create.sphere</Link>(props :
+          Object) : <span>Mesh</span>
         </h3>
         <div>
           <div>
@@ -124,7 +125,9 @@ export default function Page() {
               <span>props</span> - 設定オブジェクト。
               <ul>
                 <li>size (Number) : 半径 (デフォルト : 1)。</li>
-                <li>segments (Array | Number) : セグメント (デフォルト : 64)。</li>
+                <li>
+                  segments (Array | Number) : セグメント (デフォルト : 64)。
+                </li>
                 <li>position (Array) : 位置 (デフォルト : [0, 0, 0])。</li>
                 <li>rotation (Array) : 回転 (デフォルト : [0, 0, 0])。</li>
                 <li>
@@ -363,6 +366,35 @@ export default function Page() {
             </div>
           </div>
           VRMモデルを読み込み、オプションに基づいてシーンに追加します。
+        </div>
+        <h3>
+          load.gltf(url : String, props : Object) : <span>GLTF</span>
+        </h3>
+        <div>
+          <div>
+            <div>
+              <span>url</span> - GLTFモデルのURL。
+            </div>
+            <div>
+              <span>props</span> - 設定オブジェクト。
+              <ul>
+                <li>
+                  position (Array) : モデルの位置 (デフォルト : [0, 0, 0])。
+                </li>
+                <li>
+                  rotation (Array) : モデルの回転 (デフォルト : [0, 0, 0])。
+                </li>
+                <li>
+                  scale (Array) : モデルのスケール (デフォルト : [1, 1, 1])。
+                </li>
+                <li>
+                  autoAdd (Boolean) : 自動でシーンに追加するか (デフォルト :
+                  true)。
+                </li>
+              </ul>
+            </div>
+          </div>
+          GLTFモデルを読み込み、オプションに基づいてシーンに追加します。
         </div>
         <h3>
           animate(proc : Function) : <span>undefined</span>

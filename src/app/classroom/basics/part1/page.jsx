@@ -276,6 +276,7 @@ animate()
       <p>立方体を作り出すには、以下のようにします。</p>
       <CodeBlock>{`create.cube()`}</CodeBlock>
       <p>立方体は、デフォルトでは中心が原点(0, 0, 0)、サイズが1になります。</p>
+      <h4>サイズと位置の変更</h4>
       <p>立方体のサイズを変更するには、次のようにします。</p>
       <CodeBlock>{`create.cube({ size: 2 })`}</CodeBlock>
       <p>このコードは、サイズが2の立方体を作り出します。</p>
@@ -296,6 +297,7 @@ animate()
   size: 2,
   position: [1, 1, 1]
 })`}</CodeBlock>
+      <h4>色の変更</h4>
       <p>立方体の色を変更するには、次のようにします。</p>
       <CodeBlock>{`create.cube({
   option: { color: "red" }
@@ -319,6 +321,13 @@ animate()
       <CodeBlock>{`create.cube({
   option: { color: "#ff0000" }
 })`}</CodeBlock>
+      <p>
+        色については、
+        <a href="https://www.colordic.org" target="_blank" rel="noreferrer">
+          WEB色見本 原色大辞典
+        </a> などのサイトで色を調べることができます。
+      </p>
+      <h4>直方体の作成</h4>
       <p>3辺の長さを変えることで、立方体ではなく直方体を作ることもできます。</p>
       <CodeBlock>{`create.cube({ size: [2, 3, 4] })`}</CodeBlock>
       <p>
