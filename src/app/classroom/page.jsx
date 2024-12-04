@@ -1,5 +1,6 @@
 "use client";
 import { Link, Note } from "@/components/BaseKit";
+import { Tag } from "antd";
 import ListGroup from "react-bootstrap/ListGroup";
 
 export default function Page() {
@@ -72,50 +73,44 @@ export default function Page() {
           3. 球体・平面・角丸立方体の表示
         </ListGroup.Item>
         <ListGroup.Item action as={Link} href="/classroom/basics/part4">
-          4. アニメーションの基礎
+          4. 背景とアニメーションの基礎
         </ListGroup.Item>
         <ListGroup.Item action as={Link} href="/classroom/basics/part5">
-          5. 様々なマテリアル
+          5. 様々なマテリアル <Tag color="red">準備中</Tag>
         </ListGroup.Item>
-        <ListGroup.Item action as={Link} href="/classroom/basics/part6">
-          6. アニメーションと物理
+        <ListGroup.Item action as={Link} href="/classroom/">
+          6. アニメーションと物理 <Tag color="red">準備中</Tag>
         </ListGroup.Item>
-        <ListGroup.Item action as={Link} href="/classroom/basics/part7">
-          7. シンプルな部屋の作成と弾むボール
+        <ListGroup.Item action as={Link} href="/classroom/">
+          7. シンプルな部屋の作成と弾むボール <Tag color="red">準備中</Tag>
         </ListGroup.Item>
       </ListGroup>
 
       <h3 className="mt-5">学習内容 (応用編)</h3>
       <ListGroup style={{ maxWidth: "500px" }}>
-        <ListGroup.Item action as={Link} href="/classroom/advanced/part1">
-          1. 3Dオブジェクトのアニメーションとインタラクション
+        <ListGroup.Item action as={Link} href="/classroom/">
+          1. 3Dオブジェクトのグループ化{" "}
+          <Tag color="red">準備中</Tag>
         </ListGroup.Item>
-        <ListGroup.Item action as={Link} href="/classroom/advanced/part2">
-          2. 複数オブジェクトの同期とシーンデザイン
+        <ListGroup.Item action as={Link} href="/classroom/">
+          2. 背景画像の利用と環境マップ{" "}
+          <Tag color="red">準備中</Tag>
         </ListGroup.Item>
-        <ListGroup.Item action as={Link} href="/classroom/advanced/part3">
-          3. 光と影を利用した高度な表現
+        <ListGroup.Item action as={Link} href="/classroom/">
+          3. GLTFモデルの利用 <Tag color="red">準備中</Tag>
         </ListGroup.Item>
-        <ListGroup.Item action as={Link} href="/classroom/advanced/part4">
-          4. VRMモデルを用いたアバターの表示
+        <ListGroup.Item action as={Link} href="/classroom/">
+          4. VRMモデルを用いたアバターの表示 <Tag color="red">準備中</Tag>
         </ListGroup.Item>
-        <ListGroup.Item action as={Link} href="/classroom/advanced/part5">
-          5. VRMモデルの操作とアニメーション
+        <ListGroup.Item action as={Link} href="/classroom/">
+          5. VRMモデルの操作とアニメーション <Tag color="red">準備中</Tag>
         </ListGroup.Item>
-        <ListGroup.Item action as={Link} href="/classroom/advanced/part6">
-          6. 3Dシーンにおけるカメラワークの演習
+        <ListGroup.Item action as={Link} href="/classroom/">
+          6. 面の変形 <Tag color="red">準備中</Tag>
         </ListGroup.Item>
-        <ListGroup.Item action as={Link} href="/classroom/advanced/part7">
-          7. パーティクルシステムによる特殊効果の作成
-        </ListGroup.Item>
-        <ListGroup.Item action as={Link} href="/classroom/advanced/part8">
-          8. カスタムマテリアルとテクスチャの適用
-        </ListGroup.Item>
-        <ListGroup.Item action as={Link} href="/classroom/advanced/part9">
-          9. 3Dモデルを利用した物理演算の基礎
-        </ListGroup.Item>
-        <ListGroup.Item action as={Link} href="/classroom/advanced/part10">
-          10. Webカメラを利用したジェスチャー認識との連携
+        <ListGroup.Item action as={Link} href="/classroom/">
+          7. パーティクルシステムによる特殊効果の作成{" "}
+          <Tag color="red">準備中</Tag>
         </ListGroup.Item>
       </ListGroup>
     </div>

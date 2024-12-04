@@ -63,6 +63,42 @@ animate()
         でカメラ位置を並行に移動できます。
       </p>
 
+      <h4>カメラの自動回転</h4>
+      <p>カメラを自動で回転させることもできます。</p>
+      <CodeBlock>{`controls.autoRotate = true
+controls.autoRotateSpeed = 10
+`}</CodeBlock>
+      <p>カメラはy軸を中心に自動で回転します。<br />
+      カメラの手動操作をONにするかどうかに関わらず利用できます。</p>
+      <CodeBlock filename="index.html">
+        {`const { camera, create, animate, controls } = init();
+
+controls.autoRotate = true
+controls.autoRotateSpeed = 10
+camera.position.set(-2, 2, 2)
+create.ambientLight()
+create.directionalLight()
+create.cube()
+
+animate()
+`}
+      </CodeBlock>
+      <EasyThreeBox
+        effect={(r) => {
+          const { camera, create, animate, controls, destroy } = init(r);
+          controls.autoRotate = true;
+          controls.autoRotateSpeed = 10;
+          camera.position.set(-2, 2, 2);
+          create.ambientLight();
+          create.directionalLight();
+          create.cube();
+          animate();
+          return () => {
+            destroy();
+          };
+        }}
+      />
+
       <h3>ガイドの表示</h3>
       <p>
         3D
@@ -80,7 +116,7 @@ animate()
       <CodeBlock filename="index.html">
         {`const { camera, create, animate, controls, helper } = init();
 
-controls.connect()
+controls.autoRotate = true
 helper.grid()
 helper.axes()
 camera.position.set(-2, 2, 2)
@@ -93,8 +129,9 @@ animate()
       </CodeBlock>
       <EasyThreeBox
         effect={(r) => {
-          const { camera, create, animate, controls, helper, destroy } = init(r);
-          controls.connect();
+          const { camera, create, animate, controls, helper, destroy } =
+            init(r);
+          controls.autoRotate = true;
           helper.grid();
           helper.axes();
           camera.position.set(-2, 2, 2);
