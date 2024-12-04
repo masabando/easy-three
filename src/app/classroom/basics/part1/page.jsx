@@ -2,6 +2,7 @@
 import { EasyThreeBox, Note } from "@/components/BaseKit";
 import CodeBlock from "@/components/CodeBlock";
 import { init } from "@dist/easy-three";
+import { currentVersion } from "@/components/CurrentVersion";
 
 export default function Page() {
   return (
@@ -29,7 +30,7 @@ export default function Page() {
         "three": "https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.js",
         "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.170.0/examples/jsm/",
         "@pixiv/three-vrm": "https://cdn.jsdelivr.net/npm/@pixiv/three-vrm@3/lib/three-vrm.module.min.js",
-        "easy-three": "https://cdn.jsdelivr.net/gh/masabando/easy-three@0.0.14/dist/easy-three.js"
+        "easy-three": "https://cdn.jsdelivr.net/gh/masabando/easy-three@${currentVersion}/dist/easy-three.js"
       }
     }
   </script>
