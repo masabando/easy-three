@@ -66,16 +66,22 @@ export default function Page() {
           1. プログラムの基礎と立方体の表示
         </ListGroup.Item>
         <ListGroup.Item action as={Link} href="/classroom/basics/part2">
-          2. 球体と平面を表示する
+          2. カメラコントロールとガイド
         </ListGroup.Item>
         <ListGroup.Item action as={Link} href="/classroom/basics/part3">
-          3. オブジェクトの色を変える
+          3. 球体・平面の表示
         </ListGroup.Item>
         <ListGroup.Item action as={Link} href="/classroom/basics/part4">
-          4. カメラを動かして視点を変える
+          4. アニメーションの基礎
         </ListGroup.Item>
         <ListGroup.Item action as={Link} href="/classroom/basics/part5">
-          5. 照明を使って陰影を付ける
+          5. 様々なマテリアル
+        </ListGroup.Item>
+        <ListGroup.Item action as={Link} href="/classroom/basics/part6">
+          6. アニメーションと物理
+        </ListGroup.Item>
+        <ListGroup.Item action as={Link} href="/classroom/basics/part7">
+          7. シンプルな部屋の作成と弾むボール
         </ListGroup.Item>
       </ListGroup>
 
