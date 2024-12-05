@@ -63,3 +63,67 @@ const Simple = (props) => {
 }
 ```
 
+# How to Use
+
+See [Getting Started](http://localhost:3000/easy-three/getting-started/)
+
+
+## Using CDN
+
+You can use easy-three without downloading by using a CDN.
+Importmap settings are also required.
+```html
+<script type="importmap">
+  {
+    "imports": {
+      "three": "https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.js",
+      "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.170.0/examples/jsm/",
+      "@pixiv/three-vrm": "https://cdn.jsdelivr.net/npm/@pixiv/three-vrm@3/lib/three-vrm.module.min.js",
+      "easy-three": "https://cdn.jsdelivr.net/gh/masabando/easy-three@0.0.20/dist/easy-three.js"
+    }
+  }
+</script>
+```
+
+```js
+import { init } from "easy-three";
+```
+
+## template
+```html
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>easy-three template</title>
+  <script type="importmap">
+    {
+      "imports": {
+        "three": "https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.js",
+        "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.170.0/examples/jsm/",
+        "@pixiv/three-vrm": "https://cdn.jsdelivr.net/npm/@pixiv/three-vrm@3/lib/three-vrm.module.min.js",
+        "easy-three": "https://cdn.jsdelivr.net/gh/masabando/easy-three@0.0.20/dist/easy-three.js"
+      }
+    }
+  </script>
+</head>
+
+<body>
+  <script type="module">
+    import { init } from "easy-three";
+    const { camera, create, animate, controls } = init();
+
+    controls.connect()
+    camera.position.set(-2, 2, 2)
+    create.ambientLight()
+    create.directionalLight()
+    create.cube()
+
+    animate()
+  </script>
+</body>
+
+</html>
+```
