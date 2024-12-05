@@ -25,10 +25,18 @@ export default function Page() {
           <h1 className="headTitle mt-5 mb-4">easy-three</h1>
           <div className="text-center mb-4">
             <div>
-              <Tag color="blue">v{currentVersion}</Tag>
+              <img alt="version" src="https://img.shields.io/github/v/tag/masabando/easy-three?style=flat&label=version" />
+              {/* <Tag color="blue">v{currentVersion}</Tag> */}
             </div>
-            <div className="mt-2">
-              <img alt="jsDelivr monthly hits badge" src="https://data.jsdelivr.com/v1/package/gh/masabando/easy-three/badge" />
+            <div className="mt-2 d-flex flex-wrap justify-content-center gap-1">
+              <div className="text-nowrap">
+                <img alt="github-stars" src="https://img.shields.io/github/stars/masabando/easy-three?style=flat&logo=github" />
+                <img className="ms-1" alt="jsDelivr monthly hits badge" src="https://img.shields.io/jsdelivr/gh/hm/masabando/easy-three?style=flat&logo=jsdelivr&logoColor=white" />
+              </div>
+              <div className="text-nowrap">
+                <img alt="last commit" src="https://img.shields.io/github/last-commit/masabando/easy-three?style=flat" />
+                <img className="ms-1" alt="page build" src="https://img.shields.io/github/actions/workflow/status/masabando/easy-three/nextjs.yml?style=flat" />
+              </div>
             </div>
           </div>
           <div className="headMessage">
