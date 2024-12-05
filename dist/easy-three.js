@@ -3,7 +3,7 @@ import { OrbitControls } from 'three/addons/controls/OrbitControls.js'
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import { VRMLoaderPlugin, VRMUtils } from '@pixiv/three-vrm';
 import { RGBELoader } from "three/addons/loaders/RGBELoader.js";
-import { RoundedBoxGeometry } from "three/addons/geometries/RoundedBoxGeometry";
+import { RoundedBoxGeometry } from "three/addons/geometries/RoundedBoxGeometry.js";
 
 
 function sizeToArray(size, n = 3) {
