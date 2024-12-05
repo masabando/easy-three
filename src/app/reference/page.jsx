@@ -475,6 +475,82 @@ export default function Page() {
           <br />
           指定した関数を各フレームごとに実行し、レンダリングを行います。
         </div>
+
+        <h3>
+          event.mouse.add(callback : Function, option: Object) : <span>Function</span>
+        </h3>
+        <div>
+          <div>
+            <div>
+              <span>callback(pos, e)</span>
+              - コールバック関数。
+              <ul>
+                <li>
+                  pos (THREE.Vector2) : イベントが発生したオブジェクトに対する発生場所の相対座標。
+                </li>
+                <li>
+                  e (PointerEvents) : イベントオブジェクト。
+                </li>
+              </ul>
+            </div>
+            <div>
+            <span>option</span> - 設定オブジェクト。
+              <ul>
+                <li>type (String) : イベントのリスナータイプ (デフォルト : &quot;once&quot;)。</li>
+              </ul>
+            </div>
+          </div>
+          マウスイベント追加関数。<br />
+          マウスのクリックイベントに反応する関数を登録します。<br />
+          マウスのクリックが
+          <ol>
+            <li>押された時</li>
+            <li>離された時</li>
+            <li>押して離された時</li>
+            <li>動かされた時</li>
+            <li>上記のすべての時</li>
+          </ol>
+          の動作を指定できます。<br />
+          イベントの登録解除用関数を返します。
+        </div>
+
+        <h3>
+          event.key.add(callback : Function, option: Object) : <span>Function</span>
+        </h3>
+        <div>
+          <div>
+            <div>
+              <span>callback(key, e)</span>
+              - コールバック関数。
+              <ul>
+                <li>
+                  key (String) : イベントが発生した原因となったキー文字列。
+                </li>
+                <li>
+                  e (KeyEvent) : イベントオブジェクト。
+                </li>
+              </ul>
+            </div>
+            <div>
+            <span>option</span> - 設定オブジェクト。
+              <ul>
+                <li>type (String) : イベントのリスナータイプ (デフォルト : &quot;once&quot;)。</li>
+                <li>trigger (String | RegExp) : 追加のイベント発生条件 (デフォルト : /[A-Za-z]/)。</li>
+              </ul>
+            </div>
+          </div>
+          キーボードイベント追加関数。<br />
+          キーボードのイベントに反応する関数を登録します。<br />
+          キーボードのキーが
+          <ol>
+            <li>押された時</li>
+            <li>離された時</li>
+            <li>押して離された時</li>
+            <li>上記のすべての時</li>
+          </ol>
+          の動作を指定できます。<br />
+          イベントの登録解除用関数を返します。
+        </div>
       </div>
     </Container>
   );

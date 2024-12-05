@@ -30,6 +30,7 @@ export default function Page() {
 
       <Flex justify="start" wrap gap={20} className="mt-5">
         <ExampleLink dir="dice" name="Dice" creator="KUTC-KaedeYuto" />
+        <ExampleLink dir="events" name="Events" creator="KUTC-KaedeYuto" />
       </Flex>
     </Container>
   );
