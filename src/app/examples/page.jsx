@@ -13,7 +13,7 @@ function ExampleLink({ name, dir, creator }) {
         <div>{name}</div>
         {creator && <div>by {creator}</div>}
         <a
-          href={`https://github.com/masabando/easy-three/blob/dev/docs/page/examples/${dir}/index.html`}
+          href={`https://github.com/masabando/easy-three/blob/dev/public/page/examples/${dir}/index.html`}
         >
           View Code
         </a>
