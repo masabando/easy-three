@@ -1,6 +1,7 @@
 "use client";
 import { init } from "@dist/easy-three.js";
 import { useEffect, useRef } from "react";
+import { metalness } from "three/webgpu";
 
 export const Demo = {
   Simple: (props) => {
@@ -156,7 +157,12 @@ export const Demo = {
       })
       i++;
       const ball = create.sphere({
-        size: 1,
+        size: 0.8,
+        position: [
+          3 * Math.sin((i * Math.PI * 2) / 4),
+          0.5,
+          3 * Math.cos((i * Math.PI * 2) / 4),
+        ],
       })
       i++;
       const cube2 = create.cube({
@@ -173,11 +179,35 @@ export const Demo = {
           color: 0x333333,
         },
       })
+      i++;
+      const torus = create.torus({
+        size: 0.7,
+        tube: 0.2,
+        position: [
+          3 * Math.sin((i * Math.PI * 2) / 4),
+          0.5,
+          3 * Math.cos((i * Math.PI * 2) / 4),
+        ],
+        option: {
+          metalness: 0.8,
+          roughness: 0.2,
+          color: 0x8888ff,
+        }
+      })
       group.add(cube1);
       group.add(ball)
       group.add(cube2);
+      group.add(torus);
       scene.add(group);
-      animate();
+      animate(({ time }) => {
+        group.rotation.y = time
+        cube1.rotation.x = time
+        cube1.rotation.y = time
+        cube2.rotation.x = time
+        cube2.rotation.y = time
+        torus.rotation.x = time * 2
+        torus.rotation.y = time
+      });
       return () => {
         destroy()
       }

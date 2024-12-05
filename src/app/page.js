@@ -313,9 +313,9 @@ animate(({ time, delta }) => {
     create.ambientLight()
     create.directionalLight()
     const cube = create.cube({ size: 3 })
-    animate(({ clock }) => {
-      cube.rotation.x = clock.getElapsedTime()
-      cube.rotation.y = clock.getElapsedTime()
+    animate(({ time }) => {
+      cube.rotation.x = time
+      cube.rotation.y = time
     })
     return () => {
       destroy()
