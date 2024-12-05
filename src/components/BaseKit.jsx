@@ -2,6 +2,8 @@
 import { Switch } from "antd";
 import NextLink from "next/link";
 import { useRef, useEffect, useState } from "react";
+import GUI from "lil-gui";
+import { init } from "@dist/easy-three";
 
 export function Link({
   href = "",
@@ -49,8 +51,8 @@ export function EasyThreeBox({ effect, toggleControls = false }) {
         <Switch
           style={{
             position: "absolute",
-            top: "10px",
-            right: "10px",
+            bottom: "10px",
+            left: "10px",
           }}
           defaultChecked={mouseControl}
           onChange={(v) => { setMouseControl(v) }}
@@ -67,4 +69,45 @@ export function EasyThreeBox({ effect, toggleControls = false }) {
       ></div>
     </div>
   );
+}
+
+
+export function GeometryBox() {
+  const guiRef = useRef();
+  function draw(r) {
+    const { camera, create, animate, controls, destroy, load, scene } =
+      init(r);
+
+    controls.connect();
+    camera.position.set(0, 1.3, -2);
+    controls.target.set(0, 1, 0);
+    create.ambientLight();
+    create.directionalLight();
+    let model;
+    load.vrm("/easy-three/model/sample.vrm").then((vrm) => {
+      model = vrm;
+      // bone
+      guiRef.current = new GUI({ container: r }).title("(´・ω・`)");
+      ["leftUpperArm", "rightUpperArm"].forEach((boneName) => {
+        const bone = model.bone(boneName);
+        guiRef.current.add(bone.rotation, "z", -Math.PI, Math.PI).name(boneName);
+      })
+    });
+
+
+    animate(({ delta }) => {
+      if (model) {
+        model.update(delta);
+      }
+    });
+    return () => {
+      guiRef.current.destroy()
+      destroy();
+    };
+  }
+  return (
+    <EasyThreeBox
+      effect={draw}
+    />
+  )
 }

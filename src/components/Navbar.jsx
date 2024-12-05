@@ -64,7 +64,7 @@ export default function Navbar() {
             </NavLink>
             <NavLink to="/classroom">
               <T>
-                <>Educational Use Cases</>
+                <>Edu. Use Cases</>
                 <>教育機関向け</>
               </T>
             </NavLink>
