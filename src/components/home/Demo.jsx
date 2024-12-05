@@ -1,7 +1,6 @@
 "use client";
 import { init } from "@dist/easy-three.js";
 import { useEffect, useRef } from "react";
-import { metalness } from "three/webgpu";
 
 export const Demo = {
   Simple: (props) => {
