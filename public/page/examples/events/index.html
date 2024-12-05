@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>easy-three template</title>
+  <script type="importmap">
+    {
+      "imports": {
+        "three": "https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.js",
+        "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.170.0/examples/jsm/",
+        "@pixiv/three-vrm": "https://cdn.jsdelivr.net/npm/@pixiv/three-vrm@3/lib/three-vrm.module.min.js",
+        "easy-three": "https://cdn.jsdelivr.net/gh/masabando/easy-three@0.0.21/dist/easy-three.js"
+      }
+    }
+  </script>
+</head>
+
+<body>
+  <div style="height: 90vh;overflow-y: hidden;">
+    <div>
+      クリック または タップ: 色変更<br>
+      Q : カメラ座標+0.5<br>
+      E : カメラ座標-0.5<br>
+      A または Shift + A : キューブ回転<br>
+      S : 色固定
+    </div>
+    <div id="main" style="height: 100%;outline: none;" tabindex="1"></div>
+  </div>
+  
+  <script type="module">
+    import { init } from "easy-three";
+    const { camera, create, animate, event, helper, color } = init("#main");
+
+    let h = 0;
+
+    camera.position.set(-2, 2, 2);
+    create.ambientLight();
+    create.directionalLight({
+      position: [1, 1, -1]
+    });
+    const cube = create.cube({
+      option: {
+        color: color(`hsl(${h}, 100%, 50%)`)
+      }
+    });
+
+    helper.grid();
+
+
+    const removeMouseEvent = event.mouse.add(() => {
+      cube.material.color = color(`hsl(${h += 30}, 100%, 50%)`);
+    });
+
+    event.key.add((key) => {
+      if(key === "e") camera.position.y += 0.5;
+      if(key === "q") camera.position.y -= 0.5;
+    });
+
+    event.key.add(() => {
+      removeMouseEvent();
+    }, {
+      trigger: "s"
+    });
+
+    event.key.add(() => {
+      cube.rotation.y += 0.1;
+    }, {
+      type: "down",
+      trigger: /[aA]/ // Regular Expression that matches "A" and "Shift + A"
+    });
+
+    animate();
+  </script>
+</body>
+
+</html>
