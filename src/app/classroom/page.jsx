@@ -99,7 +99,7 @@ export default function Page() {
         <ListGroup.Item action as={Link} href="/classroom/">
           3. GLTFモデルの利用 <Tag color="red">準備中</Tag>
         </ListGroup.Item>
-        <ListGroup.Item action as={Link} href="/classroom/">
+        <ListGroup.Item action as={Link} href="/classroom/advanced/part4">
           4. VRMモデルを用いたアバターの表示 <Tag color="red">準備中</Tag>
         </ListGroup.Item>
         <ListGroup.Item action as={Link} href="/classroom/">

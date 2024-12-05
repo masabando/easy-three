@@ -24,7 +24,12 @@ export default function Page() {
           <title>Home | easy-three</title>
           <h1 className="headTitle mt-5 mb-4">easy-three</h1>
           <div className="text-center mb-4">
-            <Tag color="blue">v{currentVersion}</Tag>
+            <div>
+              <Tag color="blue">v{currentVersion}</Tag>
+            </div>
+            <div className="mt-2">
+              <img alt="jsDelivr monthly hits badge" src="https://data.jsdelivr.com/v1/package/gh/masabando/easy-three/badge" />
+            </div>
           </div>
           <div className="headMessage">
             <T>
@@ -41,7 +46,7 @@ export default function Page() {
             </T>
           </div>
 
-          <div className="text-center my-5">
+          <div className="text-center mt-5 mb-3">
             <Button
               variant="primary"
               size="lg"
@@ -63,6 +68,19 @@ export default function Page() {
               <T>
                 <>Reference</>
                 <>ドキュメント</>
+              </T>
+            </Button>
+          </div>
+          <div className="text-center mb-5">
+            <Button
+              variant="primary"
+              className="mt-1"
+              as={Link}
+              href="/classroom"
+            >
+              <T>
+                <>Educational Use Cases</>
+                <>教育機関向け活用例</>
               </T>
             </Button>
           </div>

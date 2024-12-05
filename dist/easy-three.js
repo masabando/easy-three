@@ -292,6 +292,7 @@ export function init(targetName) {
       model.scene.position.set(...position);
       model.scene.rotation.set(...rotation);
       model.scene.scale.set(...scale);
+      model.bone = (name) => model.humanoid.getNormalizedBoneNode(name);
       if (autoAdd) scene.add(model.scene);
       return model;
     },
