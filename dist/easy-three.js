@@ -31,6 +31,9 @@ export function init(targetName) {
   const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true })
   renderer.shadowMap.enabled = true
   renderer.setPixelRatio(window.devicePixelRatio)
+  //renderer.outputEncoding = THREE.sRGBEncoding;
+  renderer.toneMapping = THREE.ACESFilmicToneMapping;
+
 
   const controls = new OrbitControls(camera, renderer.domElement)
   controls.enableDamping = true

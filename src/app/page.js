@@ -204,13 +204,13 @@ export default function Page() {
               </p>
               <CodeBlock>
                 {`const { camera, create, animate } = init()
-camera.position.set(5, 5, 5);
+camera.position.set(1, 1, 1)
 create.ambientLight()
 create.directionalLight()
-const cube = create.cube({ size: 6 })
-animate(({ clock }) => {
-  cube.rotation.x = clock.getElapsedTime()
-  cube.rotation.y = clock.getElapsedTime()
+const cube = create.cube({ rounded: true, segments: 7 })
+animate(({ time }) => {
+  cube.rotation.x = time
+  cube.rotation.y = time
 })
 `}
               </CodeBlock>
@@ -251,25 +251,32 @@ animate(({ clock }) => {
               </p>
               <CodeBlock>
                 {`const { camera, create, animate, controls, helper, load } = init();
-
-controls.connect()
 controls.autoRotate = true
 camera.position.set(0, 2, -2)
 controls.target.set(0, 1, 0)
 create.ambientLight()
 create.directionalLight({ intensity: 2, position: [10, 10, -10] })
-helper.axes();
-helper.grid();
-const cube = create.cube({ size: 0.5, position: [1, 1, 0] })
-let model;
-load.vrm("./model/sample.vrm").then(m => {
+helper.axes()
+helper.grid()
+
+const cube = create.cube({
+  size: 0.5,
+  position: [1, 1, 0],
+  rounded: true,
+  segments: 7,
+})
+
+let model
+load.vrm("./model/sample.vrm").then((m) => {
   model = m
 })
-animate(({ clock, delta }) => {
+
+animate(({ time, delta }) => {
   cube.rotation.y += delta
   cube.rotation.x += delta
   if (model) {
-    model.humanoid.getNormalizedBoneNode("leftUpperArm").rotation.z = Math.sin(clock.getElapsedTime()) * Math.PI * 0.25
+    model.bone("leftUpperArm").rotation.z =
+      Math.sin(time) * Math.PI * 0.25
     model.update(delta)
   }
 })
@@ -388,7 +395,7 @@ create.directionalLight()
 const cube = create.cube()
 
 // animation
-animate(({delta}) => {
+animate(({ delta }) => {
   cube.rotation.x += delta
   cube.rotation.y += delta
 })`}

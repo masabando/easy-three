@@ -7,13 +7,13 @@ export const Demo = {
     const ref = useRef();
     useEffect(() => {
       const { camera, create, animate, destroy } = init(ref.current);
-      camera.position.set(5, 5, 5);
+      camera.position.set(1, 1, 1);
       create.ambientLight();
       create.directionalLight();
-      const cube = create.cube({ size: 3 });
-      animate(({ clock }) => {
-        cube.rotation.x = clock.getElapsedTime();
-        cube.rotation.y = clock.getElapsedTime();
+      const cube = create.cube({ rounded: true, segments: 7 });
+      animate(({ time }) => {
+        cube.rotation.x = time
+        cube.rotation.y = time
       });
       return () => {
         destroy();
@@ -36,19 +36,24 @@ export const Demo = {
       helper.axes();
       helper.grid();
 
-      const cube = create.cube({ size: 0.5, position: [1, 1, 0] });
+      const cube = create.cube({
+        size: 0.5,
+        position: [1, 1, 0],
+        rounded: true,
+        segments: 7,
+      });
 
       let model;
       load.vrm("./model/sample.vrm").then((m) => {
         model = m;
       });
 
-      animate(({ clock, delta }) => {
+      animate(({ time, delta }) => {
         cube.rotation.y += delta;
         cube.rotation.x += delta;
         if (model) {
-          model.humanoid.getNormalizedBoneNode("leftUpperArm").rotation.z =
-            Math.sin(clock.getElapsedTime()) * Math.PI * 0.25;
+          model.bone("leftUpperArm").rotation.z =
+            Math.sin(time) * Math.PI * 0.25;
           model.update(delta);
         }
       });
@@ -84,8 +89,6 @@ export const Demo = {
         destroy,
       } = init(ref.current);
       const textureLoader = new THREE.TextureLoader();
-      renderer.outputEncoding = THREE.sRGBEncoding;
-      renderer.toneMapping = THREE.ACESFilmicToneMapping;
       controlsRef.current = controls;
       if (worldControl) {
         controls.connect();
@@ -128,30 +131,52 @@ export const Demo = {
       });
       create.cube({
         size: 3,
+        rounded: true,
+        segments: 7,
         position: [0, 0.5, 0],
         option: texture.cube,
       });
       const group = new THREE.Group();
-      for (let i = 0; i < 4; i++) {
-        group.add(
-          create[i % 2 === 0 ? "cube" : "sphere"]({
-            size: 1,
-            position: [
-              3 * Math.sin((i * Math.PI * 2) / 4),
-              0.5,
-              3 * Math.cos((i * Math.PI * 2) / 4),
-            ],
-            autoAdd: false,
-            option: {
-              metalness: 0.5,
-              roughness: 0,
-              color: 0xffffff,
-            },
-          })
-        );
-      }
+      let i = 0;
+      const cube1 = create.cube({
+        size: 1,
+        segments: 7,
+        rounded: true,
+        position: [
+          3 * Math.sin((i * Math.PI * 2) / 4),
+          0.5,
+          3 * Math.cos((i * Math.PI * 2) / 4),
+        ],
+        autoAdd: false,
+        option: {
+          metalness: 0.5,
+          roughness: 0,
+          color: 0xffffff,
+        },
+      })
+      i++;
+      const ball = create.sphere({
+        size: 1,
+      })
+      i++;
+      const cube2 = create.cube({
+        size: 1,
+        segments: 7,
+        rounded: true,
+        position: [
+          3 * Math.sin((i * Math.PI * 2) / 4),
+          0.5,
+          3 * Math.cos((i * Math.PI * 2) / 4),
+        ],
+        autoAdd: false,
+        option: {
+          color: 0x333333,
+        },
+      })
+      group.add(cube1);
+      group.add(ball)
+      group.add(cube2);
       scene.add(group);
-      create.cube({ position: [0, 2.5, 0] });
       animate();
       return () => {
         destroy()

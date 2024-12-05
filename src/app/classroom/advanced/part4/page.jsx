@@ -49,6 +49,41 @@ export default function Page() {
         }}
       />
 
+      <EasyThreeBox
+        toggleControls
+        effect={(r, controlsFlag) => {
+          const { camera, create, animate, controls, helper, load, destroy, THREE } =
+            init(r);
+          if (controlsFlag) controls.connect();
+          create.ambientLight();
+          create.directionalLight({ intensity: 2, position: [-10, 10, -10] });
+          camera.position.set(0, -10, 10);
+          const plane = create.plane({
+            size: 10,
+            segments: 60,
+            option: {
+              flatShading: true,
+              metalness: 0.9,
+              roughness: 0.1,
+              color: 0x00ff00,
+              side: THREE.DoubleSide,
+            }
+          })
+          const position = plane.geometry.attributes.position;
+          animate(({ time }) => {
+            for (let i = 0; i < position.count; i++) {
+              const x = position.getX(i);
+              const y = position.getY(i);
+              position.setZ(i, Math.sin(time + x * 1) * 0.4);
+            }
+            position.needsUpdate = true;
+          });
+          return () => {
+            destroy();
+          };
+        }}
+      />
+
       <h3>VRMモデルのボーン</h3>
       <p>
         VRMモデルには、人間の骨格に対応したボーンがあります。
