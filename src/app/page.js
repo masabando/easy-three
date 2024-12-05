@@ -24,7 +24,12 @@ export default function Page() {
           <title>Home | easy-three</title>
           <h1 className="headTitle mt-5 mb-4">easy-three</h1>
           <div className="text-center mb-4">
-            <Tag color="blue">v{currentVersion}</Tag>
+            <div>
+              <Tag color="blue">v{currentVersion}</Tag>
+            </div>
+            <div className="mt-2">
+              <img alt="jsDelivr monthly hits badge" src="https://data.jsdelivr.com/v1/package/gh/masabando/easy-three/badge" />
+            </div>
           </div>
           <div className="headMessage">
             <T>
@@ -41,7 +46,7 @@ export default function Page() {
             </T>
           </div>
 
-          <div className="text-center my-5">
+          <div className="text-center mt-5 mb-3">
             <Button
               variant="primary"
               size="lg"
@@ -63,6 +68,19 @@ export default function Page() {
               <T>
                 <>Reference</>
                 <>ドキュメント</>
+              </T>
+            </Button>
+          </div>
+          <div className="text-center mb-5">
+            <Button
+              variant="primary"
+              className="mt-1"
+              as={Link}
+              href="/classroom"
+            >
+              <T>
+                <>Educational Use Cases</>
+                <>教育機関向け活用例</>
               </T>
             </Button>
           </div>
@@ -186,13 +204,13 @@ export default function Page() {
               </p>
               <CodeBlock>
                 {`const { camera, create, animate } = init()
-camera.position.set(5, 5, 5);
+camera.position.set(1, 1, 1)
 create.ambientLight()
 create.directionalLight()
-const cube = create.cube({ size: 6 })
-animate(({ clock }) => {
-  cube.rotation.x = clock.getElapsedTime()
-  cube.rotation.y = clock.getElapsedTime()
+const cube = create.cube({ rounded: true, segments: 7 })
+animate(({ time }) => {
+  cube.rotation.x = time
+  cube.rotation.y = time
 })
 `}
               </CodeBlock>
@@ -233,25 +251,32 @@ animate(({ clock }) => {
               </p>
               <CodeBlock>
                 {`const { camera, create, animate, controls, helper, load } = init();
-
-controls.connect()
 controls.autoRotate = true
 camera.position.set(0, 2, -2)
 controls.target.set(0, 1, 0)
 create.ambientLight()
 create.directionalLight({ intensity: 2, position: [10, 10, -10] })
-helper.axes();
-helper.grid();
-const cube = create.cube({ size: 0.5, position: [1, 1, 0] })
-let model;
-load.vrm("./model/sample.vrm").then(m => {
+helper.axes()
+helper.grid()
+
+const cube = create.cube({
+  size: 0.5,
+  position: [1, 1, 0],
+  rounded: true,
+  segments: 7,
+})
+
+let model
+load.vrm("./model/sample.vrm").then((m) => {
   model = m
 })
-animate(({ clock, delta }) => {
+
+animate(({ time, delta }) => {
   cube.rotation.y += delta
   cube.rotation.x += delta
   if (model) {
-    model.humanoid.getNormalizedBoneNode("leftUpperArm").rotation.z = Math.sin(clock.getElapsedTime()) * Math.PI * 0.25
+    model.bone("leftUpperArm").rotation.z =
+      Math.sin(time) * Math.PI * 0.25
     model.update(delta)
   }
 })
@@ -288,9 +313,9 @@ animate(({ clock, delta }) => {
     create.ambientLight()
     create.directionalLight()
     const cube = create.cube({ size: 3 })
-    animate(({ clock }) => {
-      cube.rotation.x = clock.getElapsedTime()
-      cube.rotation.y = clock.getElapsedTime()
+    animate(({ time }) => {
+      cube.rotation.x = time
+      cube.rotation.y = time
     })
     return () => {
       destroy()
@@ -370,7 +395,7 @@ create.directionalLight()
 const cube = create.cube()
 
 // animation
-animate(({delta}) => {
+animate(({ delta }) => {
   cube.rotation.x += delta
   cube.rotation.y += delta
 })`}

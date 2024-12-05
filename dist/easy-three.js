@@ -35,6 +35,9 @@ export function init(targetName) {
   const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true })
   renderer.shadowMap.enabled = true
   renderer.setPixelRatio(window.devicePixelRatio)
+  //renderer.outputEncoding = THREE.sRGBEncoding;
+  renderer.toneMapping = THREE.ACESFilmicToneMapping;
+
 
   const controls = new OrbitControls(camera, renderer.domElement)
   controls.enableDamping = true
@@ -296,6 +299,7 @@ export function init(targetName) {
       model.scene.position.set(...position);
       model.scene.rotation.set(...rotation);
       model.scene.scale.set(...scale);
+      model.bone = (name) => model.humanoid.getNormalizedBoneNode(name);
       if (autoAdd) scene.add(model.scene);
       return model;
     },
