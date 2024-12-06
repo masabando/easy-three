@@ -81,17 +81,18 @@ export default function Page() {
         <ListGroup.Item action as={Link} href="/classroom/basics/part6">
           6. アニメーションと物理
         </ListGroup.Item>
+        <ListGroup.Item action as={Link} href="/classroom/basics/part7">
+          7. 3Dオブジェクトのグループ化
+        </ListGroup.Item>
       </ListGroup>
 
       <h3 className="mt-5">学習内容 (応用編)</h3>
       <ListGroup style={{ maxWidth: "500px" }}>
-        <ListGroup.Item action as={Link} href="/classroom/">
-          1. 3Dオブジェクトのグループ化{" "}
-          <Tag color="red">準備中</Tag>
+        <ListGroup.Item action as={Link} href="/classroom/advanced/part1">
+          1. 背景画像の利用と環境マップ
         </ListGroup.Item>
-        <ListGroup.Item action as={Link} href="/classroom/">
-          2. 背景画像の利用と環境マップ{" "}
-          <Tag color="red">準備中</Tag>
+        <ListGroup.Item action as={Link} href="/classroom/advanced/part2">
+          2. テクスチャの利用
         </ListGroup.Item>
         <ListGroup.Item action as={Link} href="/classroom/">
           3. GLTFモデルの利用 <Tag color="red">準備中</Tag>
