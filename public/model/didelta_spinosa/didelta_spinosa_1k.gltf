@@ -1,0 +1,314 @@
+{
+  "asset": {
+    "generator": "Khronos glTF Blender I/O v4.2.70",
+    "version": "2.0"
+  },
+  "scene": 0,
+  "scenes": [
+    {
+      "name": "Scene",
+      "nodes": [
+        0,
+        1,
+        2
+      ]
+    }
+  ],
+  "nodes": [
+    {
+      "mesh": 0,
+      "name": "didelta_spinosa_large_LOD0"
+    },
+    {
+      "mesh": 1,
+      "name": "didelta_spinosa_medium_LOD0"
+    },
+    {
+      "mesh": 2,
+      "name": "didelta_spinosa_small_LOD0"
+    }
+  ],
+  "materials": [
+    {
+      "doubleSided": true,
+      "name": "didelta_spinosa",
+      "normalTexture": {
+        "index": 0
+      },
+      "pbrMetallicRoughness": {
+        "baseColorTexture": {
+          "index": 1
+        },
+        "metallicFactor": 0,
+        "metallicRoughnessTexture": {
+          "index": 2
+        }
+      }
+    }
+  ],
+  "meshes": [
+    {
+      "name": "Icosphere.007",
+      "primitives": [
+        {
+          "attributes": {
+            "POSITION": 0,
+            "NORMAL": 1,
+            "TEXCOORD_0": 2
+          },
+          "indices": 3,
+          "material": 0
+        }
+      ]
+    },
+    {
+      "name": "Icosphere.024",
+      "primitives": [
+        {
+          "attributes": {
+            "POSITION": 4,
+            "NORMAL": 5,
+            "TEXCOORD_0": 6
+          },
+          "indices": 7,
+          "material": 0
+        }
+      ]
+    },
+    {
+      "name": "Icosphere.023",
+      "primitives": [
+        {
+          "attributes": {
+            "POSITION": 8,
+            "NORMAL": 9,
+            "TEXCOORD_0": 10
+          },
+          "indices": 11,
+          "material": 0
+        }
+      ]
+    }
+  ],
+  "textures": [
+    {
+      "sampler": 0,
+      "source": 0
+    },
+    {
+      "sampler": 0,
+      "source": 1
+    },
+    {
+      "sampler": 0,
+      "source": 2
+    }
+  ],
+  "images": [
+    {
+      "mimeType": "image/jpeg",
+      "name": "didelta_spinosa_nor_gl",
+      "uri": "textures/didelta_spinosa_nor_gl_1k.jpg"
+    },
+    {
+      "mimeType": "image/jpeg",
+      "name": "didelta_spinosa_diff",
+      "uri": "textures/didelta_spinosa_diff_1k.jpg"
+    },
+    {
+      "mimeType": "image/jpeg",
+      "name": "didelta_spinosa_rough",
+      "uri": "textures/didelta_spinosa_arm_1k.jpg"
+    }
+  ],
+  "accessors": [
+    {
+      "bufferView": 0,
+      "componentType": 5126,
+      "count": 154841,
+      "max": [
+        0.8972653150558472,
+        1.9721537828445435,
+        -0.8327707052230835
+      ],
+      "min": [
+        -1.225670576095581,
+        -0.10013766586780548,
+        -2.6929798126220703
+      ],
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 1,
+      "componentType": 5126,
+      "count": 154841,
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 2,
+      "componentType": 5126,
+      "count": 154841,
+      "type": "VEC2"
+    },
+    {
+      "bufferView": 3,
+      "componentType": 5125,
+      "count": 703656,
+      "type": "SCALAR"
+    },
+    {
+      "bufferView": 4,
+      "componentType": 5126,
+      "count": 96179,
+      "max": [
+        0.5597487688064575,
+        1.2049150466918945,
+        0.7656465172767639
+      ],
+      "min": [
+        -0.7142535448074341,
+        -0.09610245376825333,
+        -0.806404173374176
+      ],
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 5,
+      "componentType": 5126,
+      "count": 96179,
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 6,
+      "componentType": 5126,
+      "count": 96179,
+      "type": "VEC2"
+    },
+    {
+      "bufferView": 7,
+      "componentType": 5125,
+      "count": 431241,
+      "type": "SCALAR"
+    },
+    {
+      "bufferView": 8,
+      "componentType": 5126,
+      "count": 26503,
+      "max": [
+        0.3370351791381836,
+        0.8465679287910461,
+        1.8699182271957397
+      ],
+      "min": [
+        -0.4819674789905548,
+        -0.08885807543992996,
+        0.8127429485321045
+      ],
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 9,
+      "componentType": 5126,
+      "count": 26503,
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 10,
+      "componentType": 5126,
+      "count": 26503,
+      "type": "VEC2"
+    },
+    {
+      "bufferView": 11,
+      "componentType": 5123,
+      "count": 116664,
+      "type": "SCALAR"
+    }
+  ],
+  "bufferViews": [
+    {
+      "buffer": 0,
+      "byteLength": 1858092,
+      "byteOffset": 0,
+      "target": 34962
+    },
+    {
+      "buffer": 0,
+      "byteLength": 1858092,
+      "byteOffset": 1858092,
+      "target": 34962
+    },
+    {
+      "buffer": 0,
+      "byteLength": 1238728,
+      "byteOffset": 3716184,
+      "target": 34962
+    },
+    {
+      "buffer": 0,
+      "byteLength": 2814624,
+      "byteOffset": 4954912,
+      "target": 34963
+    },
+    {
+      "buffer": 0,
+      "byteLength": 1154148,
+      "byteOffset": 7769536,
+      "target": 34962
+    },
+    {
+      "buffer": 0,
+      "byteLength": 1154148,
+      "byteOffset": 8923684,
+      "target": 34962
+    },
+    {
+      "buffer": 0,
+      "byteLength": 769432,
+      "byteOffset": 10077832,
+      "target": 34962
+    },
+    {
+      "buffer": 0,
+      "byteLength": 1724964,
+      "byteOffset": 10847264,
+      "target": 34963
+    },
+    {
+      "buffer": 0,
+      "byteLength": 318036,
+      "byteOffset": 12572228,
+      "target": 34962
+    },
+    {
+      "buffer": 0,
+      "byteLength": 318036,
+      "byteOffset": 12890264,
+      "target": 34962
+    },
+    {
+      "buffer": 0,
+      "byteLength": 212024,
+      "byteOffset": 13208300,
+      "target": 34962
+    },
+    {
+      "buffer": 0,
+      "byteLength": 233328,
+      "byteOffset": 13420324,
+      "target": 34963
+    }
+  ],
+  "samplers": [
+    {
+      "magFilter": 9729,
+      "minFilter": 9987
+    }
+  ],
+  "buffers": [
+    {
+      "byteLength": 13653652,
+      "uri": "didelta_spinosa.bin"
+    }
+  ]
+}

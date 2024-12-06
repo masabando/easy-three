@@ -94,7 +94,7 @@ export default function Page() {
         <ListGroup.Item action as={Link} href="/classroom/advanced/part2">
           2. テクスチャの利用
         </ListGroup.Item>
-        <ListGroup.Item action as={Link} href="/classroom/">
+        <ListGroup.Item action as={Link} href="/classroom/advanced/part3">
           3. GLTFモデルの利用 <Tag color="red">準備中</Tag>
         </ListGroup.Item>
         <ListGroup.Item action as={Link} href="/classroom/advanced/part4">
