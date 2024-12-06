@@ -78,11 +78,8 @@ export default function Page() {
         <ListGroup.Item action as={Link} href="/classroom/basics/part5">
           5. 様々なマテリアル
         </ListGroup.Item>
-        <ListGroup.Item action as={Link} href="/classroom/">
-          6. アニメーションと物理 <Tag color="red">準備中</Tag>
-        </ListGroup.Item>
-        <ListGroup.Item action as={Link} href="/classroom/">
-          7. シンプルな部屋の作成と弾むボール <Tag color="red">準備中</Tag>
+        <ListGroup.Item action as={Link} href="/classroom/basics/part6">
+          6. アニメーションと物理
         </ListGroup.Item>
       </ListGroup>
 
