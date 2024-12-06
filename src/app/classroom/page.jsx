@@ -104,11 +104,10 @@ export default function Page() {
           5. VRMモデルの操作とアニメーション <Tag color="red">準備中</Tag>
         </ListGroup.Item>
         <ListGroup.Item action as={Link} href="/classroom/">
-          6. 面の変形 <Tag color="red">準備中</Tag>
+          6. イベントの利用 <Tag color="red">準備中</Tag>
         </ListGroup.Item>
         <ListGroup.Item action as={Link} href="/classroom/">
-          7. パーティクルシステムによる特殊効果の作成{" "}
-          <Tag color="red">準備中</Tag>
+          7. 面の変形 <Tag color="red">準備中</Tag>
         </ListGroup.Item>
       </ListGroup>
     </div>
