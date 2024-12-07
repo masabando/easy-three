@@ -8,14 +8,15 @@ import { Link } from "@/components/BaseKit";
 import T, { LangSwitcher } from "./Lang";
 import { useState } from "react";
 import { IoMenuOutline } from "react-icons/io5";
+import { Anchor } from "react-bootstrap";
 
 export default function Navbar() {
   const [show, setShow] = useState(false);
-  function NavLink({ to, children }) {
+  function NavLink({ to, as=Link, children }) {
     return (
       <Nav.Link
         className="my-1"
-        as={Link}
+        as={as}
         href={to}
         onClick={() => {
           setShow(false);
@@ -123,6 +124,12 @@ export default function Navbar() {
                   <>Educational Use Cases</>
                   <>教育機関向け活用例</>
                 </T>
+              </NavLink>
+              <NavLink
+                as={Anchor}
+                to="https://github.com/masabando/easy-three"
+              >
+                GitHub
               </NavLink>
             </Nav>
             {/* </RBNavbar.Collapse> */}
