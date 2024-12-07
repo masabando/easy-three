@@ -11,7 +11,7 @@
       "three": "https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.js",
       "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.170.0/examples/jsm/",
       "@pixiv/three-vrm": "https://cdn.jsdelivr.net/npm/@pixiv/three-vrm@3/lib/three-vrm.module.min.js",
-      "easy-three": "https://cdn.jsdelivr.net/gh/masabando/easy-three@0.0.13/dist/easy-three.js"
+      "easy-three": "https://cdn.jsdelivr.net/gh/masabando/easy-three@0.0.21/dist/easy-three.js"
     }
   }
   </script>
@@ -19,17 +19,18 @@
 
 <body>
   <script type="module">
-    //import { init } from "../dist/easy-three.js";
     import { init } from "easy-three";
-    const { camera, create, controls, animate } = init()
-    camera.position.set(-2, 2, 2)
+    const { camera, create, controls, animate, load } = init()
+    camera.position.set(0, 2, -2)
+    controls.target.set(0, 1, 0)
     create.ambientLight()
     create.directionalLight()
-    const cube = create.sphere({ segments: 4 })
     controls.connect()
-    animate(({delta}) => {
-      cube.rotation.x += delta
-      cube.rotation.y += delta
+    const model = await load.vrm("sample.vrm")
+    animate(({ delta, time }) => {
+      model.bone("rightUpperArm").rotation.z += delta
+      model.scene.rotation.y += delta
+      model.update(delta);
     })
   </script>
 </body>

@@ -100,14 +100,14 @@ export default function Page() {
         <ListGroup.Item action as={Link} href="/classroom/advanced/part4">
           4. VRMモデルを用いたアバターの表示
         </ListGroup.Item>
-        <ListGroup.Item action as={Link} href="/classroom/">
-          5. VRMモデルの操作とアニメーション <Tag color="red">準備中</Tag>
+        <ListGroup.Item action as={Link} href="/classroom/advanced/part5">
+          5. VRMモデルの操作とアニメーション
+        </ListGroup.Item>
+        <ListGroup.Item action as={Link} href="/classroom/advanced/part6">
+          6. 面の変形
         </ListGroup.Item>
         <ListGroup.Item action as={Link} href="/classroom/">
-          6. イベントの利用 <Tag color="red">準備中</Tag>
-        </ListGroup.Item>
-        <ListGroup.Item action as={Link} href="/classroom/">
-          7. 面の変形 <Tag color="red">準備中</Tag>
+          7. イベントの利用 <Tag color="red">準備中</Tag>
         </ListGroup.Item>
       </ListGroup>
     </div>
