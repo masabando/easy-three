@@ -125,10 +125,13 @@ export default function Navbar() {
                   <>教育機関向け活用例</>
                 </T>
               </NavLink>
-              <NavLink
-                as={Anchor}
-                to="https://github.com/masabando/easy-three"
-              >
+              <NavLink to="/tool">
+                <T>
+                  <>Tools</>
+                  <>ツール</>
+                </T>
+              </NavLink>
+              <NavLink as={Anchor} to="https://github.com/masabando/easy-three">
                 GitHub
               </NavLink>
             </Nav>

@@ -1,0 +1,48 @@
+.MCContainer {
+  position: relative;
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.MCMain {
+  position: relative;
+  width: 100%;
+  max-width: 800px;
+  aspect-ratio: 1 / 1;
+}
+
+.MCGUI {
+  font-family: "Noto Sans JP", sans-serif;
+
+  // position: static;
+  // width: 100%;
+  // @media screen and (min-width: 800px) {
+  //   position: absolute;
+  //   top: 0;
+  //   left: 0;
+  //   width: 100%;
+  //   display: flex;
+  //   justify-content: end;
+  // }
+}
+
+.MCNote {
+  text-align: center;
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  display: flex;
+  visibility: hidden;
+  pointer-events: none;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  font-weight: bold;
+  font-size: 130%;
+  background: rgba(100, 140, 255, 0.2);
+}

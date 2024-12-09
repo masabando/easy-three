@@ -11,6 +11,7 @@
   "dependencies": {
     "@ant-design/nextjs-registry": "^1.0.2",
     "@pixiv/three-vrm": "^3.2.0",
+    "@pixiv/three-vrm-animation": "^3.3.0",
     "antd": "^5.22.3",
     "better-react-mathjax": "^2.0.4-beta1",
     "bootstrap": "^5.3.3",

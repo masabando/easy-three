@@ -111,8 +111,22 @@ ul, ol {
 }
 
 .lil-gui {
-  position: absolute;
-  top: 0;
-  right: 0;
-  z-index: 1000;
+  font-family: 'Noto Sans JP', sans-serif;
+  .title, button {
+    font-family: 'Noto Sans JP', sans-serif;
+  }
+}
+
+.lil-gui {
+  &.root > .children > .lil-gui > .title {
+    background: #777;
+    padding-left: var(--padding);
+    color: var(--number-color);
+  }
+  .children {
+    .title {
+      background: #444;
+      padding-left: 1.5em;
+    }
+  }
 }
