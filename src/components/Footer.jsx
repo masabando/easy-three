@@ -53,6 +53,18 @@ export default function Footer() {
                   <>ドキュメント</>
                 </T>
               </FooterLink>
+              <FooterLink to="/classroom">
+                <T>
+                  <>Educational Use Cases</>
+                  <>教育機関向け活用例</>
+                </T>
+              </FooterLink>
+              <FooterLink to="/tool">
+                <T>
+                  <>Tools</>
+                  <>ツール</>
+                </T>
+              </FooterLink>
             </Nav>
           </div>
           <div className="w-100">
