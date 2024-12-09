@@ -35,6 +35,7 @@ export default function RootLayout({ children }) {
           content="https://masabando.github.io/easy-three/easy-three.png"
         />
         <title>easy-three</title>
+        <meta name="google-site-verification" content="iQGhuU5kkC7bB-ZirajQdV8C5IaySFzn12_FnAAAjyM" />
       </head>
 
       <body className={noto.className}>
