@@ -84,8 +84,10 @@ export default function Page() {
           create.directionalLight();
           create.cube();
           animate();
-          return () => {
-            destroy();
+          return {
+            destroy: () => {
+              destroy();
+            }
           };
         }}
       />
@@ -202,8 +204,10 @@ animate()
           create.directionalLight();
           create.cube();
           animate();
-          return () => {
-            destroy();
+          return {
+            destroy: () => {
+              destroy();
+            },
           };
         }}
       />
@@ -268,8 +272,10 @@ animate()
           });
           create.cube();
           animate();
-          return () => {
-            destroy();
+          return {
+            destroy: () => {
+              destroy();
+            },
           };
         }}
       />
@@ -369,8 +375,10 @@ animate()
             option: { color: "blue" },
           });
           animate();
-          return () => {
-            destroy();
+          return {
+            destroy: () => {
+              destroy();
+            },
           };
         }}
       />

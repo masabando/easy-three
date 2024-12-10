@@ -34,8 +34,16 @@ export function Note({ children }) {
 export function EasyThreeBox({ effect, toggleControls = false }) {
   const ref = useRef();
   const [mouseControl, setMouseControl] = useState(false);
+  const controlsRef = useRef();
   useEffect(() => {
-    return effect(ref.current, mouseControl);
+    const { destroy, controls } = effect(ref.current);
+    controlsRef.current = controls;
+    return destroy;
+  }, []);
+  useEffect(() => {
+    if (controlsRef.current) {
+      controlsRef.current(mouseControl);
+    }
   }, [mouseControl]);
   return (
     <div

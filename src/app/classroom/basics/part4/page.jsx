@@ -38,7 +38,7 @@ animate()
       </CodeBlock>
       <EasyThreeBox
         toggleControls
-        effect={(r, controlsFlag) => {
+        effect={(r) => {
           const {
             camera,
             create,
@@ -49,7 +49,6 @@ animate()
             color,
             destroy,
           } = init(r);
-          if (controlsFlag) controls.connect();
           helper.grid();
           helper.axes();
           camera.position.set(-2, 2, 2);
@@ -58,8 +57,14 @@ animate()
           create.cube();
           scene.background = color("black");
           animate();
-          return () => {
-            destroy();
+          return {
+            destroy: () => {
+              destroy();
+            },
+            controls: (f) => {
+              if (f) controls.connect();
+              else controls.disconnect();
+            }
           };
         }}
       />
@@ -110,10 +115,9 @@ animate(({ delta }) => {
       </CodeBlock>
       <EasyThreeBox
         toggleControls
-        effect={(r, controlsFlag) => {
+        effect={(r) => {
           const { camera, create, animate, controls, helper, destroy } =
             init(r);
-          if (controlsFlag) controls.connect();
           helper.grid();
           helper.axes();
           camera.position.set(-2, 2, 2);
@@ -123,8 +127,14 @@ animate(({ delta }) => {
           animate(({ delta }) => {
             cube.rotation.x += delta;
           });
-          return () => {
-            destroy();
+          return {
+            destroy: () => {
+              destroy();
+            },
+            controls: (f) => {
+              if (f) controls.connect();
+              else controls.disconnect();
+            },
           };
         }}
       />
@@ -154,10 +164,9 @@ animate(({ delta, time }) => {
       </CodeBlock>
       <EasyThreeBox
         toggleControls
-        effect={(r, controlsFlag) => {
+        effect={(r) => {
           const { camera, create, animate, controls, helper, destroy } =
             init(r);
-          if (controlsFlag) controls.connect();
           helper.grid();
           helper.axes();
           camera.position.set(-2, 2, 2);
@@ -169,8 +178,14 @@ animate(({ delta, time }) => {
             cube.rotation.y += delta;
             cube.position.set(0, 0, Math.sin(time) * 2);
           });
-          return () => {
-            destroy();
+          return {
+            destroy: () => {
+              destroy();
+            },
+            controls: (f) => {
+              if (f) controls.connect();
+              else controls.disconnect();
+            },
           };
         }}
       />
