@@ -73,9 +73,8 @@ animate()
       </CodeBlock>
       <EasyThreeBox
         toggleControls
-        effect={(r, controlsFlag) => {
+        effect={(r) => {
           const { camera, create, animate, controls, load, destroy } = init(r);
-          if (controlsFlag) controls.connect();
           camera.position.set(0, 1, 2);
           controls.autoRotate = true;
           create.ambientLight();
@@ -87,8 +86,14 @@ animate()
             "/easy-three/model/didelta_spinosa/didelta_spinosa_1k.gltf"
           );
           animate();
-          return () => {
-            destroy();
+          return {
+            destroy: () => {
+              destroy();
+            },
+            controls: (f) => {
+              if (f) controls.connect();
+              else controls.disconnect();
+            },
           };
         }}
       />
@@ -105,9 +110,8 @@ animate()
       </p>
       <EasyThreeBox
         toggleControls
-        effect={(r, controlsFlag) => {
+        effect={(r) => {
           const { camera, create, animate, controls, load, destroy } = init(r);
-          if (controlsFlag) controls.connect();
           camera.position.set(0, 1, 2);
           controls.autoRotate = true;
           create.ambientLight();
@@ -134,8 +138,14 @@ animate()
             },
           });
           animate();
-          return () => {
-            destroy();
+          return {
+            destroy: () => {
+              destroy();
+            },
+            controls: (f) => {
+              if (f) controls.connect();
+              else controls.disconnect();
+            },
           };
         }}
       />

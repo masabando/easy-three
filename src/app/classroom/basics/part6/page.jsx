@@ -3,60 +3,70 @@ import { EasyThreeBox, Note } from "@/components/BaseKit";
 import CodeBlock from "@/components/CodeBlock";
 import { init } from "@dist/easy-three";
 import { MathJax, MathJaxContext } from "better-react-mathjax";
+import { Suspense } from "react";
 
+function MJC({ children }) {
+  return (
+    <MathJaxContext
+      version={2}
+      config={{
+        messageStyle: "none",
+        "fast-preview": {
+          disabled: true,
+        },
+        tex2jax: {
+          inlineMath: [
+            ["$", "$"],
+            ["\\(", "\\)"],
+          ],
+          displayMath: [
+            ["$$", "$$"],
+            ["\\[", "\\]"],
+          ],
+        },
+      }}
+    >
+      {children}
+    </MathJaxContext>
+  )
+}
 export default function Page() {
   return (
     <div className="classroomPart">
-      <MathJaxContext
-        version={2}
-        config={{
-          messageStyle: "none",
-          "fast-preview": {
-            disabled: true,
-          },
-          tex2jax: {
-            inlineMath: [
-              ["$", "$"],
-              ["\\(", "\\)"],
-            ],
-            displayMath: [
-              ["$$", "$$"],
-              ["\\[", "\\]"],
-            ],
-          },
-        }}
-      >
+      <Suspense fallback={null}>
         <h2>6. アニメーションと物理</h2>
         <p>
           このセクションでは、物理法則を使ってリアルなアニメーションを作成する基礎を学びます。
         </p>
 
         <h3>等速直線運動</h3>
-        <p>
-          <Note>等速直線運動とは、一定の速度で直線的に移動する運動のこと</Note>
-          です。
-        </p>
-        <p>
-          速さとは、<MathJax inline>{"$1$"}</MathJax>{" "}
-          の時間で進む距離のことです。
-          <br />
-          通常、物理では <MathJax inline>{"$m/s$"}</MathJax>{" "}
-          が速さの単位として使われますが、これは
-          <Note>
-            <MathJax inline>{"$1$"}</MathJax> 秒間に進む距離(メートル)のこと
-          </Note>
-          です。
-        </p>
-        <p>
-          つまり、 経過時間を <MathJax inline>{"$t$"}</MathJax> 、速度を{" "}
-          <MathJax inline>{"$v$"}</MathJax> とすると、 進む距離{" "}
-          <MathJax inline>{"$x$"}</MathJax> は次のように表されます。
-        </p>
-        <MathJax>{`\\[x = v t\\]`}</MathJax>
-        <p>
-          <code>animate</code> 関数内では、 前フレームからの経過時時間{" "}
-          <code>delta</code>、 現在の時間 <code>time</code> が取得できます。
-        </p>
+        <MJC>
+          <p>
+            <Note>等速直線運動とは、一定の速度で直線的に移動する運動のこと</Note>
+            です。
+          </p>
+          <p>
+            速さとは、<MathJax inline>{"$1$"}</MathJax>{" "}
+            の時間で進む距離のことです。
+            <br />
+            通常、物理では <MathJax inline>{"$m/s$"}</MathJax>{" "}
+            が速さの単位として使われますが、これは
+            <Note>
+              <MathJax inline>{"$1$"}</MathJax> 秒間に進む距離(メートル)のこと
+            </Note>
+            です。
+          </p>
+          <p>
+            つまり、 経過時間を <MathJax inline>{"$t$"}</MathJax> 、速度を{" "}
+            <MathJax inline>{"$v$"}</MathJax> とすると、 進む距離{" "}
+            <MathJax inline>{"$x$"}</MathJax> は次のように表されます。
+          </p>
+          <MathJax>{`\\[x = v t\\]`}</MathJax>
+          <p>
+            <code>animate</code> 関数内では、 前フレームからの経過時時間{" "}
+            <code>delta</code>、 現在の時間 <code>time</code> が取得できます。
+          </p>
+        </MJC>
         <CodeBlock>
           {`animate(({ time, delta }) => {
   // ここで、
@@ -65,12 +75,14 @@ export default function Page() {
   // を使える
 })`}
         </CodeBlock>
-        <p>
-          つまり、1秒間に3メートル進む <MathJax inline>{"$3m/s$"}</MathJax>{" "}
-          の物体を作るには、次のように記述します。
-          <br />
-          (ここでは、3D空間の距離1を1mとしています)
-        </p>
+        <MJC>
+          <p>
+            つまり、1秒間に3メートル進む <MathJax inline>{"$3m/s$"}</MathJax>{" "}
+            の物体を作るには、次のように記述します。
+            <br />
+            (ここでは、3D空間の距離1を1mとしています)
+          </p>
+        </MJC>
         <CodeBlock>{`const { camera, create, helper, animate } = init();
 
 helper.grid()
@@ -88,10 +100,9 @@ animate(({ delta }) => {
 })`}</CodeBlock>
         <EasyThreeBox
           toggleControls
-          effect={(r, controlsFlag) => {
+          effect={(r) => {
             const { camera, create, animate, helper, controls, destroy } =
               init(r);
-            if (controlsFlag) controls.connect();
             helper.grid();
             helper.axes();
             create.ambientLight();
@@ -105,47 +116,55 @@ animate(({ delta }) => {
                 cube.position.x = -3;
               }
             });
-            return () => {
-              destroy();
+            return {
+              destroy: () => {
+                destroy();
+              },
+              controls: (f) => {
+                if (f) controls.connect();
+                else controls.disconnect();
+              },
             };
           }}
         />
 
         <h3>等加速直線運動</h3>
-        <p>
-          <Note>
-            等加速直線運動とは、一定の加速度で直線的に移動する運動のこと
-          </Note>
-          です。
-        </p>
+        <MJC>
+          <p>
+            <Note>
+              等加速直線運動とは、一定の加速度で直線的に移動する運動のこと
+            </Note>
+            です。
+          </p>
 
-        <p>
-          加速度とは、<MathJax inline>{"$1$"}</MathJax>{" "}
-          の時間で速度が変化する量のことです。
-          <br />
-          通常、物理では <MathJax inline>{"$m/s^2$"}</MathJax>{" "}
-          が速さの単位として使われますが、これは
-          <Note>
-            <MathJax inline>{"$1$"}</MathJax> 秒間に増える速さのこと
-          </Note>
-          です。
-        </p>
-        <p>
-          つまり、 経過時間を <MathJax inline>{"$t$"}</MathJax> 、 加速度を{" "}
-          <MathJax inline>{"$a$"}</MathJax> 、 はじめの速さを{" "}
-          <MathJax inline>{"$v_0$"}</MathJax> とすると、 速さ{" "}
-          <MathJax inline>{"$v$"}</MathJax> と進む距離{" "}
-          <MathJax inline>{"$x$"}</MathJax> は次のように表されます。
-        </p>
-        <MathJax>{`\\[v = v_0 + a t\\]`}</MathJax>
-        <MathJax>{`\\[x = v_0 t + \\displaystyle\\frac{1}{2}a t^2\\]`}</MathJax>
-        <p>
-          つまり、1秒間に3 <MathJax inline>{"$m/s$"}</MathJax> ずつ早くなる{" "}
-          <MathJax inline>{"$3m/s^2$"}</MathJax>{" "}
-          の物体を作るには、次のように記述します。
-          <br />
-          (ここでは、3D空間の距離1を1mとしています)
-        </p>
+          <p>
+            加速度とは、<MathJax inline>{"$1$"}</MathJax>{" "}
+            の時間で速度が変化する量のことです。
+            <br />
+            通常、物理では <MathJax inline>{"$m/s^2$"}</MathJax>{" "}
+            が速さの単位として使われますが、これは
+            <Note>
+              <MathJax inline>{"$1$"}</MathJax> 秒間に増える速さのこと
+            </Note>
+            です。
+          </p>
+          <p>
+            つまり、 経過時間を <MathJax inline>{"$t$"}</MathJax> 、 加速度を{" "}
+            <MathJax inline>{"$a$"}</MathJax> 、 はじめの速さを{" "}
+            <MathJax inline>{"$v_0$"}</MathJax> とすると、 速さ{" "}
+            <MathJax inline>{"$v$"}</MathJax> と進む距離{" "}
+            <MathJax inline>{"$x$"}</MathJax> は次のように表されます。
+          </p>
+          <MathJax>{`\\[v = v_0 + a t\\]`}</MathJax>
+          <MathJax>{`\\[x = v_0 t + \\displaystyle\\frac{1}{2}a t^2\\]`}</MathJax>
+          <p>
+            つまり、1秒間に3 <MathJax inline>{"$m/s$"}</MathJax> ずつ早くなる{" "}
+            <MathJax inline>{"$3m/s^2$"}</MathJax>{" "}
+            の物体を作るには、次のように記述します。
+            <br />
+            (ここでは、3D空間の距離1を1mとしています)
+          </p>
+        </MJC>
         <CodeBlock>{`const { camera, create, helper, animate } = init();
 
 helper.grid()
@@ -165,10 +184,9 @@ animate(({ delta }) => {
 })`}</CodeBlock>
         <EasyThreeBox
           toggleControls
-          effect={(r, controlsFlag) => {
+          effect={(r) => {
             const { camera, create, animate, helper, controls, destroy } =
               init(r);
-            if (controlsFlag) controls.connect();
             helper.grid();
             helper.axes();
             create.ambientLight();
@@ -185,8 +203,14 @@ animate(({ delta }) => {
                 v = 0;
               }
             });
-            return () => {
-              destroy();
+            return {
+              destroy: () => {
+                destroy();
+              },
+              controls: (f) => {
+                if (f) controls.connect();
+                else controls.disconnect();
+              },
             };
           }}
         />
@@ -198,18 +222,20 @@ animate(({ delta }) => {
         </p>
 
         <h3>鉛直投げ上げ</h3>
-        <p>
-          <Note>
-            鉛直投げ上げとは、上方に投げ上げた物体が地面に落ちるまでの運動のこと
-          </Note>
-          です。
-        </p>
-        <p>
-          地球上の物体は、重力によって下方向に{" "}
-          <MathJax inline>{"$9.8m/s^2$"}</MathJax> 加速されます。
-          <br />
-          これを考慮すると、鉛直投げ上げのプログラムは次のようになります。
-        </p>
+        <MJC>
+          <p>
+            <Note>
+              鉛直投げ上げとは、上方に投げ上げた物体が地面に落ちるまでの運動のこと
+            </Note>
+            です。
+          </p>
+          <p>
+            地球上の物体は、重力によって下方向に{" "}
+            <MathJax inline>{"$9.8m/s^2$"}</MathJax> 加速されます。
+            <br />
+            これを考慮すると、鉛直投げ上げのプログラムは次のようになります。
+          </p>
+        </MJC>
         <CodeBlock>{`const { camera, create, helper, animate } = init();
 
 helper.grid()
@@ -229,10 +255,9 @@ animate(({ delta }) => {
 })`}</CodeBlock>
         <EasyThreeBox
           toggleControls
-          effect={(r, controlsFlag) => {
+          effect={(r) => {
             const { camera, create, animate, helper, controls, destroy } =
               init(r);
-            if (controlsFlag) controls.connect();
             helper.grid();
             helper.axes();
             create.ambientLight();
@@ -249,8 +274,14 @@ animate(({ delta }) => {
                 v = 8;
               }
             });
-            return () => {
-              destroy();
+            return {
+              destroy: () => {
+                destroy();
+              },
+              controls: (f) => {
+                if (f) controls.connect();
+                else controls.disconnect();
+              },
             };
           }}
         />
@@ -289,10 +320,9 @@ animate(({ delta }) => {
 })`}</CodeBlock>
         <EasyThreeBox
           toggleControls
-          effect={(r, controlsFlag) => {
+          effect={(r) => {
             const { camera, create, animate, helper, controls, destroy } =
               init(r);
-            if (controlsFlag) controls.connect();
             helper.grid();
             helper.axes();
             create.ambientLight();
@@ -312,10 +342,16 @@ animate(({ delta }) => {
                   v = 8;
                 }
               }
-              return () => {
-                destroy();
-              };
             });
+            return {
+              destroy: () => {
+                destroy();
+              },
+              controls: (f) => {
+                if (f) controls.connect();
+                else controls.disconnect();
+              },
+            };
           }}
         />
         <p>地面にぶつかったとき、跳ね返るようにするには、次のようにします。</p>
@@ -343,10 +379,9 @@ animate(({ delta }) => {
 })`}</CodeBlock>
         <EasyThreeBox
           toggleControls
-          effect={(r, controlsFlag) => {
+          effect={(r) => {
             const { camera, create, animate, helper, controls, destroy } =
               init(r);
-            if (controlsFlag) controls.connect();
             helper.grid();
             helper.axes();
             create.ambientLight();
@@ -362,13 +397,19 @@ animate(({ delta }) => {
                 v = -v;
                 cube.position.y = 0.5;
               }
-              return () => {
-                destroy();
-              };
             });
+            return {
+              destroy: () => {
+                destroy();
+              },
+              controls: (f) => {
+                if (f) controls.connect();
+                else controls.disconnect();
+              },
+            };
           }}
         />
-      </MathJaxContext>
+      </Suspense>
     </div>
   );
 }

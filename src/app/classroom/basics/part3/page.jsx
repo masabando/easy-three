@@ -30,10 +30,9 @@ animate()
       </CodeBlock>
       <EasyThreeBox
         toggleControls
-        effect={(r, controlsFlag) => {
+        effect={(r) => {
           const { camera, create, animate, controls, helper, destroy } =
             init(r);
-          if (controlsFlag) controls.connect();
           helper.grid();
           helper.axes();
           camera.position.set(-2, 2, 2);
@@ -41,8 +40,14 @@ animate()
           create.directionalLight();
           create.sphere();
           animate();
-          return () => {
-            destroy();
+          return {
+            destroy: () => {
+              destroy();
+            },
+            controls: (f) => {
+              if (f) controls.connect();
+              else controls.disconnect();
+            }
           };
         }}
       />
@@ -71,10 +76,9 @@ animate()
       </CodeBlock>
       <EasyThreeBox
         toggleControls
-        effect={(r, controlsFlag) => {
+        effect={(r) => {
           const { camera, create, animate, controls, helper, destroy } =
             init(r);
-          if (controlsFlag) controls.connect();
           helper.grid();
           helper.axes();
           camera.position.set(-2, 2, 2);
@@ -88,8 +92,14 @@ animate()
             },
           });
           animate();
-          return () => {
-            destroy();
+          return {
+            destroy: () => {
+              destroy();
+            },
+            controls: (f) => {
+              if (f) controls.connect();
+              else controls.disconnect();
+            }
           };
         }}
       />
@@ -128,10 +138,9 @@ animate()
       </CodeBlock>
       <EasyThreeBox
         toggleControls
-        effect={(r, controlsFlag) => {
+        effect={(r) => {
           const { camera, create, animate, controls, helper, destroy } =
             init(r);
-          if (controlsFlag) controls.connect();
           helper.grid();
           helper.axes();
           camera.position.set(-2, 2, 2);
@@ -139,8 +148,14 @@ animate()
           create.directionalLight();
           create.sphere({ segments: [4, 2] });
           animate();
-          return () => {
-            destroy();
+          return {
+            destroy: () => {
+              destroy();
+            },
+            controls: (f) => {
+              if (f) controls.connect();
+              else controls.disconnect();
+            }
           };
         }}
       />
@@ -170,10 +185,9 @@ animate()
       </CodeBlock>
       <EasyThreeBox
         toggleControls
-        effect={(r, controlsFlag) => {
+        effect={(r) => {
           const { camera, create, animate, controls, helper, destroy } =
             init(r);
-          if (controlsFlag) controls.connect();
           helper.grid();
           helper.axes();
           camera.position.set(-2, 2, 2);
@@ -187,8 +201,14 @@ animate()
             },
           });
           animate();
-          return () => {
-            destroy();
+          return {
+            destroy: () => {
+              destroy();
+            },
+            controls: (f) => {
+              if (f) controls.connect();
+              else controls.disconnect();
+            }
           };
         }}
       />
@@ -213,10 +233,9 @@ animate()
       </CodeBlock>
       <EasyThreeBox
         toggleControls
-        effect={(r, controlsFlag) => {
+        effect={(r) => {
           const { camera, create, animate, controls, helper, destroy } =
             init(r);
-          if (controlsFlag) controls.connect();
           helper.grid();
           helper.axes();
           camera.position.set(-1, 1, 1);
@@ -224,8 +243,14 @@ animate()
           create.directionalLight();
           create.plane();
           animate();
-          return () => {
-            destroy();
+          return {
+            destroy: () => {
+              destroy();
+            },
+            controls: (f) => {
+              if (f) controls.connect();
+              else controls.disconnect();
+            }
           };
         }}
       />
@@ -258,10 +283,9 @@ animate()
       </CodeBlock>
       <EasyThreeBox
         toggleControls
-        effect={(r, controlsFlag) => {
+        effect={(r) => {
           const { camera, create, animate, controls, helper, destroy } =
             init(r);
-          if (controlsFlag) controls.connect();
           helper.grid();
           helper.axes();
           camera.position.set(-1, 1, 1);
@@ -275,8 +299,14 @@ animate()
             },
           });
           animate();
-          return () => {
-            destroy();
+          return {
+            destroy: () => {
+              destroy();
+            },
+            controls: (f) => {
+              if (f) controls.connect();
+              else controls.disconnect();
+            }
           };
         }}
       />
@@ -312,10 +342,9 @@ animate()
       </CodeBlock>
       <EasyThreeBox
         toggleControls
-        effect={(r, controlsFlag) => {
+        effect={(r) => {
           const { camera, create, animate, controls, helper, destroy } =
             init(r);
-          if (controlsFlag) controls.connect();
           helper.grid();
           helper.axes();
           camera.position.set(-1, 1, 1);
@@ -326,8 +355,14 @@ animate()
             rotation: [-Math.PI / 2, 0, 0],
           });
           animate();
-          return () => {
-            destroy();
+          return {
+            destroy: () => {
+              destroy();
+            },
+            controls: (f) => {
+              if (f) controls.connect();
+              else controls.disconnect();
+            }
           };
         }}
       />
@@ -364,9 +399,8 @@ animate()
       </CodeBlock>
       <EasyThreeBox
         toggleControls
-        effect={(r, controlsFlag) => {
+        effect={(r) => {
           const { camera, create, animate, controls, destroy } = init(r);
-          if (controlsFlag) controls.connect();
           camera.position.set(-1, 1, 1);
           create.ambientLight();
           create.directionalLight();
@@ -377,8 +411,14 @@ animate()
             radius: 0.1,
           });
           animate();
-          return () => {
-            destroy();
+          return {
+            destroy: () => {
+              destroy();
+            },
+            controls: (f) => {
+              if (f) controls.connect();
+              else controls.disconnect();
+            }
           };
         }}
       />
@@ -408,16 +448,21 @@ animate()
       </CodeBlock>
       <EasyThreeBox
         toggleControls
-        effect={(r, controlsFlag) => {
+        effect={(r) => {
           const { camera, create, animate, controls, destroy } = init(r);
-          if (controlsFlag) controls.connect();
           camera.position.set(0, -2, 3);
           create.ambientLight();
           create.directionalLight();
           create.torus({ tube: 0.3 });
           animate();
-          return () => {
-            destroy();
+          return {
+            destroy: () => {
+              destroy();
+            },
+            controls: (f) => {
+              if (f) controls.connect();
+              else controls.disconnect();
+            }
           };
         }}
       />
@@ -449,16 +494,21 @@ animate()
       </CodeBlock>
       <EasyThreeBox
         toggleControls
-        effect={(r, controlsFlag) => {
+        effect={(r) => {
           const { camera, create, animate, controls, destroy } = init(r);
-          if (controlsFlag) controls.connect();
           camera.position.set(0, -2, 3);
           create.ambientLight();
           create.directionalLight();
           create.torusKnot({ tube: 0.3 });
           animate();
-          return () => {
-            destroy();
+          return {
+            destroy: () => {
+              destroy();
+            },
+            controls: (f) => {
+              if (f) controls.connect();
+              else controls.disconnect();
+            }
           };
         }}
       />

@@ -56,10 +56,9 @@ animate(({ delta }) => {
       </CodeBlock>
       <EasyThreeBox
         toggleControls
-        effect={(r, controlsFlag) => {
+        effect={(r) => {
           const { camera, create, animate, controls, helper, destroy } =
             init(r);
-          if (controlsFlag) controls.connect();
           helper.grid();
           helper.axes();
           create.ambientLight();
@@ -80,8 +79,14 @@ animate(({ delta }) => {
             cube1.rotation.x += delta * 3;
             cube1.rotation.y += delta * 4;
           });
-          return () => {
-            destroy();
+          return {
+            destroy: () => {
+              destroy();
+            },
+            controls: (f) => {
+              if (f) controls.connect();
+              else controls.disconnect();
+            },
           };
         }}
       />
@@ -142,10 +147,9 @@ animate(({ delta }) => {
       </CodeBlock>
       <EasyThreeBox
         toggleControls
-        effect={(r, controlsFlag) => {
+        effect={(r) => {
           const { camera, create, animate, controls, helper, destroy } =
             init(r);
-          if (controlsFlag) controls.connect();
           helper.grid();
           helper.axes();
           create.ambientLight();
@@ -165,8 +169,14 @@ animate(({ delta }) => {
             group.children[0].rotation.x += delta * 3;
             group.children[0].rotation.y += delta * 4;
           });
-          return () => {
-            destroy();
+          return {
+            destroy: () => {
+              destroy();
+            },
+            controls: (f) => {
+              if (f) controls.connect();
+              else controls.disconnect();
+            },
           };
         }}
       />

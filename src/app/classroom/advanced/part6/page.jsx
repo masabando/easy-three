@@ -94,9 +94,8 @@ animate(({ time }) => {
       </CodeBlock>
       <EasyThreeBox
         toggleControls
-        effect={(r, controlsFlag) => {
+        effect={(r) => {
           const { camera, create, animate, controls, destroy } = init(r);
-          if (controlsFlag) controls.connect();
           camera.position.set(-6, 6, 6);
           create.ambientLight();
           create.directionalLight();
@@ -115,8 +114,14 @@ animate(({ time }) => {
             }
             position.needsUpdate = true;
           });
-          return () => {
-            destroy();
+          return {
+            destroy: () => {
+              destroy();
+            },
+            controls: (f) => {
+              if (f) controls.connect();
+              else controls.disconnect();
+            },
           };
         }}
       />
@@ -151,9 +156,8 @@ animate(({ time }) => {
       </CodeBlock>
       <EasyThreeBox
         toggleControls
-        effect={(r, controlsFlag) => {
+        effect={(r) => {
           const { camera, create, animate, controls, destroy } = init(r);
-          if (controlsFlag) controls.connect();
           camera.position.set(-6, 6, 6);
           create.ambientLight();
           create.directionalLight();
@@ -173,8 +177,14 @@ animate(({ time }) => {
             }
             position.needsUpdate = true;
           });
-          return () => {
-            destroy();
+          return {
+            destroy: () => {
+              destroy();
+            },
+            controls: (f) => {
+              if (f) controls.connect();
+              else controls.disconnect();
+            },
           };
         }}
       />
@@ -185,9 +195,8 @@ animate(({ time }) => {
 
       <EasyThreeBox
         toggleControls
-        effect={(r, controlsFlag) => {
+        effect={(r) => {
           const { camera, create, animate, controls, load, destroy, THREE } = init(r);
-          if (controlsFlag) controls.connect();
           camera.position.set(-6, 6, 6);
           create.ambientLight();
           create.directionalLight();
@@ -213,8 +222,14 @@ animate(({ time }) => {
             position.needsUpdate = true;
             plane.geometry.computeVertexNormals();
           });
-          return () => {
-            destroy();
+          return {
+            destroy: () => {
+              destroy();
+            },
+            controls: (f) => {
+              if (f) controls.connect();
+              else controls.disconnect();
+            },
           };
         }}
       />

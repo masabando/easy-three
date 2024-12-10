@@ -45,8 +45,10 @@ animate()
           create.directionalLight();
           create.cube();
           animate();
-          return () => {
-            destroy();
+          return {
+            destroy: () => {
+              destroy();
+            },
           };
         }}
       />
@@ -93,8 +95,10 @@ animate()
           create.directionalLight();
           create.cube();
           animate();
-          return () => {
-            destroy();
+          return {
+            destroy: () => {
+              destroy();
+            },
           };
         }}
       />
@@ -139,8 +143,10 @@ animate()
           create.directionalLight();
           create.cube();
           animate();
-          return () => {
-            destroy();
+          return {
+            destroy: () => {
+              destroy();
+            },
           };
         }}
       />

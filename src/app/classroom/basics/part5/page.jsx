@@ -97,10 +97,9 @@ animate(({ delta }) => {
       </CodeBlock>
       <EasyThreeBox
         toggleControls
-        effect={(r, controlsFlag) => {
+        effect={(r) => {
           const { camera, create, animate, controls, helper, destroy } =
             init(r);
-          if (controlsFlag) controls.connect();
           helper.grid();
           helper.axes();
           camera.position.set(0, 2, 2);
@@ -115,8 +114,14 @@ animate(({ delta }) => {
             basicCube.rotation.x += delta;
             basicCube.rotation.y += delta;
           });
-          return () => {
-            destroy();
+          return {
+            destroy: () => {
+              destroy();
+            },
+            controls: (f) => {
+              if (f) controls.connect();
+              else controls.disconnect();
+            },
           };
         }}
       />
@@ -144,10 +149,9 @@ animate(({ delta }) => {
       </CodeBlock>
       <EasyThreeBox
         toggleControls
-        effect={(r, controlsFlag) => {
+        effect={(r) => {
           const { camera, create, animate, controls, helper, destroy } =
             init(r);
-          if (controlsFlag) controls.connect();
           helper.grid();
           helper.axes();
           camera.position.set(0, 2, 2);
@@ -164,8 +168,14 @@ animate(({ delta }) => {
             basicCube.rotation.x += delta;
             basicCube.rotation.y += delta;
           });
-          return () => {
-            destroy();
+          return {
+            destroy: () => {
+              destroy();
+            },
+            controls: (f) => {
+              if (f) controls.connect();
+              else controls.disconnect();
+            },
           };
         }}
       />
@@ -223,10 +233,9 @@ animate()
       </CodeBlock>
       <EasyThreeBox
         toggleControls
-        effect={(r, controlsFlag) => {
+        effect={(r) => {
           const { camera, create, animate, controls, helper, destroy } =
             init(r);
-          if (controlsFlag) controls.connect();
           helper.grid();
           helper.axes();
           camera.position.set(0, 3, 3);
@@ -249,8 +258,14 @@ animate()
             },
           });
           animate();
-          return () => {
-            destroy();
+          return {
+            destroy: () => {
+              destroy();
+            },
+            controls: (f) => {
+              if (f) controls.connect();
+              else controls.disconnect();
+            },
           };
         }}
       />
@@ -283,10 +298,9 @@ animate()
       </CodeBlock>
       <EasyThreeBox
         toggleControls
-        effect={(r, controlsFlag) => {
+        effect={(r) => {
           const { camera, create, animate, controls, helper, destroy } =
             init(r);
-          if (controlsFlag) controls.connect();
           helper.grid();
           helper.axes();
           camera.position.set(0, 3, 3);
@@ -298,8 +312,14 @@ animate()
             position: [2, 0, 0],
           });
           animate();
-          return () => {
-            destroy();
+          return {
+            destroy: () => {
+              destroy();
+            },
+            controls: (f) => {
+              if (f) controls.connect();
+              else controls.disconnect();
+            },
           };
         }}
       />
@@ -375,10 +395,9 @@ animate()
       </CodeBlock>
       <EasyThreeBox
         toggleControls
-        effect={(r, controlsFlag) => {
+        effect={(r) => {
           const { camera, create, animate, controls, helper, destroy } =
             init(r);
-          if (controlsFlag) controls.connect();
           helper.grid();
           helper.axes();
           camera.position.set(0, 3, 3);
@@ -408,8 +427,14 @@ animate()
             },
           });
           animate();
-          return () => {
-            destroy();
+          return {
+            destroy: () => {
+              destroy();
+            },
+            controls: (f) => {
+              if (f) controls.connect();
+              else controls.disconnect();
+            },
           };
         }}
       />
@@ -452,9 +477,8 @@ animate(({ delta, time }) => {
       </CodeBlock>
       <EasyThreeBox
         toggleControls
-        effect={(r, controlsFlag) => {
+        effect={(r) => {
           const { camera, create, animate, controls, destroy } = init(r);
-          if (controlsFlag) controls.connect();
           camera.position.set(0, 0, 2.5);
           create.ambientLight();
           create.directionalLight();
@@ -472,8 +496,14 @@ animate(({ delta, time }) => {
             cube.rotation.y += delta;
             cube.position.set(Math.sin(time) * 2, 0, 0);
           });
-          return () => {
-            destroy();
+          return {
+            destroy: () => {
+              destroy();
+            },
+            controls: (f) => {
+              if (f) controls.connect();
+              else controls.disconnect();
+            },
           };
         }}
       />
@@ -512,9 +542,8 @@ animate(({ delta }) => {
       </CodeBlock>
       <EasyThreeBox
         toggleControls
-        effect={(r, controlsFlag) => {
+        effect={(r) => {
           const { camera, create, animate, controls, destroy } = init(r);
-          if (controlsFlag) controls.connect();
           camera.position.set(0, 0, 5);
           create.ambientLight();
           create.directionalLight();
@@ -532,8 +561,14 @@ animate(({ delta }) => {
             toonTorusKnot.rotation.x += delta;
             toonTorusKnot.rotation.y += delta;
           });
-          return () => {
-            destroy();
+          return {
+            destroy: () => {
+              destroy();
+            },
+            controls: (f) => {
+              if (f) controls.connect();
+              else controls.disconnect();
+            },
           };
         }}
       />
@@ -578,9 +613,8 @@ animate(({ delta }) => {
       </CodeBlock>
       <EasyThreeBox
         toggleControls
-        effect={(r, controlsFlag) => {
+        effect={(r) => {
           const { camera, create, animate, controls, destroy } = init(r);
-          if (controlsFlag) controls.connect();
           camera.position.set(0, 0, 3);
           create.ambientLight();
           create.directionalLight();
@@ -598,8 +632,14 @@ animate(({ delta }) => {
             normalCube.rotation.x += delta;
             normalCube.rotation.y += delta;
           });
-          return () => {
-            destroy();
+          return {
+            destroy: () => {
+              destroy();
+            },
+            controls: (f) => {
+              if (f) controls.connect();
+              else controls.disconnect();
+            },
           };
         }}
       />

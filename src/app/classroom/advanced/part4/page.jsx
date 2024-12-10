@@ -89,10 +89,9 @@ animate()
       </CodeBlock>
       <EasyThreeBox
         toggleControls
-        effect={(r, controlsFlag) => {
+        effect={(r) => {
           const { camera, create, animate, controls, load, helper, destroy } =
             init(r);
-          if (controlsFlag) controls.connect();
           camera.position.set(0, 1.3, -1.5);
           controls.target.set(0, 1, 0);
           helper.grid({ size: 10 });
@@ -114,8 +113,14 @@ animate()
           // );
           load.vrm("/easy-three/model/sample.vrm");
           animate();
-          return () => {
-            destroy();
+          return {
+            destroy: () => {
+              destroy();
+            },
+            controls: (f) => {
+              if (f) controls.connect();
+              else controls.disconnect();
+            },
           };
         }}
       />
@@ -129,9 +134,8 @@ animate()
       </p>
       <EasyThreeBox
         toggleControls
-        effect={(r, controlsFlag) => {
+        effect={(r) => {
           const { camera, create, animate, controls, load, destroy } = init(r);
-          if (controlsFlag) controls.connect();
           camera.position.set(0, 1.3, -1.5);
           controls.target.set(0, 1, 0);
           create.ambientLight({ intensity: 0.2 });
@@ -159,8 +163,14 @@ animate()
           );
           load.vrm("/easy-three/model/sample.vrm");
           animate();
-          return () => {
-            destroy();
+          return {
+            destroy: () => {
+              destroy();
+            },
+            controls: (f) => {
+              if (f) controls.connect();
+              else controls.disconnect();
+            },
           };
         }}
       />
@@ -266,10 +276,9 @@ animate(({ delta }) => {
       </CodeBlock>
       <EasyThreeBox
         toggleControls
-        effect={(r, controlsFlag) => {
+        effect={(r) => {
           const { camera, create, animate, controls, load, helper, destroy } =
             init(r);
-          if (controlsFlag) controls.connect();
           camera.position.set(0, 1.3, -1.5);
           controls.target.set(0, 1, 0);
           helper.grid({ size: 10 });
@@ -293,8 +302,14 @@ animate(({ delta }) => {
               model.scene.rotation.y += delta;
             }
           });
-          return () => {
-            destroy();
+          return {
+            destroy: () => {
+              destroy();
+            },
+            controls: (f) => {
+              if (f) controls.connect();
+              else controls.disconnect();
+            },
           };
         }}
       />

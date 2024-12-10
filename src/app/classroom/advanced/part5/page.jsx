@@ -204,10 +204,9 @@ animate(({ time, delta }) => {
       </CodeBlock>
       <EasyThreeBox
         toggleControls
-        effect={(r, controlsFlag) => {
+        effect={(r) => {
           const { camera, create, animate, controls, load, helper, destroy } =
             init(r);
-          if (controlsFlag) controls.connect();
           camera.position.set(0, 1.3, -1.5);
           controls.target.set(0, 1, 0);
           helper.grid({ size: 10 });
@@ -233,8 +232,14 @@ animate(({ time, delta }) => {
               model.update(delta);
             }
           });
-          return () => {
-            destroy();
+          return {
+            destroy: () => {
+              destroy();
+            },
+            controls: (f) => {
+              if (f) controls.connect();
+              else controls.disconnect();
+            },
           };
         }}
       />
@@ -286,10 +291,9 @@ animate(({ time, delta }) => {
       </CodeBlock>
       <EasyThreeBox
         toggleControls
-        effect={(r, controlsFlag) => {
+        effect={(r) => {
           const { camera, create, animate, controls, load, helper, destroy } =
             init(r);
-          if (controlsFlag) controls.connect();
           camera.position.set(0, 1.3, -1.5);
           controls.target.set(0, 1, 0);
           helper.grid({ size: 10 });
@@ -323,8 +327,14 @@ animate(({ time, delta }) => {
               model.update(delta);
             }
           });
-          return () => {
-            destroy();
+          return {
+            destroy: () => {
+              destroy();
+            },
+            controls: (f) => {
+              if (f) controls.connect();
+              else controls.disconnect();
+            },
           };
         }}
       />
@@ -415,10 +425,9 @@ animate(({ time, delta }) => {
       </CodeBlock>
       <EasyThreeBox
         toggleControls
-        effect={(r, controlsFlag) => {
+        effect={(r) => {
           const { camera, create, animate, controls, load, helper, destroy } =
             init(r);
-          if (controlsFlag) controls.connect();
           camera.position.set(0, 1.6, -0.4);
           controls.target.set(0, 1.6, 0);
           helper.grid({ size: 10 });
@@ -446,8 +455,14 @@ animate(({ time, delta }) => {
               model.update(delta);
             }
           });
-          return () => {
-            destroy();
+          return {
+            destroy: () => {
+              destroy();
+            },
+            controls: (f) => {
+              if (f) controls.connect();
+              else controls.disconnect();
+            },
           };
         }}
       />
