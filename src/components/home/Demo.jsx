@@ -81,14 +81,13 @@ export const Demo = {
         camera,
         create,
         scene,
-        renderer,
         controls,
         animate,
         load,
         THREE,
+        postprocessing,
         destroy,
       } = init(ref.current);
-      const textureLoader = new THREE.TextureLoader();
       controlsRef.current = controls;
       if (worldControl) {
         controls.connect();
@@ -99,30 +98,25 @@ export const Demo = {
       load.background("./texture/hdr/symmetrical_garden_02_1k.hdr");
       const texture = {
         cube: {
-          map: textureLoader.load("./texture/img/red_brick_diff_1k.jpg"),
-          normalMap: textureLoader.load(
+          map: load.texture(
+            "./texture/img/red_brick_diff_1k.jpg"
+          ),
+          normalMap: load.texture(
             "./texture/img/red_brick_nor_gl_1k.jpg"
           ),
         },
         plane: {
-          map: textureLoader.load(
-            "./texture/img/monastery_stone_floor_diff_1k.jpg"
+          map: load.texture(
+            "./texture/img/monastery_stone_floor_diff_1k.jpg",
+            { repeat: [4, 4] }
           ),
-          normalMap: textureLoader.load(
-            "./texture/img/monastery_stone_floor_nor_gl_1k.jpg"
+          normalMap: load.texture(
+            "./texture/img/monastery_stone_floor_nor_gl_1k.jpg",
+            { repeat: [4, 4] }
           ),
           roughness: 1,
         },
       };
-      texture.cube.map.colorSpace = THREE.SRGBColorSpace;
-      texture.plane.map.colorSpace = THREE.SRGBColorSpace;
-
-      texture.plane.map.wrapS = THREE.RepeatWrapping;
-      texture.plane.map.wrapT = THREE.RepeatWrapping;
-      texture.plane.normalMap.wrapS = THREE.RepeatWrapping;
-      texture.plane.normalMap.wrapT = THREE.RepeatWrapping;
-      texture.plane.map.repeat.set(4, 4);
-      texture.plane.normalMap.repeat.set(4, 4);
       create.plane({
         size: 10,
         position: [0, -1, 0],
@@ -162,7 +156,8 @@ export const Demo = {
           0.5,
           3 * Math.cos((i * Math.PI * 2) / 4),
         ],
-      })
+        autoAdd: false,
+      });
       i++;
       const cube2 = create.cube({
         size: 1,
@@ -187,6 +182,7 @@ export const Demo = {
           0.5,
           3 * Math.cos((i * Math.PI * 2) / 4),
         ],
+        autoAdd: false,
         option: {
           metalness: 0.8,
           roughness: 0.2,
@@ -198,6 +194,10 @@ export const Demo = {
       group.add(cube2);
       group.add(torus);
       scene.add(group);
+
+      const { selectedBloom, addSelectedBloom } = postprocessing.selectedBloom();
+      addSelectedBloom(ball, torus);
+
       animate(({ time }) => {
         group.rotation.y = time
         cube1.rotation.x = time
@@ -206,7 +206,10 @@ export const Demo = {
         cube2.rotation.y = time
         torus.rotation.x = time * 2
         torus.rotation.y = time
-      });
+        selectedBloom({
+          strength: 1 * Math.abs(Math.sin(time)),
+        });
+      }, false);
       return () => {
         destroy()
       }

@@ -4,6 +4,34 @@ import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import { VRMLoaderPlugin, VRMUtils } from '@pixiv/three-vrm';
 import { RGBELoader } from "three/addons/loaders/RGBELoader.js";
 import { RoundedBoxGeometry } from "three/addons/geometries/RoundedBoxGeometry.js";
+import { EffectComposer } from "three/addons/postprocessing/EffectComposer.js";
+import { RenderPass } from "three/addons/postprocessing/RenderPass.js";
+import { ShaderPass } from "three/addons/postprocessing/ShaderPass.js";
+import { UnrealBloomPass } from "three/addons/postprocessing/UnrealBloomPass.js";
+import { OutputPass } from "three/addons/postprocessing/OutputPass.js";
+import { RenderPixelatedPass } from 'three/addons/postprocessing/RenderPixelatedPass.js';
+import { TexturePass } from 'three/addons/postprocessing/TexturePass.js';
+import { ClearPass } from 'three/addons/postprocessing/ClearPass.js';
+import { MaskPass, ClearMaskPass } from 'three/addons/postprocessing/MaskPass.js';
+import { GlitchPass } from 'three/addons/postprocessing/GlitchPass.js';
+
+
+const Shader = {
+  vertexShader: `varying vec2 vUv;
+void main() {
+  vUv = uv;
+  gl_Position = projectionMatrix * modelViewMatrix * vec4( position, 1.0 );
+}`,
+  fragmentShader: `uniform sampler2D baseTexture;
+uniform sampler2D bloomTexture;
+varying vec2 vUv;
+void main() {
+  gl_FragColor = ( texture2D( baseTexture, vUv ) + vec4( 1.0 ) * texture2D( bloomTexture, vUv ) );
+}`
+}
+const layer = {
+  bloom: 999,
+}
 
 
 function sizeToArray(size, n = 3) {
@@ -237,7 +265,216 @@ export function init(targetName) {
       });
       if (autoAdd) scene.add(result);
       return result;
+    },
+    fog: function ({
+      color = 0xffffff,
+      near = 1,
+      far = 1000,
+    } = {}) {
+      scene.fog = new THREE.Fog(color, near, far);
+      return scene.fog;
     }
+  }
+
+  const postprocessing = {
+    bloom: function ({
+      exposure = 1,
+      background = 0x000000,
+      threshold = 0,
+      strength = 1,
+      radius = 0.5,
+    } = {}) {
+      renderer.toneMappingExposure = Math.pow(exposure, 4.0);
+      //renderer.toneMapping = THREE.ReinhardToneMapping;
+      scene.background = color(background);
+      const renderScene = new RenderPass(scene, camera);
+      const bloomPass = new UnrealBloomPass(
+        new THREE.Vector2(sizeTarget.scrollWidth, sizeTarget.scrollHeight),
+        1.5,
+        0.4,
+        0.85
+      );
+      bloomPass.threshold = threshold;
+      bloomPass.strength = strength;
+      bloomPass.radius = radius;
+      const outputPass = new OutputPass();
+      const composer = new EffectComposer(renderer);
+      composer.addPass(renderScene);
+      composer.addPass(bloomPass);
+      composer.addPass(outputPass);
+      const p = {
+        threshold, strength, radius
+      }
+      return {
+        bloom: ({
+          threshold = p.threshold,
+          strength = p.strength,
+          radius = p.radius,
+        } = {}) => {
+          bloomPass.threshold = threshold;
+          bloomPass.strength = strength;
+          bloomPass.radius = radius;
+          composer.render();
+        }
+      }
+    },
+    selectedBloom: function ({
+      exposure = 1,
+      background = false,
+      threshold = 0,
+      strength = 1,
+      radius = 0.5,
+    } = {}) {
+      renderer.toneMappingExposure = Math.pow(exposure, 4.0);
+      if (background) scene.background = color(background);
+      const bloomLayer = new THREE.Layers();
+      bloomLayer.set(layer.bloom);
+      const renderScene = new RenderPass(scene, camera);
+      const bloomPass = new UnrealBloomPass(
+        new THREE.Vector2(sizeTarget.scrollWidth, sizeTarget.scrollHeight),
+        1.5,
+        0.4,
+        0.85
+      );
+      bloomPass.threshold = threshold;
+      bloomPass.strength = strength;
+      bloomPass.radius = radius;
+      const bloomComposer = new EffectComposer(renderer);
+      bloomComposer.renderToScreen = false;
+      bloomComposer.addPass(renderScene);
+      bloomComposer.addPass(bloomPass);
+      const mixPass = new ShaderPass(
+        new THREE.ShaderMaterial({
+          uniforms: {
+            baseTexture: { value: null },
+            bloomTexture: { value: bloomComposer.renderTarget2.texture },
+          },
+          vertexShader: Shader.vertexShader,
+          fragmentShader: Shader.fragmentShader,
+          defines: {},
+        }),
+        "baseTexture"
+      );
+      mixPass.needsSwap = true;
+      const outputPass = new OutputPass();
+      const finalComposer = new EffectComposer(renderer);
+      finalComposer.addPass(renderScene);
+      finalComposer.addPass(mixPass);
+      finalComposer.addPass(outputPass);
+      const darkMaterial = new THREE.MeshBasicMaterial({ color: "black" });
+      const materials = {}
+      let bg = scene.background;
+      const p = {
+        threshold, strength, radius
+      }
+      return {
+        selectedBloom: ({
+          threshold = p.threshold,
+          strength = p.strength,
+          radius = p.radius,
+        } = {}) => {
+          bloomPass.threshold = threshold;
+          bloomPass.strength = strength;
+          bloomPass.radius = radius;
+          scene.traverse((obj) => {
+            if (obj.isMesh && bloomLayer.test(obj.layers) === false) {
+              materials[obj.uuid] = obj.material;
+              obj.material = darkMaterial;
+            } else if (/Helper$/.test(obj.type) && bloomLayer.test(obj.layers) === false) {
+              materials[obj.uuid] = obj.material;
+              obj.material = darkMaterial;
+            }
+          });
+          bg = scene.background;
+          scene.background = color(0x000000);
+          bloomComposer.render();
+          scene.background = bg;
+          scene.traverse(obj => {
+            if (materials[obj.uuid]) {
+              obj.material = materials[obj.uuid];
+              delete materials[obj.uuid];
+            }
+          })
+          finalComposer.render();
+        },
+        addSelectedBloom: (...list) => {
+          list.forEach((obj) => {
+            obj.layers.enable(layer.bloom);
+          });
+        }
+      }
+    },
+    pixel: function ({
+      size = 6,
+      normalEdge = 0.3,
+      depthEdge = 0.4,
+    } = {}) {
+      const composer = new EffectComposer(renderer);
+      const renderPixelatedPass = new RenderPixelatedPass(size, scene, camera);
+      composer.addPass(renderPixelatedPass);
+      const outputPass = new OutputPass();
+      composer.addPass(outputPass);
+      const p = {
+        size, normalEdge, depthEdge
+      }
+      return {
+        pixel: ({
+          size = p.size,
+          normalEdge = p.normalEdge,
+          depthEdge = p.depthEdge,
+        } = {}) => {
+          renderPixelatedPass.setPixelSize(size);
+          renderPixelatedPass.normalEdge = normalEdge;
+          renderPixelatedPass.depthEdge = depthEdge;
+          composer.render();
+        }
+      }
+    },
+    mask: function (texture) {
+      renderer.autoClear = false;
+      const clearPass = new ClearPass();
+      const clearMaskPass = new ClearMaskPass();
+      const maskPass = new MaskPass(scene, camera);
+      const texturePass = new TexturePass(texture);
+      const outputPass = new OutputPass();
+      const renderTarget = new THREE.WebGLRenderTarget(sizeTarget.scrollWidth, sizeTarget.scrollHeight, {
+        stencilBuffer: true,
+      });
+      const composer = new EffectComposer(renderer, renderTarget);
+      composer.addPass(clearPass);
+      composer.addPass(maskPass);
+      composer.addPass(texturePass);
+      composer.addPass(clearMaskPass);
+      composer.addPass(outputPass);
+      return {
+        mask: (time) => {
+          renderer.clear();
+          composer.render(time);
+        }
+      }
+    },
+    glitch: function ({
+      wild = false
+    } = {}) {
+      const composer = new EffectComposer(renderer);
+      composer.addPass(new RenderPass(scene, camera));
+      const glitchPass = new GlitchPass();
+      composer.addPass(glitchPass);
+      const outputPass = new OutputPass();
+      composer.addPass(outputPass);
+      glitchPass.goWild = wild;
+      const p = {
+        wild
+      }
+      return {
+        glitch: ({
+          wild = p.wild
+        } = {}) => {
+          glitchPass.goWild = wild;
+          composer.render();
+        }
+      }
+    },
   }
 
   const helper = {
@@ -308,12 +545,16 @@ export function init(targetName) {
       if (autoAdd) scene.add(model.scene);
       return model;
     },
-    background: (url) => {
-      new RGBELoader().load(url, (texture) => {
+    background: (url, {
+      background = true,
+      environment = true
+    } = {}) => {
+      const t = new RGBELoader().load(url, (texture) => {
         texture.mapping = THREE.EquirectangularReflectionMapping
-        scene.background = texture
-        scene.environment = texture
+        if (background) scene.background = texture
+        if (environment) scene.environment = texture
       })
+      return t;
     },
     texture: (url, {
       wrapS = Default.texture.wrapping,
@@ -324,6 +565,7 @@ export function init(targetName) {
       texture.wrapS = THREE[`${wrapS}Wrapping`];
       texture.wrapT = THREE[`${wrapT}Wrapping`];
       texture.repeat = new THREE.Vector2(...repeat);
+      texture.colorSpace = THREE.SRGBColorSpace;
       return texture;
     },
     cubeTexture: (urls, {
@@ -562,14 +804,14 @@ export function init(targetName) {
     renderer.forceContextLoss();
   }
 
-  function animate(proc = () => { }) {
+  function animate(proc = () => { }, renderFlag = true) {
     const clock = new THREE.Clock();
     function loop() {
       controls.update()
       const delta = clock.getDelta()
       const time = clock.getElapsedTime()
       proc({ clock, delta, time })
-      renderer.render(scene, camera)
+      if (renderFlag) renderer.render(scene, camera)
     }
     renderer.setAnimationLoop(loop)
   }
@@ -586,6 +828,8 @@ export function init(targetName) {
     THREE,
     helper,
     load,
+    postprocessing,
+    layer,
     event,
   }
 }
