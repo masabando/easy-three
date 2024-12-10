@@ -17,6 +17,8 @@ export default function RootLayout({ children }) {
       <head>
         <meta charSet="UTF-8" />
         {/* <link rel="icon" type="image/svg+xml" href="/vite.svg" /> */}
+        <meta name="description" content="シンプルなコードで、魅力的な3Dを。" />
+        <meta name="keywords" content="three.js, 3D, JavaScript, 簡単, React, VRM" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <meta property="og:type" content="website" />
         <meta property="og:title" content="easy-three" />
