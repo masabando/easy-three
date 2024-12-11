@@ -577,6 +577,7 @@ export function init(targetName) {
       video.onloadeddata = () => {
         video.muted = true;
         video.loop = loop;
+        video.playsInline = true;
         if (autoPlay) video.play();
       }
       video.src = url;
