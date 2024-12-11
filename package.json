@@ -15,7 +15,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "test": "exit 0"
   },
   "dependencies": {
     "@pixiv/three-vrm": "^3.2.0",
