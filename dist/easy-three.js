@@ -568,6 +568,22 @@ export function init(targetName) {
       texture.colorSpace = THREE.SRGBColorSpace;
       return texture;
     },
+    videoTexture: (url, {
+      autoPlay = true,
+      loop = true,
+    } = {}) => {
+      const video = document.createElement("video");
+      video.crossOrigin = "anonymous";
+      video.onloadeddata = () => {
+        video.muted = true;
+        video.loop = loop;
+        if (autoPlay) video.play();
+      }
+      video.src = url;
+      const texture = new THREE.VideoTexture(video);
+      texture.colorSpace = THREE.SRGBColorSpace;
+      return texture;
+    },
     cubeTexture: (urls, {
       path = "./"
     } = {}) => {
