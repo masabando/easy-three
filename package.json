@@ -1,7 +1,7 @@
 {
   "name": "@masabando/easy-three",
   "type": "module",
-  "version": "0.0.27",
+  "version": "0.0.28",
   "author": "masabando",
   "description": "A simple and easy-to-use 3D library",
   "main": "./dist/easy-three.js",

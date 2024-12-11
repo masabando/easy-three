@@ -28,6 +28,7 @@ export default function Page() {
 
     event.mouse.add(() => {
       if (videoTexture.source.data.paused) {
+        console.log("play");
         videoTexture.source.data.play();
       } else {
         videoTexture.source.data.pause();
