@@ -9,7 +9,6 @@ import { Progress, Switch, Tag } from "antd";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import { useState } from "react";
-import { currentVersion } from "@/components/CurrentVersion";
 
 function Note({ children }) {
   return <span className="fw-bold">{children}</span>;
@@ -28,15 +27,14 @@ export default function Page() {
               <img alt="version" src="https://img.shields.io/github/v/tag/masabando/easy-three?style=flat&label=version" />
               {/* <Tag color="blue">v{currentVersion}</Tag> */}
             </div>
+            <div className="mt-2">
+              <img alt="npm" src="https://img.shields.io/npm/dm/%40masabando%2Feasy-three?style=flat&logo=npm" />
+              <img className="ms-1" alt="jsDelivr monthly hits badge" src="https://img.shields.io/jsdelivr/gh/hm/masabando/easy-three?style=flat&logo=jsdelivr&logoColor=white" />
+            </div>
             <div className="mt-2 d-flex flex-wrap justify-content-center gap-1">
-              <div className="text-nowrap">
                 <img alt="github-stars" src="https://img.shields.io/github/stars/masabando/easy-three?style=flat&logo=github" />
-                <img className="ms-1" alt="jsDelivr monthly hits badge" src="https://img.shields.io/jsdelivr/gh/hm/masabando/easy-three?style=flat&logo=jsdelivr&logoColor=white" />
-              </div>
-              <div className="text-nowrap">
                 <img alt="last commit" src="https://img.shields.io/github/last-commit/masabando/easy-three?style=flat" />
                 <img className="ms-1" alt="page build" src="https://img.shields.io/github/actions/workflow/status/masabando/easy-three/nextjs.yml?style=flat" />
-              </div>
             </div>
           </div>
           <div className="headMessage">
@@ -118,8 +116,13 @@ export default function Page() {
           />
         </div>
       </div>
-      <div className="bg-body-tertiary py-5">
+      <div className="bg-body-tertiary pb-5 pt-4">
         <Container className="mw-100">
+          <div className="my-4 d-flex justify-content-center">
+            <CodeBlock language="zsh" className="mw-100">
+              {`$ npm install @masabando/easy-three three @pixiv/three-vrm`}
+            </CodeBlock>
+          </div>
           <div className="mb-5">
             <h4>
               <T>

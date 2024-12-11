@@ -1,11 +1,20 @@
 {
   "name": "@masabando/easy-three",
-  "version": "0.0.23",
+  "type": "module",
+  "version": "0.0.24",
   "author": "masabando",
   "description": "A simple and easy-to-use 3D library",
+  "main": "./dist/easy-three.js",
+  "module": "./dist/easy-three.js",
   "license": "MIT",
+  "keywords": [
+    "three",
+    "3d",
+    "webgl",
+    "vrm"
+  ],
   "publishConfig": {
-    "@masabando:registry": "https://npm.pkg.github.com"
+    "access": "public"
   },
   "homepage": "https://masabando.github.io/easy-three/",
   "files": [
@@ -20,11 +29,11 @@
   },
   "dependencies": {
     "@pixiv/three-vrm": "^3.2.0",
-    "@pixiv/three-vrm-animation": "^3.3.0",
     "three": "^0.171.0"
   },
   "devDependencies": {
     "@ant-design/nextjs-registry": "^1.0.2",
+    "@pixiv/three-vrm-animation": "^3.3.0",
     "antd": "^5.22.4",
     "better-react-mathjax": "^2.0.4-beta1",
     "bootstrap": "^5.3.3",

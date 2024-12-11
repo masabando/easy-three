@@ -1,12 +1,11 @@
-![version](https://img.shields.io/github/v/tag/masabando/easy-three?style=flat&label=version)
-
+![version](https://img.shields.io/github/v/tag/masabando/easy-three?style=flat&label=version)  
 ![last-commit](https://img.shields.io/github/last-commit/masabando/easy-three?style=flat)
 ![page-build-status](https://img.shields.io/github/actions/workflow/status/masabando/easy-three/nextjs.yml?style=flat)
 
 ![hits](https://img.shields.io/jsdelivr/gh/hm/masabando/easy-three?style=flat)
+![npm](https://img.shields.io/npm/dm/%40masabando%2Feasy-three?style=flat&logo=npm)  
 ![license](https://img.shields.io/github/license/masabando/easy-three?style=flat)
 ![stars](https://img.shields.io/github/stars/masabando/easy-three?style=flat&logo=github)
-
 
 # easy-three
 
@@ -75,6 +74,17 @@ const Simple = (props) => {
 
 See [Getting Started](http://localhost:3000/easy-three/getting-started/)
 
+
+## Using npm
+
+```bash
+npm install @masabando/easy-three three @pixiv/three-vrm
+```
+
+```js
+import { init } from "@masabando/easy-three";
+const { camera, create, animate, controls } = init();
+```
 
 ## Using CDN
 

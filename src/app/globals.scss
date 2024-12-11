@@ -1,4 +1,4 @@
-@import "bootstrap/scss/bootstrap";
+@import "~bootstrap/scss/bootstrap";
 //@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@100..900&display=swap');
 
 
@@ -11,6 +11,9 @@ body {
   font-style: normal;
   font-weight: 300;
   min-height: 100svh;
+}
+h1 {
+  word-wrap: break-word;
 }
 
 .App {
@@ -41,7 +44,7 @@ body {
 }
 
 
-h2 {
+h2:not(.accordion-header) {
   margin-top: 2em;
   margin-bottom: 1em;
 }

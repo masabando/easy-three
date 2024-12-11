@@ -15,6 +15,41 @@ export default function Page() {
 
       <h2>
         <T>
+          <>Using Package Manager</>
+          <>パッケージマネージャを使う</>
+        </T>
+      </h2>
+      <p>
+        <T>
+          <>
+            You can install easy-three using npm or yarn.
+            <br />
+            This method is not recommended for beginners.
+          </>
+          <>
+            npm や yarn を使って easy-three をインストールすることができます。<br />
+            この方法は初心者にはオススメしていません。
+          </>
+        </T>
+      </p>
+      <CodeBlock filename="Command" language="bash">
+        {`npm install @masabando/easy-three three @pixiv/three-vrm`}
+      </CodeBlock>
+      <T>
+        <>
+          If you install it this way, import it as follows.
+        </>
+        <>
+          この方法でインストールした場合、以下のようにインポートして下さい。
+        </>
+      </T>
+      <CodeBlock filename="JavaScript" language="javascript">
+        {`import { init } from "@masabando/easy-three";`}
+      </CodeBlock>
+
+
+      <h2>
+        <T>
           <>Using Template</>
           <>テンプレートを使う</>
         </T>
