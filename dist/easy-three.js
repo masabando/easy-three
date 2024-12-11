@@ -592,7 +592,6 @@ export function init(targetName) {
       path = "./"
     } = {}) => {
       const texture = new THREE.CubeTextureLoader().setPath(path).load(urls);
-      console.log(texture)
       return texture;
     }
   }
