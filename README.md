@@ -72,7 +72,7 @@ const Simple = (props) => {
 
 # How to Use
 
-See [Getting Started](http://localhost:3000/easy-three/getting-started/)
+See [Getting Started](https://masabando.github.io/easy-three/getting-started/)
 
 
 ## Using npm
