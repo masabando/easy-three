@@ -470,6 +470,9 @@ export default function Page() {
                           48)。
                         </li>
                         <li>
+                          fontWeight (Number | String) : フォントのウェイト (デフォルト : &quot;&quot;)。
+                        </li>
+                        <li>
                           font (String) : フォント (デフォルト : &quot;'Noto
                           Sans JP', sans-serif&quot;)。
                         </li>
@@ -538,6 +541,9 @@ export default function Page() {
                         <li>
                           fontSize (Number) : テキストのサイズ (デフォルト :
                           48)。
+                        </li>
+                        <li>
+                          fontWeight (Number | String) : フォントのウェイト (デフォルト : &quot;&quot;)。
                         </li>
                         <li>
                           font (String) : フォント (デフォルト : &quot;'Noto

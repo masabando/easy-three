@@ -277,6 +277,7 @@ export function init(targetName) {
     textTexture: function (text, {
       fontSize = 48,
       font = "'Noto Sans JP', sans-serif",
+      fontWeight = "",
       color = "#000000",
       size = [500, 500],
       textAlign = "center",
@@ -297,7 +298,7 @@ export function init(targetName) {
       } else {
         ctx.clearRect(guide, guide, canvas.width - guide * 2, canvas.height - guide * 2);
       }
-      ctx.font = `${fontSize}px ${font}`;
+      ctx.font = `${fontWeight} ${fontSize}px ${font}`;
       ctx.fillStyle = color;
       ctx.textAlign = textAlign;
       ctx.textBaseline = textBaseline;
@@ -309,6 +310,7 @@ export function init(targetName) {
     text: function (text, {
       fontSize = 48,
       font = "'Noto Sans JP', sans-serif",
+      fontWeight = "",
       position = [0, 0, 0],
       rotation = [0, 0, 0],
       color = "#000000",
@@ -326,6 +328,7 @@ export function init(targetName) {
       const texture = create.textTexture(text, {
         fontSize: fontSize * resolution,
         font,
+        fontWeight,
         color,
         size: [s[0] * 100 * resolution, s[1] * 100 * resolution],
         textAlign,
