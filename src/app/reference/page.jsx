@@ -452,6 +452,131 @@ export default function Page() {
               >
                 平行光源を作成してシーンに追加します。
               </ReferenceContent>
+              <ReferenceContent
+                name="create.text"
+                args="text : String, props : Object"
+                returnObject="Mesh"
+                href="/reference/create/text/"
+                argsInfo={
+                  <>
+                    <div>
+                      <span>text</span> - 表示するテキスト。
+                    </div>
+                    <div>
+                      <span>props</span> - 設定オブジェクト。
+                      <ul>
+                        <li>
+                          fontSize (Number) : テキストのサイズ (デフォルト :
+                          48)。
+                        </li>
+                        <li>
+                          font (String) : フォント (デフォルト : &quot;'Noto
+                          Sans JP', sans-serif&quot;)。
+                        </li>
+                        <li>
+                          color (String) : テキストの色 (デフォルト :
+                          &quot;#000000&quot;)。
+                        </li>
+                        <li>
+                          position (Array) : 位置 (デフォルト : [0, 0, 0])。
+                        </li>
+                        <li>
+                          rotation (Array) : 回転 (デフォルト : [0, 0, 0])。
+                        </li>
+                        <li>
+                          size (Array | Number) ジオメトリのサイズ (デフォルト :
+                          [1, 1])。
+                        </li>
+                        <li>resolution (Number) : 解像度 (デフォルト : 1)。</li>
+                        <li>
+                          textAlign (String) : テキストの水平方向の配置
+                          (デフォルト : &quot;center&quot;)。
+                        </li>
+                        <li>
+                          textBaseline (String) : テキストの垂直方向の配置
+                          (デフォルト : &quot;middle&quot;)。
+                        </li>
+                        <li>
+                          background (String | Boolean) : 背景色 (デフォルト :
+                          false)。
+                        </li>
+                        <li>
+                          side (String) : テキストの表示面 (デフォルト :
+                          &quot;DoubleSide&quot;)。
+                        </li>
+                        <li>
+                          guide (Number) : ガイドラインの幅 (デフォルト : 0)。
+                        </li>
+                        <li>
+                          guideColor (String) : ガイドラインの色 (デフォルト :
+                          &quot;#ff0000&quot;)。
+                        </li>
+                        <li>
+                          autoAdd (Boolean) : 自動でシーンに追加 (デフォルト :
+                          true)。
+                        </li>
+                      </ul>
+                    </div>
+                  </>
+                }
+              >
+                テキストを作成してシーンに追加します。
+              </ReferenceContent>
+              <ReferenceContent
+                name="create.textTexture"
+                args="text : String, props : Object"
+                returnObject="Texture"
+                href="/reference/create/textTexture/"
+                argsInfo={
+                  <>
+                    <div>
+                      <span>text</span> - 表示するテキスト。
+                    </div>
+                    <div>
+                      <span>props</span> - 設定オブジェクト。
+                      <ul>
+                        <li>
+                          fontSize (Number) : テキストのサイズ (デフォルト :
+                          48)。
+                        </li>
+                        <li>
+                          font (String) : フォント (デフォルト : &quot;'Noto
+                          Sans JP', sans-serif&quot;)。
+                        </li>
+                        <li>
+                          color (String) : テキストの色 (デフォルト :
+                          &quot;#000000&quot;)。
+                        </li>
+                        <li>
+                          size (Array) テクスチャのサイズ (デフォルト : [500,
+                          500])。
+                        </li>
+                        <li>
+                          textAlign (String) : テキストの水平方向の配置
+                          (デフォルト : &quot;center&quot;)。
+                        </li>
+                        <li>
+                          textBaseline (String) : テキストの垂直方向の配置
+                          (デフォルト : &quot;middle&quot;)。
+                        </li>
+                        <li>
+                          background (String | Boolean) : 背景色 (デフォルト :
+                          false)。
+                        </li>
+                        <li>
+                          guide (Number) : ガイドラインの幅 (デフォルト : 0)。
+                        </li>
+                        <li>
+                          guideColor (String) : ガイドラインの色 (デフォルト :
+                          &quot;#ff0000&quot;)。
+                        </li>
+                      </ul>
+                    </div>
+                  </>
+                }
+              >
+                テキストを元にテクスチャを作成します。
+              </ReferenceContent>
             </Accordion.Body>
           </Accordion.Item>
           <Accordion.Item eventKey="2">

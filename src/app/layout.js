@@ -6,8 +6,9 @@ import { UserProvider } from "@/components/Lang";
 import Footer from "@/components/Footer";
 import { Noto_Sans_JP } from "next/font/google";
 
-const noto = Noto_Sans_JP({
+export const noto = Noto_Sans_JP({
   subsets: ["latin"],
+  variable: "--noto",
 });
 
 export default function RootLayout({ children }) {

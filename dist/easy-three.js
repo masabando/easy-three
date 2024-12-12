@@ -273,6 +273,78 @@ export function init(targetName) {
     } = {}) {
       scene.fog = new THREE.Fog(color, near, far);
       return scene.fog;
+    },
+    textTexture: function (text, {
+      fontSize = 48,
+      font = "'Noto Sans JP', sans-serif",
+      color = "#000000",
+      size = [500, 500],
+      textAlign = "center",
+      textBaseline = "middle",
+      background = false,
+      guide = 0,
+      guideColor = "#ff0000",
+    } = {}) {
+      const canvas = document.createElement("canvas");
+      canvas.width = size[0];
+      canvas.height = size[1];
+      const ctx = canvas.getContext("2d");
+      ctx.fillStyle = guideColor;
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      if (background) {
+        ctx.fillStyle = background;
+        ctx.fillRect(guide, guide, canvas.width - guide * 2, canvas.height - guide * 2);
+      } else {
+        ctx.clearRect(guide, guide, canvas.width - guide * 2, canvas.height - guide * 2);
+      }
+      ctx.font = `${fontSize}px ${font}`;
+      ctx.fillStyle = color;
+      ctx.textAlign = textAlign;
+      ctx.textBaseline = textBaseline;
+      ctx.fillText(text, canvas.width / 2, canvas.height / 2);
+      const texture = new THREE.CanvasTexture(canvas);
+      texture.colorSpace = THREE.SRGBColorSpace;
+      return texture;
+    },
+    text: function (text, {
+      fontSize = 48,
+      font = "'Noto Sans JP', sans-serif",
+      position = [0, 0, 0],
+      rotation = [0, 0, 0],
+      color = "#000000",
+      size = 1,
+      resolution = 1,
+      textAlign = "center",
+      textBaseline = "middle",
+      background = false,
+      side = "DoubleSide",
+      autoAdd = true,
+      guide = 0,
+      guideColor = "#ff0000",
+    } = {}) {
+      const s = sizeToArray(size, 2);
+      const texture = create.textTexture(text, {
+        fontSize: fontSize * resolution,
+        font,
+        color,
+        size: [s[0] * 100 * resolution, s[1] * 100 * resolution],
+        textAlign,
+        textBaseline,
+        background,
+        guide,
+        guideColor,
+      });
+      const material = new THREE.MeshBasicMaterial({
+        transparent: true,
+        map: texture,
+        side: THREE[side],
+      });
+      const geometry = new THREE.PlaneGeometry(...s);
+      const mesh = new THREE.Mesh(geometry, material);
+      mesh.position.set(...position);
+      mesh.rotation.set(...rotation);
+      if (autoAdd) scene.add(mesh);
+      return mesh;
     }
   }
 
@@ -834,6 +906,11 @@ export function init(targetName) {
     }
     renderer.setAnimationLoop(loop)
   }
+
+  function noToneMapping() {
+    renderer.toneMapping = THREE.NoToneMapping;
+  }
+
   return {
     Default,
     scene,
@@ -848,7 +925,9 @@ export function init(targetName) {
     helper,
     load,
     postprocessing,
+    noToneMapping,
     layer,
     event,
+    DoubleSide: THREE.DoubleSide,
   }
 }

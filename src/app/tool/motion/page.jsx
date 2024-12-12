@@ -1,45 +1,48 @@
 "use client";
 import { useEffect, useRef } from "react";
 import { init } from "@dist/easy-three";
+import { noto } from "@/app/layout"
 
 export default function Page() {
   const ref = useRef();
   useEffect(() => {
-    const { create, animate, camera, load, helper, controls, event, destroy } = init(
+    const { create, animate, camera, helper, controls, noToneMapping, DoubleSide, destroy } = init(
       ref.current
     );
 
     controls.connect();
 
     camera.position.set(-2.4, 1.2, 7);
-    controls.target.set(0, 1, 0);
+    
+    create.ambientLight();
+    create.directionalLight();
 
-    const videoTexture = load.videoTexture(
-      "https://www.ktc.ac.jp/img/top/topmovie_720p.mp4"
-    );
-    create.plane({
-      size: [8, 4.5],
-      position: [0, 2.5, 0],
-      material: "Basic",
+
+    create.text("easy-three", {
+      font: `${noto.style.fontFamily}`,
+      size: [3, 1],
+      position: [2, 1, 0],
+      resolution: 1,
+    })
+
+    const texture = create.textTexture("easy-three", {
+      font: `${noto.style.fontFamily}`,
+      size: [300, 300],
+      guide: 16,
+    });
+    create.cube({
+      position: [-2, 1, 0],
       option: {
-        map: videoTexture,
+        map: texture,
+        transparent: true,
+        side: DoubleSide,
       }
     })
 
-    event.mouse.add(() => {
-      if (videoTexture.source.data.paused) {
-        console.log("play");
-        videoTexture.source.data.play();
-      } else {
-        videoTexture.source.data.pause();
-      }
-    })
 
     helper.grid();
     helper.axes();
 
-    create.ambientLight();
-    create.directionalLight();
 
     animate(({ delta, time }) => {
     });
