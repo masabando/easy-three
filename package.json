@@ -1,7 +1,7 @@
 {
   "name": "@masabando/easy-three",
   "type": "module",
-  "version": "0.0.32",
+  "version": "1.0.0",
   "author": "masabando",
   "description": "A simple and easy-to-use 3D library",
   "main": "./dist/easy-three.js",
@@ -22,6 +22,10 @@
     "dist"
   ],
   "exports": {
+    ".": {
+      "import": "./dist/easy-three.js",
+      "require": "./dist/easy-three.js"
+    },
     "./react/*": "./dist/react/*"
   },
   "scripts": {

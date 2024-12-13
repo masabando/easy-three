@@ -87,6 +87,11 @@ const { camera, create, animate, controls } = init();
 ```
 
 ### React
+EasyThreeContainer requires antd to be installed.
+```bash
+npm install antd
+```
+
 ```js
 import { init } from "@masabando/easy-three";
 import EasyThreeContainer from "@masabando/easy-three/react/EasyThreeContainer";
@@ -158,7 +163,7 @@ Importmap settings are also required.
       "three": "https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.js",
       "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.170.0/examples/jsm/",
       "@pixiv/three-vrm": "https://cdn.jsdelivr.net/npm/@pixiv/three-vrm@3/lib/three-vrm.module.min.js",
-      "easy-three": "https://cdn.jsdelivr.net/gh/masabando/easy-three@0.0.32/dist/easy-three.js"
+      "easy-three": "https://cdn.jsdelivr.net/gh/masabando/easy-three@1.0.0/dist/easy-three.js"
     }
   }
 </script>
@@ -183,7 +188,7 @@ import { init } from "easy-three";
         "three": "https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.js",
         "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.170.0/examples/jsm/",
         "@pixiv/three-vrm": "https://cdn.jsdelivr.net/npm/@pixiv/three-vrm@3/lib/three-vrm.module.min.js",
-        "easy-three": "https://cdn.jsdelivr.net/gh/masabando/easy-three@0.0.32/dist/easy-three.js"
+        "easy-three": "https://cdn.jsdelivr.net/gh/masabando/easy-three@1.0.0/dist/easy-three.js"
       }
     }
   </script>
