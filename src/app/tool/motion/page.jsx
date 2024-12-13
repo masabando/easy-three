@@ -2,7 +2,7 @@
 import { useEffect, useRef } from "react";
 import { init } from "@dist/easy-three";
 import { noto } from "@/app/layout"
-import EasyThreeContainer from "@dist/react/EasyThreeContainer"
+import EasyThreeContainer from "@dist/react/EasyThreeContainer.js"
 
 export default function Page() {
   const ref = useRef();
