@@ -2,6 +2,7 @@
 import { useEffect, useRef } from "react";
 import { init } from "@dist/easy-three";
 import { noto } from "@/app/layout"
+import EasyThreeContainer from "@dist/react/EasyThreeContainer"
 
 export default function Page() {
   const ref = useRef();
@@ -55,6 +56,26 @@ export default function Page() {
     <div>
       <h1>motion</h1>
       <div>
+        <EasyThreeContainer
+          toggleControls
+          switchStyle={{
+            top: "10px",
+            right: "10px"
+          }}
+          code={(r) => {
+            const { create, camera, controls, animate, destroy } = init(r);
+            camera.position.set(0, 0, 2);
+            controls.connect()
+            create.ambientLight();
+            create.directionalLight();
+            const cube = create.cube();
+            animate(({ delta }) => {
+              cube.rotation.x += delta;
+              cube.rotation.y += delta;
+            })
+            return { destroy, controls };
+          }}
+        />
         <div
           ref={ref}
           style={{

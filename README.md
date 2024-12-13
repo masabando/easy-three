@@ -86,6 +86,67 @@ import { init } from "@masabando/easy-three";
 const { camera, create, animate, controls } = init();
 ```
 
+### React
+```js
+import { init } from "@masabando/easy-three";
+import EasyThreeContainer from "@masabando/easy-three/react/EasyThreeContainer";
+
+const Sample() = {
+  return (
+    <EasyThreeContainer
+      code={(r) => {
+        const { camera, create, animate, destroy } = init(r);
+
+        camera.position.set(5, 5, 5);
+        create.ambientLight();
+        create.directionalLight();
+
+        const cube = create.cube({ size: 3 });
+
+        animate(({ time }) => {
+          cube.rotation.x = time;
+          cube.rotation.y = time;
+        });
+
+        return { destroy };
+      }}
+     />
+  )
+}
+```
+Function `destroy` is used to clean up the scene when the component is unmounted.
+
+If you want to use toggleControls for camera control, you can use it like this.
+```js
+import { init } from "@masabando/easy-three";
+import EasyThreeContainer from "@masabando/easy-three/react/EasyThreeContainer";
+
+const Sample() = {
+  return (
+    <EasyThreeContainer
+      toggleControls
+      code={(r) => {
+        const { camera, create, controls, animate, destroy } = init(r);
+
+        camera.position.set(5, 5, 5);
+        create.ambientLight();
+        create.directionalLight();
+
+        const cube = create.cube({ size: 3 });
+
+        animate(({ time }) => {
+          cube.rotation.x = time;
+          cube.rotation.y = time;
+        });
+
+        return { destroy, controls };
+      }}
+     />
+  )
+}
+```
+
+
 ## Using CDN
 
 You can use easy-three without downloading by using a CDN.
@@ -97,7 +158,7 @@ Importmap settings are also required.
       "three": "https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.js",
       "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.170.0/examples/jsm/",
       "@pixiv/three-vrm": "https://cdn.jsdelivr.net/npm/@pixiv/three-vrm@3/lib/three-vrm.module.min.js",
-      "easy-three": "https://cdn.jsdelivr.net/gh/masabando/easy-three@0.0.20/dist/easy-three.js"
+      "easy-three": "https://cdn.jsdelivr.net/gh/masabando/easy-three@0.0.32/dist/easy-three.js"
     }
   }
 </script>
@@ -122,7 +183,7 @@ import { init } from "easy-three";
         "three": "https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.js",
         "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.170.0/examples/jsm/",
         "@pixiv/three-vrm": "https://cdn.jsdelivr.net/npm/@pixiv/three-vrm@3/lib/three-vrm.module.min.js",
-        "easy-three": "https://cdn.jsdelivr.net/gh/masabando/easy-three@0.0.20/dist/easy-three.js"
+        "easy-three": "https://cdn.jsdelivr.net/gh/masabando/easy-three@0.0.32/dist/easy-three.js"
       }
     }
   </script>
