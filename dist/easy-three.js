@@ -1250,8 +1250,7 @@ function $a1e4e17f7ef16c93$export$2cd8252107eb640b(targetName) {
         color: color,
         postprocessing: postprocessing,
         noToneMapping: noToneMapping,
-        destroy: destroy,
-        DoubleSide: $hCVgC$DoubleSide
+        destroy: destroy
     };
 }
 

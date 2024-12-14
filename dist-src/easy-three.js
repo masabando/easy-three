@@ -57,6 +57,5 @@ export function init(targetName) {
     postprocessing,
     noToneMapping,
     destroy,
-    DoubleSide: THREE.DoubleSide,
   }
 }

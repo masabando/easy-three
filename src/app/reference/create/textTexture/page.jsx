@@ -50,7 +50,7 @@ function Ex1(props) {
 function Ex2(props) {
   const ref = useRef();
   useEffect(() => {
-    const { camera, create, animate, DoubleSide, destroy } = init(ref.current);
+    const { camera, create, animate, THREE, destroy } = init(ref.current);
     camera.position.set(0, 0, 2);
 
     create.ambientLight();
@@ -67,7 +67,7 @@ function Ex2(props) {
       option: {
         transparent: true,
         map: texture,
-        side: DoubleSide
+        side: THREE.DoubleSide
       },
     });
     animate(({ delta }) => {
@@ -142,7 +142,7 @@ animate(({ delta }) => {
         }}
       />
       <CodeBlock>
-        {`const { camera, create, DoubleSide, animate } = init()
+        {`const { camera, create, THREE, animate } = init()
 camera.position.set(0, 0, 2)
 
 create.ambientLight()
@@ -158,7 +158,7 @@ const cube = create.cube({
   option: {
     transparent: true,
     map: texture,
-    side: DoubleSide
+    side: THREE.DoubleSide
   }
 })
 
