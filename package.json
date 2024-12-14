@@ -1,10 +1,9 @@
 {
   "name": "@masabando/easy-three",
   "type": "module",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "author": "masabando",
   "description": "A simple and easy-to-use 3D library",
-  "main": "./dist/easy-three.js",
   "module": "./dist/easy-three.js",
   "license": "MIT",
   "keywords": [
@@ -33,8 +32,11 @@
   },
   "scripts": {
     "dev": "next dev",
+    "parcel": "parcel build dist-src/easy-three.js --no-cache --dist-dir dist",
     "build": "next build",
     "start": "next start",
+    "version:patch": "npm --no-git-tag-version version patch",
+    "version:minor": "npm --no-git-tag-version version minor",
     "lint": "next lint",
     "test": "exit 0"
   },
@@ -52,6 +54,7 @@
     "eslint-config-next": "15.0.3",
     "lil-gui": "^0.20.0",
     "next": "^14.2.1",
+    "parcel": "^2.13.2",
     "react": "^18.2.0",
     "react-bootstrap": "^2.10.6",
     "react-dom": "^18.2.0",

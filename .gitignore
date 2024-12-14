@@ -25,4 +25,5 @@ dist-ssr
 /next.lock
 /docs
 /out
+.parcel-cache
 
