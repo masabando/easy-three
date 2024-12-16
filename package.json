@@ -1,7 +1,7 @@
 {
   "name": "@masabando/easy-three",
   "type": "module",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "author": "masabando",
   "description": "A simple and easy-to-use 3D library",
   "module": "./dist/easy-three.js",
@@ -32,7 +32,7 @@
   },
   "scripts": {
     "dev": "next dev",
-    "parcel": "parcel build dist-src/easy-three.js --no-cache --dist-dir dist",
+    "parcel": "parcel build dist-src/easy-three.js --no-cache --no-source-maps --dist-dir dist",
     "build": "next build",
     "start": "next start",
     "version:patch": "npm --no-git-tag-version version patch",

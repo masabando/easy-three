@@ -33,7 +33,7 @@ export default function Page() {
         </T>
       </p>
       <CodeBlock filename="Command" language="bash">
-        {`npm install @masabando/easy-three three @pixiv/three-vrm`}
+        {`npm install @masabando/easy-three`}
       </CodeBlock>
       <T>
         <>

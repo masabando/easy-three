@@ -120,7 +120,7 @@ export default function Page() {
         <Container className="mw-100">
           <div className="my-4 d-flex justify-content-center">
             <CodeBlock language="zsh" className="mw-100">
-              {`$ npm install @masabando/easy-three three @pixiv/three-vrm`}
+              {`$ npm install @masabando/easy-three`}
             </CodeBlock>
           </div>
           <div className="mb-5">
