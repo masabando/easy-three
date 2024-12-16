@@ -1,5 +1,18 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  async headers() {
+    return [
+      {
+        source: "/",
+        headers: [
+          {
+            key: "Cache-Control",
+            value: "max-age=0",
+          }
+        ]
+      }
+    ]
+  },
   output: "export",
   //distDir: "docs",
   distDir: "out",
@@ -11,6 +24,7 @@ const nextConfig = {
   assetPrefix: "/easy-three",
   basePath: "/easy-three",
   trailingSlash: true,
+
   experimental: {
     urlImports: [
       "https://cdn.jsdelivr.net",
