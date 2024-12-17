@@ -22,7 +22,7 @@ export default function Page() {
       },
     });
 
-    helper.grid();
+    helper.grid()
     helper.axes();
 
     animate(({ delta, time }) => {
