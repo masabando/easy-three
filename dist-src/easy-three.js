@@ -27,6 +27,7 @@ export function init(targetName) {
 
   const create = {}
   addCreate({ create, Default, scene, THREE })
+
   const animate = _animate({ controls, renderer, scene, camera, THREE })
 
   const helper = {}

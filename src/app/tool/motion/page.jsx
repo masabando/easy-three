@@ -1,7 +1,6 @@
 "use client";
 import { useEffect, useRef } from "react";
 import { init } from "@dist/easy-three";
-import { noto } from "@/app/layout";
 
 export default function Page() {
   const ref = useRef();
@@ -13,17 +12,17 @@ export default function Page() {
     create.ambientLight();
     create.directionalLight();
 
-    create.plane({
-      position: [0, 2, 0],
-      size: [16 / 4, 9 / 4],
-      material: "Basic",
-      option: {
-        map: load.videoTexture("https://www.ktc.ac.jp/img/top/topmovie_720p.mp4"),
-      },
-    });
-
     helper.grid()
     helper.axes();
+
+    create.shape({
+      shapes: [
+        { position: [0, 0] },
+        { position: [2, 0] },
+        { position: [1, 1] },
+        { position: [0, 1] },
+      ],
+    });
 
     animate(({ delta, time }) => {
       //g.rotation.x += delta;

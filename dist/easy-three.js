@@ -252,6 +252,141 @@ const $c40d2f6fe98574a8$var$torusKnot = ({ create: create, THREE: THREE, sizeToA
 var $c40d2f6fe98574a8$export$2e2bcd8739ae039 = $c40d2f6fe98574a8$var$torusKnot;
 
 
+const $2e753e7bb2101d8c$var$circle = ({ create: create, THREE: THREE, sizeToArray: sizeToArray })=>{
+    return ({ size: size = 1, segments: segments = 32, ...props } = {})=>{
+        return create.object(THREE.CircleGeometry, {
+            ...props,
+            args: [
+                ...sizeToArray(size, 1),
+                ...sizeToArray(segments, 1)
+            ]
+        });
+    };
+};
+var $2e753e7bb2101d8c$export$2e2bcd8739ae039 = $2e753e7bb2101d8c$var$circle;
+
+
+const $cee5cb5d0800a94b$var$capsule = ({ create: create, THREE: THREE, sizeToArray: sizeToArray })=>{
+    return ({ size: size = 1, segments: segments = [
+        10,
+        20
+    ], ...props } = {})=>{
+        return create.object(THREE.CapsuleGeometry, {
+            ...props,
+            args: [
+                ...sizeToArray(size, 2),
+                ...sizeToArray(segments, 2)
+            ]
+        });
+    };
+};
+var $cee5cb5d0800a94b$export$2e2bcd8739ae039 = $cee5cb5d0800a94b$var$capsule;
+
+
+const $90f6112d67ec1df1$var$cone = ({ create: create, THREE: THREE, sizeToArray: sizeToArray })=>{
+    return ({ size: size = [
+        1,
+        2
+    ], segments: segments = [
+        32,
+        1
+    ], ...props } = {})=>{
+        return create.object(THREE.ConeGeometry, {
+            ...props,
+            args: [
+                ...sizeToArray(size, 2),
+                ...sizeToArray(segments, 2)
+            ]
+        });
+    };
+};
+var $90f6112d67ec1df1$export$2e2bcd8739ae039 = $90f6112d67ec1df1$var$cone;
+
+
+const $06e78acfa0e00e3a$var$cylinder = ({ create: create, THREE: THREE, sizeToArray: sizeToArray })=>{
+    return ({ size: size = [
+        1,
+        1,
+        2
+    ], segments: segments = [
+        32,
+        1
+    ], ...props } = {})=>{
+        return create.object(THREE.CylinderGeometry, {
+            ...props,
+            args: [
+                ...sizeToArray(size, 3),
+                ...sizeToArray(segments, 2)
+            ]
+        });
+    };
+};
+var $06e78acfa0e00e3a$export$2e2bcd8739ae039 = $06e78acfa0e00e3a$var$cylinder;
+
+
+const $1f41a0d3661f3f3a$var$octahedron = ({ create: create, THREE: THREE, sizeToArray: sizeToArray })=>{
+    return ({ size: size = 1, detail: detail = 0, ...props } = {})=>{
+        return create.object(THREE.OctahedronGeometry, {
+            ...props,
+            args: [
+                ...sizeToArray(size, 1),
+                ...sizeToArray(detail, 1)
+            ]
+        });
+    };
+};
+var $1f41a0d3661f3f3a$export$2e2bcd8739ae039 = $1f41a0d3661f3f3a$var$octahedron;
+
+
+const $b0892750231ca436$var$ring = ({ create: create, THREE: THREE, sizeToArray: sizeToArray })=>{
+    return ({ size: size = [
+        0.5,
+        1
+    ], segments: segments = [
+        32,
+        1
+    ], angle: angle = [
+        0,
+        Math.PI * 2
+    ], ...props } = {})=>{
+        return create.object(THREE.RingGeometry, {
+            ...props,
+            args: [
+                ...sizeToArray(size, 2),
+                ...sizeToArray(segments, 3),
+                ...sizeToArray(angle, 2)
+            ]
+        });
+    };
+};
+var $b0892750231ca436$export$2e2bcd8739ae039 = $b0892750231ca436$var$ring;
+
+
+const $ae10af728513f1cf$var$shape = ({ create: create, THREE: THREE, sizeToArray: sizeToArray })=>{
+    return ({ shapes: shapes = [], ...props } = {})=>{
+        const s = new THREE.Shape();
+        s.moveTo(...sizeToArray(shapes[0].position, 2));
+        shapes.slice(1).forEach(({ position: position, type: type })=>{
+            switch(type){
+                case 'curve':
+                    s.bezierCurveTo(...sizeToArray(position, 6));
+                    break;
+                default:
+                    s.lineTo(...sizeToArray(position, 2));
+                    break;
+            }
+        });
+        return create.object(THREE.ShapeGeometry, {
+            ...props,
+            args: [
+                s
+            ]
+        });
+    };
+};
+var $ae10af728513f1cf$export$2e2bcd8739ae039 = $ae10af728513f1cf$var$shape;
+
+
 const $d2e3c151fb3aa58c$var$directionalLight = ({ scene: scene, THREE: THREE })=>{
     return ({ intensity: intensity = 1, color: color = 0xffffff, position: position = [
         10,
@@ -450,6 +585,34 @@ const $f88a658689c91c8b$var$use = [
     {
         name: 'torusKnot',
         fn: (0, $c40d2f6fe98574a8$export$2e2bcd8739ae039)
+    },
+    {
+        name: 'circle',
+        fn: (0, $2e753e7bb2101d8c$export$2e2bcd8739ae039)
+    },
+    {
+        name: 'capsule',
+        fn: (0, $cee5cb5d0800a94b$export$2e2bcd8739ae039)
+    },
+    {
+        name: 'cone',
+        fn: (0, $90f6112d67ec1df1$export$2e2bcd8739ae039)
+    },
+    {
+        name: 'cylinder',
+        fn: (0, $06e78acfa0e00e3a$export$2e2bcd8739ae039)
+    },
+    {
+        name: 'octahedron',
+        fn: (0, $1f41a0d3661f3f3a$export$2e2bcd8739ae039)
+    },
+    {
+        name: 'ring',
+        fn: (0, $b0892750231ca436$export$2e2bcd8739ae039)
+    },
+    {
+        name: 'shape',
+        fn: (0, $ae10af728513f1cf$export$2e2bcd8739ae039)
     },
     // lights
     {
