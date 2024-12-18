@@ -10,6 +10,8 @@ const videoTexture = ({ THREE }) => {
     }
     //video.muted = true;
     video.loop = loop;
+    video.muted = true;
+    video.playsInline = true;
     video.setAttribute("playsinline", "")
     video.setAttribute("muted", "")
     if (autoPlay) video.setAttribute("autoplay", "");

@@ -1018,6 +1018,8 @@ const $f50147e13f0a1e9b$var$videoTexture = ({ THREE: THREE })=>{
         };
         //video.muted = true;
         video.loop = loop;
+        video.muted = true;
+        video.playsInline = true;
         video.setAttribute("playsinline", "");
         video.setAttribute("muted", "");
         if (autoPlay) video.setAttribute("autoplay", "");
