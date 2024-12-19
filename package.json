@@ -38,6 +38,14 @@
     "version:patch": "npm --no-git-tag-version version patch",
     "version:minor": "npm --no-git-tag-version version minor",
     "lint": "next lint",
+    "template:zip": "cd public/template && rm -f easy-three-template.zip && zip -r easy-three-template.zip easy-three-template && cd ../../",
+    "template:build": "ejs template-src/index.ejs -o ./public/template/easy-three-template/index.html -f package.json",
+    "template:update": "npm run template:build && npm run template:zip",
+    "echo-version": "echo $(node -p 'require(\"./package.json\").version')",
+    "github:push_and_tag": "git add . && git commit -m 'update version' && git push && git tag v$(npm run echo-version) && git push origin v$(npm run echo-version)",
+    "finish:patch": "npm run version:patch && npm run parcel && npm run template:update && npm run github:push_and_tag",
+    "finish:minor": "npm run version:minor && npm run parcel && npm run template:update && npm run github:push_and_tag",
+    "save": "git add . && git commit -m 'save' && git push",
     "test": "exit 0"
   },
   "dependencies": {
@@ -50,6 +58,7 @@
     "antd": "^5.22.4",
     "better-react-mathjax": "^2.0.4-beta1",
     "bootstrap": "^5.3.3",
+    "ejs": "^3.1.10",
     "eslint": "^8",
     "eslint-config-next": "15.0.3",
     "lil-gui": "^0.20.0",
