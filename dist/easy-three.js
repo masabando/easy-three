@@ -918,12 +918,12 @@ const $a99c7549dd4b7f0d$var$background = ({ THREE: THREE, scene: scene })=>{
         onProgress: ()=>{},
         onError: ()=>{}
     } } = {})=>{
-        const manager = new THREE.LoadingManager();
-        if (manager.onLoad) manager.onLoad = manager.onLoad;
-        if (manager.onStart) manager.onStart = manager.onStart;
-        if (manager.onProgress) manager.onProgress = manager.onProgress;
-        if (manager.onError) manager.onError = manager.onError;
-        const t = new (0, $1LQKV$RGBELoader)(manager).load(url, (texture)=>{
+        const loadingManager = new THREE.LoadingManager();
+        if (manager.onLoad) loadingManager.onLoad = manager.onLoad;
+        if (manager.onStart) loadingManager.onStart = manager.onStart;
+        if (manager.onProgress) loadingManager.onProgress = manager.onProgress;
+        if (manager.onError) loadingManager.onError = manager.onError;
+        const t = new (0, $1LQKV$RGBELoader)(loadingManager).load(url, (texture)=>{
             texture.mapping = THREE.EquirectangularReflectionMapping;
             if (background) scene.background = texture;
             if (environment) scene.environment = texture;
@@ -944,12 +944,12 @@ const $a13a0f97a119f709$var$texture = ({ Default: Default, THREE: THREE })=>{
         onProgress: ()=>{},
         onError: ()=>{}
     } } = {})=>{
-        const manager = new THREE.LoadingManager();
-        if (manager.onLoad) manager.onLoad = manager.onLoad;
-        if (manager.onStart) manager.onStart = manager.onStart;
-        if (manager.onProgress) manager.onProgress = manager.onProgress;
-        if (manager.onError) manager.onError = manager.onError;
-        const textureLoader = new THREE.TextureLoader(manager);
+        const loadingManager = new THREE.LoadingManager();
+        if (manager.onLoad) loadingManager.onLoad = manager.onLoad;
+        if (manager.onStart) loadingManager.onStart = manager.onStart;
+        if (manager.onProgress) loadingManager.onProgress = manager.onProgress;
+        if (manager.onError) loadingManager.onError = manager.onError;
+        const textureLoader = new THREE.TextureLoader(loadingManager);
         const texture = textureLoader.load(url);
         texture.wrapS = THREE[`${wrapS}Wrapping`];
         texture.wrapT = THREE[`${wrapT}Wrapping`];
