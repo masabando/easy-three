@@ -11,13 +11,13 @@ const background = ({ THREE, scene }) => {
       onError: () => { },
     },
   } = {}) => {
-    const manager = new THREE.LoadingManager()
-    if (manager.onLoad) manager.onLoad = manager.onLoad
-    if (manager.onStart) manager.onStart = manager.onStart
-    if (manager.onProgress) manager.onProgress = manager.onProgress
-    if (manager.onError) manager.onError = manager.onError
+    const loadingManager = new THREE.LoadingManager()
+    if (manager.onLoad) loadingManager.onLoad = manager.onLoad
+    if (manager.onStart) loadingManager.onStart = manager.onStart
+    if (manager.onProgress) loadingManager.onProgress = manager.onProgress
+    if (manager.onError) loadingManager.onError = manager.onError
 
-    const t = new RGBELoader(manager).load(url, (texture) => {
+    const t = new RGBELoader(loadingManager).load(url, (texture) => {
       texture.mapping = THREE.EquirectangularReflectionMapping
       if (background) scene.background = texture
       if (environment) scene.environment = texture

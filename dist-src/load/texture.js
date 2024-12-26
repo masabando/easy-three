@@ -10,13 +10,13 @@ const texture = ({ Default, THREE }) => {
       onError: () => { },
     },
   } = {}) => {
-    const manager = new THREE.LoadingManager()
-    if (manager.onLoad) manager.onLoad = manager.onLoad
-    if (manager.onStart) manager.onStart = manager.onStart
-    if (manager.onProgress) manager.onProgress = manager.onProgress
-    if (manager.onError) manager.onError = manager.onError
+    const loadingManager = new THREE.LoadingManager()
+    if (manager.onLoad) loadingManager.onLoad = manager.onLoad
+    if (manager.onStart) loadingManager.onStart = manager.onStart
+    if (manager.onProgress) loadingManager.onProgress = manager.onProgress
+    if (manager.onError) loadingManager.onError = manager.onError
 
-    const textureLoader = new THREE.TextureLoader(manager);
+    const textureLoader = new THREE.TextureLoader(loadingManager);
     const texture = textureLoader.load(url);
     texture.wrapS = THREE[`${wrapS}Wrapping`];
     texture.wrapT = THREE[`${wrapT}Wrapping`];
