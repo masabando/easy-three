@@ -1,0 +1,5 @@
+
+> @masabando/easy-three@1.1.8 echo-version
+> echo $(node -p 'require("./package.json").version')
+
+1.1.8

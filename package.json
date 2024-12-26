@@ -1,7 +1,7 @@
 {
   "name": "@masabando/easy-three",
   "type": "module",
-  "version": "1.1.8",
+  "version": "1.1.9",
   "author": "masabando",
   "description": "A simple and easy-to-use 3D library",
   "module": "./dist/easy-three.js",
@@ -42,7 +42,7 @@
     "template:build": "ejs template-src/index.ejs -o ./public/template/easy-three-template/index.html -f package.json",
     "template:update": "npm run template:build && npm run template:zip",
     "echo-version": "echo $(node -p 'require(\"./package.json\").version')",
-    "github:push_and_tag": "git add . && git commit -m 'update version' && git push && git tag v$(npm run echo-version) && git push origin v$(npm run echo-version)",
+    "github:push_and_tag": "git add . && git commit -m 'update version' && git push && git tag v$(npm run echo-version --silent) && git push origin v$(npm run echo-version --silent)",
     "finish:patch": "npm run version:patch && npm run parcel && npm run template:update && npm run github:push_and_tag",
     "finish:minor": "npm run version:minor && npm run parcel && npm run template:update && npm run github:push_and_tag",
     "save": "git add . && git commit -m 'save' && git push",
