@@ -5,9 +5,9 @@ const background = ({ THREE, scene }) => {
     background = true,
     environment = true,
     manager = {
-      onStart: () => {},
-      onLoad: () => {},
-      onProgress: () => {},
+      onStart: () => { },
+      onLoad: () => { },
+      onProgress: () => { },
       onError: () => { },
     },
   } = {}) => {
