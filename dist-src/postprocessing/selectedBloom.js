@@ -48,7 +48,10 @@ const selectedBloom = ({ renderer, scene, camera, THREE, color, sizeTarget, Defa
     finalComposer.addPass(renderScene);
     finalComposer.addPass(mixPass);
     finalComposer.addPass(outputPass);
-    const darkMaterial = new THREE.MeshBasicMaterial({ color: "black" });
+    const darkMaterial = new THREE.MeshBasicMaterial({
+      color: "black",
+      side: THREE.DoubleSide,
+    });
     const materials = {}
     let bg = scene.background;
     const p = {

@@ -738,7 +738,8 @@ const $00a521dcadbc2e33$var$selectedBloom = ({ renderer: renderer, scene: scene,
         finalComposer.addPass(mixPass);
         finalComposer.addPass(outputPass);
         const darkMaterial = new THREE.MeshBasicMaterial({
-            color: "black"
+            color: "black",
+            side: THREE.DoubleSide
         });
         const materials = {};
         let bg = scene.background;
