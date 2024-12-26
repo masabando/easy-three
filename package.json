@@ -46,8 +46,7 @@
     "finish:patch": "npm run version:patch && npm run parcel && npm run template:update && npm run github:push_and_tag",
     "finish:minor": "npm run version:minor && npm run parcel && npm run template:update && npm run github:push_and_tag",
     "save": "git add . && git commit -m 'save' && git push",
-    "test": "exit 0",
-    "git-test": "ls $(npm run echo-version)"
+    "test": "exit 0"
   },
   "dependencies": {
     "@pixiv/three-vrm": "^3.2.0",
