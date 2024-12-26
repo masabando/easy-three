@@ -912,8 +912,18 @@ var $cd66eeeec2914b13$export$2e2bcd8739ae039 = $cd66eeeec2914b13$var$addPostproc
 
 
 const $a99c7549dd4b7f0d$var$background = ({ THREE: THREE, scene: scene })=>{
-    return (url, { background: background = true, environment: environment = true } = {})=>{
-        const t = new (0, $1LQKV$RGBELoader)().load(url, (texture)=>{
+    return (url, { background: background = true, environment: environment = true, manager: manager = {
+        onStart: ()=>{},
+        onLoad: ()=>{},
+        onProgress: ()=>{},
+        onError: ()=>{}
+    } } = {})=>{
+        const manager = new THREE.LoadingManager();
+        if (manager.onLoad) manager.onLoad = manager.onLoad;
+        if (manager.onStart) manager.onStart = manager.onStart;
+        if (manager.onProgress) manager.onProgress = manager.onProgress;
+        if (manager.onError) manager.onError = manager.onError;
+        const t = new (0, $1LQKV$RGBELoader)(manager).load(url, (texture)=>{
             texture.mapping = THREE.EquirectangularReflectionMapping;
             if (background) scene.background = texture;
             if (environment) scene.environment = texture;
@@ -928,8 +938,18 @@ const $a13a0f97a119f709$var$texture = ({ Default: Default, THREE: THREE })=>{
     return (url, { wrapS: wrapS = Default.texture.wrapping, wrapT: wrapT = Default.texture.wrapping, repeat: repeat = [
         1,
         1
-    ] } = {})=>{
-        const textureLoader = new THREE.TextureLoader();
+    ], manager: manager = {
+        onStart: ()=>{},
+        onLoad: ()=>{},
+        onProgress: ()=>{},
+        onError: ()=>{}
+    } } = {})=>{
+        const manager = new THREE.LoadingManager();
+        if (manager.onLoad) manager.onLoad = manager.onLoad;
+        if (manager.onStart) manager.onStart = manager.onStart;
+        if (manager.onProgress) manager.onProgress = manager.onProgress;
+        if (manager.onError) manager.onError = manager.onError;
+        const textureLoader = new THREE.TextureLoader(manager);
         const texture = textureLoader.load(url);
         texture.wrapS = THREE[`${wrapS}Wrapping`];
         texture.wrapT = THREE[`${wrapT}Wrapping`];
