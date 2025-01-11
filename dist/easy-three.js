@@ -884,9 +884,9 @@ const $24c47b237e5ceee6$var$bokeh = ({ renderer: renderer, scene: scene, camera:
         function initPostprocessing() {
             const renderPass = new (0, $1LQKV$RenderPass)(scene, camera);
             const bokehPass = new (0, $1LQKV$BokehPass)(scene, camera, {
-                focus: 6.0,
-                aperture: 50,
-                maxblur: 0.02
+                focus: focus,
+                aperture: aperture,
+                maxblur: maxblur
             });
             const outputPass = new (0, $1LQKV$OutputPass)();
             const composer = new (0, $1LQKV$EffectComposer)(renderer);

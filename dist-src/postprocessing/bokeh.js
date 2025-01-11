@@ -14,9 +14,9 @@ const bokeh = ({ renderer, scene, camera }) => {
       const renderPass = new RenderPass(scene, camera);
 
       const bokehPass = new BokehPass(scene, camera, {
-        focus: 6.0,
-        aperture: 50,
-        maxblur: 0.02,
+        focus,
+        aperture,
+        maxblur
       });
 
       const outputPass = new OutputPass();

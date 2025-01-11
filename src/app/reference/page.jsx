@@ -470,7 +470,8 @@ export default function Page() {
                           48)。
                         </li>
                         <li>
-                          fontWeight (Number | String) : フォントのウェイト (デフォルト : &quot;&quot;)。
+                          fontWeight (Number | String) : フォントのウェイト
+                          (デフォルト : &quot;&quot;)。
                         </li>
                         <li>
                           font (String) : フォント (デフォルト : &quot;'Noto
@@ -543,7 +544,8 @@ export default function Page() {
                           48)。
                         </li>
                         <li>
-                          fontWeight (Number | String) : フォントのウェイト (デフォルト : &quot;&quot;)。
+                          fontWeight (Number | String) : フォントのウェイト
+                          (デフォルト : &quot;&quot;)。
                         </li>
                         <li>
                           font (String) : フォント (デフォルト : &quot;'Noto
@@ -1018,6 +1020,42 @@ export default function Page() {
                 戻り値は、glitch のみのオブジェクトです。
                 <br />
                 戻り値の glitch は、animate
+                の中で呼び出すことでエフェクトを適用します。
+                <br />
+                animate の第2引数を false にしてください。
+              </ReferenceContent>
+              <ReferenceContent
+                name="postprocessing.bokeh"
+                args="delta : Number, props : Object"
+                returnObject="Object"
+                href="/reference/postprocessing/bokeh/"
+                argsInfo={
+                  <>
+                    <div>
+                      <span>delta</span> - 経過時間。
+                    </div>
+                    <div>
+                      <span>props</span> - 設定オブジェクト。
+                      <ul>
+                        <li>
+                          focus (Number) : フォーカス距離 (デフォルト : 1)。
+                        </li>
+                        <li>
+                          aperture (Number) : 絞り値 (デフォルト : 0.01)。
+                        </li>
+                        <li>
+                          maxblur (Number) : 最大ブラー (デフォルト : 0.01)。
+                        </li>
+                      </ul>
+                    </div>
+                  </>
+                }
+              >
+                ぼかしエフェクトを追加します。
+                <br />
+                戻り値は、bokeh のみのオブジェクトです。
+                <br />
+                戻り値の bokeh は、animate
                 の中で呼び出すことでエフェクトを適用します。
                 <br />
                 animate の第2引数を false にしてください。
