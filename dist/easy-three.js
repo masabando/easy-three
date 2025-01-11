@@ -11,6 +11,7 @@ import {ClearPass as $1LQKV$ClearPass} from "three/addons/postprocessing/ClearPa
 import {ClearMaskPass as $1LQKV$ClearMaskPass, MaskPass as $1LQKV$MaskPass} from "three/addons/postprocessing/MaskPass.js";
 import {TexturePass as $1LQKV$TexturePass} from "three/addons/postprocessing/TexturePass.js";
 import {GlitchPass as $1LQKV$GlitchPass} from "three/addons/postprocessing/GlitchPass.js";
+import {BokehPass as $1LQKV$BokehPass} from "three/addons/postprocessing/BokehPass.js";
 import {RGBELoader as $1LQKV$RGBELoader} from "three/addons/loaders/RGBELoader.js";
 import {GLTFLoader as $1LQKV$GLTFLoader} from "three/addons/loaders/GLTFLoader.js";
 import {VRMLoaderPlugin as $1LQKV$VRMLoaderPlugin, VRMUtils as $1LQKV$VRMUtils} from "@pixiv/three-vrm";
@@ -873,6 +874,48 @@ const $d51fd00e5a1a0206$var$glitch = ({ renderer: renderer, scene: scene, camera
 var $d51fd00e5a1a0206$export$2e2bcd8739ae039 = $d51fd00e5a1a0206$var$glitch;
 
 
+
+
+
+
+const $24c47b237e5ceee6$var$bokeh = ({ renderer: renderer, scene: scene, camera: camera })=>{
+    return ({ focus: focus = 1, aperture: aperture = 0.01, maxblur: maxblur = 0.01 } = {})=>{
+        const b = {};
+        function initPostprocessing() {
+            const renderPass = new (0, $1LQKV$RenderPass)(scene, camera);
+            const bokehPass = new (0, $1LQKV$BokehPass)(scene, camera, {
+                focus: 6.0,
+                aperture: 50,
+                maxblur: 0.02
+            });
+            const outputPass = new (0, $1LQKV$OutputPass)();
+            const composer = new (0, $1LQKV$EffectComposer)(renderer);
+            composer.addPass(renderPass);
+            composer.addPass(bokehPass);
+            composer.addPass(outputPass);
+            b.composer = composer;
+            b.bokeh = bokehPass;
+            b.composer.setSize(renderer.domElement.width, renderer.domElement.height);
+        }
+        initPostprocessing();
+        const p = {
+            focus: focus,
+            aperture: aperture,
+            maxblur: maxblur
+        };
+        return {
+            bokeh: (delta, { focus: focus = p.focus, aperture: aperture = p.aperture, maxblur: maxblur = p.maxblur } = {})=>{
+                b.bokeh.uniforms["focus"].value = focus;
+                b.bokeh.uniforms["aperture"].value = aperture;
+                b.bokeh.uniforms["maxblur"].value = maxblur;
+                b.composer.render(delta);
+            }
+        };
+    };
+};
+var $24c47b237e5ceee6$export$2e2bcd8739ae039 = $24c47b237e5ceee6$var$bokeh;
+
+
 const $cd66eeeec2914b13$var$use = [
     {
         name: "bloom",
@@ -893,6 +936,10 @@ const $cd66eeeec2914b13$var$use = [
     {
         name: "glitch",
         fn: (0, $d51fd00e5a1a0206$export$2e2bcd8739ae039)
+    },
+    {
+        name: "bokeh",
+        fn: (0, $24c47b237e5ceee6$export$2e2bcd8739ae039)
     }
 ];
 const $cd66eeeec2914b13$var$addPostprocessing = ({ renderer: renderer, camera: camera, scene: scene, THREE: THREE, postprocessing: postprocessing, color: color, sizeTarget: sizeTarget, Default: Default })=>{

@@ -3,6 +3,7 @@ import selectedBloom from './selectedBloom.js'
 import pixel from './pixel.js'
 import mask from './mask.js'
 import glitch from './glitch.js'
+import bokeh from './bokeh.js'
 
 const use = [
   { name: "bloom", fn: bloom },
@@ -10,6 +11,7 @@ const use = [
   { name: "pixel", fn: pixel },
   { name: "mask", fn: mask },
   { name: "glitch", fn: glitch },
+  { name: "bokeh", fn: bokeh },
 ]
 
 

@@ -5,28 +5,35 @@ import { init } from "@dist/easy-three";
 export default function Page() {
   const ref = useRef();
   useEffect(() => {
-    const { camera, create, animate, load, helper, controls } = init(ref.current);
+    const { renderer, camera, create, animate, scene, color, load, helper, controls, postprocessing } = init(ref.current);
 
     controls.connect();
     camera.position.set(0, 2, 5);
     create.ambientLight();
     create.directionalLight();
 
+    scene.background = color(0xffffff)
+
     helper.grid()
     helper.axes();
 
-    create.shape({
-      shapes: [
-        { position: [0, 0] },
-        { position: [2, 0] },
-        { position: [1, 1] },
-        { position: [0, 1] },
-      ],
+    for (let i = 0; i < 10; i++) {
+      create.cube({
+        size: 0.5,
+        position: [0, 0, 2-i],
+    });
+    }
+
+    const { bokeh } = postprocessing.bokeh({
+      aperture: 0.003,
     });
 
     animate(({ delta, time }) => {
-      //g.rotation.x += delta;
-    });
+      const f = 10 * Math.abs(Math.sin(time*0.1));
+      bokeh(delta, {
+        focus: f
+      });
+    }, false);
   }, []);
 
   return (
