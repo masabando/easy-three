@@ -905,9 +905,9 @@ const $24c47b237e5ceee6$var$bokeh = ({ renderer: renderer, scene: scene, camera:
         };
         return {
             bokeh: (delta, { focus: focus = p.focus, aperture: aperture = p.aperture, maxblur: maxblur = p.maxblur } = {})=>{
-                // b.bokeh.uniforms["focus"].value = focus;
-                // b.bokeh.uniforms["aperture"].value = aperture;
-                // b.bokeh.uniforms["maxblur"].value = maxblur;
+                b.bokeh.uniforms["focus"].value = focus;
+                b.bokeh.uniforms["aperture"].value = aperture;
+                b.bokeh.uniforms["maxblur"].value = maxblur;
                 b.composer.render(delta);
             }
         };

@@ -42,9 +42,9 @@ const bokeh = ({ renderer, scene, camera }) => {
         aperture = p.aperture,
         maxblur = p.maxblur,
       } = {}) => {
-        // b.bokeh.uniforms["focus"].value = focus;
-        // b.bokeh.uniforms["aperture"].value = aperture;
-        // b.bokeh.uniforms["maxblur"].value = maxblur;
+        b.bokeh.uniforms["focus"].value = focus;
+        b.bokeh.uniforms["aperture"].value = aperture;
+        b.bokeh.uniforms["maxblur"].value = maxblur;
         b.composer.render(delta);
       }
     }
