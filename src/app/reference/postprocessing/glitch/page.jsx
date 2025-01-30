@@ -3,6 +3,8 @@ import Container from "react-bootstrap/Container";
 import CodeBlock from "@/components/CodeBlock";
 import { useEffect, useRef } from "react";
 import { init } from "@dist/easy-three.js";
+import ReferenceContent from "@/components/ReferenceContent";
+import { Link } from "@/components/BaseKit";
 
 function Ex1(props) {
   const ref = useRef();
@@ -59,9 +61,33 @@ function Ex2(props) {
 export default function Page() {
   return (
     <Container className="pt-4 pb-5">
+      <title>postprocessing.glitch | easy-three</title>
       <h1>postprocessing.glitch</h1>
-      <h2>コードの例</h2>
+      <ReferenceContent
+        name="postprocessing.glitch"
+        args="props : Object"
+        returnObject="Object"
+        argsInfo={
+          <>
+            <div>
+              <span>props</span> - 設定オブジェクト。
+              <ul>
+                <li>wild (Boolean) : ワイルドモード (デフォルト : false)。</li>
+              </ul>
+            </div>
+          </>
+        }
+      >
+        Glitch エフェクトを追加します。
+        <br />
+        戻り値は、glitch のみのオブジェクトです。
+        <br />
+        戻り値の glitch は、animate の中で呼び出すことでエフェクトを適用します。
+        <br />
+        animate の第2引数を false にしてください。
+      </ReferenceContent>
 
+      <h2>コードの例</h2>
       <h4>グリッチエフェクト</h4>
       <Ex1
         className="border"
@@ -89,7 +115,6 @@ animate(({ delta }) => {
 }, false)
 `}
       </CodeBlock>
-
       <h4 className="mt-5">激しいエフェクト</h4>
       <Ex2
         className="border"

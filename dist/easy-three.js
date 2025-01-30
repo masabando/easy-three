@@ -52,7 +52,7 @@ const $b0f8916483f44240$var$prep = ({ targetName: targetName, THREE: THREE })=>{
     const domElement = targetName ? typeof targetName === "string" ? document.querySelector(targetName) : targetName : document.body;
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-    const renderer = new THREE.WebGLRenderer({
+    let renderer = new THREE.WebGLRenderer({
         antialias: true,
         alpha: true
     });
@@ -97,12 +97,80 @@ const $b0f8916483f44240$var$prep = ({ targetName: targetName, THREE: THREE })=>{
     function color(col) {
         return new THREE.Color(col);
     }
-    function destroy() {
+    function _destroy() {
         sizeTarget.removeEventListener("resize", sizeTargetResize);
         if (sizeTarget !== window) window.removeEventListener("resize", windowResize);
+        // dispose all meshes
+        scene.children.forEach((obj)=>{
+            obj.traverse((x)=>{
+                switch(x.type){
+                    case "Mesh":
+                        if (x.geometry) {
+                            x.geometry.dispose();
+                            x.geometry = null;
+                        }
+                        if (x.material) {
+                            if (Array.isArray(x.material)) {
+                                x.material.forEach((m)=>{
+                                    if (m.map) {
+                                        m.map.dispose();
+                                        m.map = null;
+                                    }
+                                    m.dispose();
+                                });
+                                x.material = null;
+                            } else {
+                                if (x.material.map) {
+                                    x.material.map.dispose();
+                                    x.material.map = null;
+                                }
+                                x.material.dispose();
+                                x.material = null;
+                            }
+                        }
+                }
+                scene.remove(x);
+            });
+        });
+        renderer.setAnimationLoop(null);
         domElement.removeChild(renderer.domElement);
         renderer.dispose();
         renderer.forceContextLoss();
+        renderer.domElement = null;
+    }
+    function destroy() {
+        sizeTarget.removeEventListener("resize", sizeTargetResize);
+        if (sizeTarget !== window) window.removeEventListener("resize", windowResize);
+        // OrbitControlsの破棄
+        controls.dispose();
+        // 確実にsceneのオブジェクトを削除
+        while(scene.children.length > 0){
+            const obj = scene.children[0];
+            obj.traverse((x)=>{
+                if (x instanceof THREE.Mesh) {
+                    if (x.geometry) x.geometry.dispose();
+                    if (x.material) {
+                        if (Array.isArray(x.material)) x.material.forEach((m)=>{
+                            if (m.map) m.map.dispose();
+                            m.dispose();
+                        });
+                        else {
+                            if (x.material.map) x.material.map.dispose();
+                            x.material.dispose();
+                        }
+                    }
+                }
+            });
+            scene.remove(obj);
+        }
+        // WebGLコンテキストの解放
+        renderer.forceContextLoss();
+        renderer.dispose();
+        // DOMからCanvasを削除
+        if (renderer.domElement && renderer.domElement.parentNode) renderer.domElement.parentNode.removeChild(renderer.domElement);
+        renderer.domElement.remove();
+        renderer.domElement = null;
+        renderer = null;
     }
     function noToneMapping() {
         renderer.toneMapping = THREE.NoToneMapping;
@@ -162,7 +230,9 @@ const $5206c8db530eb142$var$object = ({ Default: Default, scene: scene, THREE: T
         color: Default.color
     }, material: material = Default.material, castShadow: castShadow = true, receiveShadow: receiveShadow = true, autoAdd: autoAdd = true } = {})=>{
         const m = new THREE.Mesh(//new THREE[geometry](...args),
-        new geometry(...args), new THREE[`Mesh${material}Material`](material === "Normal" ? {} : option));
+        new geometry(...args), new THREE[`Mesh${material}Material`](material === "Normal" ? option.side ? {
+            side: option.side
+        } : {} : option));
         m.position.set(...position);
         m.rotation.set(...rotation);
         m.castShadow = castShadow;
@@ -429,15 +499,18 @@ const $2ab9fe92e6f4a93c$var$pointLight = ({ scene: scene, THREE: THREE })=>{
         6,
         6
     ], castShadow: castShadow = true, shadow: shadow = {
-        mapSize: [
-            1024,
-            1024
-        ]
+        mapSize: {
+            width: 1024,
+            height: 1024
+        }
     } } = {})=>{
         const l = new THREE.PointLight(color, intensity, distance, decay);
         l.position.set(...position);
         l.castShadow = castShadow;
-        if (castShadow) l.shadow.mapSize = shadow.mapSize;
+        if (castShadow) {
+            l.shadow.mapSize.width = shadow.mapSize.width;
+            l.shadow.mapSize.height = shadow.mapSize.height;
+        }
         scene.add(l);
         return l;
     };

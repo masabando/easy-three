@@ -3,6 +3,8 @@ import Container from "react-bootstrap/Container";
 import CodeBlock from "@/components/CodeBlock";
 import { useEffect, useRef } from "react";
 import { init } from "@dist/easy-three.js";
+import ReferenceContent from "@/components/ReferenceContent";
+import { Link } from "@/components/BaseKit";
 
 function Ex1(props) {
   const ref = useRef();
@@ -60,9 +62,29 @@ function Ex2(props) {
 export default function Page() {
   return (
     <Container className="pt-4 pb-5">
+      <title>postprocessing.mask | easy-three</title>
       <h1>postprocessing.mask</h1>
+      <ReferenceContent
+        name="postprocessing.mask"
+        args="texture : Texture"
+        returnObject="Object"
+        argsInfo={
+          <>
+            <div>
+              <span>texture</span> - マスクテクスチャ。
+            </div>
+          </>
+        }
+      >
+        Maskエフェクトを追加します。
+        <br />
+        戻り値は、mask のみのオブジェクトです。
+        <br />
+        戻り値の mask は、animate の中で呼び出すことでエフェクトを適用します。
+        <br />
+        animate の第2引数を false にしてください。
+      </ReferenceContent>
       <h2>コードの例</h2>
-
       <h4>マスクエフェクト</h4>
       <Ex1
         className="border"
@@ -89,7 +111,6 @@ animate(({ delta, time }) => {
 }, false)
 `}
       </CodeBlock>
-
       <h4 className="mt-5">HDR画像をテクスチャとして使う</h4>
       <Ex2
         className="border"

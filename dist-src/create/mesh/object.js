@@ -14,7 +14,9 @@ const object = ({ Default, scene, THREE }) => {
     const m = new THREE.Mesh(
       //new THREE[geometry](...args),
       new geometry(...args),
-      new THREE[`Mesh${material}Material`](material === "Normal" ? {} : option)
+      new THREE[`Mesh${material}Material`](material === "Normal" ?
+        (option.side ? { side: option.side } : {})
+        : option)
     )
     m.position.set(...position)
     m.rotation.set(...rotation)

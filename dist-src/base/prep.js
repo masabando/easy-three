@@ -9,7 +9,7 @@ const prep = ({ targetName, THREE }) => {
 
   const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000)
 
-  const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true })
+  let renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true })
   renderer.shadowMap.enabled = true
   renderer.setPixelRatio(window.devicePixelRatio)
   //renderer.outputEncoding = THREE.sRGBEncoding;
@@ -62,14 +62,94 @@ const prep = ({ targetName, THREE }) => {
     return new THREE.Color(col)
   }
 
-  function destroy() {
+  function _destroy() {
     sizeTarget.removeEventListener("resize", sizeTargetResize)
     if (sizeTarget !== window) {
       window.removeEventListener("resize", windowResize)
     }
+    // dispose all meshes
+    scene.children.forEach(obj => {
+      obj.traverse(x => {
+        switch (x.type) {
+          case "Mesh":
+            if (x.geometry) {
+              x.geometry.dispose();
+              x.geometry = null;
+            }
+            if (x.material) {
+              if (Array.isArray(x.material)) {
+                x.material.forEach(m => {
+                  if (m.map) {
+                    m.map.dispose();
+                    m.map = null;
+                  }
+                  m.dispose()
+                });
+                x.material = null;
+              } else {
+                if (x.material.map) {
+                  x.material.map.dispose();
+                  x.material.map = null;
+                }
+                x.material.dispose();
+                x.material = null;
+              }
+            }
+        }
+        scene.remove(x);
+      })
+    })
+    renderer.setAnimationLoop(null);
     domElement.removeChild(renderer.domElement);
     renderer.dispose();
     renderer.forceContextLoss();
+    renderer.domElement = null;
+  }
+
+  function destroy() {
+    sizeTarget.removeEventListener("resize", sizeTargetResize);
+    if (sizeTarget !== window) {
+      window.removeEventListener("resize", windowResize);
+    }
+
+    // OrbitControlsの破棄
+    controls.dispose();
+
+    // 確実にsceneのオブジェクトを削除
+    while (scene.children.length > 0) {
+      const obj = scene.children[0];
+      obj.traverse((x) => {
+        if (x instanceof THREE.Mesh) {
+          if (x.geometry) {
+            x.geometry.dispose();
+          }
+          if (x.material) {
+            if (Array.isArray(x.material)) {
+              x.material.forEach((m) => {
+                if (m.map) m.map.dispose();
+                m.dispose();
+              });
+            } else {
+              if (x.material.map) x.material.map.dispose();
+              x.material.dispose();
+            }
+          }
+        }
+      });
+      scene.remove(obj);
+    }
+
+    // WebGLコンテキストの解放
+    renderer.forceContextLoss();
+    renderer.dispose();
+
+    // DOMからCanvasを削除
+    if (renderer.domElement && renderer.domElement.parentNode) {
+      renderer.domElement.parentNode.removeChild(renderer.domElement);
+    }
+    renderer.domElement.remove();
+    renderer.domElement = null;
+    renderer = null;
   }
 
   function noToneMapping() {

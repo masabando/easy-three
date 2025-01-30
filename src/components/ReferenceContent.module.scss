@@ -1,0 +1,40 @@
+.reference {
+  font-size: 16px;
+
+  a {
+    text-decoration: none;
+  }
+  h3 {
+    font-size: 1.2em;
+    margin-top: 4em;
+
+    span {
+      color: #666;
+    }
+  }
+  &:first-of-type {
+    h3 {
+      margin-top: 1em;
+    }
+  }
+
+  > div {
+    > div {
+      margin-top: 1em;
+      margin-bottom: 1em;
+      > div {
+        margin-top: 1em;
+        ul li {
+          margin-top: 0.5em;
+          margin-bottom: 0.5em;
+        }
+      }
+
+      span {
+        color: #666;
+        font-weight: bold;
+        margin-right: 0.5em;
+      }
+    }
+  }
+}

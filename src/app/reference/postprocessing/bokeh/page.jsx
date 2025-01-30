@@ -3,6 +3,8 @@ import Container from "react-bootstrap/Container";
 import CodeBlock from "@/components/CodeBlock";
 import { useEffect, useRef } from "react";
 import { init } from "@dist/easy-three.js";
+import ReferenceContent from "@/components/ReferenceContent";
+import { Link } from "@/components/BaseKit";
 
 function Ex1(props) {
   const ref = useRef();
@@ -88,9 +90,38 @@ function Ex2(props) {
 export default function Page() {
   return (
     <Container className="pt-4 pb-5">
+      <title>postprocessing.bokeh | easy-three</title>
       <h1>postprocessing.bokeh</h1>
-      <h2>コードの例</h2>
+      <ReferenceContent
+        name="postprocessing.bokeh"
+        args="delta : Number, props : Object"
+        returnObject="Object"
+        argsInfo={
+          <>
+            <div>
+              <span>delta</span> - 経過時間。
+            </div>
+            <div>
+              <span>props</span> - 設定オブジェクト。
+              <ul>
+                <li>focus (Number) : フォーカス距離 (デフォルト : 1)。</li>
+                <li>aperture (Number) : 絞り値 (デフォルト : 0.01)。</li>
+                <li>maxblur (Number) : 最大ブラー (デフォルト : 0.01)。</li>
+              </ul>
+            </div>
+          </>
+        }
+      >
+        ぼかしエフェクトを追加します。
+        <br />
+        戻り値は、bokeh のみのオブジェクトです。
+        <br />
+        戻り値の bokeh は、animate の中で呼び出すことでエフェクトを適用します。
+        <br />
+        animate の第2引数を false にしてください。
+      </ReferenceContent>
 
+      <h2>コードの例</h2>
       <h4>ぼかしエフェクト</h4>
       <Ex1
         className="border"
@@ -133,7 +164,6 @@ animate(({ delta }) => {
 }, false);
 `}
       </CodeBlock>
-
       <h4 className="mt-5">焦点の移動</h4>
       <Ex2
         className="border"
