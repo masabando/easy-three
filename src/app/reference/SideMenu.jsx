@@ -87,6 +87,7 @@ export default function SideMenu({ setOpen }) {
             type: "group",
             children: [
               { key: "load/vrm", label: "vrm" },
+              { key: "load/bvh", label: "bvh" },
               { key: "load/gltf", label: "gltf" },
               { key: "load/background", label: "background" },
               { key: "load/texture", label: "texture" },
