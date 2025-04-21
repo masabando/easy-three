@@ -5,35 +5,41 @@ import { init } from "@dist/easy-three";
 export default function Page() {
   const ref = useRef();
   useEffect(() => {
-    const { renderer, camera, create, animate, scene, color, load, helper, controls, postprocessing } = init(ref.current);
+    const {
+      camera,
+      create,
+      animate,
+      load,
+      controls,
+      helper,
+      scene,
+      color,
+      THREE,
+    } = init(ref.current);
 
     controls.connect();
-    camera.position.set(0, 2, 5);
+    camera.position.set(0, 1, -3);
     create.ambientLight();
     create.directionalLight();
 
-    scene.background = color(0xffffff)
+    scene.background = color(0xffffff);
 
-    helper.grid()
+    helper.grid();
     helper.axes();
 
-    for (let i = 0; i < 10; i++) {
-      create.cube({
-        size: 0.5,
-        position: [0, 0, 2-i],
-    });
-    }
-
-    const { bokeh } = postprocessing.bokeh({
-      aperture: 0.003,
+    let model;
+    let bvh = {};
+    load.vrm("../../model/ktc-uniform_female_v5.vrm").then((vrm) => {
+      model = vrm;
+      load.bvh("../../motion/sampleMotion.bvh", vrm, bvh)
     });
 
     animate(({ delta, time }) => {
-      const f = 10 * Math.abs(Math.sin(time*0.1));
-      bokeh(delta, {
-        focus: f
-      });
-    }, false);
+      if (model && bvh.mixer) {
+        bvh.mixer.update(delta * 1000);
+        model.update(delta * 1000);
+      }
+    });
   }, []);
 
   return (

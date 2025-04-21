@@ -15,6 +15,7 @@ import {BokehPass as $1LQKV$BokehPass} from "three/addons/postprocessing/BokehPa
 import {RGBELoader as $1LQKV$RGBELoader} from "three/addons/loaders/RGBELoader.js";
 import {GLTFLoader as $1LQKV$GLTFLoader} from "three/addons/loaders/GLTFLoader.js";
 import {VRMLoaderPlugin as $1LQKV$VRMLoaderPlugin, VRMUtils as $1LQKV$VRMUtils} from "@pixiv/three-vrm";
+import {BVHLoader as $1LQKV$BVHLoader} from "three/examples/jsm/loaders/BVHLoader.js";
 
 
 const $05e1af71c54d2f4c$var$Default = {
@@ -1182,6 +1183,127 @@ const $4e19fd0962a645af$var$cubeTexture = ({ THREE: THREE })=>{
 var $4e19fd0962a645af$export$2e2bcd8739ae039 = $4e19fd0962a645af$var$cubeTexture;
 
 
+
+const $a23690bb8389291f$var$bvh = ({ THREE: THREE })=>{
+    return (url, vrm, bvhObj, { effectiveWeight: effectiveWeight = 1, timeScale: timeScale = 1000, nameList: nameList = [
+        "head",
+        "neck",
+        "chest",
+        "spine",
+        "hips",
+        "rightShoulder",
+        "rightUpperArm",
+        "rightLowerArm",
+        "rightHand",
+        "leftShoulder",
+        "leftUpperArm",
+        "leftLowerArm",
+        "leftHand",
+        "rightUpperLeg",
+        "rightLowerLeg",
+        "rightFoot",
+        "leftUpperLeg",
+        "leftLowerLeg",
+        "leftFoot"
+    ], idList: idList = [
+        "head",
+        "neck_1",
+        "torso_5",
+        "torso_3",
+        "root",
+        "r_shoulder",
+        "r_up_arm",
+        "r_low_arm",
+        "r_hand",
+        "l_shoulder",
+        "l_up_arm",
+        "l_low_arm",
+        "l_hand",
+        "r_up_leg",
+        "r_low_leg",
+        "r_foot",
+        "l_up_leg",
+        "l_low_leg",
+        "l_foot"
+    ] } = {})=>{
+        function createClip(vrm, bvh) {
+            const bones = nameList.map((boneName)=>{
+                return vrm.bone(boneName);
+            });
+            const hierarchy = [];
+            for(let i = 0; i < idList.length; i++){
+                const keys = createKeys(idList[i], bvh.clip.tracks);
+                if (keys != null) hierarchy.push({
+                    keys: keys
+                });
+            }
+            const clip = THREE.AnimationClip.parseAnimation({
+                hierarchy: hierarchy
+            }, bones);
+            clip.tracks.some((track)=>{
+                track.name = track.name.replace(/^\.bones\[([^\]]+)\].(position|quaternion|scale)$/, "$1.$2");
+            });
+            return clip;
+        }
+        function createKeys(id, tracks) {
+            const posTrack = findTrack(`${id}.position`, tracks);
+            const rotTrack = findTrack(`${id}.quaternion`, tracks);
+            const keys = [];
+            const rate = 0.008; // サイズの調整
+            for(let i = 0; i < posTrack.times.length; i++){
+                const key = {};
+                // 時間
+                key["time"] = parseInt(posTrack.times[i] * timeScale);
+                // 回転
+                if (id == "rButtock" || id == "lButtock") {
+                    const id2 = id == "rButtock" ? "rThigh" : "lThigh";
+                    let q1 = values2quaternion(rotTrack.values, i);
+                    const rotTrack2 = findTrack(".bones[" + id2 + "].quaternion", tracks);
+                    q1.multiply(values2quaternion(rotTrack2.values, i));
+                    key["rot"] = [
+                        -q1.x,
+                        q1.y,
+                        -q1.z,
+                        q1.w
+                    ];
+                } else key["rot"] = [
+                    -rotTrack.values[i * 4],
+                    rotTrack.values[i * 4 + 1],
+                    -rotTrack.values[i * 4 + 2],
+                    rotTrack.values[i * 4 + 3]
+                ];
+                // 位置
+                if (id == "hip") key["pos"] = [
+                    -posTrack.values[i * 3] * rate,
+                    posTrack.values[i * 3 + 1] * rate,
+                    -posTrack.values[i * 3 + 2] * rate
+                ];
+                keys.push(key);
+            }
+            if (keys.length == 0) return null;
+            return keys;
+        }
+        function findTrack(name, tracks) {
+            for(let i = 0; i < tracks.length; i++){
+                if (tracks[i].name == name) return tracks[i];
+            }
+            return null;
+        }
+        // 配列をQuaternionに変換
+        function values2quaternion(values, i) {
+            return new THREE.Quaternion(values[i * 4], values[i * 4 + 1], values[i * 4 + 2], values[i * 4 + 3]);
+        }
+        const loader = new (0, $1LQKV$BVHLoader)();
+        loader.load(url, (bvh)=>{
+            const clip = createClip(vrm, bvh);
+            bvhObj.mixer = new THREE.AnimationMixer(vrm.scene);
+            bvhObj.mixer.clipAction(clip).setEffectiveWeight(effectiveWeight).play();
+        });
+    };
+};
+var $a23690bb8389291f$export$2e2bcd8739ae039 = $a23690bb8389291f$var$bvh;
+
+
 const $bf21102bcb721113$var$use = [
     {
         name: "background",
@@ -1206,6 +1328,10 @@ const $bf21102bcb721113$var$use = [
     {
         name: "cubeTexture",
         fn: (0, $4e19fd0962a645af$export$2e2bcd8739ae039)
+    },
+    {
+        name: "bvh",
+        fn: (0, $a23690bb8389291f$export$2e2bcd8739ae039)
     }
 ];
 const $bf21102bcb721113$var$addLoad = ({ Default: Default, THREE: THREE, load: load, scene: scene })=>{

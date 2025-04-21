@@ -4,6 +4,7 @@ import gltf from "./gltf.js";
 import vrm from "./vrm.js";
 import videoTexture from "./videoTexture.js";
 import cubeTexture from "./cubeTexture.js";
+import bvh from "./bvh.js";
 
 const use = [
   { name: "background", fn: background },
@@ -12,6 +13,7 @@ const use = [
   { name: "vrm", fn: vrm },
   { name: "videoTexture", fn: videoTexture },
   { name: "cubeTexture", fn: cubeTexture },
+  { name: "bvh", fn: bvh },
 ]
 
 
