@@ -16,6 +16,8 @@ import shape from './mesh/shape.js';
 import directionalLight from './lights/directionalLight.js';
 import pointLight from './lights/pointLight.js';
 import ambientLight from './lights/ambientLight.js';
+import spotLight from './lights/spotLight.js';
+import hemisphereLight from './lights/hemisphereLight.js';
 // misc
 import fog from './misc/fog.js';
 import group from './misc/group.js';
@@ -42,6 +44,8 @@ const use = [
   { name: 'directionalLight', fn: directionalLight },
   { name: 'pointLight', fn: pointLight },
   { name: 'ambientLight', fn: ambientLight },
+  { name: 'spotLight', fn: spotLight },
+  { name: 'hemisphereLight', fn: hemisphereLight },
   // misc
   { name: 'fog', fn: fog },
   { name: 'group', fn: group },

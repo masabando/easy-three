@@ -49,6 +49,31 @@ function Ex2(props) {
   return <div ref={ref} {...props}></div>;
 }
 
+function Ex3(props) {
+  const ref = useRef();
+  useEffect(() => {
+    const { camera, create, animate, destroy, THREE, Default } = init(
+      ref.current
+    );
+    camera.position.set(0, 0, 3);
+    create.directionalLight({
+      position: [0.6, 0.6, 1.6],
+      helper: 0.1,
+      helperColor: 0xff0000,
+    });
+
+    const cube = create.cube();
+
+    animate(({ delta }) => {
+      cube.rotation.x += delta;
+      cube.rotation.y += delta;
+    });
+    return () => {
+      destroy();
+    };
+  }, []);
+  return <div ref={ref} {...props}></div>;
+}
 
 
 export default function Reference_Create_Cube() {
@@ -97,6 +122,10 @@ export default function Reference_Create_Cube() {
                     </ul>
                   </li>
                 </ul>
+              </li>
+              <li>helper (Number) : ヘルパーのサイズ (デフォルト : 0)。</li>
+              <li>
+                helperColor (Hex) : ヘルパーの色 (デフォルト : 0xffffff)。
               </li>
             </ul>
           </div>
@@ -152,6 +181,34 @@ animate(({ delta, time }) => {
   cube.rotation.x += delta;
   cube.rotation.y += delta;
   directionalLight.intensity = Math.sin(time) * 0.5 + 0.5;
+});
+`}
+      </CodeBlock>
+      <h4>ヘルパーの利用</h4>
+      <p>
+        helperに0より大きい値を指定すると、ヘルパーが表示されます。
+      </p>
+      <Ex3
+        className="border"
+        style={{
+          width: "240px",
+          height: "240px",
+        }}
+      />
+      <CodeBlock>
+        {`const { camera, create, animate } = init()
+camera.position.set(0, 0, 3);
+create.directionalLight({
+  position: [0.6, 0.6, 1.6],
+  helper: 0.1,
+  helperColor: 0xff0000,
+});
+
+const cube = create.cube()
+
+animate(({ delta }) => {
+  cube.rotation.x += delta;
+  cube.rotation.y += delta;
 });
 `}
       </CodeBlock>

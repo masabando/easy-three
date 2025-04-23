@@ -56,6 +56,8 @@ export default function SideMenu({ setOpen }) {
               { key: "create/ambientLight", label: "ambientLight" },
               { key: "create/directionalLight", label: "directionalLight" },
               { key: "create/pointLight", label: "pointLight" },
+              { key: "create/spotLight", label: "spotLight" },
+              { key: "create/hemisphereLight", label: "hemisphereLight" },
             ],
           },
           { type: "divider" },

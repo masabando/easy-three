@@ -4,6 +4,8 @@ const directionalLight = ({ scene, THREE }) => {
     color = 0xffffff,
     position = [10, 10, 10],
     castShadow = true,
+    helper = 0,
+    helperColor = 0xffffff,
     shadow = {
       mapSize: {
         width: 1024,
@@ -27,6 +29,10 @@ const directionalLight = ({ scene, THREE }) => {
       l.shadow.camera.right = shadow.camera.right
       l.shadow.camera.top = shadow.camera.top
       l.shadow.camera.bottom = shadow.camera.bottom
+    }
+    if (helper > 0) {
+      const h = new THREE.DirectionalLightHelper(l, helper, helperColor)
+      scene.add(h)
     }
     scene.add(l);
     return l;

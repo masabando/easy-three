@@ -464,7 +464,7 @@ const $d2e3c151fb3aa58c$var$directionalLight = ({ scene: scene, THREE: THREE })=
         10,
         10,
         10
-    ], castShadow: castShadow = true, shadow: shadow = {
+    ], castShadow: castShadow = true, helper: helper = 0, helperColor: helperColor = 0xffffff, shadow: shadow = {
         mapSize: {
             width: 1024,
             height: 1024
@@ -487,6 +487,10 @@ const $d2e3c151fb3aa58c$var$directionalLight = ({ scene: scene, THREE: THREE })=
             l.shadow.camera.top = shadow.camera.top;
             l.shadow.camera.bottom = shadow.camera.bottom;
         }
+        if (helper > 0) {
+            const h = new THREE.DirectionalLightHelper(l, helper, helperColor);
+            scene.add(h);
+        }
         scene.add(l);
         return l;
     };
@@ -499,7 +503,7 @@ const $2ab9fe92e6f4a93c$var$pointLight = ({ scene: scene, THREE: THREE })=>{
         6,
         6,
         6
-    ], castShadow: castShadow = true, shadow: shadow = {
+    ], castShadow: castShadow = true, helper: helper = 0, helperColor: helperColor = 0xffffff, shadow: shadow = {
         mapSize: {
             width: 1024,
             height: 1024
@@ -511,6 +515,10 @@ const $2ab9fe92e6f4a93c$var$pointLight = ({ scene: scene, THREE: THREE })=>{
         if (castShadow) {
             l.shadow.mapSize.width = shadow.mapSize.width;
             l.shadow.mapSize.height = shadow.mapSize.height;
+        }
+        if (helper > 0) {
+            const h = new THREE.PointLightHelper(l, helper, helperColor);
+            scene.add(h);
         }
         scene.add(l);
         return l;
@@ -527,6 +535,46 @@ const $18bc11ddc30b0de4$var$ambientLight = ({ scene: scene, THREE: THREE })=>{
     };
 };
 var $18bc11ddc30b0de4$export$2e2bcd8739ae039 = $18bc11ddc30b0de4$var$ambientLight;
+
+
+const $2c85c5e2a5829a44$var$spotLight = ({ scene: scene, THREE: THREE })=>{
+    return ({ color: color = 0xffffff, intensity: intensity = 1, distance: distance = 0, angle: angle = Math.PI / 4, penumbra: penumbra = 0.1, decay: decay = 2, position: position = [
+        6,
+        6,
+        6
+    ], castShadow: castShadow = true, helper: helper = 0, helperColor: helperColor = 0xffffff, shadow: shadow = {
+        mapSize: {
+            width: 1024,
+            height: 1024
+        }
+    } } = {})=>{
+        const l = new THREE.SpotLight(color, intensity, distance, angle, penumbra, decay);
+        l.position.set(...position);
+        l.castShadow = castShadow;
+        if (castShadow) {
+            l.shadow.mapSize.width = shadow.mapSize.width;
+            l.shadow.mapSize.height = shadow.mapSize.height;
+        }
+        if (helper > 0) {
+            const h = new THREE.SpotLightHelper(l, helperColor);
+            scene.add(h);
+        }
+        scene.add(l);
+        scene.add(l.target);
+        return l;
+    };
+};
+var $2c85c5e2a5829a44$export$2e2bcd8739ae039 = $2c85c5e2a5829a44$var$spotLight;
+
+
+const $1a7312fd039781a3$var$hemisphereLight = ({ scene: scene, THREE: THREE })=>{
+    return ({ skyColor: skyColor = 0xeeddff, groundColor: groundColor = 0x887777, intensity: intensity = 0.5 } = {})=>{
+        const l = new THREE.HemisphereLight(skyColor, groundColor, intensity);
+        scene.add(l);
+        return l;
+    };
+};
+var $1a7312fd039781a3$export$2e2bcd8739ae039 = $1a7312fd039781a3$var$hemisphereLight;
 
 
 const $ac7cae9b7d01be93$var$fog = ({ scene: scene, THREE: THREE })=>{
@@ -701,6 +749,14 @@ const $f88a658689c91c8b$var$use = [
     {
         name: 'ambientLight',
         fn: (0, $18bc11ddc30b0de4$export$2e2bcd8739ae039)
+    },
+    {
+        name: 'spotLight',
+        fn: (0, $2c85c5e2a5829a44$export$2e2bcd8739ae039)
+    },
+    {
+        name: 'hemisphereLight',
+        fn: (0, $1a7312fd039781a3$export$2e2bcd8739ae039)
     },
     // misc
     {

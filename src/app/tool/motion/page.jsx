@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useRef } from "react";
-import { init } from "@dist/easy-three";
+import { init } from "@dist-src/easy-three";
 
 export default function Page() {
   const ref = useRef();
@@ -15,17 +15,29 @@ export default function Page() {
       scene,
       color,
       THREE,
+      destroy,
     } = init(ref.current);
 
     controls.connect();
     camera.position.set(0, 1, -3);
-    create.ambientLight();
-    create.directionalLight();
+
+    create.hemisphereLight({
+      intensity: 3
+    });
 
     scene.background = color(0xffffff);
 
     helper.grid();
     helper.axes();
+
+    create.plane({
+      position: [0, 0, 0],
+      rotation: [-Math.PI / 2, 0, 0],
+      size: [10, 10],
+      option: {
+        color: color("#aaaaaa"),
+      }
+    });
 
     let model;
     let bvh = {};
@@ -40,6 +52,9 @@ export default function Page() {
         model.update(delta * 1000);
       }
     });
+    return () => {
+      destroy();
+    };
   }, []);
 
   return (
