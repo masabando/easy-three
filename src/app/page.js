@@ -228,7 +228,7 @@ animate(({ time }) => {
             </div>
           </div>
           <div className="d-flex justify-content-center justify-content-md-space-between flex-wrap flex-md-nowrap mw-100 mb-5">
-            <Demo.Model
+            <Demo.ModelAnimation
               style={{
                 width: "500px",
                 maxWidth: "100%",
@@ -256,6 +256,7 @@ animate(({ time }) => {
                     <a href="https://github.com/pixiv/three-vrm">three-vrm</a>{" "}
                     を使用しています)。
                     <br />
+                    mocopiでトラッキングしたモーションデータをVRMモデルに簡単に反映できます。<br />
                     カメラの操作も簡単です。
                   </>
                 </T>
@@ -278,16 +279,19 @@ const cube = create.cube({
 })
 
 let model
+const bvhObj = {}
 load.vrm("./model/sample.vrm").then((m) => {
   model = m
+  load.bvh("./motion/sampleMotion.bvh", m, bvhObj)
 })
 
 animate(({ time, delta }) => {
   cube.rotation.y += delta
   cube.rotation.x += delta
   if (model) {
-    model.bone("leftUpperArm").rotation.z =
-      Math.sin(time) * Math.PI * 0.25
+    if (bvhObj.mixer) {
+      bvhObj.mixer.update(delta * 1000)
+    }
     model.update(delta)
   }
 })

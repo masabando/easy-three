@@ -1,6 +1,8 @@
 import * as $1LQKV$three from "three";
 import {OrbitControls as $1LQKV$OrbitControls} from "three/addons/controls/OrbitControls.js";
 import {RoundedBoxGeometry as $1LQKV$RoundedBoxGeometry} from "three/addons/geometries/RoundedBoxGeometry.js";
+import {RectAreaLightHelper as $1LQKV$RectAreaLightHelper} from "three/addons/helpers/RectAreaLightHelper.js";
+import {RectAreaLightUniformsLib as $1LQKV$RectAreaLightUniformsLib} from "three/addons/lights/RectAreaLightUniformsLib.js";
 import {EffectComposer as $1LQKV$EffectComposer} from "three/addons/postprocessing/EffectComposer.js";
 import {RenderPass as $1LQKV$RenderPass} from "three/addons/postprocessing/RenderPass.js";
 import {UnrealBloomPass as $1LQKV$UnrealBloomPass} from "three/addons/postprocessing/UnrealBloomPass.js";
@@ -577,6 +579,33 @@ const $1a7312fd039781a3$var$hemisphereLight = ({ scene: scene, THREE: THREE })=>
 var $1a7312fd039781a3$export$2e2bcd8739ae039 = $1a7312fd039781a3$var$hemisphereLight;
 
 
+
+
+const $b61b5b1ed051386b$var$rectAreaLight = ({ scene: scene, sizeToArray: sizeToArray, THREE: THREE })=>{
+    return ({ color: color = 0xffffff, intensity: intensity = 1, size: size = 1, position: position = [
+        0,
+        0,
+        0
+    ], rotation: rotation = [
+        0,
+        0,
+        0
+    ], helper: helper = false } = {})=>{
+        (0, $1LQKV$RectAreaLightUniformsLib).init();
+        const l = new THREE.RectAreaLight(color, intensity, ...sizeToArray(size, 2));
+        l.position.set(...position);
+        l.rotation.set(...rotation);
+        scene.add(l);
+        if (helper) {
+            const h = new (0, $1LQKV$RectAreaLightHelper)(l);
+            l.add(h);
+        }
+        return l;
+    };
+};
+var $b61b5b1ed051386b$export$2e2bcd8739ae039 = $b61b5b1ed051386b$var$rectAreaLight;
+
+
 const $ac7cae9b7d01be93$var$fog = ({ scene: scene, THREE: THREE })=>{
     return ({ color: color = 0xffffff, near: near = 1, far: far = 1000 } = {})=>{
         scene.fog = new THREE.Fog(color, near, far);
@@ -757,6 +786,10 @@ const $f88a658689c91c8b$var$use = [
     {
         name: 'hemisphereLight',
         fn: (0, $1a7312fd039781a3$export$2e2bcd8739ae039)
+    },
+    {
+        name: 'rectAreaLight',
+        fn: (0, $b61b5b1ed051386b$export$2e2bcd8739ae039)
     },
     // misc
     {

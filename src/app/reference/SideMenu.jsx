@@ -1,6 +1,16 @@
 "use client";
 import { Menu } from "antd";
 import { useRouter } from "next/navigation";
+import { Tag } from "antd";
+
+function Label({ newFlag = false, children }) {
+  return (
+    <div>
+      <span>{children}</span>
+      {newFlag && <Tag color="blue" className="ms-2">New</Tag> }
+    </div>
+  );
+}
 
 export default function SideMenu({ setOpen }) {
   const router = useRouter();
@@ -58,6 +68,10 @@ export default function SideMenu({ setOpen }) {
               { key: "create/pointLight", label: "pointLight" },
               { key: "create/spotLight", label: "spotLight" },
               { key: "create/hemisphereLight", label: "hemisphereLight" },
+              {
+                key: "create/rectAreaLight",
+                label: <Label newFlag>rectAreaLight</Label>,
+              },
             ],
           },
           { type: "divider" },
@@ -89,7 +103,7 @@ export default function SideMenu({ setOpen }) {
             type: "group",
             children: [
               { key: "load/vrm", label: "vrm" },
-              { key: "load/bvh", label: "bvh" },
+              { key: "load/bvh", label: <Label newFlag>bvh</Label> },
               { key: "load/gltf", label: "gltf" },
               { key: "load/background", label: "background" },
               { key: "load/texture", label: "texture" },

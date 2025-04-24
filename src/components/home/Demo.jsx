@@ -12,8 +12,8 @@ export const Demo = {
       create.directionalLight();
       const cube = create.cube({ rounded: true, segments: 7 });
       animate(({ time }) => {
-        cube.rotation.x = time
-        cube.rotation.y = time
+        cube.rotation.x = time;
+        cube.rotation.y = time;
       });
       return () => {
         destroy();
@@ -59,7 +59,52 @@ export const Demo = {
       });
       return () => {
         destroy();
-      }
+      };
+    }, []);
+    return <div ref={ref} {...props}></div>;
+  },
+  ModelAnimation: (props) => {
+    const ref = useRef();
+    useEffect(() => {
+      const { camera, create, animate, controls, helper, load, destroy } = init(
+        ref.current
+      );
+      //controls.connect();
+      controls.autoRotate = true;
+      camera.position.set(0, 2, -2);
+      controls.target.set(0, 1, 0);
+      create.ambientLight();
+      create.directionalLight({ intensity: 2, position: [10, 10, -10] });
+      helper.axes();
+      helper.grid();
+
+      const cube = create.cube({
+        size: 0.5,
+        position: [1, 1, 0],
+        rounded: true,
+        segments: 7,
+      });
+
+      let model;
+      const bvhObj = {};
+      load.vrm("./model/sample.vrm").then((m) => {
+        model = m;
+        load.bvh("./motion/sampleMotion.bvh", model, bvhObj);
+      });
+
+      animate(({ time, delta }) => {
+        cube.rotation.y += delta;
+        cube.rotation.x += delta;
+        if (model) {
+          if (bvhObj.mixer) {
+            bvhObj.mixer.update(delta * 1000);
+          }
+          model.update(delta);
+        }
+      });
+      return () => {
+        destroy();
+      };
     }, []);
     return <div ref={ref} {...props}></div>;
   },
@@ -98,18 +143,13 @@ export const Demo = {
       load.background("./texture/hdr/symmetrical_garden_02_1k.hdr");
       const texture = {
         cube: {
-          map: load.texture(
-            "./texture/img/red_brick_diff_1k.jpg"
-          ),
-          normalMap: load.texture(
-            "./texture/img/red_brick_nor_gl_1k.jpg"
-          ),
+          map: load.texture("./texture/img/red_brick_diff_1k.jpg"),
+          normalMap: load.texture("./texture/img/red_brick_nor_gl_1k.jpg"),
         },
         plane: {
-          map: load.texture(
-            "./texture/img/monastery_stone_floor_diff_1k.jpg",
-            { repeat: [4, 4] }
-          ),
+          map: load.texture("./texture/img/monastery_stone_floor_diff_1k.jpg", {
+            repeat: [4, 4],
+          }),
           normalMap: load.texture(
             "./texture/img/monastery_stone_floor_nor_gl_1k.jpg",
             { repeat: [4, 4] }
@@ -147,7 +187,7 @@ export const Demo = {
           roughness: 0,
           color: 0xffffff,
         },
-      })
+      });
       i++;
       const ball = create.sphere({
         size: 0.8,
@@ -172,7 +212,7 @@ export const Demo = {
         option: {
           color: 0x333333,
         },
-      })
+      });
       i++;
       const torus = create.torus({
         size: 0.7,
@@ -187,32 +227,33 @@ export const Demo = {
           metalness: 0.8,
           roughness: 0.2,
           color: 0x8888ff,
-        }
-      })
+        },
+      });
       group.add(cube1);
-      group.add(ball)
+      group.add(ball);
       group.add(cube2);
       group.add(torus);
       scene.add(group);
 
-      const { selectedBloom, addSelectedBloom } = postprocessing.selectedBloom();
+      const { selectedBloom, addSelectedBloom } =
+        postprocessing.selectedBloom();
       addSelectedBloom(ball, torus);
 
       animate(({ time }) => {
-        group.rotation.y = time
-        cube1.rotation.x = time
-        cube1.rotation.y = time
-        cube2.rotation.x = time
-        cube2.rotation.y = time
-        torus.rotation.x = time * 2
-        torus.rotation.y = time
+        group.rotation.y = time;
+        cube1.rotation.x = time;
+        cube1.rotation.y = time;
+        cube2.rotation.x = time;
+        cube2.rotation.y = time;
+        torus.rotation.x = time * 2;
+        torus.rotation.y = time;
         selectedBloom({
           strength: 1 * Math.abs(Math.sin(time)),
         });
       }, false);
       return () => {
-        destroy()
-      }
+        destroy();
+      };
     }, []);
     return <div ref={ref} {...props}></div>;
   },

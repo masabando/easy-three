@@ -18,6 +18,7 @@ import pointLight from './lights/pointLight.js';
 import ambientLight from './lights/ambientLight.js';
 import spotLight from './lights/spotLight.js';
 import hemisphereLight from './lights/hemisphereLight.js';
+import rectAreaLight from './lights/rectAreaLight.js';
 // misc
 import fog from './misc/fog.js';
 import group from './misc/group.js';
@@ -46,6 +47,7 @@ const use = [
   { name: 'ambientLight', fn: ambientLight },
   { name: 'spotLight', fn: spotLight },
   { name: 'hemisphereLight', fn: hemisphereLight },
+  { name: 'rectAreaLight', fn: rectAreaLight },
   // misc
   { name: 'fog', fn: fog },
   { name: 'group', fn: group },
