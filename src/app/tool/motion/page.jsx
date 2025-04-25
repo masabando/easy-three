@@ -21,9 +21,9 @@ export default function Page() {
     controls.connect();
     camera.position.set(0, 1, -3);
 
-    // create.hemisphereLight({
-    //   intensity: 3
-    // });
+    create.hemisphereLight({
+      intensity: 3
+    });
 
     scene.background = color(0xffffff);
 
@@ -43,13 +43,14 @@ export default function Page() {
     let bvh = {};
     load.vrm("../../model/ktc-uniform_female_v5.vrm").then((vrm) => {
       model = vrm;
-      load.bvh("../../motion/sampleMotion.bvh", vrm, bvh);
+      model.scene.position.set(0, -0.5, 0);
+      load.bvh("../../motion/motion_mm02.bvh", vrm, bvh);
     });
 
     create.rectAreaLight({
       helper: true,
       size: [1, 2],
-      position: [0, 1, 1],
+      position: [0, 1, 3],
     });
 
     create.rectAreaLight({

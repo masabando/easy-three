@@ -78,35 +78,24 @@ const bvh = ({ THREE }) => {
       const rotTrack = findTrack(`${id}.quaternion`, tracks);
 
       const keys = [];
-      const rate = 0.008; // サイズの調整
+      const rate = 0.008;
       for (let i = 0; i < posTrack.times.length; i++) {
         const key = {};
 
-        // 時間
         key["time"] = parseInt(posTrack.times[i] * timeScale);
 
-        // 回転
-        if (id == "rButtock" || id == "lButtock") {
-          const id2 = id == "rButtock" ? "rThigh" : "lThigh";
-          let q1 = values2quaternion(rotTrack.values, i);
-          const rotTrack2 = findTrack(".bones[" + id2 + "].quaternion", tracks);
-          q1.multiply(values2quaternion(rotTrack2.values, i));
-          key["rot"] = [-q1.x, q1.y, -q1.z, q1.w];
-        } else {
-          key["rot"] = [
-            -rotTrack.values[i * 4],
-            rotTrack.values[i * 4 + 1],
-            -rotTrack.values[i * 4 + 2],
-            rotTrack.values[i * 4 + 3],
-          ];
-        }
+        key["rot"] = [
+          -rotTrack.values[i * 4],
+          rotTrack.values[i * 4 + 1],
+          -rotTrack.values[i * 4 + 2],
+          rotTrack.values[i * 4 + 3],
+        ];
 
-        // 位置
-        if (id == "hip") {
+        if (id == "root") {
           key["pos"] = [
             -posTrack.values[i * 3] * rate,
             posTrack.values[i * 3 + 1] * rate,
-            -posTrack.values[i * 3 + 2] * rate,
+            -posTrack.values[i * 3 + 2] * rate
           ];
         }
         keys.push(key);
@@ -120,16 +109,6 @@ const bvh = ({ THREE }) => {
         if (tracks[i].name == name) return tracks[i];
       }
       return null;
-    }
-
-    // 配列をQuaternionに変換
-    function values2quaternion(values, i) {
-      return new THREE.Quaternion(
-        values[i * 4],
-        values[i * 4 + 1],
-        values[i * 4 + 2],
-        values[i * 4 + 3]
-      );
     }
 
     const loader = new BVHLoader();
