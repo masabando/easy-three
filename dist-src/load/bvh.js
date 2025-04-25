@@ -1,4 +1,4 @@
-import { BVHLoader } from "three/examples/jsm/loaders/BVHLoader.js";
+import { BVHLoader } from "three/addons/loaders/BVHLoader.js";
 
 const bvh = ({ THREE }) => {
   return (url, vrm, bvhObj, {

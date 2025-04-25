@@ -17,7 +17,7 @@ import {BokehPass as $1LQKV$BokehPass} from "three/addons/postprocessing/BokehPa
 import {RGBELoader as $1LQKV$RGBELoader} from "three/addons/loaders/RGBELoader.js";
 import {GLTFLoader as $1LQKV$GLTFLoader} from "three/addons/loaders/GLTFLoader.js";
 import {VRMLoaderPlugin as $1LQKV$VRMLoaderPlugin, VRMUtils as $1LQKV$VRMUtils} from "@pixiv/three-vrm";
-import {BVHLoader as $1LQKV$BVHLoader} from "three/examples/jsm/loaders/BVHLoader.js";
+import {BVHLoader as $1LQKV$BVHLoader} from "three/addons/loaders/BVHLoader.js";
 
 
 const $05e1af71c54d2f4c$var$Default = {
