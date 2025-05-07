@@ -96,6 +96,7 @@ export default function Page() {
                   true)。
                 </li>
                 <li>onProgress (Function) : 読み込み中のコールバック関数。</li>
+                <li>onLoad (Function) : 読み込み完了時のコールバック関数。</li>
               </ul>
             </div>
           </>
@@ -107,7 +108,11 @@ export default function Page() {
       <p>
         モデルの読み込みは非同期で行われます。
         <br />
-        そのため、<Note>変数にモデルを代入する場合は then メソッドを使用してください</Note> (下記の例を参照)。
+        そのため、
+        <Note>
+          変数にモデルを代入する場合は then メソッドを使用してください
+        </Note>{" "}
+        (下記の例を参照)。
         <br />
         また、animate のコールバック関数内でモデルを操作する場合は、
         モデルが読み込まれるまでの処理を考慮してください。
@@ -117,7 +122,8 @@ export default function Page() {
         戻り値は Mesh ではなく VRM オブジェクトです。
         <br />
         <Note>Meshを操作する場合は、戻り値の scene プロパティを使用</Note>{" "}
-        してください。<br />
+        してください。
+        <br />
       </p>
 
       <p>

@@ -8,10 +8,12 @@ const vrm = ({ scene }) => {
     scale = [1, 1, 1],
     autoAdd = true,
     onProgress = (p) => { },
+    onLoad = (vrm) => { },
   } = {}) => {
     const vrmLoader = new GLTFLoader();
     vrmLoader.register(parser => new VRMLoaderPlugin(parser));
     const gltf = await vrmLoader.loadAsync(url, onProgress);
+    onLoad(gltf.userData.vrm);
     const model = gltf.userData.vrm;
     VRMUtils.removeUnnecessaryVertices(model.scene);
     //VRMUtils.removeUnnecessaryJoints(model.scene); // deprecated

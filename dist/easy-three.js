@@ -1213,10 +1213,11 @@ const $aad201fb457a6818$var$vrm = ({ scene: scene })=>{
         1,
         1,
         1
-    ], autoAdd: autoAdd = true, onProgress: onProgress = (p)=>{} } = {})=>{
+    ], autoAdd: autoAdd = true, onProgress: onProgress = (p)=>{}, onLoad: onLoad = (vrm)=>{} } = {})=>{
         const vrmLoader = new (0, $1LQKV$GLTFLoader)();
         vrmLoader.register((parser)=>new (0, $1LQKV$VRMLoaderPlugin)(parser));
         const gltf = await vrmLoader.loadAsync(url, onProgress);
+        onLoad(gltf.userData.vrm);
         const model = gltf.userData.vrm;
         (0, $1LQKV$VRMUtils).removeUnnecessaryVertices(model.scene);
         //VRMUtils.removeUnnecessaryJoints(model.scene); // deprecated
