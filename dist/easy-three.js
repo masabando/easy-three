@@ -31,7 +31,7 @@ const $05e1af71c54d2f4c$var$Default = {
         keyTrigger: /^[A-Za-z]$/
     },
     layer: {
-        bloom: 999
+        bloom: 30
     },
     shader: {
         vertexShader: `varying vec2 vUv;

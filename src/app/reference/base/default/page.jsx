@@ -47,7 +47,7 @@ export default function Page() {
               <Link href="/reference/postprocessing/selectedBloom">
                 postprocessing.selectedBloom
               </Link>{" "}
-              がブルームエフェクトに使用するレイヤー番号 (デフォルト : 999)。
+              がブルームエフェクトに使用するレイヤー番号 (デフォルト : 30)。
             </li>
           </ul>
         </li>
