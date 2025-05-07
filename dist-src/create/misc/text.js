@@ -30,13 +30,13 @@ const text = ({ create, THREE, sizeToArray, scene }) => {
       guide,
       guideColor,
     });
-    const material = new THREE[`Mesh${material}Material`]({
+    const mat = new THREE[`Mesh${material}Material`]({
       transparent: true,
       map: texture,
       side: THREE[side],
     });
     const geometry = new THREE.PlaneGeometry(...s);
-    const mesh = new THREE.Mesh(geometry, material);
+    const mesh = new THREE.Mesh(geometry, mat);
     mesh.position.set(...position);
     mesh.rotation.set(...rotation);
     if (autoAdd) scene.add(mesh);
