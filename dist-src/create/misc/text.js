@@ -12,6 +12,7 @@ const text = ({ create, THREE, sizeToArray, scene }) => {
     textBaseline = "middle",
     background = false,
     side = "DoubleSide",
+    material = "Basic",
     autoAdd = true,
     guide = 0,
     guideColor = "#ff0000",
@@ -29,7 +30,7 @@ const text = ({ create, THREE, sizeToArray, scene }) => {
       guide,
       guideColor,
     });
-    const material = new THREE.MeshBasicMaterial({
+    const material = new THREE[`Mesh${material}Material`]({
       transparent: true,
       map: texture,
       side: THREE[side],

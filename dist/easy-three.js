@@ -675,7 +675,7 @@ const $3101df724e47b485$var$text = ({ create: create, THREE: THREE, sizeToArray:
         0,
         0,
         0
-    ], color: color = "#000000", size: size = 1, resolution: resolution = 1, textAlign: textAlign = "center", textBaseline: textBaseline = "middle", background: background = false, side: side = "DoubleSide", autoAdd: autoAdd = true, guide: guide = 0, guideColor: guideColor = "#ff0000" } = {})=>{
+    ], color: color = "#000000", size: size = 1, resolution: resolution = 1, textAlign: textAlign = "center", textBaseline: textBaseline = "middle", background: background = false, side: side = "DoubleSide", material: material = "Basic", autoAdd: autoAdd = true, guide: guide = 0, guideColor: guideColor = "#ff0000" } = {})=>{
         const s = sizeToArray(size, 2);
         const texture = create.textTexture(text, {
             fontSize: fontSize * resolution,
@@ -692,7 +692,7 @@ const $3101df724e47b485$var$text = ({ create: create, THREE: THREE, sizeToArray:
             guide: guide,
             guideColor: guideColor
         });
-        const material = new THREE.MeshBasicMaterial({
+        const material = new THREE[`Mesh${material}Material`]({
             transparent: true,
             map: texture,
             side: THREE[side]

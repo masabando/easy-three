@@ -104,6 +104,10 @@ export default function Page() {
                   background (String | Boolean) : 背景色 (デフォルト : false)。
                 </li>
                 <li>
+                  material (String) : マテリアルの種類 (デフォルト :
+                  &quot;Basic&quot;)。
+                </li>
+                <li>
                   side (String) : テキストの表示面 (デフォルト :
                   &quot;DoubleSide&quot;)。
                 </li>
