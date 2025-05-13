@@ -114,7 +114,7 @@ export default function Page() {
           <br />
           <Note>VRMモデルは、あらかじめ読み込んでおく必要があります。</Note>
           <br />
-          bvhObjには、mixerが格納されます。
+          bvhObjには、mixerとdurationが格納されます。
           <br />
           timeScale で指定した値だけ、アニメーションの時間が遅くなっています。
           そのため、<Note>delta にtimeScale相当の値を掛けてください</Note>。

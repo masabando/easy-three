@@ -1368,6 +1368,7 @@ const $a23690bb8389291f$var$bvh = ({ THREE: THREE })=>{
         const loader = new (0, $1LQKV$BVHLoader)();
         loader.load(url, (bvh)=>{
             const clip = createClip(vrm, bvh);
+            bvhObj.duration = clip.duration;
             bvhObj.mixer = new THREE.AnimationMixer(vrm.scene);
             bvhObj.mixer.clipAction(clip).setEffectiveWeight(effectiveWeight).play();
         });
