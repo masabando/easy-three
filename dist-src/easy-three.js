@@ -25,8 +25,12 @@ export function init(targetName) {
     destroy,
   } = prep({ targetName, THREE })
 
+
+  const load = {}
+  addLoad({ load, Default, THREE, scene })
+
   const create = {}
-  addCreate({ create, Default, scene, THREE })
+  addCreate({ create, Default, scene, THREE, load })
 
   const animate = _animate({ controls, renderer, scene, camera, THREE })
 
@@ -35,9 +39,6 @@ export function init(targetName) {
 
   const postprocessing = {}
   addPostprocessing({ postprocessing, renderer, camera, scene, THREE, color, sizeTarget, Default })
-
-  const load = {}
-  addLoad({ load, Default, THREE, scene })
 
   const event = {}
   addEvent({ Default, THREE, event, domElement })

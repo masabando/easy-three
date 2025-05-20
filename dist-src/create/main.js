@@ -24,6 +24,9 @@ import fog from './misc/fog.js';
 import group from './misc/group.js';
 import textTexture from './misc/textTexture.js';
 import text from './misc/text.js';
+import ocean from './misc/ocean.js';
+import sky from './misc/sky.js';
+import water from './misc/water.js';
 
 const use = [
   // mesh
@@ -53,15 +56,18 @@ const use = [
   { name: 'group', fn: group },
   { name: 'textTexture', fn: textTexture },
   { name: 'text', fn: text },
+  { name: 'ocean', fn: ocean },
+  { name: 'sky', fn: sky },
+  { name: 'water', fn: water },
 ]
 
 function sizeToArray(size, n = 3) {
   return isNaN(size) ? size : Array(n).fill(size)
 }
 
-const addCreate = ({ Default, create, scene, THREE }) => {
+const addCreate = ({ Default, create, scene, THREE, load }) => {
   use.forEach((v) => {
-    create[v.name] = v.fn({ Default, create, scene, sizeToArray, THREE });
+    create[v.name] = v.fn({ Default, create, scene, sizeToArray, THREE, load });
   })
 }
 

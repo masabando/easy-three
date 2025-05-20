@@ -3,6 +3,9 @@ import {OrbitControls as $1LQKV$OrbitControls} from "three/addons/controls/Orbit
 import {RoundedBoxGeometry as $1LQKV$RoundedBoxGeometry} from "three/addons/geometries/RoundedBoxGeometry.js";
 import {RectAreaLightHelper as $1LQKV$RectAreaLightHelper} from "three/addons/helpers/RectAreaLightHelper.js";
 import {RectAreaLightUniformsLib as $1LQKV$RectAreaLightUniformsLib} from "three/addons/lights/RectAreaLightUniformsLib.js";
+import {Water as $1LQKV$Water} from "three/addons/objects/Water.js";
+import {Sky as $1LQKV$Sky} from "three/addons/objects/Sky.js";
+import {Water as $1LQKV$Water1} from "three/addons/objects/Water2.js";
 import {EffectComposer as $1LQKV$EffectComposer} from "three/addons/postprocessing/EffectComposer.js";
 import {RenderPass as $1LQKV$RenderPass} from "three/addons/postprocessing/RenderPass.js";
 import {UnrealBloomPass as $1LQKV$UnrealBloomPass} from "three/addons/postprocessing/UnrealBloomPass.js";
@@ -708,6 +711,111 @@ const $3101df724e47b485$var$text = ({ create: create, THREE: THREE, sizeToArray:
 var $3101df724e47b485$export$2e2bcd8739ae039 = $3101df724e47b485$var$text;
 
 
+
+const $6ab32b7e36d95c8e$var$ocean = ({ THREE: THREE, sizeToArray: sizeToArray, scene: scene })=>{
+    return (texture, { size: size = 100, geometry: geometry = null, sunDirection: sunDirection = new THREE.Vector3(1, 1, 1), sunColor: sunColor = 0xffffff, waterColor: waterColor = 0x001e0f, distortionScale: distortionScale = 3.7, textureSize: textureSize = 512, fog: fog = false, position: position = [
+        0,
+        0,
+        0
+    ], rotation: rotation = [
+        -Math.PI / 2,
+        0,
+        0
+    ], autoAdd: autoAdd = true } = {})=>{
+        const waterGeometry = geometry || new THREE.PlaneGeometry(...sizeToArray(size, 2));
+        const texSize = sizeToArray(textureSize, 2);
+        const mesh = new (0, $1LQKV$Water)(waterGeometry, {
+            textureWidth: texSize[0],
+            textureHeight: texSize[1],
+            waterNormals: new THREE.TextureLoader().load(texture, function(texture) {
+                texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
+            }),
+            waterColor: waterColor,
+            sunColor: sunColor,
+            sunDirection: sunDirection,
+            distortionScale: distortionScale,
+            fog: fog
+        });
+        mesh.position.set(...position);
+        mesh.rotation.set(...rotation);
+        if (autoAdd) scene.add(mesh);
+        return {
+            mesh: mesh,
+            update: (delta, sun)=>{
+                mesh.material.uniforms['time'].value += delta;
+                if (sun) mesh.material.uniforms['sunDirection'].value.copy(sun).normalize();
+            }
+        };
+    };
+};
+var $6ab32b7e36d95c8e$export$2e2bcd8739ae039 = $6ab32b7e36d95c8e$var$ocean;
+
+
+
+const $e505ff449cd01b00$var$sky = ({ THREE: THREE, scene: scene })=>{
+    return ({ size: size = 10000, theta: theta = Math.PI * 0.47, phi: phi = 0, autoAdd: autoAdd = true } = {})=>{
+        const sk = new (0, $1LQKV$Sky)();
+        sk.scale.setScalar(size);
+        const skyUniforms = sk.material.uniforms;
+        skyUniforms['turbidity'].value = 10;
+        skyUniforms['rayleigh'].value = 2;
+        skyUniforms['mieCoefficient'].value = 0.005;
+        skyUniforms['mieDirectionalG'].value = 0.8;
+        const sun = new THREE.Vector3();
+        sun.setFromSphericalCoords(1, theta, phi);
+        const _phi = phi;
+        const _theta = theta;
+        function update({ phi: phi, theta: theta }) {
+            skyUniforms['sunPosition'].value.copy(sun);
+            sun.setFromSphericalCoords(1, theta ?? _theta, phi ?? _phi);
+            sk.material.uniforms['sunPosition'].value.copy(sun);
+            return sun;
+        }
+        update({
+            phi: phi,
+            theta: theta
+        });
+        if (autoAdd) scene.add(sk);
+        return sk;
+    };
+};
+var $e505ff449cd01b00$export$2e2bcd8739ae039 = $e505ff449cd01b00$var$sky;
+
+
+
+const $b9d6796c02c6f0a5$var$water = ({ THREE: THREE, sizeToArray: sizeToArray, scene: scene, load: load })=>{
+    return (normalMap0, normalMap1, { size: size = 1, geometry: geometry = null, color: color = 0xffffff, scale: scale = 4, flow: flow = [
+        1,
+        1
+    ], textureSize: textureSize = 512, position: position = [
+        0,
+        0,
+        0
+    ], rotation: rotation = [
+        -Math.PI / 2,
+        0,
+        0
+    ], autoAdd: autoAdd = true } = {})=>{
+        const waterGeometry = geometry || new THREE.PlaneGeometry(...sizeToArray(size, 2));
+        const texSize = sizeToArray(textureSize, 2);
+        const mesh = new (0, $1LQKV$Water1)(waterGeometry, {
+            normalMap0: load.texture(normalMap0),
+            normalMap1: load.texture(normalMap1),
+            textureWidth: texSize[0],
+            textureHeight: texSize[1],
+            color: color,
+            scale: scale,
+            flowDirection: new THREE.Vector2(...flow)
+        });
+        mesh.position.set(...position);
+        mesh.rotation.set(...rotation);
+        if (autoAdd) scene.add(mesh);
+        return mesh;
+    };
+};
+var $b9d6796c02c6f0a5$export$2e2bcd8739ae039 = $b9d6796c02c6f0a5$var$water;
+
+
 const $f88a658689c91c8b$var$use = [
     // mesh
     {
@@ -807,19 +915,32 @@ const $f88a658689c91c8b$var$use = [
     {
         name: 'text',
         fn: (0, $3101df724e47b485$export$2e2bcd8739ae039)
+    },
+    {
+        name: 'ocean',
+        fn: (0, $6ab32b7e36d95c8e$export$2e2bcd8739ae039)
+    },
+    {
+        name: 'sky',
+        fn: (0, $e505ff449cd01b00$export$2e2bcd8739ae039)
+    },
+    {
+        name: 'water',
+        fn: (0, $b9d6796c02c6f0a5$export$2e2bcd8739ae039)
     }
 ];
 function $f88a658689c91c8b$var$sizeToArray(size, n = 3) {
     return isNaN(size) ? size : Array(n).fill(size);
 }
-const $f88a658689c91c8b$var$addCreate = ({ Default: Default, create: create, scene: scene, THREE: THREE })=>{
+const $f88a658689c91c8b$var$addCreate = ({ Default: Default, create: create, scene: scene, THREE: THREE, load: load })=>{
     $f88a658689c91c8b$var$use.forEach((v)=>{
         create[v.name] = v.fn({
             Default: Default,
             create: create,
             scene: scene,
             sizeToArray: $f88a658689c91c8b$var$sizeToArray,
-            THREE: THREE
+            THREE: THREE,
+            load: load
         });
     });
 };
@@ -1695,12 +1816,20 @@ function $0cde3fdde307ec9a$export$2cd8252107eb640b(targetName) {
         targetName: targetName,
         THREE: $1LQKV$three
     });
+    const load = {};
+    (0, $bf21102bcb721113$export$2e2bcd8739ae039)({
+        load: load,
+        Default: Default,
+        THREE: $1LQKV$three,
+        scene: scene
+    });
     const create = {};
     (0, $f88a658689c91c8b$export$2e2bcd8739ae039)({
         create: create,
         Default: Default,
         scene: scene,
-        THREE: $1LQKV$three
+        THREE: $1LQKV$three,
+        load: load
     });
     const animate = (0, $9a66eab6426948d4$export$2e2bcd8739ae039)({
         controls: controls,
@@ -1725,13 +1854,6 @@ function $0cde3fdde307ec9a$export$2cd8252107eb640b(targetName) {
         color: color,
         sizeTarget: sizeTarget,
         Default: Default
-    });
-    const load = {};
-    (0, $bf21102bcb721113$export$2e2bcd8739ae039)({
-        load: load,
-        Default: Default,
-        THREE: $1LQKV$three,
-        scene: scene
     });
     const event = {};
     (0, $76a082e7504265af$export$2e2bcd8739ae039)({

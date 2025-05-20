@@ -19,31 +19,32 @@ export default function Page() {
     } = init(ref.current);
 
     controls.connect();
-    camera.position.set(0, 1, -3);
+    camera.position.set(0, 3, 3);
 
     create.hemisphereLight({
       intensity: 3
     });
 
-    scene.background = color(0xffffff);
+    // scene.background = color(0xffffff);
 
-    helper.grid();
-    helper.axes();
+    // helper.grid();
+    // helper.axes();
 
-    create.plane({
-      position: [0, 0, 0],
-      rotation: [-Math.PI / 2, 0, 0],
-      size: [10, 10],
-      option: {
-        color: color("#aaaaaa"),
-      },
-    });
+    // create.plane({
+    //   position: [0, 0, 0],
+    //   rotation: [-Math.PI / 2, 0, 0],
+    //   size: [10, 10],
+    //   option: {
+    //     color: color("#aaaaaa"),
+    //   },
+    // });
 
     let model;
     let bvh = {};
     load.vrm("../../model/ktc-uniform_female_v5.vrm").then((vrm) => {
       model = vrm;
-      model.scene.position.set(0, -0.5, 0);
+      model.scene.position.set(0, -0.5, -3);
+      model.scene.rotation.set(0, Math.PI, 0);
       load.bvh("../../motion/motion_mm02.bvh", vrm, bvh);
     });
 
@@ -62,15 +63,41 @@ export default function Page() {
       rotation: [0, Math.PI / 4, 0],
     });
 
-    create.fog({
-      far: 5
-    });
+    const sky = create.sky();
+
+    // const ocean = create.ocean(
+    //   "/easy-three/texture/water/NormalMap-1.png",
+    //   {
+    //   size: 30,
+    //   position: [0, 0, 0],
+    //   rotation: [-Math.PI / 2, 0, 0],
+    //   textureSize: 512,
+    // });
+
+    create.plane({
+      size: 30,
+      position: [0, -0.5, 0],
+      rotation: [-Math.PI/2, 0, 0],
+      option: {
+        map: load.texture("/easy-three/texture/img/monastery_stone_floor_diff_1k.jpg", {
+          repeat: [10, 10]
+        })
+      }
+    })
+
+    // create.water({
+    //   size: 20,
+    //   color: 0xffffff,
+    //   rotation: [-Math.PI / 2, 0, 0]
+    // })
 
     animate(({ delta, time }) => {
       if (model && bvh.mixer) {
         bvh.mixer.update(delta * 1000);
         model.update(delta * 1000);
       }
+      // ocean.update(delta);
+
     });
     return () => {
       destroy();
