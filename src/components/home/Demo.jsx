@@ -69,7 +69,7 @@ export const Demo = {
       const { camera, create, animate, controls, helper, load, destroy } = init(
         ref.current
       );
-      controls.connect();
+      // controls.connect();
       controls.autoRotate = true;
       camera.position.set(0, 2, -2);
       controls.target.set(0, 1, 0);
@@ -86,20 +86,22 @@ export const Demo = {
       });
 
       let model;
-      const bvhObj = {};
+      let mixer;
       load.vrm("./model/sample.vrm", {
         position: [0, -0.55, 0],
       }).then((m) => {
         model = m;
-        load.bvh("./motion/sampleMotion.bvh", model, bvhObj);
+        load.bvh("./motion/sampleMotion.bvh", model).then((bvhObj) => {
+          mixer = bvhObj.mixer;
+        });
       });
 
       animate(({ time, delta }) => {
         cube.rotation.y += delta;
         cube.rotation.x += delta;
         if (model) {
-          if (bvhObj.mixer) {
-            bvhObj.mixer.update(delta * 1000);
+          if (mixer) {
+            mixer.update(delta * 1000);
           }
           model.update(delta);
         }

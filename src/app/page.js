@@ -279,18 +279,20 @@ const cube = create.cube({
 })
 
 let model
-const bvhObj = {}
+let mixer
 load.vrm("./model/sample.vrm").then((m) => {
   model = m
-  load.bvh("./motion/sampleMotion.bvh", m, bvhObj)
+  load.bvh("./motion/sampleMotion.bvh", m).then((bvhObj) => {
+    mixer = bvhObj.mixer
+  })
 })
 
 animate(({ time, delta }) => {
   cube.rotation.y += delta
   cube.rotation.x += delta
   if (model) {
-    if (bvhObj.mixer) {
-      bvhObj.mixer.update(delta * 1000)
+    if (mixer) {
+      mixer.update(delta * 1000)
     }
     model.update(delta)
   }
