@@ -28,7 +28,11 @@ function Ex1(props) {
       position: [0, -0.55, 0],
     }).then((vrm) => {
       model = vrm;
-      load.bvh("/easy-three/motion/sampleMotion.bvh", vrm, bvhObj);
+      load.bvh("/easy-three/motion/sampleMotion.bvh", vrm, bvhObj, {
+        onProgress: (p) => {
+          console.log(p.loaded)
+        }
+      });
     });
 
     animate(({ delta }) => {

@@ -1,7 +1,7 @@
 import { BVHLoader } from "three/addons/loaders/BVHLoader.js";
 
 const bvh = ({ THREE }) => {
-  return (url, vrm, bvhObj, {
+  return async (url, vrm, bvhObj, {
     effectiveWeight = 1,
     timeScale = 1000,
     onProgress = (p) => { },
@@ -113,12 +113,17 @@ const bvh = ({ THREE }) => {
     }
 
     const loader = new BVHLoader();
-    loader.load(url, (bvh) => {
-      const clip = createClip(vrm, bvh);
-      bvhObj.duration = clip.duration;
-      bvhObj.mixer = new THREE.AnimationMixer(vrm.scene);
-      bvhObj.mixer.clipAction(clip).setEffectiveWeight(effectiveWeight).play();
-    }, onProgress);
+    // loader.load(url, (bvh) => {
+    //   const clip = createClip(vrm, bvh);
+    //   bvhObj.duration = clip.duration;
+    //   bvhObj.mixer = new THREE.AnimationMixer(vrm.scene);
+    //   bvhObj.mixer.clipAction(clip).setEffectiveWeight(effectiveWeight).play();
+    // }, onProgress);
+    const bvh = await loader.loadAsync(url, onProgress)
+    const clip = createClip(vrm, bvh);
+    bvhObj.duration = clip.duration;
+    bvhObj.mixer = new THREE.AnimationMixer(vrm.scene);
+    bvhObj.mixer.clipAction(clip).setEffectiveWeight(effectiveWeight).play();
   }
 }
 
