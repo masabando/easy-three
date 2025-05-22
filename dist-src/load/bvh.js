@@ -4,6 +4,7 @@ const bvh = ({ THREE }) => {
   return (url, vrm, bvhObj, {
     effectiveWeight = 1,
     timeScale = 1000,
+    onProgress = (p) => { },
     nameList = [
       "head",
       "neck",
@@ -117,7 +118,7 @@ const bvh = ({ THREE }) => {
       bvhObj.duration = clip.duration;
       bvhObj.mixer = new THREE.AnimationMixer(vrm.scene);
       bvhObj.mixer.clipAction(clip).setEffectiveWeight(effectiveWeight).play();
-    });
+    }, onProgress);
   }
 }
 

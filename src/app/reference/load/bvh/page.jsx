@@ -24,7 +24,9 @@ function Ex1(props) {
 
     let model;
     const bvhObj = {};
-    load.vrm("/easy-three/model/sample.vrm").then((vrm) => {
+    load.vrm("/easy-three/model/sample.vrm", {
+      position: [0, -0.55, 0],
+    }).then((vrm) => {
       model = vrm;
       load.bvh("/easy-three/motion/sampleMotion.bvh", vrm, bvhObj);
     });
@@ -58,7 +60,9 @@ function Ex2(props) {
     helper.grid();
 
     let model;
-    load.vrm("/easy-three/model/sample.vrm").then((vrm) => {
+    load.vrm("/easy-three/model/sample.vrm", {
+      position: [0, -0.55, 0],
+    }).then((vrm) => {
       model = vrm;
     });
 
@@ -104,6 +108,9 @@ export default function Page() {
                 </li>
                 <li>nameList (Array) : VRMボーン名のリスト。</li>
                 <li>idList (Array) : BVHボーン名のリスト。</li>
+                <li>
+                  onProgress (Function) : 読み込み進捗のコールバック関数。
+                </li>
               </ul>
             </div>
           </>

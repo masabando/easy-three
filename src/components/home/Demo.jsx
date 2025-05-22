@@ -69,7 +69,7 @@ export const Demo = {
       const { camera, create, animate, controls, helper, load, destroy } = init(
         ref.current
       );
-      //controls.connect();
+      controls.connect();
       controls.autoRotate = true;
       camera.position.set(0, 2, -2);
       controls.target.set(0, 1, 0);
@@ -87,7 +87,9 @@ export const Demo = {
 
       let model;
       const bvhObj = {};
-      load.vrm("./model/sample.vrm").then((m) => {
+      load.vrm("./model/sample.vrm", {
+        position: [0, -0.55, 0],
+      }).then((m) => {
         model = m;
         load.bvh("./motion/sampleMotion.bvh", model, bvhObj);
       });
@@ -239,7 +241,12 @@ export const Demo = {
         postprocessing.selectedBloom();
       addSelectedBloom(ball, torus);
 
-      animate(({ time }) => {
+      const ocean = create.ocean("/easy-three/texture/water/NormalMap-1.jpg", {
+        position: [0, -1.05, 0],
+      });
+
+      animate(({ time, delta }) => {
+        ocean.update(delta);
         group.rotation.y = time;
         cube1.rotation.x = time;
         cube1.rotation.y = time;
