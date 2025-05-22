@@ -23,21 +23,22 @@ function Ex1(props) {
     helper.grid();
 
     let model;
-    const bvhObj = {};
+    let mixer;
     load.vrm("/easy-three/model/sample.vrm", {
       position: [0, -0.55, 0],
     }).then((vrm) => {
       model = vrm;
-      load.bvh("/easy-three/motion/sampleMotion.bvh", vrm, bvhObj, {
+      load.bvh("/easy-three/motion/sampleMotion.bvh", vrm, {
         onProgress: (p) => {
-          console.log(p.loaded)
         }
+      }).then((_bvhObj) => {
+        mixer = _bvhObj.mixer;
       });
     });
 
     animate(({ delta }) => {
-      if (model && bvhObj.mixer) {
-        bvhObj.mixer.update(delta * 1000);
+      if (model && mixer) {
+        mixer.update(delta * 1000);
         model.update(delta * 1000);
       }
     });
@@ -90,8 +91,8 @@ export default function Page() {
 
       <ReferenceContent
         name="load.bvh"
-        args="url : String, vrm : VRM, bvhObj : Object, props : Object"
-        returnObject="Null"
+        args="url : String, vrm : VRM, props : Object"
+        returnObject="{ mixer, duration }"
         argsInfo={
           <>
             <div>
@@ -99,9 +100,6 @@ export default function Page() {
             </div>
             <div>
               <span>vrm</span> - VRM。
-            </div>
-            <div>
-              <span>bvhObj</span> - 空のオブジェクト。
             </div>
             <div>
               <span>props</span> - 設定オブジェクト。
@@ -125,7 +123,7 @@ export default function Page() {
           <br />
           <Note>VRMモデルは、あらかじめ読み込んでおく必要があります。</Note>
           <br />
-          bvhObjには、mixerとdurationが格納されます。
+          戻り値は、mixerとdurationが格納されたオブジェクトです。
           <br />
           timeScale で指定した値だけ、アニメーションの時間が遅くなっています。
           そのため、<Note>delta にtimeScale相当の値を掛けてください</Note>。
@@ -185,16 +183,18 @@ helper.axes();
 helper.grid();
 
 let model;
-const bvhObj = {};
+let mixer;
 
 load.vrm("/easy-three/model/sample.vrm").then((vrm) => {
   model = vrm;
-  load.bvh("/easy-three/motion/sampleMotion.bvh", vrm, bvhObj);
+  load.bvh("/easy-three/motion/sampleMotion.bvh", vrm).then((_bvhObj) => {
+    mixer = _bvhObj.mixer;
+  });
 });
 
 animate(({ delta }) => {
-  if (model && bvhObj.mixer) {
-    bvhObj.mixer.update(delta * 1000);
+  if (model && mixer) {
+    mixer.update(delta * 1000);
     model.update(delta * 1000);
   }
 });

@@ -1396,7 +1396,7 @@ var $4e19fd0962a645af$export$2e2bcd8739ae039 = $4e19fd0962a645af$var$cubeTexture
 
 
 const $a23690bb8389291f$var$bvh = ({ THREE: THREE })=>{
-    return async (url, vrm, bvhObj, { effectiveWeight: effectiveWeight = 1, timeScale: timeScale = 1000, onProgress: onProgress = (p)=>{}, nameList: nameList = [
+    return async (url, vrm, { effectiveWeight: effectiveWeight = 1, timeScale: timeScale = 1000, onProgress: onProgress = (p)=>{}, nameList: nameList = [
         "head",
         "neck",
         "chest",
@@ -1486,6 +1486,7 @@ const $a23690bb8389291f$var$bvh = ({ THREE: THREE })=>{
             }
             return null;
         }
+        const bvhObj = {};
         const loader = new (0, $1LQKV$BVHLoader)();
         // loader.load(url, (bvh) => {
         //   const clip = createClip(vrm, bvh);
@@ -1498,6 +1499,7 @@ const $a23690bb8389291f$var$bvh = ({ THREE: THREE })=>{
         bvhObj.duration = clip.duration;
         bvhObj.mixer = new THREE.AnimationMixer(vrm.scene);
         bvhObj.mixer.clipAction(clip).setEffectiveWeight(effectiveWeight).play();
+        return bvhObj;
     };
 };
 var $a23690bb8389291f$export$2e2bcd8739ae039 = $a23690bb8389291f$var$bvh;
