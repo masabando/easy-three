@@ -64,6 +64,43 @@ function Ex2(props) {
   return <div ref={ref} {...props}></div>;
 }
 
+function Ex3(props) {
+  const ref = useRef();
+  useEffect(() => {
+    const { camera, create, helper, controls, load, animate, destroy } = init(
+      ref.current
+    );
+    create.ambientLight();
+    create.directionalLight();
+    camera.position.set(0, 1.5, -1.5);
+    controls.target.set(0, 1, 0);
+
+    controls.connect();
+    helper.axes();
+    helper.grid();
+
+    let model;
+    load
+      .vrm("/easy-three/model/sample.vrm", {
+        position: [0, -0.55, 0],
+        bvh: "/easy-three/motion/sampleMotion.bvh",
+      })
+      .then((vrm) => {
+        model = vrm;
+      });
+
+    animate(({ delta }) => {
+      if (model) {
+        model.updateWithAnimation(delta);
+      }
+    });
+    return () => {
+      destroy();
+    };
+  }, []);
+  return <div ref={ref} {...props}></div>;
+}
+
 export default function Page() {
   return (
     <Container className="pt-4 pb-5">
@@ -97,12 +134,14 @@ export default function Page() {
                 </li>
                 <li>onProgress (Function) : 読み込み中のコールバック関数。</li>
                 <li>onLoad (Function) : 読み込み完了時のコールバック関数。</li>
+                <li>bvh (String) : BVHファイルのURL (デフォルト : false)</li>
               </ul>
             </div>
           </>
         }
       >
         <p>VRMモデルを読み込み、オプションに基づいてシーンに追加します。</p>
+        <p>BVHファイルを読み込み、VRMモデルに適用することもできます。</p>
       </ReferenceContent>
 
       <p>
@@ -189,6 +228,59 @@ load.vrm("/easy-three/model/sample.vrm").then((vrm) => {
 animate(({ delta }) => {
   if (model) {
     model.scene.rotation.y += delta;
+  }
+});
+`}
+      </CodeBlock>
+
+      <h4 className="mt-5">アニメーションの再生</h4>
+      <p>
+        VRMモデルにBVHファイルを適用することで、アニメーションを再生できます。
+        <br />
+        animate のコールバック関数内で、 model.updateWithAnimation(delta)
+        を呼び出すことでアニメーションを更新します。
+        <br />
+        この処理は、load.vrm と{" "}
+        <Link href="/reference/load/bvh2/">load.bvh2</Link>{" "}
+        を併用するシンプルなケースのシンタックスシュガーです。
+        <br />
+        load.bvh2 で得られる mixer は model.mixer に格納されます。
+        <br />
+        複雑な処理が必要な場合は、model.mixer を使用してください。
+      </p>
+      <Ex3
+        className="border"
+        style={{
+          width: "240px",
+          height: "240px",
+        }}
+      />
+      <CodeBlock>
+        {`const { camera, create, helper, load, controls, animate } = init()
+create.ambientLight();
+create.directionalLight();
+camera.position.set(0, 1.5, -1.5);
+controls.target.set(0, 1, 0);
+
+controls.connect();
+
+helper.axes();
+helper.grid();
+
+let model;
+load.vrm("/easy-three/model/sample.vrm", {
+  position: [0, -0.55, 0],
+  bvh: "/easy-three/motion/sampleMotion.bvh",
+}).then((vrm) => {
+  model = vrm;
+});
+
+animate(({ delta }) => {
+  if (model) {
+    model.updateWithAnimation(delta);
+    // あるいは
+    // model.mixer?.update(delta);
+    // model.update(delta);
   }
 });
 `}

@@ -282,7 +282,7 @@ let model
 let mixer
 load.vrm("./model/sample.vrm").then((m) => {
   model = m
-  load.bvh("./motion/sampleMotion.bvh", m).then((bvhObj) => {
+  load.bvh2("./motion/sampleMotion.bvh", m).then((bvhObj) => {
     mixer = bvhObj.mixer
   })
 })
@@ -292,7 +292,7 @@ animate(({ time, delta }) => {
   cube.rotation.x += delta
   if (model) {
     if (mixer) {
-      mixer.update(delta * 1000)
+      mixer.update(delta)
     }
     model.update(delta)
   }

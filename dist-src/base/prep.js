@@ -156,6 +156,11 @@ const prep = ({ targetName, THREE }) => {
     renderer.toneMapping = THREE.NoToneMapping;
   }
 
+  // fix for r175
+  const _connect = controls.connect;
+  controls.connect = (dom = renderer.domElement) => {
+    _connect.call(controls, dom);
+  }
 
   return {
     domElement,

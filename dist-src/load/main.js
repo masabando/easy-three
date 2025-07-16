@@ -5,6 +5,7 @@ import vrm from "./vrm.js";
 import videoTexture from "./videoTexture.js";
 import cubeTexture from "./cubeTexture.js";
 import bvh from "./bvh.js";
+import bvh2 from "./bvh2.js";
 
 const use = [
   { name: "background", fn: background },
@@ -14,12 +15,13 @@ const use = [
   { name: "videoTexture", fn: videoTexture },
   { name: "cubeTexture", fn: cubeTexture },
   { name: "bvh", fn: bvh },
+  { name: "bvh2", fn: bvh2 },
 ]
 
 
 const addLoad = ({ Default, THREE, load, scene }) => {
   use.forEach((v) => {
-    load[v.name] = v.fn({ Default, THREE, scene });
+    load[v.name] = v.fn({ Default, THREE, load, scene });
   })
 }
 

@@ -29,18 +29,15 @@ function Ex1(props) {
       position: [0, -0.55, 0],
     }).then((vrm) => {
       model = vrm;
-      load.bvh("/easy-three/motion/sampleMotion.bvh", vrm, {
-        onProgress: (p) => {
-        }
-      }).then((_bvhObj) => {
+      load.bvh2("/easy-three/motion/sampleMotion.bvh", vrm).then((_bvhObj) => {
         mixer = _bvhObj.mixer;
       });
     });
 
     animate(({ delta }) => {
       if (model && mixer) {
-        mixer.update(delta * 1000);
-        model.update(delta * 1000);
+        mixer.update(delta);
+        model.update(delta);
       }
     });
     return () => {
@@ -87,24 +84,11 @@ function Ex2(props) {
 export default function Page() {
   return (
     <Container className="pt-4 pb-5">
-      <title>load.bvh | easy-three</title>
-      <h1>load.bvh</h1>
-
-      <Alert
-        type="warning"
-        message={"load.bvh は非推奨になりました。"}
-        description={
-          <>
-            Three.js r175 で AnimationClip.parseAnimation() が非推奨になったため、
-            load.bvh は非推奨になりました。<br />
-            今後は <Link href="/reference/load/bvh2/">load.bvh2</Link>{" "}
-            をご利用ください。
-          </>
-        }
-      />
+      <title>load.bvh2 | easy-three</title>
+      <h1>load.bvh2</h1>
 
       <ReferenceContent
-        name="load.bvh"
+        name="load.bvh2"
         args="url : String, vrm : VRM, props : Object"
         returnObject="{ mixer, duration }"
         argsInfo={
@@ -139,12 +123,17 @@ export default function Page() {
           <br />
           戻り値は、mixerとdurationが格納されたオブジェクトです。
           <br />
-          timeScale で指定した値だけ、アニメーションの時間が遅くなっています。
-          そのため、<Note>delta にtimeScale相当の値を掛けてください</Note>。
+          timeScale はアニメーションの分解能です。
           <br />
           mocopiで取得したBVHファイルを使用することを想定しています。
           <br />
           そうでない場合は、idListを変更する必要があるかもしれません。
+        </p>
+        <p>
+          <Note>
+            load.bvhと違い、load.bvh2 は update に delta
+            をそのまま渡すことができます。
+          </Note>
         </p>
         <p>nameListとidListの初期値は以下の通りです。</p>
       </ReferenceContent>
@@ -177,13 +166,13 @@ idList = [
 
       <h2>コードの例</h2>
       <h4>BVHによるVRMモデルのアニメーション</h4>
-      {/* <Ex1
+      <Ex1
         className="border"
         style={{
           width: "240px",
           height: "240px",
         }}
-      /> */}
+      />
       <CodeBlock>
         {`const { camera, create, helper, load, controls, animate } = init()
 create.ambientLight();
@@ -199,17 +188,19 @@ helper.grid();
 let model;
 let mixer;
 
-load.vrm("/easy-three/model/sample.vrm").then((vrm) => {
+load.vrm("/easy-three/model/sample.vrm", {
+  position: [0, -0.55, 0],
+}).then((vrm) => {
   model = vrm;
-  load.bvh("/easy-three/motion/sampleMotion.bvh", vrm).then((_bvhObj) => {
+  load.bvh2("/easy-three/motion/sampleMotion.bvh", vrm).then((_bvhObj) => {
     mixer = _bvhObj.mixer;
   });
 });
 
 animate(({ delta }) => {
   if (model && mixer) {
-    mixer.update(delta * 1000);
-    model.update(delta * 1000);
+    mixer.update(delta);
+    model.update(delta);
   }
 });
 

@@ -40,13 +40,20 @@ export default function Page() {
     // });
 
     let model;
-    let bvh = {};
-    load.vrm("../../model/ktc-uniform_female_v5.vrm").then((vrm) => {
+    let mixer;
+    // load.vrm("../../model/ktc-uniform_male_v1.vrm").then((vrm) => {
+    //   model = vrm;
+    //   model.scene.position.set(0, -0.5, -3);
+    //   model.scene.rotation.set(0, Math.PI, 0);
+    //   load.bvh2("../../motion/sampleMotion.bvh", vrm).then((_bvhObj) => {
+    //     mixer = _bvhObj.mixer;
+    //   });
+    // });
+    load.vrm("../../model/ktc-uniform_female_v5.vrm", {
+      bvh: "../../motion/sampleMotion.bvh",
+    }).then(vrm => {
       model = vrm;
-      model.scene.position.set(0, -0.5, -3);
-      model.scene.rotation.set(0, Math.PI, 0);
-      load.bvh("../../motion/motion_mm02.bvh", vrm, bvh);
-    });
+    })
 
     create.rectAreaLight({
       helper: true,
@@ -92,12 +99,14 @@ export default function Page() {
     // })
 
     animate(({ delta, time }) => {
-      if (model && bvh.mixer) {
-        bvh.mixer.update(delta * 1000);
-        model.update(delta * 1000);
-      }
+      // if (model && mixer) {
+      //   mixer.update(delta);
+      //   model.update(delta);
+      // }
       // ocean.update(delta);
-
+      if (model) {
+        model.updateWithAnimation(delta);
+      }
     });
     return () => {
       destroy();

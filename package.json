@@ -1,7 +1,7 @@
 {
   "name": "@masabando/easy-three",
   "type": "module",
-  "version": "1.6.3",
+  "version": "1.7.0",
   "author": "masabando",
   "description": "A simple and easy-to-use 3D library",
   "module": "./dist/easy-three.js",
@@ -50,7 +50,7 @@
   },
   "dependencies": {
     "@pixiv/three-vrm": "^3.4.0",
-    "three": "^0.171.0"
+    "three": "^0.178.0"
   },
   "devDependencies": {
     "@ant-design/nextjs-registry": "^1.0.2",

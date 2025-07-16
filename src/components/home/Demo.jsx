@@ -91,7 +91,7 @@ export const Demo = {
         position: [0, -0.55, 0],
       }).then((m) => {
         model = m;
-        load.bvh("./motion/sampleMotion.bvh", model).then((bvhObj) => {
+        load.bvh2("./motion/sampleMotion.bvh", model).then((bvhObj) => {
           mixer = bvhObj.mixer;
         });
       });
@@ -101,7 +101,7 @@ export const Demo = {
         cube.rotation.x += delta;
         if (model) {
           if (mixer) {
-            mixer.update(delta * 1000);
+            mixer.update(delta);
           }
           model.update(delta);
         }

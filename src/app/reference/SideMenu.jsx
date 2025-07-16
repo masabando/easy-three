@@ -3,11 +3,30 @@ import { Menu } from "antd";
 import { useRouter } from "next/navigation";
 import { Tag } from "antd";
 
-function Label({ newFlag = false, children }) {
+function Label({
+  newFlag = false,
+  updateFlag = false,
+  deprecatedFlag = false,
+  children
+}) {
   return (
     <div>
       <span>{children}</span>
-      {newFlag && <Tag color="blue" className="ms-2">New</Tag> }
+      {newFlag && (
+        <Tag color="blue" className="ms-2">
+          New
+        </Tag>
+      )}
+      {updateFlag && (
+        <Tag color="volcano" className="ms-2">
+          Update
+        </Tag>
+      )}
+      {deprecatedFlag && (
+        <Tag color="purple" className="ms-2">
+          deprecated
+        </Tag>
+      )}
     </div>
   );
 }
@@ -32,7 +51,7 @@ export default function SideMenu({ setOpen }) {
             children: [
               { key: "base/init", label: "init" },
               { key: "base/animate", label: "animate" },
-              { key: "base/controls", label: "controls" },
+              { key: "base/controls", label: <Label updateFlag>controls</Label> },
               { key: "base/color", label: "color" },
               { key: "base/default", label: "Default" },
               { key: "base/destroy", label: "destroy" },
@@ -105,8 +124,9 @@ export default function SideMenu({ setOpen }) {
             label: "load",
             type: "group",
             children: [
-              { key: "load/vrm", label: "vrm" },
-              { key: "load/bvh", label: <Label newFlag>bvh</Label> },
+              { key: "load/vrm", label: <Label updateFlag>vrm</Label> },
+              { key: "load/bvh", label: <Label deprecatedFlag>bvh</Label> },
+              { key: "load/bvh2", label: <Label newFlag>bvh2</Label> },
               { key: "load/gltf", label: "gltf" },
               { key: "load/background", label: "background" },
               { key: "load/texture", label: "texture" },

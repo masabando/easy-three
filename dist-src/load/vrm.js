@@ -1,7 +1,7 @@
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import { VRMLoaderPlugin, VRMUtils } from '@pixiv/three-vrm';
 
-const vrm = ({ scene }) => {
+const vrm = ({ scene, load }) => {
   return async (url, {
     position = [0, 0, 0],
     rotation = [0, 0, 0],
@@ -9,6 +9,7 @@ const vrm = ({ scene }) => {
     autoAdd = true,
     onProgress = (p) => { },
     onLoad = (vrm) => { },
+    bvh = false,
   } = {}) => {
     const vrmLoader = new GLTFLoader();
     vrmLoader.register(parser => new VRMLoaderPlugin(parser));
@@ -33,6 +34,18 @@ const vrm = ({ scene }) => {
       VRMUtils.deepDispose(model.scene);
     }
     if (autoAdd) scene.add(model.scene);
+    model.updateWithAnimation = () => { };
+
+    if (bvh) {
+      load.bvh2(bvh, model).then(o => {
+        model.mixer = o.mixer;
+        model.updateWithAnimation = (delta) => {
+          o.mixer.update(delta);
+          model.update(delta);
+        }
+      })
+    }
+
     return model;
   }
 }

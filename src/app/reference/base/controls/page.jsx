@@ -5,6 +5,7 @@ import ReferenceContent from "@/components/ReferenceContent";
 import { Link } from "@/components/BaseKit";
 import { useEffect, useRef } from "react";
 import { init } from "@dist/easy-three.js";
+import { Alert } from "antd";
 
 function Ex1(props) {
   const ref = useRef();
@@ -29,6 +30,17 @@ export default function Page() {
     <Container className="pt-4 pb-5">
       <title>controls | easy-three</title>
       <h1 className="mb-5">controls</h1>
+
+      <Alert
+        className="mb-3"
+        type="info"
+        message={
+          <>
+            Three.js の r175 で OrbitControls の connect() の引数に対象要素が必要となりましたが、easy-three の connect() には必要ありません。<br />
+            easy-three のcontrols の実態はただの OrbitControls インスタンスですが、この変更を受けて connect() のデフォルト引数を renderer.domElement としています。
+          </>
+        }
+      />
 
       <p>カメラの操作を行うためのコントロールを提供します。</p>
       <p>
