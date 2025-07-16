@@ -279,22 +279,18 @@ const cube = create.cube({
 })
 
 let model
-let mixer
-load.vrm("./model/sample.vrm").then((m) => {
+load.vrm("./model/sample.vrm", {
+  position: [0, -0.55, 0],
+  bvh: "./motion/sampleMotion.bvh",
+}).then((m) => {
   model = m
-  load.bvh2("./motion/sampleMotion.bvh", m).then((bvhObj) => {
-    mixer = bvhObj.mixer
-  })
 })
 
-animate(({ time, delta }) => {
+animate(({ delta }) => {
   cube.rotation.y += delta
   cube.rotation.x += delta
   if (model) {
-    if (mixer) {
-      mixer.update(delta)
-    }
-    model.update(delta)
+    model.updateWithAnimation(delta);
   }
 })
 `}
