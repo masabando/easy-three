@@ -38,7 +38,7 @@ const vrm = ({ scene, load }) => {
     model.updateWithAnimation = () => { };
 
     if (bvh) {
-      load.bvh2(bvh, model).then(o => {
+      await load.bvh2(bvh, model).then(o => {
         model.mixer = o.mixer;
         model.updateWithAnimation = (delta) => {
           if (model && model.mixer) {

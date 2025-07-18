@@ -1391,7 +1391,7 @@ const $aad201fb457a6818$var$vrm = ({ scene: scene, load: load })=>{
         };
         if (autoAdd) scene.add(model.scene);
         model.updateWithAnimation = ()=>{};
-        if (bvh) load.bvh2(bvh, model).then((o)=>{
+        if (bvh) await load.bvh2(bvh, model).then((o)=>{
             model.mixer = o.mixer;
             model.updateWithAnimation = (delta)=>{
                 if (model && model.mixer) {
