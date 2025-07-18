@@ -15,7 +15,7 @@ import shape from './mesh/shape.js';
 // lights
 import directionalLight from './lights/directionalLight.js';
 import pointLight from './lights/pointLight.js';
-import ambientLight from './lights/ambientLight.js';
+import ambientLight from './lights/ambientLight.ts';
 import spotLight from './lights/spotLight.js';
 import hemisphereLight from './lights/hemisphereLight.js';
 import rectAreaLight from './lights/rectAreaLight.js';

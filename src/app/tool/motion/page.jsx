@@ -21,6 +21,8 @@ export default function Page() {
     controls.connect();
     camera.position.set(0, 3, 3);
 
+    create.ambientLight()
+
     create.hemisphereLight({
       intensity: 3
     });

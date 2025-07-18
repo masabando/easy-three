@@ -548,14 +548,14 @@ const $2ab9fe92e6f4a93c$var$pointLight = ({ scene: scene, THREE: THREE })=>{
 var $2ab9fe92e6f4a93c$export$2e2bcd8739ae039 = $2ab9fe92e6f4a93c$var$pointLight;
 
 
-const $18bc11ddc30b0de4$var$ambientLight = ({ scene: scene, THREE: THREE })=>{
+const $89ce42d9cee505e9$var$ambientLight = ({ scene: scene, THREE: THREE })=>{
     return ({ color: color = 0xffffff, intensity: intensity = 0.5 } = {})=>{
         const l = new THREE.AmbientLight(color, intensity);
         scene.add(l);
         return l;
     };
 };
-var $18bc11ddc30b0de4$export$2e2bcd8739ae039 = $18bc11ddc30b0de4$var$ambientLight;
+var $89ce42d9cee505e9$export$2e2bcd8739ae039 = $89ce42d9cee505e9$var$ambientLight;
 
 
 const $2c85c5e2a5829a44$var$spotLight = ({ scene: scene, THREE: THREE })=>{
@@ -901,7 +901,7 @@ const $f88a658689c91c8b$var$use = [
     },
     {
         name: 'ambientLight',
-        fn: (0, $18bc11ddc30b0de4$export$2e2bcd8739ae039)
+        fn: (0, $89ce42d9cee505e9$export$2e2bcd8739ae039)
     },
     {
         name: 'spotLight',
