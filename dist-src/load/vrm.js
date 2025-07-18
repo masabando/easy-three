@@ -42,7 +42,7 @@ const vrm = ({ scene, load }) => {
         model.mixer = o.mixer;
         model.updateWithAnimation = (delta) => {
           if (model && model.mixer) {
-            o.mixer.update(delta);
+            model.mixer.update(delta);
             model.update(delta);
           }
         }

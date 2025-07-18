@@ -1395,7 +1395,7 @@ const $aad201fb457a6818$var$vrm = ({ scene: scene, load: load })=>{
             model.mixer = o.mixer;
             model.updateWithAnimation = (delta)=>{
                 if (model && model.mixer) {
-                    o.mixer.update(delta);
+                    model.mixer.update(delta);
                     model.update(delta);
                 }
             };
