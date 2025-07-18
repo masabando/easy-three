@@ -27,7 +27,18 @@ const textTexture = ({ THREE }) => {
     ctx.fillStyle = color;
     ctx.textAlign = textAlign;
     ctx.textBaseline = textBaseline;
-    ctx.fillText(text, canvas.width / 2, canvas.height / 2);
+    switch (textAlign) {
+      case "left":
+      case "start":
+        ctx.fillText(text, guide, canvas.height / 2);
+        break;
+      case "right":
+      case "end":
+        ctx.fillText(text, canvas.width - guide, canvas.height / 2);
+        break;
+      default:
+        ctx.fillText(text, canvas.width / 2, canvas.height / 2);
+    }
     const texture = new THREE.CanvasTexture(canvas);
     texture.colorSpace = THREE.SRGBColorSpace;
     return texture;
