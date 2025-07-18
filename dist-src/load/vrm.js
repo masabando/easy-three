@@ -7,6 +7,7 @@ const vrm = ({ scene, load }) => {
     rotation = [0, 0, 0],
     scale = [1, 1, 1],
     autoAdd = true,
+    castShadow = true,
     onProgress = (p) => { },
     onLoad = (vrm) => { },
     bvh = false,
@@ -21,7 +22,7 @@ const vrm = ({ scene, load }) => {
     VRMUtils.combineSkeletons(model.scene);
     model.scene.traverse((obj) => {
       obj.frustumCulled = false;
-      if (obj.isMesh) {
+      if (obj.isMesh && castShadow) {
         obj.castShadow = true;
       }
     });

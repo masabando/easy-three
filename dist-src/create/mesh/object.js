@@ -11,12 +11,14 @@ const object = ({ Default, scene, THREE }) => {
     receiveShadow = true,
     autoAdd = true,
   } = {}) => {
+    const op = option;
+    //op.color = op.color || Default.color;
     const m = new THREE.Mesh(
       //new THREE[geometry](...args),
       new geometry(...args),
       new THREE[`Mesh${material}Material`](material === "Normal" ?
-        (option.side ? { side: option.side } : {})
-        : option)
+        (op.side ? { side: op.side } : {})
+        : op)
     )
     m.position.set(...position)
     m.rotation.set(...rotation)

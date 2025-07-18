@@ -240,10 +240,12 @@ const $5206c8db530eb142$var$object = ({ Default: Default, scene: scene, THREE: T
     ], option: option = {
         color: Default.color
     }, material: material = Default.material, castShadow: castShadow = true, receiveShadow: receiveShadow = true, autoAdd: autoAdd = true } = {})=>{
+        const op = option;
+        //op.color = op.color || Default.color;
         const m = new THREE.Mesh(//new THREE[geometry](...args),
-        new geometry(...args), new THREE[`Mesh${material}Material`](material === "Normal" ? option.side ? {
-            side: option.side
-        } : {} : option));
+        new geometry(...args), new THREE[`Mesh${material}Material`](material === "Normal" ? op.side ? {
+            side: op.side
+        } : {} : op));
         m.position.set(...position);
         m.rotation.set(...rotation);
         m.castShadow = castShadow;
@@ -469,12 +471,8 @@ const $ae10af728513f1cf$var$shape = ({ create: create, THREE: THREE, sizeToArray
 var $ae10af728513f1cf$export$2e2bcd8739ae039 = $ae10af728513f1cf$var$shape;
 
 
-const $d2e3c151fb3aa58c$var$directionalLight = ({ scene: scene, THREE: THREE })=>{
-    return ({ intensity: intensity = 1, color: color = 0xffffff, position: position = [
-        10,
-        10,
-        10
-    ], castShadow: castShadow = true, helper: helper = 0, helperColor: helperColor = 0xffffff, shadow: shadow = {
+const $d2e3c151fb3aa58c$var$defaultValue = {
+    shadow: {
         mapSize: {
             width: 1024,
             height: 1024
@@ -483,19 +481,32 @@ const $d2e3c151fb3aa58c$var$directionalLight = ({ scene: scene, THREE: THREE })=
             left: -10,
             right: 10,
             top: 10,
-            bottom: -10
-        }
-    } } = {})=>{
+            bottom: -10,
+            near: 0.5,
+            far: 500
+        },
+        bias: 0
+    }
+};
+const $d2e3c151fb3aa58c$var$directionalLight = ({ scene: scene, THREE: THREE })=>{
+    return ({ intensity: intensity = 1, color: color = 0xffffff, position: position = [
+        10,
+        10,
+        10
+    ], castShadow: castShadow = true, helper: helper = 0, helperColor: helperColor = 0xffffff, shadow: shadow = $d2e3c151fb3aa58c$var$defaultValue.shadow } = {})=>{
         const l = new THREE.DirectionalLight(color, intensity);
         l.position.set(...position);
         l.castShadow = castShadow;
         if (castShadow) {
-            l.shadow.mapSize.width = shadow.mapSize.width;
-            l.shadow.mapSize.height = shadow.mapSize.height;
-            l.shadow.camera.left = shadow.camera.left;
-            l.shadow.camera.right = shadow.camera.right;
-            l.shadow.camera.top = shadow.camera.top;
-            l.shadow.camera.bottom = shadow.camera.bottom;
+            l.shadow.mapSize.width = shadow.mapSize.width || $d2e3c151fb3aa58c$var$defaultValue.shadow.mapSize.width;
+            l.shadow.mapSize.height = shadow.mapSize.height || $d2e3c151fb3aa58c$var$defaultValue.shadow.mapSize.height;
+            l.shadow.camera.left = shadow.camera.left || $d2e3c151fb3aa58c$var$defaultValue.shadow.camera.left;
+            l.shadow.camera.right = shadow.camera.right || $d2e3c151fb3aa58c$var$defaultValue.shadow.camera.right;
+            l.shadow.camera.top = shadow.camera.top || $d2e3c151fb3aa58c$var$defaultValue.shadow.camera.top;
+            l.shadow.camera.bottom = shadow.camera.bottom || $d2e3c151fb3aa58c$var$defaultValue.shadow.camera.bottom;
+            l.shadow.camera.near = shadow.camera.near || $d2e3c151fb3aa58c$var$defaultValue.shadow.camera.near;
+            l.shadow.camera.far = shadow.camera.far || $d2e3c151fb3aa58c$var$defaultValue.shadow.camera.far;
+            l.shadow.bias = shadow.bias || $d2e3c151fb3aa58c$var$defaultValue.shadow.bias;
         }
         if (helper > 0) {
             const h = new THREE.DirectionalLightHelper(l, helper, helperColor);
@@ -1312,12 +1323,19 @@ const $a2d43aa4ebc8a120$var$gltf = ({ scene: scene })=>{
         1,
         1,
         1
-    ], autoAdd: autoAdd = true } = {})=>{
+    ], castShadow: castShadow = true, receiveShadow: receiveShadow = false, autoAdd: autoAdd = true } = {})=>{
         const gltf = await new (0, $1LQKV$GLTFLoader)().loadAsync(url);
         gltf.scene.position.set(...position);
         gltf.scene.rotation.set(...rotation);
         gltf.scene.scale.set(...scale);
         if (autoAdd) scene.add(gltf.scene);
+        gltf.scene.traverse((obj)=>{
+            obj.frustumCulled = false;
+            if (obj.isMesh) {
+                if (castShadow) obj.castShadow = true;
+                if (receiveShadow) obj.receiveShadow = true;
+            }
+        });
         return gltf;
     };
 };
@@ -1339,7 +1357,7 @@ const $aad201fb457a6818$var$vrm = ({ scene: scene, load: load })=>{
         1,
         1,
         1
-    ], autoAdd: autoAdd = true, onProgress: onProgress = (p)=>{}, onLoad: onLoad = (vrm)=>{}, bvh: bvh = false } = {})=>{
+    ], autoAdd: autoAdd = true, castShadow: castShadow = true, onProgress: onProgress = (p)=>{}, onLoad: onLoad = (vrm)=>{}, bvh: bvh = false } = {})=>{
         const vrmLoader = new (0, $1LQKV$GLTFLoader)();
         vrmLoader.register((parser)=>new (0, $1LQKV$VRMLoaderPlugin)(parser));
         const gltf = await vrmLoader.loadAsync(url, onProgress);
@@ -1350,7 +1368,7 @@ const $aad201fb457a6818$var$vrm = ({ scene: scene, load: load })=>{
         (0, $1LQKV$VRMUtils).combineSkeletons(model.scene);
         model.scene.traverse((obj)=>{
             obj.frustumCulled = false;
-            if (obj.isMesh) obj.castShadow = true;
+            if (obj.isMesh && castShadow) obj.castShadow = true;
         });
         model.scene.position.set(...position);
         model.scene.rotation.set(...rotation);

@@ -5,6 +5,8 @@ const gltf = ({ scene }) => {
     position = [0, 0, 0],
     rotation = [0, 0, 0],
     scale = [1, 1, 1],
+    castShadow = true,
+    receiveShadow = false,
     autoAdd = true
   } = {}) => {
     const gltf = await new GLTFLoader().loadAsync(url);
@@ -12,6 +14,17 @@ const gltf = ({ scene }) => {
     gltf.scene.rotation.set(...rotation);
     gltf.scene.scale.set(...scale);
     if (autoAdd) scene.add(gltf.scene);
+    gltf.scene.traverse((obj) => {
+      obj.frustumCulled = false;
+      if (obj.isMesh) {
+        if (castShadow) {
+          obj.castShadow = true;
+        }
+        if (receiveShadow) {
+          obj.receiveShadow = true;
+        }
+      }
+    });
     return gltf;
   }
 }

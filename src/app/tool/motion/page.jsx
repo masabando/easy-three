@@ -51,8 +51,14 @@ export default function Page() {
     // });
     load.vrm("../../model/ktc-uniform_female_v5.vrm", {
       bvh: "../../motion/sampleMotion.bvh",
+      position: [0, -1.15, 0],
+      castShadow: false,
     }).then(vrm => {
       model = vrm;
+    })
+
+    create.directionalLight({
+      intensity: 4,
     })
 
     create.rectAreaLight({

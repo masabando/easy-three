@@ -119,8 +119,15 @@ export default function Reference_Create_Cube() {
                       <li>
                         bottom (Number) : カメラの下範囲 (デフォルト : -10)。
                       </li>
+                      <li>
+                        near (Number) : カメラの近距離 (デフォルト : 0.5)。
+                      </li>
+                      <li>
+                        far (Number) : カメラの遠距離 (デフォルト : 500)。
+                      </li>
                     </ul>
                   </li>
+                  <li>bias (Number) : シャドウバイアス (デフォルト : 0)。</li>
                 </ul>
               </li>
               <li>helper (Number) : ヘルパーのサイズ (デフォルト : 0)。</li>
@@ -138,6 +145,9 @@ export default function Reference_Create_Cube() {
         この光源は、シーン全体に均等に光を当てる環境光とは異なり、特定の方向からの光を当てることができます。
         <br />
         そのため、影を作成することができます。
+      </p>
+      <p>
+        GLTFモデルの表面に波紋状の縞模様が表示される場合は、shadow.bias に小さい値(0.0001 や -0.0001) を設定してください。
       </p>
 
       <h2>コードの例</h2>
@@ -185,9 +195,7 @@ animate(({ delta, time }) => {
 `}
       </CodeBlock>
       <h4>ヘルパーの利用</h4>
-      <p>
-        helperに0より大きい値を指定すると、ヘルパーが表示されます。
-      </p>
+      <p>helperに0より大きい値を指定すると、ヘルパーが表示されます。</p>
       <Ex3
         className="border"
         style={{
