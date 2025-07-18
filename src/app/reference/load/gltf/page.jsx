@@ -94,6 +94,14 @@ export default function Page() {
                   scale (Array) : モデルのスケール (デフォルト : [1, 1, 1])。
                 </li>
                 <li>
+                  castShadow (Boolean) : モデルが影を落とすか (デフォルト :
+                  true)。
+                </li>
+                <li>
+                  receiveShadow (Boolean) : モデルが影を受けるか (デフォルト :
+                  false)。
+                </li>
+                <li>
                   autoAdd (Boolean) : 自動でシーンに追加するか (デフォルト :
                   true)。
                 </li>
