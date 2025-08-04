@@ -1393,10 +1393,14 @@ const $aad201fb457a6818$var$vrm = ({ scene: scene, load: load })=>{
         model.updateWithAnimation = ()=>{};
         if (bvh) await load.bvh2(bvh, model).then((o)=>{
             model.mixer = o.mixer;
+            model.duration = o.duration;
             model.updateWithAnimation = (delta)=>{
                 if (model && model.mixer) {
-                    model.mixer.update(delta);
-                    model.update(delta);
+                    if (model.duration < model.mixer.time + delta) model.mixer.setTime(0);
+                    else {
+                        model.mixer.update(delta);
+                        model.update(delta);
+                    }
                 }
             };
         });
