@@ -1396,7 +1396,7 @@ const $aad201fb457a6818$var$vrm = ({ scene: scene, load: load })=>{
             model.duration = o.duration;
             model.updateWithAnimation = (delta)=>{
                 if (model && model.mixer) {
-                    if (model.duration < model.mixer.time + delta) model.mixer.setTime(0);
+                    if (model.duration < model.mixer.time + delta) model.mixer.setTime(delta);
                     else {
                         model.mixer.update(delta);
                         model.update(delta);

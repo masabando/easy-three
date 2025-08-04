@@ -44,7 +44,7 @@ const vrm = ({ scene, load }) => {
         model.updateWithAnimation = (delta) => {
           if (model && model.mixer) {
             if (model.duration < model.mixer.time + delta) {
-              model.mixer.setTime(0);
+              model.mixer.setTime(delta);
             } else {
               model.mixer.update(delta);
               model.update(delta);
