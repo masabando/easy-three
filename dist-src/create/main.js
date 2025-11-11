@@ -27,6 +27,7 @@ import text from './misc/text.js';
 import ocean from './misc/ocean.js';
 import sky from './misc/sky.js';
 import water from './misc/water.js';
+import positionalAudio from './misc/positionalAudio.js';
 
 const use = [
   // mesh
@@ -59,6 +60,7 @@ const use = [
   { name: 'ocean', fn: ocean },
   { name: 'sky', fn: sky },
   { name: 'water', fn: water },
+  { name: 'positionalAudio', fn: positionalAudio },
 ]
 
 function sizeToArray(size, n = 3) {

@@ -6,6 +6,7 @@ import {RectAreaLightUniformsLib as $1LQKV$RectAreaLightUniformsLib} from "three
 import {Water as $1LQKV$Water} from "three/addons/objects/Water.js";
 import {Sky as $1LQKV$Sky} from "three/addons/objects/Sky.js";
 import {Water as $1LQKV$Water1} from "three/addons/objects/Water2.js";
+import {PositionalAudioHelper as $1LQKV$PositionalAudioHelper} from "three/addons/helpers/PositionalAudioHelper.js";
 import {EffectComposer as $1LQKV$EffectComposer} from "three/addons/postprocessing/EffectComposer.js";
 import {RenderPass as $1LQKV$RenderPass} from "three/addons/postprocessing/RenderPass.js";
 import {UnrealBloomPass as $1LQKV$UnrealBloomPass} from "three/addons/postprocessing/UnrealBloomPass.js";
@@ -843,6 +844,39 @@ const $b9d6796c02c6f0a5$var$water = ({ THREE: THREE, sizeToArray: sizeToArray, s
 var $b9d6796c02c6f0a5$export$2e2bcd8739ae039 = $b9d6796c02c6f0a5$var$water;
 
 
+
+const $57451e4e4017cefc$var$positionalAudio = ({ scene: scene, THREE: THREE })=>{
+    return (audioFile, target, { refDistance: refDistance = 1, maxDistance: maxDistance = 100, loop: loop = true, volume: volume = 0.5, distanceModel: distanceModel = 'exponential', rolloffFactor: rolloffFactor = 1, innerAngle: innerAngle = 360, outerAngle: outerAngle = 360, outerGain: outerGain = 0, helper: helper = false } = {})=>{
+        const listener = new THREE.AudioListener();
+        target.add(listener);
+        const sound = new THREE.PositionalAudio(listener);
+        const audioLoader = new THREE.AudioLoader();
+        audioLoader.load(audioFile, function(buffer) {
+            sound.setBuffer(buffer);
+            sound.setRefDistance(refDistance);
+            sound.setLoop(loop);
+            sound.setVolume(volume);
+            sound.setRolloffFactor(rolloffFactor);
+            sound.setMaxDistance(maxDistance);
+            sound.setDistanceModel(distanceModel);
+            sound.setDirectionalCone(innerAngle, outerAngle, outerGain);
+        });
+        if (helper) {
+            const helper = new (0, $1LQKV$PositionalAudioHelper)(sound);
+            sound.add(helper);
+        }
+        sound.destroy = ()=>{
+            sound.stop();
+            sound.disconnect();
+            sound.dispose();
+            target.remove(listener);
+        };
+        return sound;
+    };
+};
+var $57451e4e4017cefc$export$2e2bcd8739ae039 = $57451e4e4017cefc$var$positionalAudio;
+
+
 const $f88a658689c91c8b$var$use = [
     // mesh
     {
@@ -954,6 +988,10 @@ const $f88a658689c91c8b$var$use = [
     {
         name: 'water',
         fn: (0, $b9d6796c02c6f0a5$export$2e2bcd8739ae039)
+    },
+    {
+        name: 'positionalAudio',
+        fn: (0, $57451e4e4017cefc$export$2e2bcd8739ae039)
     }
 ];
 function $f88a658689c91c8b$var$sizeToArray(size, n = 3) {

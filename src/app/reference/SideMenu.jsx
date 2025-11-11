@@ -106,6 +106,7 @@ export default function SideMenu({ setOpen }) {
               { key: "create/sky", label: <Label newFlag>sky</Label> },
               { key: "create/ocean", label: <Label newFlag>ocean</Label> },
               { key: "create/water", label: <Label newFlag>water</Label> },
+              { key: "create/positionalAudio", label: <Label newFlag>positionalAudio</Label> },
             ],
           },
           { type: "divider" },

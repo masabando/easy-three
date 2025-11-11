@@ -1,8 +1,10 @@
 "use client";
 import { useEffect, useRef } from "react";
 import { init } from "@dist-src/easy-three";
+import Button from "react-bootstrap/Button";
 
 export default function Page() {
+  const soundRef = useRef();
   const ref = useRef();
   useEffect(() => {
     const {
@@ -92,7 +94,7 @@ export default function Page() {
     create.plane({
       size: 30,
       position: [0, -0.5, 0],
-      rotation: [-Math.PI/2, 0, 0],
+      rotation: [-Math.PI / 2, 0, 0],
       option: {
         map: load.texture("/easy-three/texture/img/monastery_stone_floor_diff_1k.jpg", {
           repeat: [10, 10]
@@ -106,17 +108,37 @@ export default function Page() {
     //   rotation: [-Math.PI / 2, 0, 0]
     // })
 
+    soundRef.current = create.positionalAudio(
+      "/easy-three/sound/chill_gravity.mp3",
+      camera,
+      {
+        refDistance: 30,
+        maxDistance: 200,
+        innerAngle: 90,
+        outerAngle: 180,
+        outerGain: 0,
+        helper: true,
+      }
+    )
+    const soundBox = create.box({ size: 0.2 });
+    soundBox.lookAt(0, 0, 1);
+    soundBox.add(soundRef.current);
+
     animate(({ delta, time }) => {
       // if (model && mixer) {
       //   mixer.update(delta);
       //   model.update(delta);
       // }
       // ocean.update(delta);
+      const r = 20 + Math.sin(time * 1.5 * 0) * 18;
+      soundBox.position.x = Math.sin(time*0) * r;
+      soundBox.position.z = -Math.cos(time*0 + Math.PI/2) * r;
       if (model) {
         model.updateWithAnimation(delta);
       }
     });
     return () => {
+      soundRef.current.destroy();
       destroy();
     };
   }, []);
@@ -124,6 +146,17 @@ export default function Page() {
   return (
     <div>
       <h1>motion</h1>
+      <div className="mb-3">
+        <Button
+          onClick={() => {
+            if (soundRef.current.isPlaying) {
+              soundRef.current.stop();
+            } else {
+              soundRef.current.play();
+            }
+          }}
+        >positional Audio</Button>
+      </div>
       <div>
         <div
           ref={ref}
