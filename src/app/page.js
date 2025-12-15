@@ -391,7 +391,7 @@ animate(({ delta }) => {
           <Row xs={1} lg={2}>
             <Col>
               <CodeBlock showLineNumbers filename="easy-three">
-                {`import { init } from "easy-three";
+                {`import { init } from "@masabando/easy-three";
 const { camera, create, controls, animate } = init()
 
 // camera settings

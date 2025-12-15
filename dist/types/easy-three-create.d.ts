@@ -102,6 +102,11 @@ declare module "@masabando/easy-three" {
      * ```
      */
     radius?: number;
+    /**
+     * 角丸部分の分割数。  
+     * (デフォルト : 1)
+     */
+    segments?: Array<number> | number;
   }
 
   export interface EasyThreeSphereProps extends createPropBase {

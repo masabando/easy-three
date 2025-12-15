@@ -30,27 +30,32 @@ export default function Page() {
         "three": "https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.js",
         "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.170.0/examples/jsm/",
         "@pixiv/three-vrm": "https://cdn.jsdelivr.net/npm/@pixiv/three-vrm@3/lib/three-vrm.module.min.js",
-        "easy-three": "https://cdn.jsdelivr.net/gh/masabando/easy-three@${currentVersion}/dist/easy-three.js"
+        "@masabando/easy-three": "https://cdn.jsdelivr.net/gh/masabando/easy-three@${currentVersion}/dist/easy-three.js"
       }
     }
   </script>
 </head>
 
 <body>
-  <script type="module">
-    import { init } from "easy-three";
-    const { camera, create, animate } = init();
-
-    camera.position.set(-2, 2, 2)
-    create.ambientLight()
-    create.directionalLight()
-    create.cube()
-
-    animate()
-  </script>
+  <script type="module" src="./main.js"></script>
 </body>
 
 </html>
+`}
+      </CodeBlock>
+      <p>
+        同じ場所に、 <code>main.js</code> というファイルを作成し、以下のコードを記述してください。
+      </p>
+      <CodeBlock language="javascript" filename="main.js">
+        {`import { init } from "@masabando/easy-three";
+const { camera, create, animate } = init();
+
+camera.position.set(-2, 2, 2)
+create.ambientLight()
+create.directionalLight()
+create.cube()
+
+animate()
 `}
       </CodeBlock>
       <p>
@@ -93,49 +98,7 @@ export default function Page() {
       />
       <h3>テンプレート部分とプログラム部分</h3>
       <p>
-        サンプルコードは一見長いように見えますが、
-        実際のところほとんどの部分はコピー＆ペーストで使用できるテンプレートです。
-      </p>
-      <p>
-        <Note>
-          実際にプログラムを書く部分は、下の「ここでプログラムを書く」部分だけ
-        </Note>
-        になります。
-      </p>
-      <CodeBlock language="html" filename="index.html">
-        {`<!DOCTYPE html>
-<html lang="ja">
-
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>easy-three template</title>
-  <script type="importmap">
-    {
-      "imports": {
-        "three": "https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.js",
-        "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.170.0/examples/jsm/",
-        "@pixiv/three-vrm": "https://cdn.jsdelivr.net/npm/@pixiv/three-vrm@3/lib/three-vrm.module.min.js",
-        "easy-three": "https://cdn.jsdelivr.net/gh/masabando/easy-three@0.0.14/dist/easy-three.js"
-      }
-    }
-  </script>
-</head>
-
-<body>
-  <script type="module">
-    import { init } from "easy-three";
-
-    // ここでプログラムを書く
-
-  </script>
-</body>
-
-</html>
-`}
-      </CodeBlock>
-      <p>
-        つまり、上のサンプルコードで、 大切な部分は以下の部分だけになります。
+        上のサンプルコードで、 大切な部分は <code>main.js</code> の以下の部分だけになります。
       </p>
       <CodeBlock filename="index.html">
         {`const { camera, create, animate } = init();
@@ -149,7 +112,7 @@ animate()
 `}
       </CodeBlock>
       <p>
-        そのため、今後の解説ではテンプレート部分は省略し、 上記のように
+        そのため、今後の解説ではテンプレートのその他の部分は省略し、 上記のように
         <Note>プログラムを書く部分だけを表示・解説</Note>します。
       </p>
       <h3>プログラムの概要</h3>
