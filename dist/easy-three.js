@@ -396,12 +396,15 @@ const $06e78acfa0e00e3a$var$cylinder = ({ create: create, THREE: THREE, sizeToAr
     ], segments: segments = [
         32,
         1
-    ], ...props } = {})=>{
+    ], openEnded: openEnded = false, thetaStart: thetaStart = 0, thetaLength: thetaLength = Math.PI * 2, ...props } = {})=>{
         return create.object(THREE.CylinderGeometry, {
             ...props,
             args: [
                 ...sizeToArray(size, 3),
-                ...sizeToArray(segments, 2)
+                ...sizeToArray(segments, 2),
+                openEnded,
+                thetaStart,
+                thetaLength
             ]
         });
     };

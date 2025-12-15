@@ -2,6 +2,7 @@
 
 
 declare module "@masabando/easy-three" {
+  import * as THREE from "three";
 
   export interface createPropBase {
     /** 位置。 x, y, z の配列。  
@@ -202,7 +203,7 @@ declare module "@masabando/easy-three" {
      * ]
      * ```
      */
-    shapes?: Array;
+    shapes?: Array<any>;
   }
 
   export interface EasyThreeTorusProps extends createPropBase {
@@ -266,6 +267,22 @@ declare module "@masabando/easy-three" {
      * ```
      */
     segments?: Array<number> | number;
+    /**
+     * 両端を開けるかどうか。  
+     * (デフォルト : false)
+     */
+    openEnded?: boolean;
+    /**
+     * 開始角度。  
+     * (デフォルト : 0)
+     */
+    thetaStart?: number;
+
+    /**
+     * 角度の長さ。  
+     * (デフォルト : Math.PI * 2)
+     */
+    thetaLength?: number;
   }
 
   export interface EasyThreeCircleProps extends createPropBase {

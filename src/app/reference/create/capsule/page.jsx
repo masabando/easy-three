@@ -108,6 +108,14 @@ export default function Reference_Create_Cube() {
               <li>
                 segments (Number | Array) : 分割数 (デフォルト : [32, 1])。
               </li>
+              <li>
+                openEnded (Boolean) : 両端を開けるかどうか (デフォルト : false)。
+              </li>
+              <li>thetaStart (Number) : 開始角度 (デフォルト : 0)。
+              </li>
+              <li>
+                thetaLength (Number) : 角度の長さ (デフォルト : {`Math.PI * 2`} )。
+              </li>
               <li>position (Array) : 位置 (デフォルト : [0, 0, 0])。</li>
               <li>rotation (Array) : 回転 (デフォルト : [0, 0, 0])。</li>
               <li>
