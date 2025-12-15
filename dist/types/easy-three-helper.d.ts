@@ -1,6 +1,6 @@
 // types/easy-three-helper.d.ts
 
-declare module "easy-three" {
+declare module "@masabando/easy-three" {
 
   export interface EasyThreeHelper {
     /**

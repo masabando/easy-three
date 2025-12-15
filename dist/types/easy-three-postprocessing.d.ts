@@ -1,6 +1,6 @@
 // types/easy-three-postprocessing.d.ts
 
-declare module "easy-three" {
+declare module "@masabando/easy-three" {
   export interface EasyThreePostprocessing {
     /**
      * Bloomエフェクトを追加。  

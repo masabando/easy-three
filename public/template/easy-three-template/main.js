@@ -1,4 +1,4 @@
-import { init } from "easy-three";
+import { init } from "@masabando/easy-three";
 const { camera, create, animate, controls } = init();
 
 controls.connect()

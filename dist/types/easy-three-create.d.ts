@@ -1,7 +1,7 @@
 // types/easy-three-create.d.ts
 
 
-declare module "easy-three" {
+declare module "@masabando/easy-three" {
 
   export interface createPropBase {
     /** 位置。 x, y, z の配列。  

@@ -1,6 +1,6 @@
 // types/easy-three.d.ts
 
-declare module "easy-three" {
+declare module "@masabando/easy-three" {
   import type * as THREE from "three";
 
   export interface EasyThreeEvent {
