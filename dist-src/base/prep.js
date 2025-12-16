@@ -50,9 +50,9 @@ const prep = ({ targetName, THREE }) => {
     camera.aspect = sizeTarget.scrollWidth / sizeTarget.scrollHeight
     camera.updateProjectionMatrix()
   }
-  if (sizeTarget !== window) {
-    window.addEventListener("resize", windowResize)
-  }
+  // if (sizeTarget !== window) {
+  //   window.addEventListener("resize", windowResize)
+  // }
 
   renderer.domElement.style.aspectRatio = renderer.domElement.width / renderer.domElement.height;
   renderer.domElement.style.width = "100%"
