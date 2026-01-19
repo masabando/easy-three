@@ -69,6 +69,26 @@ declare module "@masabando/easy-three" {
        * ```
        */
       wireframe?: boolean;
+      /**
+       * アルファテスト値。
+       */
+      alphaTest?: number;
+      /** テクスチャーマップ。 */
+      map?: THREE.Texture;
+      /**
+       * 法線マップ。
+       */
+      normalMap?: THREE.Texture;
+      /**
+       * ラフネスマップ。
+       */
+      roughnessMap?: THREE.Texture;
+      /**
+       * 変位マップ。 
+       */
+      displacementMap?: THREE.Texture;
+      /** その他、THREE.Material のプロパティを指定可能。 */
+      [key: string]: any;
     };
     /** シーンに自動追加するかどうか（デフォルト: true） */
     autoAdd?: boolean;
@@ -575,7 +595,7 @@ declare module "@masabando/easy-three" {
       /**
        * 影の設定オブジェクト。
        */
-      shadow: {
+      shadow?: {
         /** 影マップのサイズ。
          * (デフォルト: { width: 1024, height: 1024 })
          * ```js
@@ -584,9 +604,9 @@ declare module "@masabando/easy-three" {
          */
         mapSize?: {
           /** 影マップの幅 */
-          width: number;
+          width?: number;
           /** 影マップの高さ */
-          height: number;
+          height?: number;
         };
         /** 影カメラの設定。
          * (デフォルト: { left: -10, right: 10, top: 10, bottom: -10, near: 0.5, far: 500 })
