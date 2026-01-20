@@ -71,13 +71,15 @@ declare module "@masabando/easy-three" {
     idList?: Array<string>;
   }
 
-  export interface EasyThreeLoadBvhResult {
+  export interface EasyThreeLoadBvhResultValue {
     /** THREE.AnimationMixer オブジェクト */
     mixer: THREE.AnimationMixer;
 
     /** アニメーションの総時間(秒) */
     duration: number;
   }
+
+  export type EasyThreeLoadBvhResult = Promise<EasyThreeLoadBvhResultValue>;
 
   export interface EasyThreeLoadGltfProps {
     /** GLTF の位置設定  
