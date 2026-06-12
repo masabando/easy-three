@@ -121,6 +121,12 @@ declare module "@masabando/easy-three" {
      * (デフォルト : true)
      */
     autoAdd?: boolean;
+
+    /** GLTF の読み込み進捗コールバック */
+    onProgress?: (event: ProgressEvent<EventTarget>) => void;
+
+    /** GLTF の読み込み完了コールバック */
+    onLoad?: (gltf: GLTF) => void;
   }
 
   export interface EasyThreeLoad {

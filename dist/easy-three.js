@@ -1377,8 +1377,9 @@ const $a2d43aa4ebc8a120$var$gltf = ({ scene: scene })=>{
         1,
         1,
         1
-    ], castShadow: castShadow = true, receiveShadow: receiveShadow = false, autoAdd: autoAdd = true } = {})=>{
-        const gltf = await new (0, $1LQKV$GLTFLoader)().loadAsync(url);
+    ], castShadow: castShadow = true, receiveShadow: receiveShadow = false, autoAdd: autoAdd = true, onProgress: onProgress = (p)=>{}, onLoad: onLoad = (gltf)=>{} } = {})=>{
+        const gltf = await new (0, $1LQKV$GLTFLoader)().loadAsync(url, onProgress);
+        onLoad(gltf);
         gltf.scene.position.set(...position);
         gltf.scene.rotation.set(...rotation);
         gltf.scene.scale.set(...scale);

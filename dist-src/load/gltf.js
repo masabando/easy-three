@@ -7,9 +7,12 @@ const gltf = ({ scene }) => {
     scale = [1, 1, 1],
     castShadow = true,
     receiveShadow = false,
-    autoAdd = true
+    autoAdd = true,
+    onProgress = (p) => { },
+    onLoad = (gltf) => { },
   } = {}) => {
-    const gltf = await new GLTFLoader().loadAsync(url);
+    const gltf = await new GLTFLoader().loadAsync(url, onProgress);
+    onLoad(gltf);
     gltf.scene.position.set(...position);
     gltf.scene.rotation.set(...rotation);
     gltf.scene.scale.set(...scale);

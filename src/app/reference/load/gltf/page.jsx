@@ -105,6 +105,12 @@ export default function Page() {
                   autoAdd (Boolean) : 自動でシーンに追加するか (デフォルト :
                   true)。
                 </li>
+                <li>
+                  onProgress (Function) : GLTFの読み込み進捗コールバック。
+                </li>
+                <li>
+                  onLoad (Function) : GLTFの読み込み完了コールバック。
+                </li>
               </ul>
             </div>
           </>
