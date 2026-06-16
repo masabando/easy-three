@@ -1,144 +1,32 @@
-"use client";
-import RBNavbar from "react-bootstrap/Navbar";
-import Nav from "react-bootstrap/Nav";
-import Container from "react-bootstrap/Container";
-import Offcanvas from "react-bootstrap/Offcanvas";
 import { BsGithub } from "react-icons/bs";
 import { Link } from "@/components/BaseKit";
-import T, { LangSwitcher } from "./Lang";
-import { useState } from "react";
+import { LangSwitcher } from "./Lang";
 import { IoMenuOutline } from "react-icons/io5";
-import { Anchor } from "react-bootstrap";
 
 export default function Navbar() {
-  const [show, setShow] = useState(false);
-  function NavLink({ to, as=Link, children }) {
-    return (
-      <Nav.Link
-        className="my-1"
-        as={as}
-        href={to}
-        onClick={() => {
-          setShow(false);
-        }}
-      >
-        {children}
-      </Nav.Link>
-    );
-  }
   return (
-    <RBNavbar
-      expand={false}
-      data-bs-theme="dark"
-      className="bg-body-tertiary sticky-top"
-    >
-      <Container fluid>
-        <div className="d-flex align-items-center">
-          <RBNavbar.Brand as={Link} href="/">
-            easy-three
-          </RBNavbar.Brand>
-          <Nav className="d-none d-md-flex flex-row align-items-center column-gap-3">
-            <Nav.Link
-              as={Link}
-              className="py-0"
-              href="https://github.com/masabando/easy-three"
-            >
-              <BsGithub style={{ fontSize: "180%" }} />
-            </Nav.Link>
-            <NavLink to="/getting-started">
-              <T>
-                <>Getting Started</>
-                <>使ってみる</>
-              </T>
-            </NavLink>
-            <NavLink to="/examples">
-              <T>
-                <>Examples</>
-                <>使い方の例</>
-              </T>
-            </NavLink>
-            <NavLink to="/reference">
-              <T>
-                <>Reference</>
-                <>ドキュメント</>
-              </T>
-            </NavLink>
-            <NavLink to="/classroom">
-              <T>
-                <>Edu. Use Cases</>
-                <>教育機関向け</>
-              </T>
-            </NavLink>
-          </Nav>
-        </div>
-        <div className="d-flex flex-row align-items-center">
-          <LangSwitcher />
-          <div
-            className="text-white d-flex align-items-center ms-3"
-            onClick={() => setShow(true)}
-            style={{
-              fontSize: "200%",
-            }}
-          >
-            <IoMenuOutline />
-          </div>
-        </div>
-        <Offcanvas
-          show={show}
-          onHide={() => setShow(false)}
-          placement="end"
-          className="bg-dark text-light"
-          style={{ maxWidth: "60%" }}
+    <div className="sticky top-0 z-100 py-2 bg-base-200 shadow-sm w-full rounded-none flex justify-between">
+      <div className="flex-none">
+        <Link className="btn btn-ghost text-xl font-normal" href="/">
+          easy-three
+        </Link>
+        <Link
+          className="btn btn-ghost px-2"
+          href="https://github.com/masabando/easy-three"
         >
-          <Offcanvas.Header closeButton closeVariant="white">
-            <Offcanvas.Title>Menu</Offcanvas.Title>
-          </Offcanvas.Header>
-          <Offcanvas.Body>
-            <Nav className="me-auto">
-              <NavLink to="/">
-                <T>
-                  <>home</>
-                  <>ホーム</>
-                </T>
-              </NavLink>
-              <NavLink to="/getting-started">
-                <T>
-                  <>Getting Started</>
-                  <>使ってみる</>
-                </T>
-              </NavLink>
-              <NavLink to="/examples">
-                <T>
-                  <>Examples</>
-                  <>使い方の例</>
-                </T>
-              </NavLink>
-              <NavLink to="/reference">
-                <T>
-                  <>Reference</>
-                  <>ドキュメント</>
-                </T>
-              </NavLink>
-              <NavLink to="/classroom">
-                <T>
-                  <>Educational Use Cases</>
-                  <>教育機関向け活用例</>
-                </T>
-              </NavLink>
-              <NavLink to="/tool">
-                <T>
-                  <>Tools</>
-                  <>ツール</>
-                </T>
-              </NavLink>
-              <NavLink as={Anchor} to="https://github.com/masabando/easy-three">
-                GitHub
-              </NavLink>
-            </Nav>
-            {/* </RBNavbar.Collapse> */}
-          </Offcanvas.Body>
-        </Offcanvas>
-      </Container>
-    </RBNavbar>
+          <BsGithub style={{ fontSize: "180%" }} />
+        </Link>
+      </div>
+      <div className="flex-none flex items-center gap-4 px-4">
+        <LangSwitcher />
+        <label
+          htmlFor="menuSidebar"
+          className="btn btn-ghost md:hidden px-1"
+        >
+          <IoMenuOutline style={{ fontSize: "180%" }} />
+        </label>
+      </div>
+    </div>
   );
 }
+

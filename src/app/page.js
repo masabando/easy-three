@@ -1,5 +1,4 @@
 "use client";
-import Container from "react-bootstrap/Container";
 import Button from "react-bootstrap/Button";
 import { Link } from "@/components/BaseKit";
 import T from "@/components/Lang";
@@ -11,7 +10,7 @@ import Col from "react-bootstrap/Col";
 import { useState } from "react";
 
 function Note({ children }) {
-  return <span className="fw-bold">{children}</span>;
+  return <span className="font-bold">{children}</span>;
 }
 
 export default function Page() {
@@ -19,7 +18,7 @@ export default function Page() {
   return (
     <div>
       <div className="bg-body-tertiary pb-4">
-        <Container className="py-3">
+        <div className="py-3">
           <title>Home | easy-three</title>
           <h1 className="headTitle mt-5 mb-4">easy-three</h1>
           <div className="text-center mb-4">
@@ -90,7 +89,7 @@ export default function Page() {
               </T>
             </Button>
           </div>
-        </Container>
+        </div>
       </div>
 
       <div className="py-0 mw-100 d-flex flex-column justify-content-center align-items-center">
@@ -117,7 +116,7 @@ export default function Page() {
         </div>
       </div>
       <div className="bg-body-tertiary pb-5 pt-4">
-        <Container className="mw-100">
+        <div className="mw-100">
           <div className="my-4 d-flex justify-content-center">
             <CodeBlock language="zsh" className="mw-100">
               {`$ npm install @masabando/easy-three`}
@@ -341,11 +340,11 @@ animate(({ delta }) => {
 `}
             </CodeBlock>
           </div>
-        </Container>
+        </div>
       </div>
 
       <div className="pb-5">
-        <Container>
+        <div>
           <h2>
             <T>
               <>Comparison with vanilla Three.js</>
@@ -459,7 +458,7 @@ renderer.setAnimationLoop(animate)`}
               </CodeBlock>
             </Col>
           </Row>
-        </Container>
+        </div>
       </div>
     </div>
   );

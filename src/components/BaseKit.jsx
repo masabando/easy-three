@@ -7,12 +7,11 @@ import { init } from "@dist/easy-three";
 
 export function Link({
   href = "",
-  locale = "/easy-three",
   children,
   ...props
 }) {
   return (
-    <NextLink {...props} href={href} locale={locale}>
+    <NextLink {...props} href={href}>
       {children}
     </NextLink>
   );

@@ -1,5 +1,4 @@
 "use client";
-import { ConfigProvider, Segmented } from "antd";
 import { createContext, useContext, useEffect, useState } from "react";
 
 const initialConfig = {
@@ -37,30 +36,51 @@ export function LangSwitcher() {
     localStorage.setItem("config", JSON.stringify(config));
   }, [config]);
   return (
-    <ConfigProvider
-      theme={{
-        components: {
-          Segmented: {
-            itemSelectedBg: "#1890ff",
-          },
-        },
-      }}
-    >
-      <Segmented
-        className="mx-1"
-        size="small"
-        options={[
-          { label: "Eng", value: "en" },
-          { label: "日本語", value: "ja" },
-        ]}
-        value={config.lang}
-        onChange={(value) => setConfig({ ...config, lang: value })}
-      />
-    </ConfigProvider>
+    // <label className="swap">
+    //   <input type="checkbox"
+    //     defaultChecked={config.lang === "en"}
+    //     onChange={(e) => {
+    //       setConfig({
+    //         ...config,
+    //         lang: e.target.checked ? "en" : "ja",
+    //       });
+    //     }}
+    //   />
+    //   <div className="swap-on">Eng</div>
+    //   <div className="swap-off">日本語</div>
+    // </label>
+    <div role="tablist" className="tabs tabs-box tabs-sm bg-base-300">
+      <a
+        role="tab"
+        className={`tab ${config.lang === "en" ? "tab-active" : ""}`}
+        onClick={() => {
+          setConfig({
+            ...config,
+            lang: "en",
+          });
+        }}
+      >
+        Eng
+      </a>
+      <a
+        role="tab"
+        className={`tab ${config.lang === "ja" ? "tab-active" : ""}`}
+        onClick={() => {
+          setConfig({
+            ...config,
+            lang: "ja",
+          });
+        }}
+      >
+        日本語
+      </a>
+    </div>
   );
 }
 
 export default function T({ children }) {
   const { config } = useContext(UserContext);
-  return <>{config.lang === "en" ? children[0] : children[1] ?? children[0]}</>;
+  return (
+    <>{config.lang === "en" ? children[0] : (children[1] ?? children[0])}</>
+  );
 }

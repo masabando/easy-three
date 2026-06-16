@@ -1,0 +1,65 @@
+@import "tailwindcss";
+@plugin "daisyui";
+
+body {
+  font-family: 'Noto Sans JP', sans-serif;
+  font-size: 16px;
+  line-height: 1.5;
+  color: #333;
+  font-optical-sizing: auto;
+  font-style: normal;
+  font-weight: 300;
+  min-height: 100svh;
+}
+h1 {
+  word-wrap: break-word;
+}
+
+.headTitle {
+  text-align: center;
+  font-size: 240%;
+}
+
+.headMessage {
+  text-align: center;
+  font-size: 120%;
+}
+.headMessage span {
+  vertical-align: middle;
+}
+
+.headMessage .impacted {
+  text-shadow: 1px 1px 4px rgba(0, 130, 255, 0.7);
+  font-size: 120%;
+  font-weight: 400;
+  margin: 0 0.3em;
+}
+
+
+h2:not(.accordion-header) {
+  margin-top: 2em;
+  margin-bottom: 1em;
+}
+
+.ant-tag {
+  font-family: 'Noto Sans JP', sans-serif;
+}
+
+
+.lil-gui {
+  font-family: 'Noto Sans JP', sans-serif;
+}
+.lil-gui .title, button {
+    font-family: 'Noto Sans JP', sans-serif;
+  }
+
+
+.lil-gui.root > .children > .lil-gui > .title {
+  background: #777;
+  padding-left: var(--padding);
+  color: var(--number-color);
+}
+.lil-gui .children .title {
+  background: #444;
+  padding-left: 1.5em;
+}

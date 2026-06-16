@@ -1,10 +1,9 @@
 {
   "compilerOptions": {
-    "baseUrl": ".",
     "paths": {
-      "@/*": ["src/*"],
-      "@dist/*": ["dist/*"],
-      "@dist-src/*": ["dist-src/*"],
+      "@/*": ["./src/*"],
+      "@dist/*": ["./dist/*"],
+      "@dist-src/*": ["./dist-src/*"]
     }
   }
 }
