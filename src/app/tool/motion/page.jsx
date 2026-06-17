@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useRef } from "react";
 import { init } from "@dist-src/easy-three";
-import Button from "react-bootstrap/Button";
+import H1 from "@/components/H1";
 
 export default function Page() {
   const soundRef = useRef();
@@ -145,9 +145,10 @@ export default function Page() {
 
   return (
     <div>
-      <h1>motion</h1>
+      <H1>motion</H1>
       <div className="mb-3">
-        <Button
+        <button
+          className="btn btn-primary"
           onClick={() => {
             if (soundRef.current.isPlaying) {
               soundRef.current.stop();
@@ -155,7 +156,7 @@ export default function Page() {
               soundRef.current.play();
             }
           }}
-        >positional Audio</Button>
+        >positional Audio</button>
       </div>
       <div>
         <div

@@ -1,71 +1,19 @@
-"use client"
-import Container from "react-bootstrap/Container";
 import CodeBlock from "@/components/CodeBlock";
-import { useEffect, useRef } from "react";
-import { init } from "@dist/easy-three.js";
 import ReferenceContent from "@/components/ReferenceContent";
-import { Note, Link } from "@/components/BaseKit";
+import { Link } from "@/components/BaseKit";
+import H1 from "@/components/H1";
+import H2 from "@/components/H2";
+import H3 from "@/components/H3";
+import { Ex1, Ex2 } from "./Codes";
 
+export const metadata = {
+  title: "create.ocean",
+};
 
-function Ex1(props) {
-  const ref = useRef();
-  useEffect(() => {
-    const { camera, controls, create, animate, destroy } = init(ref.current);
-    controls.connect();
-    camera.position.set(0, 4, -4);
-    create.ambientLight({ intensity: 1 });
-    create.directionalLight({ intensity: 3 });
-
-    create.sky();
-
-    const cube = create.cube({ position: [0, 2, 0] });
-
-    const ocean = create.ocean("/easy-three/texture/water/NormalMap-1.jpg");
-    
-    animate(({ delta }) => {
-      ocean.update(delta)
-      cube.rotation.x += delta;
-      cube.rotation.y += delta;
-    });
-    return () => {
-      destroy();
-    };
-  }, []);
-  return <div ref={ref} {...props}></div>;
-}
-
-function Ex2(props) {
-  const ref = useRef();
-  useEffect(() => {
-    const { camera, controls, create, animate, THREE, destroy } = init(ref.current);
-    controls.connect();
-    camera.position.set(0, 4, -4);
-    create.ambientLight({ intensity: 1 });
-    create.directionalLight({ intensity: 3 });
-
-    create.sky();
-
-    const ocean = create.ocean("/easy-three/texture/water/NormalMap-1.jpg", {
-      geometry: new THREE.SphereGeometry(3, 32, 32),
-    });
-
-    animate(({ delta }) => {
-      ocean.update(delta)
-    });
-    return () => {
-      destroy();
-    };
-  }, []);
-  return <div ref={ref} {...props}></div>;
-}
-
-
-
-export default function Reference_Create_Cube() {
+export default function Reference_Create_Ocean() {
   return (
-    <Container className="pt-4 pb-5">
-      <title>create.ocean | easy-three</title>
-      <h1>create.ocean</h1>
+    <div>
+      <H1>create.ocean</H1>
       <ReferenceContent
         name="create.ocean"
         args="texture : String, props : Object"
@@ -76,7 +24,7 @@ export default function Reference_Create_Cube() {
               <span>texture</span> - テクスチャのURL。
             </div>
             <span>props</span> - 設定オブジェクト。
-            <ul>
+            <ul className="list-disc list-inside ml-4">
               <li>size (Array | Number) : サイズ (デフォルト : 100)。</li>
               <li>
                 geometry (Geometry) : ジオメトリ (デフォルト : null)。
@@ -112,49 +60,49 @@ export default function Reference_Create_Cube() {
       >
         <p>
           海のようなオブジェクトを作成します。<br />
-          透明な水を表現する場合には、<Link href="/reference/create/water">create.water</Link>を使用してください。
+          透明な水を表現する場合には、<Link className="text-blue-500 underline" href="/reference/create/water">create.water</Link>を使用してください。
         </p>
-        <p>
+        <p className="mt-4">
           環境マップを利用したほうが、よりリアルな海面を表現できます。<br />
-          <Link href="/reference/load/background">load.background</Link> で環境マップを読み込んでおくことをお勧めします。
+          <Link className="text-blue-500 underline" href="/reference/load/background">load.background</Link> で環境マップを読み込んでおくことをお勧めします。
         </p>
-        <p>
+        <p className="mt-4">
           sizeには十分大きな値を指定してください。
         </p>
-        <p>
+        <p className="mt-4">
           phi は太陽の方位角、theta は太陽の頂点からの角度を指定します。
         </p>
-        <p>
+        <p className="mt-4">
           戻り値はメッシュと、update関数です。<br />
           update関数は、deltaを引数に取ります。<br />
           update関数をanimateの中で呼ぶことで、海の動きを更新します。
         </p>
-        <p>
+        <p className="mt-4">
           通常、ジオメトリは PlaneGeometryを使用します。<br />
           sizeはこのジオメトリのサイズを指定します。<br />
           他のジオメトリを使用する場合は、geometryで指定してください。
         </p>
-        <p>
+        <p className="mt-4">
           テクスチャは、水面を表すためのノーマルマップを指定してください。<br />
           自作する場合は、Processingのnoise()などでパーリンノイズのグレースケール画像を作成し、
-          <a target="_blank" href="https://cpetry.github.io/NormalMap-Online/">
+          <a className="text-blue-500 underline" target="_blank" href="https://cpetry.github.io/NormalMap-Online/">
             NormalMap-Online
           </a>
           などのツールでノーマルマップに変換してください。<br />
           シームレスなノーマルマップにするには、GIMPのフィルターを使用すると便利です。
         </p>
-        <p>
+        <p className="mt-4">
           easy-three では、サンプルの水面テクスチャを2つ用意しています。<br />
           どちらもeasy-threeのオリジナル制作物であり、CC-0ライセンスで再配布を含め自由にお使いいただけます。
         </p>
-        <ul>
-          <li><a href="/easy-three/texture/water/NormalMap-1.jpg">NormalMap-1.jpg</a></li>
-          <li><a href="/easy-three/texture/water/NormalMap-2.jpg">NormalMap-2.jpg</a></li>
+        <ul className="list-disc list-inside ml-4 my-4">
+          <li><a className="text-blue-500 underline" href="/easy-three/texture/water/NormalMap-1.jpg">NormalMap-1.jpg</a></li>
+          <li><a className="text-blue-500 underline" href="/easy-three/texture/water/NormalMap-2.jpg">NormalMap-2.jpg</a></li>
         </ul>
 
       </ReferenceContent>
-      <h2>コードの例</h2>
-      <h4>海の作成</h4>
+      <H2 className="mt-14">コードの例</H2>
+      <H3>海の作成</H3>
       <Ex1
         className="border"
         style={{
@@ -183,7 +131,7 @@ animate(({ delta }) => {
       }
       </CodeBlock>
 
-      <h4 className="mt-5">ジオメトリの変更</h4>
+      <H3 className="mt-10">ジオメトリの変更</H3>
       <Ex2
         className="border"
         style={{
@@ -209,6 +157,6 @@ animate(({ delta }) => {
 });`}
       </CodeBlock>
 
-    </Container>
+    </div>
   );
 }

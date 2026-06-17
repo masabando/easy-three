@@ -1,6 +1,7 @@
 "use client"
 import Link from "next/link";
-import styles from "@/components/ReferenceContent.module.scss";
+import styles from "@/components/ReferenceContent.module.css";
+import H3 from "@/components/H3";
 
 export default function ReferenceContent({
   name,
@@ -12,10 +13,10 @@ export default function ReferenceContent({
 }) {
   return (
     <div className={styles.reference}>
-      <h3>
+      <H3>
         {href ? <Link href={href}>{name}</Link> : name}({args}) :{" "}
         <span>{returnObject}</span>
-      </h3>
+      </H3>
       <div>
         <div>{argsInfo}</div>
         {children}

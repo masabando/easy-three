@@ -1,20 +1,27 @@
-"use client";
-import { EasyThreeBox, Note } from "@/components/BaseKit";
+import { Code, Note } from "@/components/BaseKit";
 import CodeBlock from "@/components/CodeBlock";
-import { init } from "@dist/easy-three";
+import H1 from "@/components/H1";
+import H2 from "@/components/H2";
+import H3 from "@/components/H3";
+import { Ex1, Ex2, Ex3, Ex4, Ex5, Ex6, Ex7, Ex8, Ex9, Ex10 } from "./Codes";
+
+export const metadata = {
+  title: "球体・平面・角丸立方体などの表示",
+};
 
 export default function Page() {
   return (
-    <div className="classroomPart">
-      <h2>3. 球体・平面・角丸立方体などの表示</h2>
+    <div>
+      <H1>3. 球体・平面・角丸立方体などの表示</H1>
       <p>
         このセクションでは、球体、平面、そして角丸の立方体を表示する方法を学びます。
       </p>
-      <h3>球体の表示</h3>
+
+      <H2 className="mt-14">球体の表示</H2>
       <p>
-        球体を表示するには、<code>create.sphere()</code> を使います。
+        球体を表示するには、<Code>create.sphere()</Code> を使います。
       </p>
-      <CodeBlock filename="index.html">
+      <CodeBlock filename="main.js">
         {`const { camera, create, animate, controls, helper } = init();
 
 controls.connect()
@@ -28,33 +35,13 @@ create.sphere()
 animate()
 `}
       </CodeBlock>
-      <EasyThreeBox
-        toggleControls
-        effect={(r) => {
-          const { camera, create, animate, controls, helper, destroy } =
-            init(r);
-          helper.grid();
-          helper.axes();
-          camera.position.set(-2, 2, 2);
-          create.ambientLight();
-          create.directionalLight();
-          create.sphere();
-          animate();
-          return {
-            destroy: () => {
-              destroy();
-            },
-            controls: (f) => {
-              if (f) controls.connect();
-              else controls.disconnect();
-            }
-          };
-        }}
-      />
+      <Ex1 />
+
       <p>立方体と同様に、デフォルトでは原点 (0, 0, 0) に表示されます。</p>
-      <h4>サイズ、位置、色の変更</h4>
+
+      <H3 className="mt-10">サイズ、位置、色の変更</H3>
       <p>球体のサイズ、位置、色の変更も、立方体と同様にできます。</p>
-      <CodeBlock filename="index.html">
+      <CodeBlock filename="main.js">
         {`const { camera, create, animate, controls, helper } = init();
 
 controls.connect()
@@ -74,37 +61,9 @@ create.sphere({
 animate()
 `}
       </CodeBlock>
-      <EasyThreeBox
-        toggleControls
-        effect={(r) => {
-          const { camera, create, animate, controls, helper, destroy } =
-            init(r);
-          helper.grid();
-          helper.axes();
-          camera.position.set(-2, 2, 2);
-          create.ambientLight();
-          create.directionalLight();
-          create.sphere({
-            size: 0.5,
-            position: [1, 1, 1],
-            option: {
-              color: 0xff0000,
-            },
-          });
-          animate();
-          return {
-            destroy: () => {
-              destroy();
-            },
-            controls: (f) => {
-              if (f) controls.connect();
-              else controls.disconnect();
-            }
-          };
-        }}
-      />
+      <Ex2 />
 
-      <h4>セグメント数の変更</h4>
+      <H3 className="mt-10">セグメント数の変更</H3>
       <p>
         球体のセグメント数を変更することもできます。
         <br />
@@ -122,7 +81,7 @@ animate()
       <p>
         例えば、次のように記述すると、横4分割、縦2分割の球体が表示されます。
       </p>
-      <CodeBlock filename="index.html">
+      <CodeBlock filename="main.js">
         {`const { camera, create, animate, controls, helper } = init();
 
 controls.connect()
@@ -136,34 +95,12 @@ create.sphere({ segments: [4, 2] })
 animate()
 `}
       </CodeBlock>
-      <EasyThreeBox
-        toggleControls
-        effect={(r) => {
-          const { camera, create, animate, controls, helper, destroy } =
-            init(r);
-          helper.grid();
-          helper.axes();
-          camera.position.set(-2, 2, 2);
-          create.ambientLight();
-          create.directionalLight();
-          create.sphere({ segments: [4, 2] });
-          animate();
-          return {
-            destroy: () => {
-              destroy();
-            },
-            controls: (f) => {
-              if (f) controls.connect();
-              else controls.disconnect();
-            }
-          };
-        }}
-      />
+      <Ex3 />
       <p>
         球がどのように分割されているかを確認するには、
         次のようにワイヤーフレーム表示にするとわかりやすいです。
       </p>
-      <CodeBlock filename="index.html">
+      <CodeBlock filename="main.js">
         {`const { camera, create, animate, controls, helper } = init();
 
 controls.connect()
@@ -183,41 +120,13 @@ create.sphere({
 animate()
 `}
       </CodeBlock>
-      <EasyThreeBox
-        toggleControls
-        effect={(r) => {
-          const { camera, create, animate, controls, helper, destroy } =
-            init(r);
-          helper.grid();
-          helper.axes();
-          camera.position.set(-2, 2, 2);
-          create.ambientLight();
-          create.directionalLight();
-          create.sphere({
-            segments: 10,
-            option: {
-              wireframe: true,
-              color: 0x0000ff,
-            },
-          });
-          animate();
-          return {
-            destroy: () => {
-              destroy();
-            },
-            controls: (f) => {
-              if (f) controls.connect();
-              else controls.disconnect();
-            }
-          };
-        }}
-      />
+      <Ex4 />
 
-      <h3>平面の表示</h3>
+      <H2 className="mt-14">平面の表示</H2>
       <p>
-        球体を表示するには、<code>create.plane()</code> を使います。
+        平面を表示するには、<Code>create.plane()</Code> を使います。
       </p>
-      <CodeBlock filename="index.html">
+      <CodeBlock filename="main.js">
         {`const { camera, create, animate, controls, helper } = init();
 
 controls.connect()
@@ -231,37 +140,16 @@ create.plane()
 animate()
 `}
       </CodeBlock>
-      <EasyThreeBox
-        toggleControls
-        effect={(r) => {
-          const { camera, create, animate, controls, helper, destroy } =
-            init(r);
-          helper.grid();
-          helper.axes();
-          camera.position.set(-1, 1, 1);
-          create.ambientLight();
-          create.directionalLight();
-          create.plane();
-          animate();
-          return {
-            destroy: () => {
-              destroy();
-            },
-            controls: (f) => {
-              if (f) controls.connect();
-              else controls.disconnect();
-            }
-          };
-        }}
-      />
+      <Ex5 />
       <p>
         立方体と同様に、デフォルトでは原点 (0, 0, 0) に表示されます。
         <br />
-        向きは、<code>x-z</code> 平面になります。
+        向きは、<Code>x-z</Code> 平面になります。
       </p>
-      <h4>サイズ、位置、色の変更</h4>
+
+      <H3 className="mt-10">サイズ、位置、色の変更</H3>
       <p>平面のサイズ、位置、色の変更も、立方体と同様にできます。</p>
-      <CodeBlock filename="index.html">
+      <CodeBlock filename="main.js">
         {`const { camera, create, animate, controls, helper } = init();
 
 controls.connect()
@@ -281,49 +169,22 @@ create.plane({
 animate()
 `}
       </CodeBlock>
-      <EasyThreeBox
-        toggleControls
-        effect={(r) => {
-          const { camera, create, animate, controls, helper, destroy } =
-            init(r);
-          helper.grid();
-          helper.axes();
-          camera.position.set(-1, 1, 1);
-          create.ambientLight();
-          create.directionalLight();
-          create.plane({
-            size: 1.5,
-            position: [1, 0, 0],
-            option: {
-              color: 0xff0000,
-            },
-          });
-          animate();
-          return {
-            destroy: () => {
-              destroy();
-            },
-            controls: (f) => {
-              if (f) controls.connect();
-              else controls.disconnect();
-            }
-          };
-        }}
-      />
-      <h4>平面の回転</h4>
+      <Ex6 />
+
+      <H3 className="mt-10">平面の回転</H3>
       <p>
-        <code>rotation</code> を指定することで、平面を回転させることができます。
+        <Code>rotation</Code> を指定することで、平面を回転させることができます。
         <br />
-        <code>rotation</code> は、<code>[x, y, z]</code> の配列で指定します。
+        <Code>rotation</Code> は、<Code>[x, y, z]</Code> の配列で指定します。
         <br />
-        回転角はラジアンで指定します (つまり、180度が <code>Math.PI</code>{" "}
+        回転角はラジアンで指定します (つまり、180度が <Code>Math.PI</Code>{" "}
         です)。
       </p>
-      <p>
-        例えば、x軸周りに <code>-90</code> 度回転させることで、
-        <code>x-z</code> 平面上に平面を表示することができます。
+      <p className="mt-4">
+        例えば、x軸周りに <Code>-90</Code> 度回転させることで、
+        <Code>x-z</Code> 平面上に平面を表示することができます。
       </p>
-      <CodeBlock filename="index.html">
+      <CodeBlock filename="main.js">
         {`const { camera, create, animate, controls, helper } = init();
 
 controls.connect()
@@ -340,46 +201,22 @@ create.plane({
 animate()
 `}
       </CodeBlock>
-      <EasyThreeBox
-        toggleControls
-        effect={(r) => {
-          const { camera, create, animate, controls, helper, destroy } =
-            init(r);
-          helper.grid();
-          helper.axes();
-          camera.position.set(-1, 1, 1);
-          create.ambientLight();
-          create.directionalLight();
-          create.plane({
-            size: 1.5,
-            rotation: [-Math.PI / 2, 0, 0],
-          });
-          animate();
-          return {
-            destroy: () => {
-              destroy();
-            },
-            controls: (f) => {
-              if (f) controls.connect();
-              else controls.disconnect();
-            }
-          };
-        }}
-      />
+      <Ex7 />
+
       <Note>
         回転は、平面以外のオブジェクト(立方体、球など)にも適用できます。
       </Note>
 
-      <h3>角丸の立方体の表示</h3>
+      <H2 className="mt-14">角丸の立方体の表示</H2>
       <p>
-        立方体を作成するとき、<code>rounded: true</code>{" "}
+        立方体を作成するとき、<Code>rounded: true</Code>{" "}
         を指定することで、角丸の立方体を表示することができます。
         <br />
-        <code>segments</code> で角丸の滑らかさを指定します。
+        <Code>segments</Code> で角丸の滑らかさを指定します。
         <br />
-        <code>radius</code> で角丸の半径を指定します。
+        <Code>radius</Code> で角丸の半径を指定します。
       </p>
-      <CodeBlock filename="index.html">
+      <CodeBlock filename="main.js">
         {`const { camera, create, animate, controls, helper } = init();
 
 controls.connect()
@@ -397,42 +234,18 @@ create.cube({
 animate()
 `}
       </CodeBlock>
-      <EasyThreeBox
-        toggleControls
-        effect={(r) => {
-          const { camera, create, animate, controls, destroy } = init(r);
-          camera.position.set(-1, 1, 1);
-          create.ambientLight();
-          create.directionalLight();
-          create.box({
-            size: 1,
-            rounded: true,
-            segments: 7,
-            radius: 0.1,
-          });
-          animate();
-          return {
-            destroy: () => {
-              destroy();
-            },
-            controls: (f) => {
-              if (f) controls.connect();
-              else controls.disconnect();
-            }
-          };
-        }}
-      />
+      <Ex8 />
 
-      <h3>トーラスの表示</h3>
+      <H2 className="mt-14">トーラスの表示</H2>
       <p>
-        トーラスを表示するには、<code>create.torus()</code> を使います。
+        トーラスを表示するには、<Code>create.torus()</Code> を使います。
         <br />
         トーラスは、ドーナツのような形状です。
       </p>
-      <p>
-        <code>tube</code> に数値を指定することで、トーラスの太さを調整できます。
+      <p className="mt-4">
+        <Code>tube</Code> に数値を指定することで、トーラスの太さを調整できます。
       </p>
-      <CodeBlock filename="index.html">
+      <CodeBlock filename="main.js">
         {`const { camera, create, animate, controls, helper } = init();
 
 controls.connect()
@@ -446,39 +259,20 @@ create.torus({ tube: 0.3 })
 animate()
 `}
       </CodeBlock>
-      <EasyThreeBox
-        toggleControls
-        effect={(r) => {
-          const { camera, create, animate, controls, destroy } = init(r);
-          camera.position.set(0, -2, 3);
-          create.ambientLight();
-          create.directionalLight();
-          create.torus({ tube: 0.3 });
-          animate();
-          return {
-            destroy: () => {
-              destroy();
-            },
-            controls: (f) => {
-              if (f) controls.connect();
-              else controls.disconnect();
-            }
-          };
-        }}
-      />
+      <Ex9 />
 
-      <h3>トーラス結び目の表示</h3>
+      <H2 className="mt-14">トーラス結び目の表示</H2>
       <p>
-        トーラス結び目を表示するには、<code>create.torusKnot()</code>{" "}
+        トーラス結び目を表示するには、<Code>create.torusKnot()</Code>{" "}
         を使います。
         <br />
         トーラス結び目は、トーラスを結び目状にした形状です。
       </p>
-      <p>
-        <code>tube</code>{" "}
+      <p className="mt-4">
+        <Code>tube</Code>{" "}
         に数値を指定することで、トーラス結び目の太さを調整できます。
       </p>
-      <CodeBlock filename="index.html">
+      <CodeBlock filename="main.js">
         {`const { camera, create, animate, controls, helper } = init();
 
 controls.connect()
@@ -492,26 +286,7 @@ create.torusKnot({ tube: 0.3 })
 animate()
 `}
       </CodeBlock>
-      <EasyThreeBox
-        toggleControls
-        effect={(r) => {
-          const { camera, create, animate, controls, destroy } = init(r);
-          camera.position.set(0, -2, 3);
-          create.ambientLight();
-          create.directionalLight();
-          create.torusKnot({ tube: 0.3 });
-          animate();
-          return {
-            destroy: () => {
-              destroy();
-            },
-            controls: (f) => {
-              if (f) controls.connect();
-              else controls.disconnect();
-            }
-          };
-        }}
-      />
+      <Ex10 />
     </div>
   );
 }

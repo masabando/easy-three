@@ -1,89 +1,18 @@
-"use client"
-import Container from "react-bootstrap/Container";
 import CodeBlock from "@/components/CodeBlock";
-import { useEffect, useRef } from "react";
-import { init } from "@dist/easy-three.js";
 import ReferenceContent from "@/components/ReferenceContent";
+import H1 from "@/components/H1";
+import H2 from "@/components/H2";
+import H3 from "@/components/H3";
+import { Ex1, Ex2, Ex3 } from "./Codes";
 
-function Ex1(props) {
-  const ref = useRef();
-  useEffect(() => {
-    const { camera, create, animate, destroy } = init(ref.current);
-    camera.position.set(0, 0, 2);
-    create.ambientLight();
-    create.directionalLight();
-    create.sphere();
-    animate();
-    return () => {
-      destroy()
-    }
-  }, []);
-  return <div ref={ref} {...props}></div>;
-}
-
-function Ex2(props) {
-  const ref = useRef();
-  useEffect(() => {
-    const { camera, create, animate, destroy } = init(ref.current);
-    camera.position.set(0, 0, 2);
-    create.ambientLight();
-    create.directionalLight();
-    const sphere = create.sphere({
-      size: 0.3
-    });
-    animate(({ clock }) => {
-      sphere.position.x = Math.sin(clock.getElapsedTime());
-    });
-    return () => {
-      destroy()
-    }
-  }, []);
-  return <div ref={ref} {...props}></div>;
-}
-
-function Ex3(props) {
-  const ref = useRef();
-  useEffect(() => {
-    const { camera, create, animate, destroy } = init(ref.current);
-    camera.position.set(0, 0, 4);
-    create.ambientLight();
-    create.directionalLight();
-    create.sphere({
-      size: 0.5,
-      position: [-1, 0, 0],
-      material: "Normal",
-    });
-    create.sphere({
-      size: 0.7,
-      position: [1, 0, 0],
-      option: {
-        // material settings
-        color: 0x00ff00,
-        metalness: 0.6,
-        roughness: 0,
-        transparent: true,
-        opacity: 0.5,
-      },
-    });
-    const sphere3 = create.sphere({
-      size: 1.5,
-      position: [0, 0, -3],
-    });
-    animate(({ clock }) => {
-      sphere3.position.y = Math.sin(clock.getElapsedTime()) * 2;
-    });
-    return () => {
-      destroy()
-    }
-  }, []);
-  return <div ref={ref} {...props}></div>;
-}
+export const metadata = {
+  title: "create.sphere",
+};
 
 export default function Reference_Create_Sphere() {
   return (
-    <Container className="pt-4 pb-5">
-      <title>create.sphere | easy-three</title>
-      <h1>create.sphere</h1>
+    <div>
+      <H1>create.sphere</H1>
       <ReferenceContent
         name="create.sphere"
         args="props : Object"
@@ -91,7 +20,7 @@ export default function Reference_Create_Sphere() {
         argsInfo={
           <div>
             <span>props</span> - 設定オブジェクト。
-            <ul>
+            <ul className="list-disc list-inside ml-4">
               <li>size (Number) : 半径 (デフォルト : 1)。</li>
               <li>
                 segments (Array | Number) : セグメント (デフォルト : 64)。
@@ -130,8 +59,8 @@ export default function Reference_Create_Sphere() {
           (例 : segments: 16 は [16, 16] と同じ)
         </p>
       </ReferenceContent>
-      <h2>コードの例</h2>
-      <h4>球の作成</h4>
+      <H2 className="mt-14">コードの例</H2>
+      <H3>球の作成</H3>
       <Ex1
         className="border"
         style={{
@@ -151,7 +80,7 @@ animate()
 `}
       </CodeBlock>
 
-      <h4 className="mt-5">アニメーション</h4>
+      <H3 className="mt-10">アニメーション</H3>
       <Ex2
         className="border"
         style={{
@@ -173,7 +102,7 @@ animate(({ clock }) => {
 `}
       </CodeBlock>
 
-      <h4 className="mt-5">オプションの変更</h4>
+      <H3 className="mt-10">オプションの変更</H3>
       <Ex3
         className="border"
         style={{
@@ -216,6 +145,6 @@ animate(({ clock }) => {
 });
 `}
       </CodeBlock>
-    </Container>
+    </div>
   );
 }

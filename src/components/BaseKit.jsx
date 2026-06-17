@@ -1,9 +1,14 @@
 "use client";
-import { Switch } from "antd";
 import NextLink from "next/link";
 import { useRef, useEffect, useState } from "react";
 import GUI from "lil-gui";
 import { init } from "@dist/easy-three";
+
+export function Code({ children }) {
+  return (
+    <code className="text-error mx-1">{children}</code>
+  )
+}
 
 export function Link({
   href = "",
@@ -46,7 +51,7 @@ export function EasyThreeBox({ effect, toggleControls = false }) {
   }, [mouseControl]);
   return (
     <div
-      className="mx-auto mx-lg-0 my-4 position-relative"
+      className="mx-auto mx-lg-0 my-4 relative"
       style={{
         width: "500px",
         maxWidth: "90%",
@@ -55,17 +60,15 @@ export function EasyThreeBox({ effect, toggleControls = false }) {
       }}
     >
       {toggleControls && (
-        <Switch
-          style={{
-            position: "absolute",
-            bottom: "10px",
-            left: "10px",
-          }}
-          defaultChecked={mouseControl}
-          onChange={(v) => { setMouseControl(v) }}
-          checkedChildren="カメラ操作ON"
-          unCheckedChildren="カメラ操作OFF"
-        />
+        <label className="label text-xs absolute top-2 right-2 z-10 bg-white/60 p-1 rounded font-medium">
+          カメラ操作
+          <input
+            type="checkbox"
+            className="toggle toggle-primary"
+            defaultChecked={mouseControl}
+            onChange={(e) => setMouseControl(e.target.checked)}
+          />
+        </label>
       )}
       <div
         ref={ref}

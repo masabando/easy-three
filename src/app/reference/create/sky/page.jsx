@@ -1,64 +1,20 @@
-"use client"
-import Container from "react-bootstrap/Container";
 import CodeBlock from "@/components/CodeBlock";
-import { useEffect, useRef } from "react";
-import { init } from "@dist/easy-three.js";
 import ReferenceContent from "@/components/ReferenceContent";
-import { Note } from "@/components/BaseKit";
+import H1 from "@/components/H1";
+import H2 from "@/components/H2";
+import H3 from "@/components/H3";
+import { Ex1, Ex2 } from "./Codes";
 
-
-function Ex1(props) {
-  const ref = useRef();
-  useEffect(() => {
-    const { camera, controls, create, animate, destroy } = init(ref.current);
-    controls.connect();
-    camera.position.set(0, 1, -4);
-    create.ambientLight();
-    create.directionalLight();
-    create.plane({
-      size: 10,
-      rotation: [-Math.PI / 2, 0, 0]
-    });
-    create.sky();
-    animate();
-    return () => {
-      destroy();
-    };
-  }, []);
-  return <div ref={ref} {...props}></div>;
-}
-
-function Ex2(props) {
-  const ref = useRef();
-  useEffect(() => {
-    const { camera, controls, create, animate, destroy } = init(ref.current);
-    controls.connect();
-    camera.position.set(0, 1, -4);
-    create.ambientLight();
-    create.directionalLight();
-    create.plane({
-      size: 10,
-      rotation: [-Math.PI / 2, 0, 0]
-    });
-    create.sky({
-      theta: Math.PI *0.495,
-      phi: Math.PI * 0.1
-    });
-    animate();
-    return () => {
-      destroy();
-    };
-  }, []);
-  return <div ref={ref} {...props}></div>;
-}
+export const metadata = {
+  title: "create.sky",
+};
 
 
 
-export default function Reference_Create_Cube() {
+export default function Reference_Create_Sky() {
   return (
-    <Container className="pt-4 pb-5">
-      <title>create.sky | easy-three</title>
-      <h1>create.sky</h1>
+    <div>
+      <H1>create.sky</H1>
       <ReferenceContent
         name="create.sky"
         args="props : Object"
@@ -66,7 +22,7 @@ export default function Reference_Create_Cube() {
         argsInfo={
           <div>
             <span>props</span> - 設定オブジェクト。
-            <ul>
+            <ul className="list-disc list-inside ml-4">
               <li>size (Array | Number) : サイズ (デフォルト : 10000)。</li>
               <li>
                 phi (Number) : 太陽の方位角 (デフォルト : 0)。
@@ -82,15 +38,15 @@ export default function Reference_Create_Cube() {
         <p>
           空を作成します。
         </p>
-        <p>
+        <p className="mt-4">
           sizeには十分大きな値を指定してください。
         </p>
-        <p>
+        <p className="mt-4">
           phi は太陽の方位角、theta は太陽の頂点からの角度を指定します。
         </p>
       </ReferenceContent>
-      <h2>コードの例</h2>
-      <h4>空の作成</h4>
+      <H2 className="mt-14">コードの例</H2>
+      <H3>空の作成</H3>
       <Ex1
         className="border"
         style={{
@@ -115,7 +71,7 @@ animate();`
       }
       </CodeBlock>
 
-      <h4 className="mt-5">角度の変更</h4>
+      <H3 className="mt-10">角度の変更</H3>
       <Ex2
         className="border"
         style={{
@@ -143,6 +99,6 @@ animate();
 `}
       </CodeBlock>
 
-    </Container>
+    </div>
   );
 }

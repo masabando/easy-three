@@ -1,38 +1,18 @@
-"use client";
-import Container from "react-bootstrap/Container";
 import CodeBlock from "@/components/CodeBlock";
-import { useEffect, useRef } from "react";
-import { init } from "@dist/easy-three.js";
-import { noto } from "@/app/layout";
 import ReferenceContent from "@/components/ReferenceContent";
-import { Note, Link } from "@/components/BaseKit";
+import { Ex1 } from "./Codes";
+import H1 from "@/components/H1";
+import H2 from "@/components/H2";
+import H3 from "@/components/H3";
 
-function Ex1(props) {
-  const ref = useRef();
-  useEffect(() => {
-    const { camera, create, helper, controls, animate, destroy } = init(ref.current);
-    create.ambientLight();
-    create.directionalLight();
-    camera.position.set(2, 2, 2);
-
-    controls.connect()
-    helper.axes();
-
-    create.cube();
-
-    animate();
-    return () => {
-      destroy();
-    };
-  }, []);
-  return <div ref={ref} {...props}></div>;
-}
+export const metadata = {
+  title: "helper.axes",
+};
 
 export default function Page() {
   return (
-    <Container className="pt-4 pb-5">
-      <title>helper.axes | easy-three</title>
-      <h1>helper.axes</h1>
+    <div>
+      <H1>helper.axes</H1>
 
       <ReferenceContent
         name="helper.axes"
@@ -41,7 +21,7 @@ export default function Page() {
         argsInfo={
           <div>
             <span>props</span> - 設定オブジェクト。
-            <ul>
+            <ul className="list-disc list-inside ml-4">
               <li>size (Number) : 軸ヘルパーのサイズ (デフォルト : 10)。</li>
             </ul>
           </div>
@@ -50,8 +30,8 @@ export default function Page() {
         軸ヘルパーを作成してシーンに追加します。
       </ReferenceContent>
 
-      <h2>コードの例</h2>
-      <h4>軸ヘルパーの表示</h4>
+      <H2 className="mt-14">コードの例</H2>
+      <H3>軸ヘルパーの表示</H3>
       <Ex1
         className="border"
         style={{
@@ -74,6 +54,6 @@ create.cube();
 animate();
 `}
       </CodeBlock>
-    </Container>
+    </div>
   );
 }

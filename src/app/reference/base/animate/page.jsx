@@ -1,14 +1,18 @@
-"use client";
-import Container from "react-bootstrap/Container";
 import CodeBlock from "@/components/CodeBlock";
 import ReferenceContent from "@/components/ReferenceContent";
 import { Link } from "@/components/BaseKit";
+import H1 from "@/components/H1";
+import H2 from "@/components/H2";
+import H3 from "@/components/H3";
+
+export const metadata = {
+  title: "animate",
+};
 
 export default function Page() {
   return (
-    <Container className="pt-4 pb-5">
-      <title>animate | easy-three</title>
-      <h1 className="mb-5">animate</h1>
+    <div>
+      <H1>animate</H1>
       <ReferenceContent
         name="animate"
         args="proc : Function, renderFlag : Boolean"
@@ -18,7 +22,7 @@ export default function Page() {
             <div>
               <span>proc({`{ clock, delta, time }`})</span> -
               各フレームごとに実行される関数 (デフォルト : {`() => { }`})。
-              <ul>
+              <ul className="list-disc list-inside ml-4">
                 <li>
                   clock (THREE.Clock) : フレーム間の時間を管理するオブジェクト。
                 </li>
@@ -42,8 +46,8 @@ export default function Page() {
         指定した関数を各フレームごとに実行し、レンダリングを行います。
       </ReferenceContent>
 
-      <h2>コードの例</h2>
-      <h4>アニメーションしない</h4>
+      <H2 className="mt-14">コードの例</H2>
+      <H3>アニメーションしない</H3>
       <p>
         特にアニメーションするものがない場合、animate()
         のみでレンダリングを行います。
@@ -54,12 +58,12 @@ export default function Page() {
         {`animate();
 `}
       </CodeBlock>
-      <h4 className="mt-5">経過時間を利用する</h4>
+      <H3 className="mt-10">経過時間を利用する</H3>
       <p>
         proc
         関数の引数に経過時間を受け取り、アニメーションを行うことができます。
       </p>
-      <p>
+      <p className="mt-4">
         delta は前回のフレームからの経過時間を秒単位で表したもので、
         とても小さな値 (60fpsの場合、約 0.017) であることに注意してください。
       </p>
@@ -69,7 +73,7 @@ export default function Page() {
 })
 `}
       </CodeBlock>
-      <h4 className="mt-5">独自のレンダリング</h4>
+      <H3 className="mt-10">独自のレンダリング</H3>
       <p>
         postprocessing
         の利用時など、独自のレンダリング処理を行う場合は、renderFlag を false
@@ -77,8 +81,8 @@ export default function Page() {
         <br />
         この場合、レンダリングは明示的に行う必要があります。
       </p>
-      <p>
-        renderer および scene は <Link href="/reference/base/init">init()</Link>{" "}
+      <p className="mt-4">
+        renderer および scene は <Link className="text-blue-500 underline" href="/reference/base/init">init()</Link>{" "}
         の戻り値から取得できます。
         <br />
         以下のコードにおける animate
@@ -94,6 +98,6 @@ animate(() => {
 }, false)
 `}
       </CodeBlock>
-    </Container>
+    </div>
   );
 }

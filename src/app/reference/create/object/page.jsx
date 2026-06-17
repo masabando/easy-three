@@ -1,14 +1,18 @@
-"use client";
-import Container from "react-bootstrap/Container";
 import CodeBlock from "@/components/CodeBlock";
 import ReferenceContent from "@/components/ReferenceContent";
-import { Link, Note } from "@/components/BaseKit";
+import { Note } from "@/components/BaseKit";
+import H1 from "@/components/H1";
+import H2 from "@/components/H2";
+import H3 from "@/components/H3";
+
+export const metadata = {
+  title: "create.object",
+};
 
 export default function Page() {
   return (
-    <Container className="pt-4 pb-5">
-      <title>create.object | easy-three</title>
-      <h1 className="mb-5">create.object</h1>
+    <div>
+      <H1>create.object</H1>
       <ReferenceContent
         name="create.object"
         args="geometry : Geometry, props : Object"
@@ -24,7 +28,7 @@ export default function Page() {
             </div>
             <div>
               <span>props</span>- 設定オブジェクト。
-              <ul>
+              <ul className="list-disc list-inside ml-4">
                 <li>
                   args (Array | Number) : ジオメトリの引数 (デフォルト : [1, 1,
                   1]、ジオメトリによって次元は異なる)。
@@ -64,8 +68,8 @@ export default function Page() {
         </p>
       </ReferenceContent>
 
-      <h2>コードの例</h2>
-      <h4>create.cube の代用</h4>
+      <H2 className="mt-14">コードの例</H2>
+      <H3>create.cube の代用</H3>
       <p>
         create.cube などのメッシュを作成するメソッドは、基本的に内部で
         create.object を使用しています。
@@ -80,6 +84,6 @@ create.object(new THREE.BoxGeometry, {
 });
 `}
       </CodeBlock>
-    </Container>
+    </div>
   );
 }

@@ -1,58 +1,20 @@
-"use client";
-import Container from "react-bootstrap/Container";
 import CodeBlock from "@/components/CodeBlock";
-import { useEffect, useRef } from "react";
-import { init } from "@dist/easy-three.js";
-import { noto } from "@/app/layout";
 import ReferenceContent from "@/components/ReferenceContent";
-import { Note, Link } from "@/components/BaseKit";
+import { Note } from "@/components/BaseKit";
+import H1 from "@/components/H1";
+import H2 from "@/components/H2";
+import H3 from "@/components/H3";
+import { Ex1 } from "./Codes";
 
-function Ex1(props) {
-  const ref = useRef();
-  useEffect(() => {
-    const { camera, create, controls, load, scene, animate, destroy } = init(
-      ref.current
-    );
-    create.ambientLight({ intensity: 1 });
-    create.directionalLight({ intensity: 2 });
-    camera.position.set(0, 0, 2);
-    controls.connect();
+export const metadata = {
+  title: "load.cubeTexture",
+};
 
-    scene.background = load.cubeTexture(
-      [
-        "red_brick_diff_1k.jpg",
-        "red_brick_diff_1k.jpg",
-        "red_brick_diff_1k.jpg",
-        "red_brick_diff_1k.jpg",
-        "red_brick_diff_1k.jpg",
-        "red_brick_diff_1k.jpg",
-      ],
-      {
-        path: "/easy-three/texture/img/",
-      }
-    );
-
-    const cube = create.cube({
-      rounded: true,
-      segments: 16,
-    });
-
-    animate(({ delta }) => {
-      cube.rotation.x += delta;
-      cube.rotation.y += delta;
-    });
-    return () => {
-      destroy();
-    };
-  }, []);
-  return <div ref={ref} {...props}></div>;
-}
 
 export default function Page() {
   return (
-    <Container className="pt-4 pb-5">
-      <title>load.cubeTexture | easy-three</title>
-      <h1>load.cubeTexture</h1>
+    <div>
+      <H1>load.cubeTexture</H1>
 
       <ReferenceContent
         name="load.cubeTexture"
@@ -65,7 +27,7 @@ export default function Page() {
             </div>
             <div>
               <span>props</span> - 設定オブジェクト。
-              <ul>
+              <ul className="list-disc list-inside ml-4">
                 <li>
                   path (String) : テクスチャのパスのベース (デフォルト :
                   &quot;./&quot;)。
@@ -82,8 +44,8 @@ export default function Page() {
         </p>
       </ReferenceContent>
 
-      <h2>コードの例</h2>
-      <h4>キューブテクスチャによる背景</h4>
+      <H2 className="mt-14">コードの例</H2>
+      <H3>キューブテクスチャによる背景</H3>
       <Ex1
         className="border"
         style={{
@@ -123,6 +85,6 @@ animate(({ delta }) => {
 });
 `}
       </CodeBlock>
-    </Container>
+    </div>
   );
 }

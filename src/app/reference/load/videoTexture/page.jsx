@@ -1,44 +1,20 @@
-"use client";
-import Container from "react-bootstrap/Container";
 import CodeBlock from "@/components/CodeBlock";
-import { useEffect, useRef } from "react";
-import { init } from "@dist/easy-three.js";
-import { noto } from "@/app/layout";
 import ReferenceContent from "@/components/ReferenceContent";
-import { Note, Link } from "@/components/BaseKit";
+import { Note } from "@/components/BaseKit";
+import H1 from "@/components/H1";
+import H2 from "@/components/H2";
+import H3 from "@/components/H3";
+import { Ex1 } from "./Codes";
 
-function Ex1(props) {
-  const ref = useRef();
-  useEffect(() => {
-    const { camera, create, controls, load, animate, destroy } = init(
-      ref.current
-    );
-    create.ambientLight({ intensity: 1 });
-    create.directionalLight({ intensity: 2 });
-    camera.position.set(-1, 1, 1);
-    controls.connect();
+export const metadata = {
+  title: "load.videoTexture",
+};
 
-
-    create.plane({
-      size: [1.28 * 2, 0.72 * 2],
-      option: {
-        map: load.videoTexture("https://www.ktc.ac.jp/img/top/topmovie_720p.mp4"),
-      }
-    });
-
-    animate();
-    return () => {
-      destroy();
-    };
-  }, []);
-  return <div ref={ref} {...props}></div>;
-}
 
 export default function Page() {
   return (
-    <Container className="pt-4 pb-5">
-      <title>load.videoTexture | easy-three</title>
-      <h1>load.videoTexture</h1>
+    <div>
+      <H1>load.videoTexture</H1>
 
       <ReferenceContent
         name="load.videoTexture"
@@ -51,7 +27,7 @@ export default function Page() {
             </div>
             <div>
               <span>props</span> - 設定オブジェクト。
-              <ul>
+              <ul className="list-disc list-inside ml-4">
                 <li>
                   autoPlay (Boolean) : 自動再生するか (デフォルト : true)。
                 </li>
@@ -64,8 +40,8 @@ export default function Page() {
         <p>mp4などの動画ファイルを読み込み、テクスチャとして使用します。</p>
       </ReferenceContent>
 
-      <h2>コードの例</h2>
-      <h4>ビデオテクスチャの利用</h4>
+      <H2 className="mt-14">コードの例</H2>
+      <H3>ビデオテクスチャの利用</H3>
       <Ex1
         className="border"
         style={{
@@ -83,13 +59,13 @@ controls.connect();
 create.plane({
   size: [1.28 * 2, 0.72 * 2],
   option: {
-    map: load.videoTexture("https://www.ktc.ac.jp/img/top/topmovie_720p.mp4"),
+    map: load.videoTexture("https://www.ktc.ac.jp/img/top/movie/topmovie_new_480p.mp4"),
   }
 });
 
 animate();
 `}
       </CodeBlock>
-    </Container>
+    </div>
   );
 }

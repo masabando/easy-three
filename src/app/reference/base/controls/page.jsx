@@ -1,51 +1,31 @@
-"use client";
-import Container from "react-bootstrap/Container";
 import CodeBlock from "@/components/CodeBlock";
-import ReferenceContent from "@/components/ReferenceContent";
-import { Link } from "@/components/BaseKit";
-import { useEffect, useRef } from "react";
-import { init } from "@dist/easy-three.js";
-import { Alert } from "antd";
+import H1 from "@/components/H1";
+import H2 from "@/components/H2";
+import H3 from "@/components/H3";
+import { Ex1 } from "./Codes";
 
-function Ex1(props) {
-  const ref = useRef();
-  useEffect(() => {
-    const { camera, create, animate, controls, destroy } = init(ref.current);
-
-    controls.connect()
-    camera.position.set(0, 0, 2);
-    create.ambientLight();
-    create.directionalLight();
-    create.cube();
-    animate();
-    return () => {
-      destroy();
-    };
-  }, []);
-  return <div ref={ref} {...props}></div>;
-}
+export const metadata = {
+  title: "controls",
+};
 
 export default function Page() {
   return (
-    <Container className="pt-4 pb-5">
-      <title>controls | easy-three</title>
-      <h1 className="mb-5">controls</h1>
+    <div>
+      <H1>controls</H1>
 
-      <Alert
-        className="mb-3"
+      <div
+        className="alert mb-3 alert-info alert-soft"
         type="info"
-        message={
-          <>
+        >
             Three.js の r175 で OrbitControls の connect() の引数に対象要素が必要となりましたが、easy-three の connect() には必要ありません。<br />
             easy-three のcontrols の実態はただの OrbitControls インスタンスですが、この変更を受けて connect() のデフォルト引数を renderer.domElement としています。
-          </>
-        }
-      />
+      </div>
 
       <p>カメラの操作を行うためのコントロールを提供します。</p>
       <p>
         以下を設定済みの{" "}
         <a
+          className="text-blue-600 underline"
           href="https://threejs.org/docs/#examples/en/controls/OrbitControls"
           target="_blank"
           rel="noreferrer"
@@ -54,7 +34,7 @@ export default function Page() {
         </a>{" "}
         です。
       </p>
-      <ul>
+      <ul className="list-disc list-inside ml-4 my-4">
         <li>enableDamping = true</li>
         <li>dampingFactor = 0.25</li>
       </ul>
@@ -67,10 +47,11 @@ export default function Page() {
       <p>無効化する場合は、disconnect() を呼び出します。</p>
       <CodeBlock>{`controls.disconnect()`}</CodeBlock>
 
-      <h2>コードの例</h2>
-      <h4>視点移動</h4>
+      <H2 className="mt-14">コードの例</H2>
+      <H3>視点移動</H3>
       <p>マウス操作で視点移動ができます。</p>
       <Ex1
+        className="border my-4"
         style={{
           width: "240px",
           height: "240px",
@@ -92,6 +73,6 @@ create.cube();
 animate();
 `}
       </CodeBlock>
-    </Container>
+    </div>
   );
 }

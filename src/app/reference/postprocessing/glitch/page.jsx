@@ -1,68 +1,18 @@
-"use client";
-import Container from "react-bootstrap/Container";
 import CodeBlock from "@/components/CodeBlock";
-import { useEffect, useRef } from "react";
-import { init } from "@dist/easy-three.js";
 import ReferenceContent from "@/components/ReferenceContent";
-import { Link } from "@/components/BaseKit";
+import H1 from "@/components/H1";
+import H2 from "@/components/H2";
+import H3 from "@/components/H3";
+import { Ex1, Ex2 } from "./Codes";
 
-function Ex1(props) {
-  const ref = useRef();
-  useEffect(() => {
-    const { camera, create, animate, postprocessing, destroy } = init(ref.current);
-    camera.position.set(0, 0, 2);
-
-    create.ambientLight();
-    create.directionalLight();
-
-    const torusKnot = create.torusKnot({ size: 0.5, tube: 0.16 });
-
-    const { glitch } = postprocessing.glitch();
-
-    animate(({ delta }) => {
-      torusKnot.rotation.x += delta;
-      torusKnot.rotation.y += delta;
-      glitch()
-    }, false);
-    return () => {
-      destroy();
-    };
-  }, []);
-  return <div ref={ref} {...props}></div>;
-}
-
-function Ex2(props) {
-  const ref = useRef();
-  useEffect(() => {
-    const { camera, create, animate, postprocessing, destroy } = init(
-      ref.current
-    );
-    camera.position.set(0, 0, 2);
-
-    create.ambientLight();
-    create.directionalLight();
-
-    const torusKnot = create.torusKnot({ size: 0.5, tube: 0.16 });
-
-    const { glitch } = postprocessing.glitch({ wild: true });
-
-    animate(({ delta }) => {
-      torusKnot.rotation.x += delta;
-      torusKnot.rotation.y += delta;
-      glitch();
-    }, false);
-    return () => {
-      destroy();
-    };
-  }, []);
-  return <div ref={ref} {...props}></div>;
-}
+export const metadata = {
+  title: "postprocessing.glitch",
+};
 
 export default function Page() {
   return (
-    <Container className="pt-4 pb-5">
-      <title>postprocessing.glitch | easy-three</title>
-      <h1>postprocessing.glitch</h1>
+    <div>
+      <H1>postprocessing.glitch</H1>
       <ReferenceContent
         name="postprocessing.glitch"
         args="props : Object"
@@ -71,7 +21,7 @@ export default function Page() {
           <>
             <div>
               <span>props</span> - 設定オブジェクト。
-              <ul>
+              <ul className="list-disc list-inside ml-4">
                 <li>wild (Boolean) : ワイルドモード (デフォルト : false)。</li>
               </ul>
             </div>
@@ -87,8 +37,8 @@ export default function Page() {
         animate の第2引数を false にしてください。
       </ReferenceContent>
 
-      <h2>コードの例</h2>
-      <h4>グリッチエフェクト</h4>
+      <H2 className="mt-14">コードの例</H2>
+      <H3>グリッチエフェクト</H3>
       <Ex1
         className="border"
         style={{
@@ -115,7 +65,7 @@ animate(({ delta }) => {
 }, false)
 `}
       </CodeBlock>
-      <h4 className="mt-5">激しいエフェクト</h4>
+      <H3 className="mt-10">激しいエフェクト</H3>
       <Ex2
         className="border"
         style={{
@@ -142,6 +92,6 @@ animate(({ delta }) => {
 }, false)
 `}
       </CodeBlock>
-    </Container>
+    </div>
   );
 }

@@ -1,110 +1,19 @@
-"use client"
-import Container from "react-bootstrap/Container";
 import CodeBlock from "@/components/CodeBlock";
-import { useEffect, useRef } from "react";
-import { init } from "@dist/easy-three.js";
 import ReferenceContent from "@/components/ReferenceContent";
 import { Note } from "@/components/BaseKit";
+import { Ex1, Ex2, Ex3 } from "./Codes";
+import H1 from "@/components/H1";
+import H2 from "@/components/H2";
+import H3 from "@/components/H3";
 
-
-function Ex1(props) {
-  const ref = useRef();
-  useEffect(() => {
-    const { camera, create, animate, destroy } = init(ref.current);
-    camera.position.set(0, 2, 2);
-    create.ambientLight();
-    create.directionalLight();
-
-    const cube1 = create.cube({
-      position: [-1, 0, 0],
-      autoAdd: false,
-    });
-    const cube2 = create.cube({
-      position: [1, 0, 0],
-      autoAdd: false,
-    });
-
-    const group = create.group({
-      children: [cube1, cube2],
-    })
-
-    animate(({ delta }) => {
-      group.rotation.y += delta;
-    });
-    return () => {
-      destroy();
-    };
-  }, []);
-  return <div ref={ref} {...props}></div>;
+export const metadata = {
+  title: "create.group",
 }
 
-function Ex2(props) {
-  const ref = useRef();
-  useEffect(() => {
-    const { camera, create, animate, destroy } = init(ref.current);
-    camera.position.set(0, 2, 2);
-    create.ambientLight();
-    create.directionalLight();
-
-    const group = create.group({
-      children: [
-        create.cube({
-          position: [-1, 0, 0],
-          autoAdd: false,
-        }),
-        create.cube({
-          position: [1, 0, 0],
-          autoAdd: false,
-        }),
-      ],
-    });
-
-    animate(({ delta }) => {
-      group.rotation.y += delta;
-    });
-    return () => {
-      destroy();
-    };
-  }, []);
-  return <div ref={ref} {...props}></div>;
-}
-
-function Ex3(props) {
-  const ref = useRef();
-  useEffect(() => {
-    const { camera, create, animate, destroy } = init(ref.current);
-    camera.position.set(0, 2, 2);
-    create.ambientLight();
-    create.directionalLight();
-
-    const group = create.group();
-
-    const cube1 = create.cube({
-      position: [-1, 0, 0],
-      autoAdd: false,
-    });
-    const cube2 = create.cube({
-      position: [1, 0, 0],
-      autoAdd: false,
-    });
-
-    group.add(cube1, cube2);
-
-    animate(({ delta }) => {
-      group.rotation.y += delta;
-    });
-    return () => {
-      destroy();
-    };
-  }, []);
-  return <div ref={ref} {...props}></div>;
-}
-
-export default function Reference_Create_Cube() {
+export default function Reference_Create_Group() {
   return (
-    <Container className="pt-4 pb-5">
-      <title>create.group | easy-three</title>
-      <h1>create.group</h1>
+    <div>
+      <H1>create.group</H1>
       <ReferenceContent
         name="create.group"
         args="props : Object"
@@ -112,7 +21,7 @@ export default function Reference_Create_Cube() {
         argsInfo={
           <div>
             <span>props</span> - 設定オブジェクト。
-            <ul>
+            <ul className="list-disc list-inside ml-4">
               <li>position (Array) : 位置 (デフォルト : [0, 0, 0])。</li>
               <li>rotation (Array) : 回転 (デフォルト : [0, 0, 0])。</li>
               <li>
@@ -133,14 +42,14 @@ export default function Reference_Create_Cube() {
         </p>
       </ReferenceContent>
 
-      <p>
+      <p className="mt-4">
         グループを使うことで、複数のオブジェクトをまとめて操作することができます。
         <br />
         特に、オブジェクト間の相対的な位置を保ったまま移動させる場合や、
         オブジェクトをその原点以外を中心に回転させる場合に便利です。
       </p>
 
-      <p>
+      <p className="mt-4">
         オブジェクトをグループに追加する場合、
         そのオブジェクト自身はシーンに追加する必要がありません。
         <br />
@@ -152,11 +61,11 @@ export default function Reference_Create_Cube() {
         してください (下の例を参照)。
       </p>
 
-      <h2>コードの例</h2>
-      <h4>既存オブジェクトのグループへの追加</h4>
+      <H2 className="mt-14">コードの例</H2>
+      <H3>既存オブジェクトのグループへの追加</H3>
       <p>children に追加するオブジェクトを指定してグループを作成します。</p>
       <Ex1
-        className="border"
+        className="border my-4"
         style={{
           width: "240px",
           height: "240px",
@@ -187,13 +96,13 @@ animate(({ delta }) => {
 `}
       </CodeBlock>
 
-      <h4 className="mt-5">グループに直接追加</h4>
+      <H3 className="mt-10">グループに直接追加</H3>
       <p>
         グループ作成時に children
         部分で直接オブジェクトを作成しつつ追加することもできます。
       </p>
       <Ex2
-        className="border"
+        className="border my-4"
         style={{
           width: "240px",
           height: "240px",
@@ -223,14 +132,14 @@ animate(({ delta }) => {
 });
 `}
       </CodeBlock>
-      <h4 className="mt-5">既存のグループへの追加</h4>
+      <H3 className="mt-10">既存のグループへの追加</H3>
       <p>
         グループを作成した後にオブジェクトを追加することもできます。
         <br />
         create.group の戻り値は Three.js の Group オブジェクトです。
       </p>
       <Ex3
-        className="border"
+        className="border my-4"
         style={{
           width: "240px",
           height: "240px",
@@ -260,6 +169,6 @@ animate(({ delta }) => {
 });
 `}
       </CodeBlock>
-    </Container>
+    </div>
   );
 }

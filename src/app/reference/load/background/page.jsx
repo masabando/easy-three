@@ -1,55 +1,19 @@
-"use client";
-import Container from "react-bootstrap/Container";
 import CodeBlock from "@/components/CodeBlock";
-import { useEffect, useRef } from "react";
-import { init } from "@dist/easy-three.js";
-import { noto } from "@/app/layout";
 import ReferenceContent from "@/components/ReferenceContent";
-import { Note, Link } from "@/components/BaseKit";
+import { Note } from "@/components/BaseKit";
+import H1 from "@/components/H1";
+import H2 from "@/components/H2";
+import H3 from "@/components/H3";
+import { Ex1 } from "./Codes";
 
-function Ex1(props) {
-  const ref = useRef();
-  useEffect(() => {
-    const { camera, create, controls, load, animate, destroy } = init(
-      ref.current
-    );
-    create.ambientLight();
-    create.directionalLight();
-    camera.position.set(0, 0, 2);
-    controls.connect();
-
-    load.background(
-      "/easy-three/texture/hdr/kloofendal_48d_partly_cloudy_puresky_1k.hdr"
-    );
-
-    const cube = create.cube({
-      rounded: true,
-      segments: 16,
-      option: {
-        color: 0xffffff,
-        metalness: 0.9,
-        roughness: 0.1,
-      }
-    });
-
-
-    animate(({ delta }) => {
-      cube.rotation.x += delta;
-      cube.rotation.y += delta;
-    });
-    return () => {
-      destroy();
-    };
-  }, []);
-  return <div ref={ref} {...props}></div>;
-}
-
+export const metadata = {
+  title: "load.background",
+};
 
 export default function Page() {
   return (
-    <Container className="pt-4 pb-5">
-      <title>load.background | easy-three</title>
-      <h1>load.background</h1>
+    <div>
+      <H1>load.background</H1>
 
       <ReferenceContent
         name="load.background"
@@ -62,7 +26,7 @@ export default function Page() {
             </div>
             <div>
               <span>props</span> - 設定オブジェクト。
-              <ul>
+              <ul className="list-disc list-inside ml-4">
                 <li>
                   background (Boolean) : 背景に設定するか (デフォルト : true)。
                 </li>
@@ -73,7 +37,7 @@ export default function Page() {
                 <li>
                   manager (Object) :
                   ローダマネージャ用のコールバック関数をまとめたオブジェクト。
-                  <ul>
+                  <ul className="list-disc list-inside ml-4 border rounded p-2">
                     <li>
                       onStart (Function) : ロード開始時のコールバック関数。
                     </li>
@@ -98,8 +62,8 @@ export default function Page() {
         </p>
       </ReferenceContent>
 
-      <h2>コードの例</h2>
-      <h4>背景と環境マップの設定</h4>
+      <H2 className="mt-14">コードの例</H2>
+      <H3>背景と環境マップの設定</H3>
       <Ex1
         className="border"
         style={{
@@ -134,6 +98,6 @@ animate(({ delta }) => {
 });
 `}
       </CodeBlock>
-    </Container>
+    </div>
   );
 }

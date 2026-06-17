@@ -1,69 +1,18 @@
-"use client";
-import Container from "react-bootstrap/Container";
 import CodeBlock from "@/components/CodeBlock";
-import { useEffect, useRef } from "react";
-import { init } from "@dist/easy-three.js";
 import ReferenceContent from "@/components/ReferenceContent";
-import { Note } from "@/components/BaseKit";
+import H1 from "@/components/H1";
+import H2 from "@/components/H2";
+import H3 from "@/components/H3";
+import { Ex1 } from "./Codes";
 
-function Ex1(props) {
-  const ref = useRef();
-  useEffect(() => {
-    const { camera, create, animate, destroy, THREE, Default } = init(ref.current);
-    camera.position.set(0, 0, 2);
+export const metadata = {
+  title: "create.hemisphereLight",
+};
 
-    create.hemisphereLight({
-      skyColor: 0x0000ff,
-      groundColor: 0xff0000,
-    });
-
-    const cube = create.cube({
-      option: {
-        color: "#ffffff",
-      }
-    })
-
-    animate(({ delta }) => {
-      cube.rotation.x += delta;
-      cube.rotation.y += delta;
-    });
-    return () => {
-      destroy();
-    };
-  }, []);
-  return <div ref={ref} {...props}></div>;
-}
-
-function Ex2(props) {
-  const ref = useRef();
-  useEffect(() => {
-    const { camera, create, animate, destroy, THREE, Default } = init(
-      ref.current
-    );
-    camera.position.set(0, 0, 2);
-    const ambientLight = create.ambientLight();
-
-    const cube = create.cube();
-
-    animate(({ delta, time }) => {
-      cube.rotation.x += delta;
-      cube.rotation.y += delta;
-      ambientLight.intensity = Math.sin(time) * 0.5 + 0.5;
-    });
-    return () => {
-      destroy();
-    };
-  }, []);
-  return <div ref={ref} {...props}></div>;
-}
-
-
-
-export default function Reference_Create_Cube() {
+export default function Reference_Create_HemisphereLight() {
   return (
-    <Container className="pt-4 pb-5">
-      <title>create.hemisphereLight | easy-three</title>
-      <h1>create.hemisphereLight</h1>
+    <div>
+      <H1>create.hemisphereLight</H1>
       <ReferenceContent
         name="create.hemisphereLight"
         args="props : Object"
@@ -71,7 +20,7 @@ export default function Reference_Create_Cube() {
         argsInfo={
           <div>
             <span>props</span> - 設定オブジェクト。
-            <ul>
+            <ul className="list-disc list-inside ml-4">
               <li>
                 skyColor (Hex) : 上部からのライトの色 (デフォルト : 0xeeddff)。
               </li>
@@ -87,7 +36,7 @@ export default function Reference_Create_Cube() {
         <p>半球光源を作成してシーンに追加します。</p>
       </ReferenceContent>
 
-      <p>
+      <p className="mt-4">
         半球光源は、上部からの光と下部からの光を持つ光源です。
         <br />
         上部からの光は空の色を表し、下部からの光は地面からの反射光を表します。
@@ -97,10 +46,10 @@ export default function Reference_Create_Cube() {
         半球光源では影は生成されません。
       </p>
 
-      <h2>コードの例</h2>
-      <h4>半球光源</h4>
+      <H2 className="mt-14">コードの例</H2>
+      <H3>半球光源</H3>
       <Ex1
-        className="border"
+        className="border my-4"
         style={{
           width: "240px",
           height: "240px",
@@ -127,6 +76,6 @@ animate(({ delta }) => {
 });
 `}
       </CodeBlock>
-    </Container>
+    </div>
   );
 }

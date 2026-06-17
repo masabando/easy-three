@@ -43,6 +43,10 @@ const directionalLight = ({ scene, THREE }) => {
     if (helper > 0) {
       const h = new THREE.DirectionalLightHelper(l, helper, helperColor)
       scene.add(h)
+      if (castShadow) {
+        const sh = new THREE.CameraHelper(l.shadow.camera)
+        scene.add(sh)
+      }
     }
     scene.add(l);
     return l;

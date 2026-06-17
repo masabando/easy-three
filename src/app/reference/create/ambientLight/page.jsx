@@ -1,61 +1,18 @@
-"use client";
-import Container from "react-bootstrap/Container";
 import CodeBlock from "@/components/CodeBlock";
-import { useEffect, useRef } from "react";
-import { init } from "@dist/easy-three.js";
 import ReferenceContent from "@/components/ReferenceContent";
-import { Note } from "@/components/BaseKit";
+import H1 from "@/components/H1";
+import H2 from "@/components/H2";
+import H3 from "@/components/H3";
+import { Ex1, Ex2 } from "./Codes";
 
-function Ex1(props) {
-  const ref = useRef();
-  useEffect(() => {
-    const { camera, create, animate, destroy, THREE, Default } = init(ref.current);
-    camera.position.set(0, 0, 2);
-    create.ambientLight();
+export const metadata = {
+  title: "create.ambientLight",
+};
 
-    const cube = create.cube()
-
-    animate(({ delta }) => {
-      cube.rotation.x += delta;
-      cube.rotation.y += delta;
-    });
-    return () => {
-      destroy();
-    };
-  }, []);
-  return <div ref={ref} {...props}></div>;
-}
-
-function Ex2(props) {
-  const ref = useRef();
-  useEffect(() => {
-    const { camera, create, animate, destroy, THREE, Default } = init(
-      ref.current
-    );
-    camera.position.set(0, 0, 2);
-    const ambientLight = create.ambientLight();
-
-    const cube = create.cube();
-
-    animate(({ delta, time }) => {
-      cube.rotation.x += delta;
-      cube.rotation.y += delta;
-      ambientLight.intensity = Math.sin(time) * 0.5 + 0.5;
-    });
-    return () => {
-      destroy();
-    };
-  }, []);
-  return <div ref={ref} {...props}></div>;
-}
-
-
-
-export default function Reference_Create_Cube() {
+export default function Reference_Create_AmbientLight() {
   return (
-    <Container className="pt-4 pb-5">
-      <title>create.ambientLight | easy-three</title>
-      <h1>create.ambientLight</h1>
+    <div>
+      <H1>create.ambientLight</H1>
       <ReferenceContent
         name="create.ambientLight"
         args="props : Object"
@@ -63,7 +20,7 @@ export default function Reference_Create_Cube() {
         argsInfo={
           <div>
             <span>props</span> - 設定オブジェクト。
-            <ul>
+            <ul className="list-disc list-inside ml-4">
               <li>color (Hex) : ライトの色 (デフォルト : 0xffffff)。</li>
               <li>intensity (Number) : 光の強さ (デフォルト : 0.5)。</li>
             </ul>
@@ -73,14 +30,14 @@ export default function Reference_Create_Cube() {
         <p>環境光を作成してシーンに追加します。</p>
       </ReferenceContent>
 
-      <p>
+      <p className="mt-4">
         環境光は全体を均等に照らす光源です。
         <br />
         シーン全体に均等に光を当てるため、影は作成されません。
       </p>
 
-      <h2>コードの例</h2>
-      <h4>環境光</h4>
+      <H2 className="mt-14">コードの例</H2>
+      <H3>環境光</H3>
       <Ex1
         className="border"
         style={{
@@ -101,7 +58,7 @@ animate(({ delta }) => {
 });
 `}
       </CodeBlock>
-      <h4 className="mt-5">光量を変化させる</h4>
+      <H3 className="mt-10">光量を変化させる</H3>
       <Ex2
         className="border"
         style={{
@@ -123,6 +80,6 @@ animate(({ delta, time }) => {
 });
 `}
       </CodeBlock>
-    </Container>
+    </div>
   );
 }

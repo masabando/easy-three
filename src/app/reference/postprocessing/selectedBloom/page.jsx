@@ -1,92 +1,19 @@
-"use client";
-import Container from "react-bootstrap/Container";
 import CodeBlock from "@/components/CodeBlock";
-import { useEffect, useRef } from "react";
-import { init } from "@dist/easy-three.js";
 import ReferenceContent from "@/components/ReferenceContent";
-import { Link } from "@/components/BaseKit";
+import { Ex1, Ex2 } from "./Code";
+import H1 from "@/components/H1";
+import H2 from "@/components/H2";
+import H3 from "@/components/H3";
 
-function Ex1(props) {
-  const ref = useRef();
-  useEffect(() => {
-    const { camera, create, animate, postprocessing, destroy } = init(
-      ref.current
-    );
-    camera.position.set(0, 0, 2);
-    create.ambientLight();
-    create.directionalLight();
-    const cube1 = create.cube({
-      size: 0.5,
-      position: [-0.7, 0, 0],
-    });
-    const cube2 = create.cube({
-      size: 0.5,
-      position: [0.7, 0, 0],
-    });
-    const sphere = create.sphere({
-      size: 0.3,
-      position: [0, 0.8, 0]
-    });
-    const { selectedBloom, addSelectedBloom } = postprocessing.selectedBloom();
-    addSelectedBloom(cube1, sphere);
-    animate(({ delta }) => {
-      cube1.rotation.x += delta;
-      cube1.rotation.y += delta;
-      cube2.rotation.x += delta;
-      cube2.rotation.y += delta;
-      selectedBloom();
-    }, false);
-    return () => {
-      destroy();
-    };
-  }, []);
-  return <div ref={ref} {...props}></div>;
-}
+export const metadata = {
+  title: "postprocessing.selectedBloom",
+};
 
-function Ex2(props) {
-  const ref = useRef();
-  useEffect(() => {
-    const { camera, create, animate, postprocessing, destroy } = init(
-      ref.current
-    );
-    camera.position.set(0, 0, 2);
-    create.ambientLight();
-    create.directionalLight();
-    const cube1 = create.cube({
-      size: 0.5,
-      position: [-0.7, 0, 0],
-    });
-    const cube2 = create.cube({
-      size: 0.5,
-      position: [0.7, 0, 0],
-    });
-    const sphere = create.sphere({
-      size: 0.3,
-      position: [0, 0.8, 0],
-    });
-    const { selectedBloom, addSelectedBloom } = postprocessing.selectedBloom();
-    addSelectedBloom(cube1, sphere);
-    animate(({ delta, time }) => {
-      cube1.rotation.x += delta;
-      cube1.rotation.y += delta;
-      cube2.rotation.x += delta;
-      cube2.rotation.y += delta;
-      selectedBloom({
-        strength: 2 * Math.abs(Math.sin(time)),
-      });
-    }, false);
-    return () => {
-      destroy();
-    };
-  }, []);
-  return <div ref={ref} {...props}></div>;
-}
 
 export default function Page() {
   return (
-    <Container className="pt-4 pb-5">
-      <title>postprocessing.selectedBloom | easy-three</title>
-      <h1>postprocessing.selectedBloom</h1>
+    <div>
+      <H1>postprocessing.selectedBloom</H1>
       <ReferenceContent
         name="postprocessing.selectedBloom"
         args="props : Object"
@@ -95,7 +22,7 @@ export default function Page() {
           <>
             <div>
               <span>props</span> - 設定オブジェクト。
-              <ul>
+              <ul className="list-disc list-inside ml-4">
                 <li>exposure (Number) : 曝光度 (デフォルト : 1)。</li>
                 <li>background (Color) : 背景色 (デフォルト : 0x000000)。</li>
                 <li>threshold (Number) : 閾値 (デフォルト : 0)。</li>
@@ -123,8 +50,8 @@ export default function Page() {
         </p>
       </ReferenceContent>
 
-      <h2>コードの例</h2>
-      <h4>選択的ブルームエフェクト</h4>
+      <H2 className="mt-14">コードの例</H2>
+      <H3>選択的ブルームエフェクト</H3>
       <Ex1
         className="border"
         style={{
@@ -169,7 +96,7 @@ animate(({ delta }) => {
 }, false)
 `}
       </CodeBlock>
-      <h4 className="mt-5">時間とともに輝度を変更する</h4>
+      <H3 className="mt-10">時間とともに輝度を変更する</H3>
       <Ex2
         className="border"
         style={{
@@ -212,6 +139,6 @@ animate(({ delta, time }) => {
 }, false)
 `}
       </CodeBlock>
-    </Container>
+    </div>
   );
 }

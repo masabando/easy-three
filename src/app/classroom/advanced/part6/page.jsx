@@ -1,19 +1,24 @@
-"use client";
-import { EasyThreeBox, Note } from "@/components/BaseKit";
+import { Code } from "@/components/BaseKit";
 import CodeBlock from "@/components/CodeBlock";
-import { init } from "@dist/easy-three";
+import H1 from "@/components/H1";
+import H2 from "@/components/H2";
+import { Ex1, Ex2, Ex3 } from "./Codes";
+
+export const metadata = {
+  title: "面の変形",
+};
 
 export default function Page() {
   return (
-    <div className="classroomPart">
-      <h2>6. 面の変形</h2>
+    <div>
+      <H1>6. 面の変形</H1>
       <p>
         このセクションでは、面の変形を学びます。
         <br />
         面を変形させることで、波打つような表現などが可能になります。
       </p>
 
-      <h3>面の変形</h3>
+      <H2 className="mt-14">面の変形</H2>
       <p>
         面の変形は、頂点の座標を変更することで行います。
         <br />
@@ -23,42 +28,42 @@ export default function Page() {
         そのため、頂点の座標を変更することで、面の形状を変えることができます。
       </p>
 
-      <p>
+      <p className="mt-4">
         頂点の座標を扱うには、オブジェクトのgeometry属性のattributes.positionを使います。
       </p>
       <CodeBlock>{`const position = オブジェクト.geometry.attributes.position`}</CodeBlock>
       <p>
-        こうして得られたpositionは、各頂点の座標を保持しています。
+        こうして得られた<Code>position</Code>は、各頂点の座標を保持しています。
         <br />
-        <code>i</code> 番目の頂点のx座標を取得するには、
+        <Code>i</Code> 番目の頂点のx座標を取得するには、
       </p>
       <CodeBlock>{`const x = position.getX(i)`}</CodeBlock>
       <p>
         とします。
         <br />
-        また、<code>i</code> 番目の頂点のx座標を変更するには、
+        また、<Code>i</Code> 番目の頂点のx座標を変更するには、
       </p>
       <CodeBlock>{`position.setX(i, 値)`}</CodeBlock>
       <p>
         とします。
         <br />
-        頂点の座標を変更したら、<code>position.needsUpdate = true</code>{" "}
+        頂点の座標を変更したら、<Code>position.needsUpdate = true</Code>{" "}
         を記述することで変更を反映させます。
         <br />
-        環境マップなどの反射を使う場合は、さらに <code>オブジェクト.geometry.computeVertexNormals()</code>{" "}
+        環境マップなどの反射を使う場合は、さらに <Code>オブジェクト.geometry.computeVertexNormals()</Code>{" "}
         で法線を再計算する必要があります。
       </p>
       <CodeBlock>{`position.needsUpdate = true
 オブジェクト.geometry.computeVertexNormals()
 `}</CodeBlock>
       <p>
-        また、<code>position.count</code> で頂点の数を取得できます。
+        また、<Code>position.count</Code> で頂点の数を取得できます。
       </p>
-      <p>
+      <p className="mt-4">
         これを使うと、例えばx座標の値に応じてz座標を変えることができます。
         <br />
-        <code>segments</code> を指定することを忘れないようにしましょう。
-        <code>plane</code>はデフォルトでは<code>segments: 1</code>
+        <Code>segments</Code> を指定することを忘れないようにしましょう。
+        <Code>plane</Code>はデフォルトでは<Code>segments: 1</Code>
         になっているので、波打つことができません。
         <br />
         また、フラットシェーディングを有効にすることで、
@@ -92,39 +97,8 @@ animate(({ time }) => {
 })
 `}
       </CodeBlock>
-      <EasyThreeBox
-        toggleControls
-        effect={(r) => {
-          const { camera, create, animate, controls, destroy } = init(r);
-          camera.position.set(-6, 6, 6);
-          create.ambientLight();
-          create.directionalLight();
-          const plane = create.plane({
-            size: 10,
-            segments: 30,
-            option: {
-              flatShading: true,
-            },
-          });
-          const position = plane.geometry.attributes.position;
-          animate(({ time }) => {
-            for (let i = 0; i < position.count; i++) {
-              const x = position.getX(i);
-              position.setZ(i, Math.sin(x + time));
-            }
-            position.needsUpdate = true;
-          });
-          return {
-            destroy: () => {
-              destroy();
-            },
-            controls: (f) => {
-              if (f) controls.connect();
-              else controls.disconnect();
-            },
-          };
-        }}
-      />
+      <Ex1 />
+
 
       <CodeBlock filename="index.html">
         {`const { camera, create, animate, controls } = init()
@@ -154,85 +128,15 @@ animate(({ time }) => {
 })
 `}
       </CodeBlock>
-      <EasyThreeBox
-        toggleControls
-        effect={(r) => {
-          const { camera, create, animate, controls, destroy } = init(r);
-          camera.position.set(-6, 6, 6);
-          create.ambientLight();
-          create.directionalLight();
-          const plane = create.plane({
-            size: 10,
-            segments: 30,
-            option: {
-              flatShading: true,
-            },
-          });
-          const position = plane.geometry.attributes.position;
-          animate(({ time }) => {
-            for (let i = 0; i < position.count; i++) {
-              const x = position.getX(i);
-              const y = position.getY(i);
-              position.setZ(i, Math.sin(x + time) * Math.cos(y + time));
-            }
-            position.needsUpdate = true;
-          });
-          return {
-            destroy: () => {
-              destroy();
-            },
-            controls: (f) => {
-              if (f) controls.connect();
-              else controls.disconnect();
-            },
-          };
-        }}
-      />
+      <Ex2 />
+
 
       <p>
         背景を入れると、よりリアルな感じになります。
       </p>
 
-      <EasyThreeBox
-        toggleControls
-        effect={(r) => {
-          const { camera, create, animate, controls, load, destroy, THREE } = init(r);
-          camera.position.set(-6, 6, 6);
-          create.ambientLight();
-          create.directionalLight();
-          const plane = create.plane({
-            size: 10,
-            segments: 30,
-            option: {
-              metalness: 0.8,
-              roughness: 0.1,
-              side: THREE.DoubleSide,
-            },
-          });
-          const position = plane.geometry.attributes.position;
-          load.background(
-            "/easy-three/texture/hdr/kloofendal_48d_partly_cloudy_puresky_1k.hdr"
-          );
-          animate(({ time }) => {
-            for (let i = 0; i < position.count; i++) {
-              const x = position.getX(i);
-              const y = position.getY(i);
-              position.setZ(i, Math.sin(x + time) * Math.cos(y + time));
-            }
-            position.needsUpdate = true;
-            plane.geometry.computeVertexNormals();
-          });
-          return {
-            destroy: () => {
-              destroy();
-            },
-            controls: (f) => {
-              if (f) controls.connect();
-              else controls.disconnect();
-            },
-          };
-        }}
-      />
+      <Ex3 />
+
     </div>
   );
 }

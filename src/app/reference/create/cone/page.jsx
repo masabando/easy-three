@@ -1,61 +1,18 @@
-"use client";
-import Container from "react-bootstrap/Container";
 import CodeBlock from "@/components/CodeBlock";
-import { useEffect, useRef } from "react";
-import { init } from "@dist/easy-three.js";
 import ReferenceContent from "@/components/ReferenceContent";
-import { Note } from "@/components/BaseKit";
+import H1 from "@/components/H1";
+import H2 from "@/components/H2";
+import H3 from "@/components/H3";
+import { Ex1, Ex2 } from "./Codes";
 
-function Ex1(props) {
-  const ref = useRef();
-  useEffect(() => {
-    const { camera, create, animate, destroy } = init(ref.current);
-    camera.position.set(0, 2, 2);
-    create.ambientLight();
-    create.directionalLight();
+export const metadata = {
+  title: "create.cone",
+};
 
-    create.cone();
-
-    animate();
-    return () => {
-      destroy();
-    };
-  }, []);
-  return <div ref={ref} {...props}></div>;
-}
-
-function Ex2(props) {
-  const ref = useRef();
-  useEffect(() => {
-    const { camera, create, animate, destroy, THREE, Default } = init(
-      ref.current
-    );
-    camera.position.set(0, 2, 2);
-    create.ambientLight();
-    create.directionalLight();
-
-    const cone = create.cone({
-      segments: [3, 1]
-    });
-
-    animate(({ delta }) => {
-      cone.rotation.x += delta;
-      cone.rotation.y += delta;
-    })
-    return () => {
-      destroy();
-    };
-  }, []);
-  return <div ref={ref} {...props}></div>;
-}
-
-
-
-export default function Reference_Create_Cube() {
+export default function Reference_Create_Cone() {
   return (
-    <Container className="pt-4 pb-5">
-      <title>create.cone | easy-three</title>
-      <h1>create.cone</h1>
+    <div>
+      <H1>create.cone</H1>
       <ReferenceContent
         name="create.cone"
         args="props : Object"
@@ -63,7 +20,7 @@ export default function Reference_Create_Cube() {
         argsInfo={
           <div>
             <span>props</span> - 設定オブジェクト。
-            <ul>
+            <ul className="list-disc list-inside ml-4">
               <li>size (Array | Number) : サイズ (デフォルト : [1, 2])。</li>
               <li>segments (Number | Array) : 分割数 (デフォルト : [32, 1])。</li>
               <li>position (Array) : 位置 (デフォルト : [0, 0, 0])。</li>
@@ -93,22 +50,21 @@ export default function Reference_Create_Cube() {
       >
         <p>円錐を作成してシーンに追加します。</p>
       </ReferenceContent>
-      <p>
+      <p className="mt-4">
         size と segments については、通常2つの値を持つ配列で指定します。
         <br />
         配列でなく1つの数値を指定した場合、その値を2つ持つ配列として扱います。
         <br />
         (例 : segments: 64 は [64, 64] と同じ)
       </p>
-      <p>
+      <p className="mt-4">
         segments の2つ目の値はそれぞれ、円周方向と高さ方向の分割数を表します。
         <br />
         一般的に高さ方向については1で十分ですが、円周方向については大きくすることで円錐となり、小さくすることで三角錐などを表すことができます。
       </p>
 
-
-      <h2>コードの例</h2>
-      <h4>円錐</h4>
+      <H2 className="mt-14">コードの例</H2>
+      <H3>円錐</H3>
       <Ex1
         className="border"
         style={{
@@ -128,7 +84,7 @@ animate()
 `}
       </CodeBlock>
 
-      <h4 className="mt-5">三角錐</h4>
+      <H3 className="mt-10">三角錐</H3>
       <Ex2
         className="border"
         style={{
@@ -152,6 +108,6 @@ animate(({ delta }) => {
 })
 `}
       </CodeBlock>
-    </Container>
+    </div>
   );
 }

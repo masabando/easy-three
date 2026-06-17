@@ -14,17 +14,6 @@
 
 .MCGUI {
   font-family: "Noto Sans JP", sans-serif;
-
-  // position: static;
-  // width: 100%;
-  // @media screen and (min-width: 800px) {
-  //   position: absolute;
-  //   top: 0;
-  //   left: 0;
-  //   width: 100%;
-  //   display: flex;
-  //   justify-content: end;
-  // }
 }
 
 .MCNote {

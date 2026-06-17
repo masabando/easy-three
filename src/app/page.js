@@ -1,129 +1,95 @@
-"use client";
-import Button from "react-bootstrap/Button";
 import { Link } from "@/components/BaseKit";
 import T from "@/components/Lang";
-import { Demo } from "@/components/home/Demo";
+import { DemoSimple, DemoModelAnimation } from "@/components/home/Demo";
 import CodeBlock from "@/components/CodeBlock";
-import { Progress, Switch, Tag } from "antd";
-import Row from "react-bootstrap/Row";
-import Col from "react-bootstrap/Col";
-import { useState } from "react";
+import TopAnimation from "@/components/TopAnimation";
 
 function Note({ children }) {
   return <span className="font-bold">{children}</span>;
 }
 
 export default function Page() {
-  const [worldControl, setWorldControl] = useState(false);
   return (
-    <div>
-      <div className="bg-body-tertiary pb-4">
-        <div className="py-3">
-          <title>Home | easy-three</title>
-          <h1 className="headTitle mt-5 mb-4">easy-three</h1>
-          <div className="text-center mb-4">
-            <div>
-              <img alt="version" src="https://img.shields.io/github/v/tag/masabando/easy-three?style=flat&label=version" />
-              {/* <Tag color="blue">v{currentVersion}</Tag> */}
-            </div>
-            <div className="mt-2">
-              <img alt="npm" src="https://img.shields.io/npm/dm/%40masabando%2Feasy-three?style=flat&logo=npm" />
-              <img className="ms-1" alt="jsDelivr monthly hits badge" src="https://img.shields.io/jsdelivr/gh/hm/masabando/easy-three?style=flat&logo=jsdelivr&logoColor=white" />
-            </div>
-            <div className="mt-2 d-flex flex-wrap justify-content-center gap-1">
-                <img alt="github-stars" src="https://img.shields.io/github/stars/masabando/easy-three?style=flat&logo=github" />
-                <img alt="last commit" src="https://img.shields.io/github/last-commit/masabando/easy-three?style=flat" />
-                <img className="ms-1" alt="page build" src="https://img.shields.io/github/actions/workflow/status/masabando/easy-three/nextjs.yml?style=flat" />
-            </div>
+    <div className="py-20">
+      <title>easy-three</title>
+      <div>
+        <h1 className="text-4xl text-center">easy-three</h1>
+        <div className="flex flex-col items-center gap-2 mt-4">
+          <div>
+            <img alt="version" src="https://img.shields.io/github/v/tag/masabando/easy-three?style=flat&label=version" />
           </div>
-          <div className="headMessage">
-            <T>
-              <>
-                <span>Create stunning</span>
-                <span className="impacted">3D</span>
-                <span>with simple code.</span>
-              </>
-              <>
-                <span>シンプルなコードで、魅力的な</span>
-                <span className="impacted">3D</span>
-                <span>を。</span>
-              </>
-            </T>
+          <div className="flex flex-wrap justify-center gap-1">
+            <img alt="npm" src="https://img.shields.io/npm/dm/%40masabando%2Feasy-three?style=flat&logo=npm" />
+            <img className="ms-1" alt="jsDelivr monthly hits badge" src="https://img.shields.io/jsdelivr/gh/hm/masabando/easy-three?style=flat&logo=jsdelivr&logoColor=white" />
           </div>
+          <div className="flex flex-wrap justify-center gap-1">
+            <img alt="github-stars" src="https://img.shields.io/github/stars/masabando/easy-three?style=flat&logo=github" />
+            <img alt="last commit" src="https://img.shields.io/github/last-commit/masabando/easy-three?style=flat" />
+            <img className="ms-1" alt="page build" src="https://img.shields.io/github/actions/workflow/status/masabando/easy-three/nextjs.yml?style=flat" />
+          </div>
+        </div>
+        <div className="text-center mt-10 text-lg">
+          <T>
+            <>
+              <span>Create stunning</span>
+              <span className="text-xl font-medium px-1 text-shadow-[1px_1px_4px_rgba(0,130,255,0.7)]">3D</span>
+              <span>with simple code.</span>
+            </>
+            <>
+              <span>シンプルなコードで、魅力的な</span>
+              <span className="text-xl font-medium px-1 text-shadow-[1px_1px_4px_rgba(0,130,255,0.7)]">3D</span>
+              <span>を。</span>
+            </>
+          </T>
+        </div>
 
-          <div className="text-center mt-5 mb-3">
-            <Button
-              variant="primary"
-              size="lg"
-              as={Link}
+        <div className="flex flex-col items-center gap-3 mt-6 mb-10 text-sm">
+          <div className="flex justify-center mt-6 gap-3">
+            <Link
+              className="btn btn-primary btn-soft"
               href="/getting-started"
             >
               <T>
                 <>Get Started</>
                 <>使ってみる</>
               </T>
-            </Button>
-            <Button
-              variant="primary"
-              size="lg"
-              className="ms-3"
-              as={Link}
+            </Link>
+            <Link
+              className="btn btn-primary btn-soft"
               href="/reference"
             >
               <T>
                 <>Reference</>
                 <>ドキュメント</>
               </T>
-            </Button>
+            </Link>
           </div>
-          <div className="text-center mb-5">
-            <Button
-              variant="primary"
-              className="mt-1"
-              as={Link}
+          <div className="flex justify-center">
+            <Link
+              className="btn btn-primary btn-soft"
               href="/classroom"
             >
               <T>
                 <>Educational Use Cases</>
                 <>教育機関向け活用例</>
               </T>
-            </Button>
+            </Link>
           </div>
         </div>
       </div>
 
-      <div className="py-0 mw-100 d-flex flex-column justify-content-center align-items-center">
-        <div className="position-relative d-inline-block mw-100">
-          <Switch
-            style={{
-              position: "absolute",
-              top: "10px",
-              right: "10px",
-            }}
-            defaultChecked={worldControl}
-            onChange={setWorldControl}
-            checkedChildren="タッチ操作ON"
-            unCheckedChildren="タッチ操作OFF"
-          />
-          <Demo.World
-            worldControl={worldControl}
-            style={{
-              width: "600px",
-              aspectRatio: "6 / 4",
-              maxWidth: "100%",
-            }}
-          />
-        </div>
-      </div>
-      <div className="bg-body-tertiary pb-5 pt-4">
-        <div className="mw-100">
-          <div className="my-4 d-flex justify-content-center">
-            <CodeBlock language="zsh" className="mw-100">
+      <TopAnimation />
+
+
+      <div className="px-3 max-w-full">
+        <div className="max-w-full">
+          <div className="my-10 flex justify-center">
+            <CodeBlock language="zsh" className="max-w-full">
               {`$ npm install @masabando/easy-three`}
             </CodeBlock>
           </div>
-          <div className="mb-5">
-            <h4>
+          <div className="mb-5 mt-20">
+            <h4 className="text-2xl mb-3">
               <T>
                 <>Three.js made simple</>
                 <>Three.js を簡単に</>
@@ -145,8 +111,9 @@ export default function Page() {
               </T>
             </p>
           </div>
-          <div className="mb-5">
-            <h4>
+
+          <div className="mb-5 mt-20">
+            <h4 className="text-2xl mb-3">
               <T>
                 <>No Installation Required</>
                 <>インストール不要</>
@@ -161,7 +128,7 @@ export default function Page() {
                   installation is restricted, such as schools.
                   <br />※ A server is required when loading resources such as
                   images (
-                  <Link href="/getting-started#server">
+                  <Link className="text-blue-500 underline" href="/getting-started#server">
                     details here
                   </Link>
                   ).{" "}
@@ -174,6 +141,7 @@ export default function Page() {
                   学校など、インストールできるソフトウェアが制限されている環境でも利用可能です。
                   <br />※ 画像などのリソースを読み込む場合は、サーバが必要です (
                   <Link
+                    className="text-blue-500 underline"
                     href="/getting-started#server"
                   >
                     詳細はこちら
@@ -183,8 +151,9 @@ export default function Page() {
               </T>
             </p>
           </div>
+
           <div className="d-flex justify-content-center justify-content-md-space-between flex-wrap flex-md-nowrap mw-100 mb-5">
-            <Demo.Simple
+            <DemoSimple
               style={{
                 width: "500px",
                 maxWidth: "100%",
@@ -192,8 +161,8 @@ export default function Page() {
                 overflow: "hidden",
               }}
             />
-            <div className="w-100" style={{ maxWidth: "600px" }}>
-              <h4>
+            <div className="max-w-full" style={{ maxWidth: "600px" }}>
+              <h4 className="text-2xl mb-3">
                 <T>
                   <>Simple Code</>
                   <>シンプルなコード</>
@@ -226,8 +195,9 @@ animate(({ time }) => {
               </CodeBlock>
             </div>
           </div>
+
           <div className="d-flex justify-content-center justify-content-md-space-between flex-wrap flex-md-nowrap mw-100 mb-5">
-            <Demo.ModelAnimation
+            <DemoModelAnimation
               style={{
                 width: "500px",
                 maxWidth: "100%",
@@ -235,8 +205,8 @@ animate(({ time }) => {
                 overflow: "hidden",
               }}
             />
-            <div className="w-100" style={{ maxWidth: "600px" }}>
-              <h4>
+            <div className="mb-5 mt-20">
+              <h4 className="text-2xl mb-3">
                 <T>
                   <>Quick and Easy Model Setup</>
                   <>簡単でスピーディーなモデルセットアップ</>
@@ -246,13 +216,13 @@ animate(({ time }) => {
                 <T>
                   <>
                     Displaying models like VRM is simple ( internally uses{" "}
-                    <a href="https://github.com/pixiv/three-vrm">three-vrm</a>).
+                    <a className="text-blue-500 underline" href="https://github.com/pixiv/three-vrm">three-vrm</a>).
                     <br />
                     Mouse-based camera operation is also easy.
                   </>
                   <>
                     VRMモデルの表示なども簡単にできます (内部で{" "}
-                    <a href="https://github.com/pixiv/three-vrm">three-vrm</a>{" "}
+                    <a className="text-blue-500 underline" href="https://github.com/pixiv/three-vrm">three-vrm</a>{" "}
                     を使用しています)。
                     <br />
                     mocopiでトラッキングしたモーションデータをVRMモデルに簡単に反映できます。<br />
@@ -296,8 +266,8 @@ animate(({ delta }) => {
               </CodeBlock>
             </div>
           </div>
-          <div className="mb-5">
-            <h4>
+          <div className="mb-5 mt-20">
+            <h4 className="text-2xl mb-3">
               <T>
                 <>Can also be used with React</>
                 <>Reactでも利用可能</>
@@ -343,36 +313,43 @@ animate(({ delta }) => {
         </div>
       </div>
 
-      <div className="pb-5">
+
+      <div className="pb-5 px-3 max-w-full">
         <div>
-          <h2>
+          <h2 className="text-3xl mb-5">
             <T>
               <>Comparison with vanilla Three.js</>
               <>vanilla Three.js との比較</>
             </T>
           </h2>
-          <div className="text-center text-md-start">
-            <div className="d-inline-block text-center">
-              <div className="mb-3">easy-three</div>
-              <Progress
-                type="dashboard"
-                percent={~~((100 * 11) / 31)}
-                strokeWidth={10}
-              />
-            </div>
-            <div className="d-inline-block text-center ms-3">
-              <div className="mb-3">vanilla Three.js</div>
-              <Progress
-                type="dashboard"
-                percent={100}
-                strokeWidth={10}
-                percentPosition={{
-                  align: "center",
-                  type: "inner",
-                }}
-                strokeColor="red"
-                status="normal"
-              />
+          <div className="text-center">
+            <div className="flex flex-wrap justify-center gap-10 mb-5">
+              <div>
+                <div className="mb-3">easy-three</div>
+                <div
+                  className="radial-progress text-success text-2xl font-bold"
+                  style={{
+                    "--value": ~~((100 * 11) / 31),
+                    "--size": "9rem",
+                    "--thickness": "0.8rem",
+                  }}
+                >
+                  35%
+                </div>
+              </div>
+              <div>
+                <div className="mb-3">vanilla Three.js</div>
+                <div
+                  className="radial-progress text-error text-2xl font-bold"
+                  style={{
+                    "--value": 100,
+                    "--size": "9rem",
+                    "--thickness": "0.8rem",
+                  }}
+                >
+                  100%
+                </div>
+              </div>
             </div>
             <div className="mt-3">
               <T>
@@ -387,9 +364,12 @@ animate(({ delta }) => {
               </T>
             </div>
           </div>
-          <Row xs={1} lg={2}>
-            <Col>
-              <CodeBlock showLineNumbers filename="easy-three">
+          <div className="flex flex-wrap justify-center mt-6 gap-3">
+            <div className="w-120 max-w-full">
+              <CodeBlock
+                showLineNumbers
+                filename="easy-three"
+              >
                 {`import { init } from "@masabando/easy-three";
 const { camera, create, controls, animate } = init()
 
@@ -412,9 +392,15 @@ animate(({ delta }) => {
   cube.rotation.y += delta
 })`}
               </CodeBlock>
-            </Col>
-            <Col>
-              <CodeBlock showLineNumbers filename="vanilla Three.js">
+            </div>
+            <div className="w-120 max-w-full">
+              <CodeBlock
+                showLineNumbers
+                filename="vanilla Three.js"
+                style={{
+                  maxWidth: "100%",
+                }}
+              >
                 {`import * as THREE from "three";
 import { OrbitControls } from "three/addons/controls/OrbitControls.js";
 const scene = new THREE.Scene();
@@ -456,8 +442,8 @@ function animate() {
 }
 renderer.setAnimationLoop(animate)`}
               </CodeBlock>
-            </Col>
-          </Row>
+            </div>
+          </div>
         </div>
       </div>
     </div>

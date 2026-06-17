@@ -1,24 +1,29 @@
-"use client";
-import Container from "react-bootstrap/Container";
+import Container from "@/components/Container";
 import CodeBlock from "@/components/CodeBlock";
-import Button from "react-bootstrap/Button";
 import T from "@/components/Lang";
 import { Link } from "@/components/BaseKit";
-import { Tag } from "antd";
 import { currentVersion } from "@/components/CurrentVersion";
+import H1 from "@/components/H1";
+import H2 from "@/components/H2";
+import H3 from "@/components/H3";
+
+export const metadata = {
+  title: "Getting Started",
+  description:
+    "easy-threeの使い方を説明します。パッケージマネージャを使う方法、テンプレートを使う方法、CDNを使う方法などを紹介します。",
+};
 
 export default function Page() {
   return (
-    <Container className="pt-4 pb-5">
-      <title>Getting Started | easy-three</title>
-      <h1>Getting Started</h1>
+    <Container>
+      <H1>Getting Started</H1>
 
-      <h2>
+      <H2 className="mt-12">
         <T>
           <>Using Package Manager</>
           <>パッケージマネージャを使う</>
         </T>
-      </h2>
+      </H2>
       <p>
         <T>
           <>
@@ -32,7 +37,7 @@ export default function Page() {
           </>
         </T>
       </p>
-      <CodeBlock filename="Command" language="bash">
+      <CodeBlock filename="Command" language="bash" className="w-140">
         {`npm install @masabando/easy-three`}
       </CodeBlock>
       <T>
@@ -43,17 +48,17 @@ export default function Page() {
           この方法でインストールした場合、以下のようにインポートして下さい。
         </>
       </T>
-      <CodeBlock filename="JavaScript" language="javascript">
+      <CodeBlock filename="JavaScript" language="javascript" className="w-140">
         {`import { init } from "@masabando/easy-three";`}
       </CodeBlock>
 
 
-      <h2>
+      <H2 className="mt-20">
         <T>
           <>Using Template</>
           <>テンプレートを使う</>
         </T>
-      </h2>
+      </H2>
       <p>
         <T>
           <>
@@ -75,12 +80,15 @@ export default function Page() {
         </T>
       </p>
       <div className="my-3">
-        <Button href="../template/easy-three-template.zip">
+        <Link
+          className="btn btn-primary"
+          href="../template/easy-three-template.zip"
+        >
           <T>
             <>Download Template</>
             <>テンプレートのダウンロード</>
           </T>
-        </Button>
+        </Link>
       </div>
       <p>
         <T>
@@ -89,13 +97,13 @@ export default function Page() {
             a web browser.
             <br />
             To edit the code, use an editor like{" "}
-            <a href="https://code.visualstudio.com">VSCode</a>.
+            <a className="text-blue-500 underline" href="https://code.visualstudio.com">VSCode</a>.
           </>
           <>
             index.html をWebブラウザにドラッグ＆ドロップすると表示できます。
             <br />
             コードを書き換えるには、
-            <a href="https://code.visualstudio.com">VSCode</a>
+            <a className="text-blue-500 underline" href="https://code.visualstudio.com">VSCode</a>
             などのエディタを使ってください。
           </>
         </T>
@@ -104,21 +112,21 @@ export default function Page() {
         <T>
           <>
             For more information on how to use the template, see the{" "}
-            <Link href="/reference">Reference</Link> .
+            <Link className="text-blue-500 underline" href="/reference">Reference</Link> .
           </>
           <>
             テンプレートの使い方については、{" "}
-            <Link href="/reference">Reference</Link> を参照してください。
+            <Link className="text-blue-500 underline" href="/reference">Reference</Link> を参照してください。
           </>
         </T>
       </p>
 
-      <h2>
+      <H2 className="mt-20">
         <T>
           <>Using CDN</>
           <>CDNを使う</>
         </T>
-      </h2>
+      </H2>
       <T>
         <>
           You can use easy-three without downloading by using a CDN.
@@ -144,7 +152,7 @@ export default function Page() {
   }
 </script>`}
       </CodeBlock>
-      <CodeBlock filename="JavaScript" language="javascript">
+      <CodeBlock filename="JavaScript" language="javascript" className="w-140">
         {`import { init } from "@masabando/easy-three";`}
       </CodeBlock>
 
@@ -197,12 +205,12 @@ export default function Page() {
 
 </html>`}</CodeBlock>
 
-      <h2 id="server">
+      <H2 id="server" className="mt-20">
         <T>
           <>Using Resources Such as Images</>
           <>画像などのリソースを使う場合</>
         </T>
-      </h2>
+      </H2>
       <T>
         <>
           If you want to use resources such as images or VRM models, you need to
@@ -218,15 +226,15 @@ export default function Page() {
           を使う方法を紹介します。
         </>
       </T>
-      <h3 className="mt-4">
+      <H3 className="mt-10">
         VSCode Live Server
-        <Tag color="blue" className="ms-2 align-middle">
+        <span className="ms-2 badge badge-primary badge-soft">
           <T>
             <>Recommended</>
             <>おすすめ！</>
           </T>
-        </Tag>
-      </h3>
+        </span>
+      </H3>
       <T>
         <>
           If you are using VSCode, you can use the Live Server extension.
@@ -241,7 +249,7 @@ export default function Page() {
           で開く」を選択します。
         </>
       </T>
-      <h3 className="mt-4">Node.js</h3>
+      <H3 className="mt-10">Node.js</H3>
       <T>
         <>
           If you have Node.js installed, you can use the serve package.
@@ -256,11 +264,11 @@ export default function Page() {
           HTMLファイルがあるディレクトリで、以下のコマンドを実行します。
         </>
       </T>
-      <CodeBlock filename="Command" language="bash">
+      <CodeBlock filename="Command" language="bash" className="w-140">
         {`npx serve`}
       </CodeBlock>
 
-      <h3 className="mt-4">Python</h3>
+      <H3 className="mt-10">Python</H3>
       <T>
         <>
           If you have Python installed, you can use the http.server module.
@@ -275,7 +283,7 @@ export default function Page() {
           HTMLファイルがあるディレクトリで、以下のコマンドを実行します。
         </>
       </T>
-      <CodeBlock filename="Command" language="bash">
+      <CodeBlock filename="Command" language="bash" className="w-140">
         {`python3 -m http.server`}
       </CodeBlock>
     </Container>

@@ -1,14 +1,16 @@
-"use client";
-import Container from "react-bootstrap/Container";
 import CodeBlock from "@/components/CodeBlock";
 import ReferenceContent from "@/components/ReferenceContent";
-import { Link } from "@/components/BaseKit";
+import H1 from "@/components/H1";
+import H2 from "@/components/H2";
+
+export const metadata = {
+  title: "destroy",
+};
 
 export default function Page() {
   return (
-    <Container className="pt-4 pb-5">
-      <title>destroy | easy-three</title>
-      <h1 className="mb-5">destroy</h1>
+    <div>
+      <H1>destroy</H1>
       <ReferenceContent
         name="destroy"
         args=""
@@ -27,7 +29,7 @@ export default function Page() {
         それ以外の用途で利用する必要はありません。
       </p>
 
-      <h2>コードの例 (React)</h2>
+      <H2 className="mt-14">コードの例 (React)</H2>
       <CodeBlock>
         {`useEffect(() => {
   const { camera, create, animate, destroy } = init();
@@ -38,7 +40,6 @@ export default function Page() {
 }, []);
 `}
       </CodeBlock>
-
-    </Container>
+    </div>
   );
 }

@@ -1,56 +1,18 @@
-"use client";
-import Container from "react-bootstrap/Container";
 import CodeBlock from "@/components/CodeBlock";
-import { useEffect, useRef } from "react";
-import { init } from "@dist/easy-three.js";
 import ReferenceContent from "@/components/ReferenceContent";
-import { Note } from "@/components/BaseKit";
+import H1 from "@/components/H1";
+import H2 from "@/components/H2";
+import H3 from "@/components/H3";
+import { Ex1, Ex2 } from "./Codes";
 
-function Ex1(props) {
-  const ref = useRef();
-  useEffect(() => {
-    const { camera, create, animate, destroy } = init(ref.current);
-    camera.position.set(0, 0, 3);
-    create.ambientLight();
-    create.directionalLight();
+export const metadata = {
+  title: "create.capsule",
+};
 
-    create.capsule();
-
-    animate();
-    return () => {
-      destroy();
-    };
-  }, []);
-  return <div ref={ref} {...props}></div>;
-}
-
-function Ex2(props) {
-  const ref = useRef();
-  useEffect(() => {
-    const { camera, create, animate, destroy, THREE, Default } = init(
-      ref.current
-    );
-    camera.position.set(0, 2, 2);
-    create.ambientLight();
-    create.directionalLight();
-
-    create.cylinder();
-
-    animate()
-    return () => {
-      destroy();
-    };
-  }, []);
-  return <div ref={ref} {...props}></div>;
-}
-
-
-
-export default function Reference_Create_Cube() {
+export default function Reference_Create_Capsule() {
   return (
-    <Container className="pt-4 pb-5">
-      <title>create.capsule | easy-three</title>
-      <h1>create.capsule / create.cylinder</h1>
+    <div>
+      <H1>create.capsule / create.cylinder</H1>
       <ReferenceContent
         name="create.capsule"
         args="props : Object"
@@ -58,7 +20,7 @@ export default function Reference_Create_Cube() {
         argsInfo={
           <div>
             <span>props</span> - 設定オブジェクト。
-            <ul>
+            <ul className="list-disc list-inside ml-4">
               <li>size (Array | Number) : サイズ (デフォルト : 1)。</li>
               <li>segments (Number | Array) : 分割数 (デフォルト : [10, 20])。</li>
               <li>position (Array) : 位置 (デフォルト : [0, 0, 0])。</li>
@@ -88,7 +50,7 @@ export default function Reference_Create_Cube() {
       >
         <p>カプセルを作成してシーンに追加します。</p>
       </ReferenceContent>
-      <p>
+      <p className="mt-4">
         size と segments については、通常2つの値を持つ配列で指定します。
         <br />
         配列でなく1つの数値を指定した場合、その値を2つ持つ配列として扱います。
@@ -103,7 +65,7 @@ export default function Reference_Create_Cube() {
         argsInfo={
           <div>
             <span>props</span> - 設定オブジェクト。
-            <ul>
+            <ul className="list-disc list-inside ml-4">
               <li>size (Array | Number) : サイズ (デフォルト : [1, 1, 2])。</li>
               <li>
                 segments (Number | Array) : 分割数 (デフォルト : [32, 1])。
@@ -143,7 +105,7 @@ export default function Reference_Create_Cube() {
       >
         <p>円柱を作成してシーンに追加します。</p>
       </ReferenceContent>
-      <p>
+      <p className="mt-4">
         size については通常3つ、segments については通常2つの値を持つ配列で指定します。
         <br />
         配列でなく1つの数値を指定した場合、その値を3つまたは2つ持つ配列として扱います。
@@ -151,8 +113,8 @@ export default function Reference_Create_Cube() {
         (例 : size: 1 は [1, 1, 1] と同じ)
       </p>
 
-      <h2>コードの例</h2>
-      <h4>カプセル</h4>
+      <H2 className="mt-14">コードの例</H2>
+      <H3>カプセル</H3>
       <Ex1
         className="border"
         style={{
@@ -172,7 +134,7 @@ animate()
 `}
       </CodeBlock>
 
-      <h4 className="mt-5">円柱</h4>
+      <H3 className="mt-10">円柱</H3>
       <Ex2
         className="border"
         style={{
@@ -191,6 +153,6 @@ create.cylinder()
 animate()
 `}
       </CodeBlock>
-    </Container>
+    </div>
   );
 }

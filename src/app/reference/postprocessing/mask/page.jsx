@@ -1,69 +1,18 @@
-"use client";
-import Container from "react-bootstrap/Container";
 import CodeBlock from "@/components/CodeBlock";
-import { useEffect, useRef } from "react";
-import { init } from "@dist/easy-three.js";
 import ReferenceContent from "@/components/ReferenceContent";
-import { Link } from "@/components/BaseKit";
+import { Ex1, Ex2 } from "./Codes";
+import H1 from "@/components/H1";
+import H2 from "@/components/H2";
+import H3 from "@/components/H3";
 
-function Ex1(props) {
-  const ref = useRef();
-  useEffect(() => {
-    const { camera, create, animate, load, postprocessing, destroy } = init(ref.current);
-    camera.position.set(0, 0, 2);
-
-    const torusKnot = create.torusKnot({ size: 0.5, tube: 0.16 });
-
-    const texture = load.texture(
-      "/easy-three/texture/img/red_brick_diff_1k.jpg"
-    );
-    const { mask } = postprocessing.mask(texture);
-    animate(({ delta, time }) => {
-      torusKnot.rotation.x += delta;
-      torusKnot.rotation.y += delta;
-      mask(time)
-    }, false);
-    return () => {
-      destroy();
-    };
-  }, []);
-  return <div ref={ref} {...props}></div>;
-}
-
-function Ex2(props) {
-  const ref = useRef();
-  useEffect(() => {
-    const { camera, create, animate, load, postprocessing, destroy } = init(
-      ref.current
-    );
-    camera.position.set(0, 0, 2);
-    const torusKnot = create.torusKnot({ size: 0.5, tube: 0.16 });
-
-    const texture = load.background(
-      "/easy-three/texture/hdr/kloofendal_48d_partly_cloudy_puresky_1k.hdr",
-      {
-        background: false,
-        environment: false,
-      }
-    );
-    const { mask } = postprocessing.mask(texture);
-    animate(({ delta, time }) => {
-      torusKnot.rotation.x += delta;
-      torusKnot.rotation.y += delta;
-      mask(time);
-    }, false);
-    return () => {
-      destroy();
-    };
-  }, []);
-  return <div ref={ref} {...props}></div>;
-}
+export const metadata = {
+  title: "postprocessing.mask",
+};
 
 export default function Page() {
   return (
-    <Container className="pt-4 pb-5">
-      <title>postprocessing.mask | easy-three</title>
-      <h1>postprocessing.mask</h1>
+    <div>
+      <H1>postprocessing.mask</H1>
       <ReferenceContent
         name="postprocessing.mask"
         args="texture : Texture"
@@ -84,8 +33,8 @@ export default function Page() {
         <br />
         animate の第2引数を false にしてください。
       </ReferenceContent>
-      <h2>コードの例</h2>
-      <h4>マスクエフェクト</h4>
+      <H2 className="mt-14">コードの例</H2>
+      <H3>マスクエフェクト</H3>
       <Ex1
         className="border"
         style={{
@@ -111,7 +60,7 @@ animate(({ delta, time }) => {
 }, false)
 `}
       </CodeBlock>
-      <h4 className="mt-5">HDR画像をテクスチャとして使う</h4>
+      <H3 className="mt-10">HDR画像をテクスチャとして使う</H3>
       <Ex2
         className="border"
         style={{
@@ -140,6 +89,6 @@ animate(({ delta, time }) => {
 }, false)
 `}
       </CodeBlock>
-    </Container>
+    </div>
   );
 }

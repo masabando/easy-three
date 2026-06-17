@@ -1,22 +1,28 @@
-"use client";
-import Container from "react-bootstrap/Container";
-import styles from "./Examples.module.scss";
-import { Flex } from "antd";
+import Container from "@/components/Container";
+import H1 from "@/components/H1";
+
+export const metadata = {
+  title: "Examples",
+  description: "easy-threeのサンプルを紹介します。",
+};
 
 function ExampleLink({ name, dir, creator }) {
   return (
-    <div className={styles.exampleLink}>
+    <div className="w-40 shadow-lg bg-gray-800">
       <a href={`/easy-three/page/examples/${dir}/index.html`}>
-        <img src={`/easy-three/page/examples/${dir}.png`} alt="Dice" />
+        <img src={`/easy-three/page/examples/${dir}.png`} alt={name} />
       </a>
-      <div className="bg-dark">
-        <div>{name}</div>
+      <div className="bg-gray-800 text-white p-2 text-sm">
+        <div className="text-lg">{name}</div>
         {creator && <div>by {creator}</div>}
-        <a
-          href={`https://github.com/masabando/easy-three/blob/dev/public/page/examples/${dir}/index.html`}
-        >
-          View Code
-        </a>
+        <div className="mt-2">
+          <a
+            className="btn btn-primary btn-sm btn-soft"
+            href={`https://github.com/masabando/easy-three/blob/dev/public/page/examples/${dir}/index.html`}
+          >
+            View Code
+          </a>
+        </div>
       </div>
     </div>
   );
@@ -24,14 +30,13 @@ function ExampleLink({ name, dir, creator }) {
 
 export default function Page() {
   return (
-    <Container className="pt-4 pb-5">
-      <title>Examples | easy-three</title>
-      <h1>Examples</h1>
+    <Container>
+      <H1>Examples</H1>
 
-      <Flex justify="start" wrap gap={20} className="mt-5">
+      <div className="flex justify-start flex-wrap gap-4 mt-5">
         <ExampleLink dir="dice" name="Dice" creator="KUTC-KaedeYuto" />
         <ExampleLink dir="events" name="Events" creator="KUTC-KaedeYuto" />
-      </Flex>
+      </div>
     </Container>
   );
 }

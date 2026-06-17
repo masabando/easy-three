@@ -1,161 +1,18 @@
-"use client";
-import Container from "react-bootstrap/Container";
 import CodeBlock from "@/components/CodeBlock";
-import { useEffect, useRef } from "react";
-import { init } from "@dist/easy-three.js";
 import ReferenceContent from "@/components/ReferenceContent";
-import { Note } from "@/components/BaseKit";
-import { Button } from "react-bootstrap";
+import H1 from "@/components/H1";
+import H2 from "@/components/H2";
+import H3 from "@/components/H3";
+import { Ex1, Ex2 } from "./Codes";
 
-function Ex1(props) {
-  const ref = useRef();
-  const soundRef = useRef();
-  useEffect(() => {
-    const { camera, controls, create, animate, destroy, THREE, Default } = init(ref.current);
-    controls.connect();
-    camera.position.set(0, 1, 0);
+export const metadata = {
+  title: "create.positionalAudio",
+};
 
-    create.ambientLight({ intensity: 0.2 });
-    create.directionalLight({ intensity: 1, position: [5, 5, -7] });
-
-    const cube = create.cube({ size: 0.2 });
-    controls.target.set(0, 0, 1);
-
-    soundRef.current = create.positionalAudio(
-      "/easy-three/sound/chill_gravity.mp3",
-      camera,
-      {
-        refDistance: 1,
-        maxDistance: 100,
-      }
-    )
-    cube.add(soundRef.current);
-
-    animate(({ time }) => {
-      cube.position.z = 10*Math.abs(Math.sin(time));
-    });
-    return () => {
-      soundRef.current.destroy();
-      destroy();
-    };
-  }, []);
+export default function Reference_Create_PositionalAudio() {
   return (
     <div>
-      <div className="mb-2">
-        <Button
-          size="sm" variant="primary"
-          onClick={() => {
-            if (soundRef.current.isPlaying) {
-              soundRef.current.stop();
-            } else {
-              soundRef.current.play();
-            }
-          }}
-        >
-          再生
-        </Button>
-      </div>
-      <div ref={ref} {...props}></div>
-    </div>
-  );
-}
-
-function Ex2(props) {
-  const ref = useRef();
-  const soundRef = useRef();
-  useEffect(() => {
-    const { camera, controls, create, animate, destroy, THREE, Default } = init(
-      ref.current
-    );
-    controls.connect();
-    camera.position.set(0, 1, 1);
-
-    create.ambientLight({ intensity: 0.2 });
-    create.directionalLight({ intensity: 1, position: [5, 5, -7] });
-
-    const cube = create.cube({ size: 0.5 });
-
-    soundRef.current = create.positionalAudio(
-      "/easy-three/sound/chill_gravity.mp3",
-      camera,
-      {
-        refDistance: 1,
-        maxDistance: 100,
-        innerAngle: 60,
-        outerAngle: 180,
-        outerGain: 0,
-      }
-    );
-    cube.lookAt(0, 0, 0);
-    cube.add(soundRef.current);
-
-    animate(({ time }) => {
-      cube.rotation.y += 0.01;
-    });
-    return () => {
-      soundRef.current.destroy();
-      destroy();
-    };
-  }, []);
-  return (
-    <div>
-      <div className="mb-2">
-        <Button
-          size="sm"
-          variant="primary"
-          onClick={() => {
-            if (soundRef.current.isPlaying) {
-              soundRef.current.stop();
-            } else {
-              soundRef.current.play();
-            }
-          }}
-        >
-          再生
-        </Button>
-      </div>
-      <div ref={ref} {...props}></div>
-    </div>
-  );
-}
-
-function Ex3(props) {
-  const ref = useRef();
-  useEffect(() => {
-    const { camera, create, animate, destroy, THREE, Default } = init(
-      ref.current
-    );
-    camera.position.set(0, 0, 2);
-    const pointLight = create.pointLight({
-      position: [0, 0, 1],
-      helper: 0.1,
-      helperColor: 0xff0000,
-    });
-
-    const cube = create.cube();
-
-    animate(({ delta, time }) => {
-      cube.rotation.x += delta;
-      cube.rotation.y += delta;
-      pointLight.position.set(
-        Math.sin(time),
-        0,
-        Math.cos(time)
-      )
-    });
-    return () => {
-      destroy();
-    };
-  }, []);
-  return <div ref={ref} {...props}></div>;
-}
-
-
-export default function Reference_Create_Cube() {
-  return (
-    <Container className="pt-4 pb-5">
-      <title>create.positionalAudio | easy-three</title>
-      <h1>create.positionalAudio</h1>
+      <H1>create.positionalAudio</H1>
       <ReferenceContent
         name="create.positionalAudio"
         args="soundFile : String, target : Object, props : Object"
@@ -170,7 +27,7 @@ export default function Reference_Create_Cube() {
             </div>
             <div>
               <span>props</span> - 設定オブジェクト。
-              <ul>
+              <ul className="list-disc list-inside ml-4">
                 <li>
                   refDistance (Number) : 音声の参照距離 (デフォルト : 1)。
                 </li>
@@ -233,10 +90,10 @@ export default function Reference_Create_Cube() {
         戻り値である音源は、Meshに持たせることができます。
       </ReferenceContent>
 
-      <h2>コードの例</h2>
-      <h4>点音源</h4>
+      <H2 className="mt-14">コードの例</H2>
+      <H3>点音源</H3>
       <Ex1
-        className="border"
+        className="border my-4"
         style={{
           width: "240px",
           height: "240px",
@@ -272,14 +129,14 @@ animate(({ time }) => {
 });
 `}
       </CodeBlock>
-      <h4 className="mt-5">指向性コーン</h4>
-      <p>
+      <H3 className="mt-10">指向性コーン</H3>
+      <p className="mb-4">
         innerAngle、outerAngle、outerGainを設定することで、指向性コーンを持つ点音源を作成できます。
         <br />
         指向性コーンは、音源が特定の方向に向かって音を放射するように設定するために使用されます。
       </p>
       <Ex2
-        className="border"
+        className="border my-4"
         style={{
           width: "240px",
           height: "240px",
@@ -319,6 +176,6 @@ animate(({ time }) => {
 });
 `}
       </CodeBlock>
-    </Container>
+    </div>
   );
 }

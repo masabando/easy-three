@@ -1,9 +1,8 @@
 "use client";
-import { ConfigProvider, Flex, Popover } from "antd";
 import { BsCopy } from "react-icons/bs";
 import SyntaxHighlighter from "react-syntax-highlighter";
 import { a11yDark } from "react-syntax-highlighter/dist/esm/styles/hljs";
-import T from "./Lang";
+import { useState, useRef } from "react";
 
 export default function CodeBlock({
   language = "javascript",
@@ -13,55 +12,34 @@ export default function CodeBlock({
   showLineNumbers = false,
   children,
 }) {
+  const [msg, setMsg] = useState("");
+  const ref = useRef();
   return (
-    <div className={`my-3 ${className}`} style={style}>
+    <div className={`my-6 max-w-full ${className}`} style={style}>
       {filename && (
-        <Flex
-          justify="space-between"
-          className="bg-secondary text-white px-3 py-2 rounded-top"
-          style={{
-            fontSize: "90%",
-          }}
-        >
+        <div className="flex justify-between bg-gray-500 text-white px-3 py-2 rounded-t-lg text-sm max-w-full">
           {filename}
-          <ConfigProvider
-            theme={{
-              components: {
-                Popover: {
-                  titleMinWidth: 10,
-                },
-              },
-            }}
-          >
-            <Popover
-              content={
-                <div>
-                  <T>
-                    <>copied to clipboard!</>
-                    <>クリップボードにコピーしました！</>
-                  </T>
-                </div>
-              }
-              title=""
-              trigger="click"
-            >
-              <div>
-                <BsCopy
-                  className="ms-auto"
-                  onClick={() => {
-                    navigator.clipboard.writeText(children);
-                  }}
-                />
-              </div>
-            </Popover>
-          </ConfigProvider>
-        </Flex>
+          <div className="flex items-center gap-2">
+            <div className="font-bold">{msg}</div>
+            <BsCopy
+              className="ms-auto cursor-pointer"
+              onClick={() => {
+                navigator.clipboard.writeText(children);
+                setMsg("copied!");
+                if (ref.current) {
+                  clearTimeout(ref.current);
+                }
+                ref.current = setTimeout(() => setMsg(""), 1000);
+              }}
+            />
+          </div>
+        </div>
       )}
       <SyntaxHighlighter
         showLineNumbers={showLineNumbers}
         language={language}
         style={a11yDark}
-        className={`${filename ? "rounded-bottom" : "rounded"} p-3`}
+        className={`${filename ? "rounded-b-lg" : "rounded-lg"} p-3! text-sm max-w-full!`}
       >
         {children}
       </SyntaxHighlighter>

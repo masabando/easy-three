@@ -1,62 +1,19 @@
-"use client"
-import Container from "react-bootstrap/Container";
 import CodeBlock from "@/components/CodeBlock";
-import { useEffect, useRef } from "react";
-import { init } from "@dist/easy-three.js";
-import { noto } from "@/app/layout"
 import ReferenceContent from "@/components/ReferenceContent";
 import { Note, Link } from "@/components/BaseKit";
+import { Ex1, Ex2 } from "./Codes";
+import H1 from "@/components/H1";
+import H2 from "@/components/H2";
+import H3 from "@/components/H3";
 
-function Ex1(props) {
-  const ref = useRef();
-  useEffect(() => {
-    const { camera, create, animate, destroy } = init(ref.current);
-    camera.position.set(0, 0, 3);
-
-    const text = create.text("easy-three", {
-      size: [3, 1],
-      font: noto.style.fontFamily
-    })
-    animate(({ delta }) => {
-      text.rotation.x += delta;
-      text.rotation.y += delta;
-    });
-    return () => {
-      destroy();
-    };
-  }, []);
-  return <div ref={ref} {...props}></div>;
-}
-
-function Ex2(props) {
-  const ref = useRef();
-  useEffect(() => {
-    const { camera, create, animate, destroy } = init(ref.current);
-    camera.position.set(0, 0, 3);
-
-    const text = create.text("easy-three", {
-      size: [3, 1],
-      font: noto.style.fontFamily,
-      guide: 4,
-      background: "#66ff66"
-    });
-    animate(({ delta }) => {
-      text.rotation.x += delta;
-      text.rotation.y += delta;
-    });
-    return () => {
-      destroy();
-    };
-  }, []);
-  return <div ref={ref} {...props}></div>;
-}
-
+export const metadata = {
+  title: "create.text",
+};
 
 export default function Page() {
   return (
-    <Container className="pt-4 pb-5">
-      <title>create.text | easy-three</title>
-      <h1>create.text</h1>
+    <div>
+      <H1>create.text</H1>
 
       <ReferenceContent
         name="create.text"
@@ -69,7 +26,7 @@ export default function Page() {
             </div>
             <div>
               <span>props</span> - 設定オブジェクト。
-              <ul>
+              <ul className="list-disc list-inside ml-4">
                 <li>
                   fontSize (Number) : テキストのサイズ (デフォルト : 48)。
                 </li>
@@ -131,7 +88,7 @@ export default function Page() {
         </p>
       </ReferenceContent>
 
-      <p>
+      <p className="mt-4">
         通常の Three.js の TextGeometry とは異なり、
         透明の平面に対してテキストを描画したテクスチャを貼り付けることで実現しています。
         <br />
@@ -141,19 +98,19 @@ export default function Page() {
         </Note>
         。
       </p>
-      <p>
+      <p className="mt-4">
         テキストを描画したテクスチャについては{" "}
-        <Link href="/reference/create/textTexture">create.textTexture</Link> を用いて作成しています。
+         <Link className="text-blue-500 underline" href="/reference/create/textTexture">create.textTexture</Link> を用いて作成しています。
       </p>
-      <p>
+      <p className="mt-4">
         平面のサイズについては、ガイドラインの幅 (guide)
         に0より大きな値を指定することや、 背景色 (background)
         を指定することで確認できます。
         <br />
       </p>
 
-      <h2>コードの例</h2>
-      <h4>テキストの作成</h4>
+      <H2 className="mt-14">コードの例</H2>
+      <H3>テキストの作成</H3>
       <Ex1
         className="border"
         style={{
@@ -176,7 +133,7 @@ animate(({ delta }) => {
 `}
       </CodeBlock>
 
-      <h4 className="mt-5">ガイドと背景色の設定</h4>
+      <H3 className="mt-10">ガイドと背景色の設定</H3>
       <Ex2
         className="border"
         style={{
@@ -200,6 +157,6 @@ animate(({ delta }) => {
 })
 `}
       </CodeBlock>
-    </Container>
+    </div>
   );
 }

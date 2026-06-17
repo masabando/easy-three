@@ -2,7 +2,8 @@
 import { useEffect, useRef, useState } from "react";
 import { init } from "@dist/easy-three";
 import GUI from "lil-gui";
-import styles from "./page.module.scss";
+import styles from "./page.module.css";
+import H1 from "@/components/H1";
 
 const emotionsList = [
   {
@@ -320,7 +321,7 @@ export default function Page() {
 
   return (
     <div>
-      <h1>モデルコントローラ</h1>
+      <H1>モデルコントローラ</H1>
       <div>
         好きなVRMファイルをドラッグ＆ドロップすると、そのモデルが表示されます。
       </div>

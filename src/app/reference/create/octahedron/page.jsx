@@ -1,64 +1,18 @@
-"use client";
-import Container from "react-bootstrap/Container";
 import CodeBlock from "@/components/CodeBlock";
-import { useEffect, useRef } from "react";
-import { init } from "@dist/easy-three.js";
 import ReferenceContent from "@/components/ReferenceContent";
-import { Note } from "@/components/BaseKit";
+import H1 from "@/components/H1";
+import H2 from "@/components/H2";
+import H3 from "@/components/H3";
+import { Ex1, Ex2 } from "./Codes";
 
-function Ex1(props) {
-  const ref = useRef();
-  useEffect(() => {
-    const { camera, create, animate, destroy } = init(ref.current);
-    camera.position.set(0, 2, 2);
-    create.ambientLight();
-    create.directionalLight();
+export const metadata = {
+  title: "create.octahedron",
+};
 
-    const octahedron = create.octahedron();
-
-    animate(({ delta }) => {
-      octahedron.rotation.x += delta;
-      octahedron.rotation.y += delta;
-    });
-    return () => {
-      destroy();
-    };
-  }, []);
-  return <div ref={ref} {...props}></div>;
-}
-
-function Ex2(props) {
-  const ref = useRef();
-  useEffect(() => {
-    const { camera, create, animate, destroy, THREE, Default } = init(
-      ref.current
-    );
-    camera.position.set(0, 2, 2);
-    create.ambientLight();
-    create.directionalLight();
-
-    const octahedron = create.octahedron({
-      detail: 1,
-    });
-
-    animate(({ delta }) => {
-      octahedron.rotation.x += delta;
-      octahedron.rotation.y += delta;
-    })
-    return () => {
-      destroy();
-    };
-  }, []);
-  return <div ref={ref} {...props}></div>;
-}
-
-
-
-export default function Reference_Create_Cube() {
+export default function Reference_Create_Octahedron() {
   return (
-    <Container className="pt-4 pb-5">
-      <title>create.octahedron | easy-three</title>
-      <h1>create.octahedron</h1>
+    <div>
+      <H1>create.octahedron</H1>
       <ReferenceContent
         name="create.octahedron"
         args="props : Object"
@@ -66,7 +20,7 @@ export default function Reference_Create_Cube() {
         argsInfo={
           <div>
             <span>props</span> - 設定オブジェクト。
-            <ul>
+            <ul className="list-disc list-inside ml-4">
               <li>size (Number) : サイズ (デフォルト : 1)。</li>
               <li>detail (Number) : ディテール (デフォルト : 0)。</li>
               <li>position (Array) : 位置 (デフォルト : [0, 0, 0])。</li>
@@ -101,8 +55,8 @@ export default function Reference_Create_Cube() {
         を増やすことで、さらに多くの面を持つ立体を作成することができます。
       </p>
 
-      <h2>コードの例</h2>
-      <h4>八面体</h4>
+      <H2 className="mt-14">コードの例</H2>
+      <H3>八面体</H3>
       <Ex1
         className="border"
         style={{
@@ -125,7 +79,7 @@ animate(({ delta }) => {
 `}
       </CodeBlock>
 
-      <h4 className="mt-5">多面体</h4>
+      <H3 className="mt-10">多面体</H3>
       <Ex2
         className="border"
         style={{
@@ -149,6 +103,6 @@ animate(({ delta }) => {
 })
 `}
       </CodeBlock>
-    </Container>
+    </div>
   );
 }

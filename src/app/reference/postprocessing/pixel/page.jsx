@@ -1,62 +1,18 @@
-"use client";
-import Container from "react-bootstrap/Container";
 import CodeBlock from "@/components/CodeBlock";
-import { useEffect, useRef } from "react";
-import { init } from "@dist/easy-three.js";
 import ReferenceContent from "@/components/ReferenceContent";
-import { Link } from "@/components/BaseKit";
+import { Ex1, Ex2 } from "./Code";
+import H1 from "@/components/H1";
+import H2 from "@/components/H2";
+import H3 from "@/components/H3";
 
-function Ex1(props) {
-  const ref = useRef();
-  useEffect(() => {
-    const { camera, create, animate, postprocessing, destroy } = init(ref.current);
-    camera.position.set(0, 0, 2);
-    create.ambientLight();
-    create.directionalLight();
-    const cube = create.cube();
-    const { pixel } = postprocessing.pixel();
-    animate(({ delta }) => {
-      cube.rotation.x += delta;
-      cube.rotation.y += delta;
-      pixel()
-    }, false);
-    return () => {
-      destroy();
-    };
-  }, []);
-  return <div ref={ref} {...props}></div>;
-}
-
-function Ex2(props) {
-  const ref = useRef();
-  useEffect(() => {
-    const { camera, create, animate, postprocessing, destroy } = init(
-      ref.current
-    );
-    camera.position.set(0, 0, 2);
-    create.ambientLight();
-    create.directionalLight();
-    const cube = create.cube();
-    const { pixel } = postprocessing.pixel();
-    animate(({ delta, time }) => {
-      cube.rotation.x += delta;
-      cube.rotation.y += delta;
-      pixel({
-        size: ~~(6 + 5 * Math.sin(time)),
-      });
-    }, false);
-    return () => {
-      destroy();
-    };
-  }, []);
-  return <div ref={ref} {...props}></div>;
-}
+export const metadata = {
+  title: "postprocessing.pixel",
+};
 
 export default function Page() {
   return (
-    <Container className="pt-4 pb-5">
-      <title>postprocessing.pixel | easy-three</title>
-      <h1>postprocessing.pixel</h1>
+    <div>
+      <H1>postprocessing.pixel</H1>
       <ReferenceContent
         name="postprocessing.pixel"
         args="props : Object"
@@ -65,7 +21,7 @@ export default function Page() {
           <>
             <div>
               <span>props</span> - 設定オブジェクト。
-              <ul>
+              <ul className="list-disc list-inside ml-4">
                 <li>size (Number) : ピクセルサイズ (デフォルト : 6)。</li>
                 <li>
                   normalEdge (Number) : 法線エッジの強さ (デフォルト : 0.3)。
@@ -91,8 +47,8 @@ export default function Page() {
         </p>
       </ReferenceContent>
 
-      <h2>コードの例</h2>
-      <h4>ピクセルエフェクト</h4>
+      <H2 className="mt-14">コードの例</H2>
+      <H3>ピクセルエフェクト</H3>
       <Ex1
         className="border"
         style={{
@@ -119,7 +75,7 @@ animate(({ delta }) => {
 }, false)
 `}
       </CodeBlock>
-      <h4 className="mt-5">時間とともにピクセルサイズを変更する</h4>
+      <H3 className="mt-14">時間とともにピクセルサイズを変更する</H3>
       <Ex2
         className="border"
         style={{
@@ -148,6 +104,6 @@ animate(({ delta, time }) => {
 }, false)
 `}
       </CodeBlock>
-    </Container>
+    </div>
   );
 }

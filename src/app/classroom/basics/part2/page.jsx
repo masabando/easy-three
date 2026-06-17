@@ -1,30 +1,37 @@
-"use client";
-import { EasyThreeBox, Note } from "@/components/BaseKit";
+import { Note, Code } from "@/components/BaseKit";
 import CodeBlock from "@/components/CodeBlock";
-import { init } from "@dist/easy-three";
+import H1 from "@/components/H1";
+import H2 from "@/components/H2";
+import H3 from "@/components/H3";
+import { Ex1, Ex2, Ex3 } from "./Codes";
+
+export const metadata = {
+  title: "カメラコントロールとガイド",
+};
 
 export default function Page() {
   return (
-    <div className="classroomPart">
-      <h2>2. カメラコントロールとガイド</h2>
+    <div>
+      <H1>2. カメラコントロールとガイド</H1>
       <p>
         このセクションでは、カメラの簡単な操作方法と、
         座標をわかりやすくするためのガイドの表示方法を学びます。
       </p>
-      <h3>カメラコントロール</h3>
+
+      <H2 className="mt-14">カメラコントロール</H2>
       <p>
-        <code>controls</code>{" "}
+        <Code>controls</Code>{" "}
         を使うことで、ユーザのマウス操作やタッチ操作によってカメラを操作することができます。
       </p>
-      <p>
-        <code>controls</code> を利用するには、
+      <p className="mt-4">
+        <Code>controls</Code> を利用するには、
         <Note>
-          1行目の使うものリストに <code>controls</code> を追加し、
-          <code>controls.connect()</code> を記述するだけ
+          1行目の使うものリストに <Code>controls</Code> を追加し、
+          <Code>controls.connect()</Code> を記述するだけ
         </Note>
         です。
       </p>
-      <CodeBlock filename="index.html">
+      <CodeBlock filename="main.js">
         {`const { camera, create, animate, controls } = init();
 
 controls.connect()
@@ -36,28 +43,14 @@ create.cube()
 animate()
 `}
       </CodeBlock>
-      <EasyThreeBox
-        effect={(r) => {
-          const { camera, create, animate, controls, destroy } = init(r);
-          controls.connect();
-          camera.position.set(-2, 2, 2);
-          create.ambientLight();
-          create.directionalLight();
-          create.cube();
-          animate();
-          return {
-            destroy: () => {
-              destroy();
-            },
-          };
-        }}
-      />
+      <Ex1 />
+
       <p>
         これだけで、マウスやタッチ操作によってカメラを操作することができます。
         <br />
         実際に試してみましょう。
       </p>
-      <p>
+      <p className="mt-4">
         また、マウスホイール (スマホならピンチイン・アウト)
         でズームイン・アウトができます。
         <br />
@@ -65,14 +58,14 @@ animate()
         でカメラ位置を並行に移動できます。
       </p>
 
-      <h4>カメラの自動回転</h4>
+      <H3 className="mt-10">カメラの自動回転</H3>
       <p>カメラを自動で回転させることもできます。</p>
       <CodeBlock>{`controls.autoRotate = true
 controls.autoRotateSpeed = 10
 `}</CodeBlock>
       <p>カメラはy軸を中心に自動で回転します。<br />
       カメラの手動操作をONにするかどうかに関わらず利用できます。</p>
-      <CodeBlock filename="index.html">
+      <CodeBlock filename="main.js">
         {`const { camera, create, animate, controls } = init();
 
 controls.autoRotate = true
@@ -85,39 +78,23 @@ create.cube()
 animate()
 `}
       </CodeBlock>
-      <EasyThreeBox
-        effect={(r) => {
-          const { camera, create, animate, controls, destroy } = init(r);
-          controls.autoRotate = true;
-          controls.autoRotateSpeed = 10;
-          camera.position.set(-2, 2, 2);
-          create.ambientLight();
-          create.directionalLight();
-          create.cube();
-          animate();
-          return {
-            destroy: () => {
-              destroy();
-            },
-          };
-        }}
-      />
+      <Ex2 />
 
-      <h3>ガイドの表示</h3>
+      <H2 className="mt-14">ガイドの表示</H2>
       <p>
         3D
         空間上で座標をわかりやすくするために、ガイドを表示することができます。
         <br />
-        ガイドの表示には、<code>helper</code> を使います。
+        ガイドの表示には、<Code>helper</Code> を使います。
       </p>
       <CodeBlock>{`helper.grid()`}</CodeBlock>
       <p>
-        で、<code>y = 0</code> の<code>x-z</code>{" "}
+        で、<Code>y = 0</Code> の<Code>x-z</Code>{" "}
         面にグリッドを表示することができます。
       </p>
       <CodeBlock>{`helper.axes()`}</CodeBlock>
       <p>軸を表示することができます。</p>
-      <CodeBlock filename="index.html">
+      <CodeBlock filename="main.js">
         {`const { camera, create, animate, controls, helper } = init();
 
 controls.autoRotate = true
@@ -131,25 +108,7 @@ create.cube()
 animate()
 `}
       </CodeBlock>
-      <EasyThreeBox
-        effect={(r) => {
-          const { camera, create, animate, controls, helper, destroy } =
-            init(r);
-          controls.autoRotate = true;
-          helper.grid();
-          helper.axes();
-          camera.position.set(-2, 2, 2);
-          create.ambientLight();
-          create.directionalLight();
-          create.cube();
-          animate();
-          return {
-            destroy: () => {
-              destroy();
-            },
-          };
-        }}
-      />
+      <Ex3 />
     </div>
   );
 }

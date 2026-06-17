@@ -1,56 +1,18 @@
-"use client";
-import Container from "react-bootstrap/Container";
 import CodeBlock from "@/components/CodeBlock";
-import { useEffect, useRef } from "react";
-import { init } from "@dist/easy-three.js";
 import ReferenceContent from "@/components/ReferenceContent";
-import { Note } from "@/components/BaseKit";
+import H1 from "@/components/H1";
+import H2 from "@/components/H2";
+import H3 from "@/components/H3";
+import { Ex1, Ex2 } from "./Codes";
 
-function Ex1(props) {
-  const ref = useRef();
-  useEffect(() => {
-    const { camera, create, animate, destroy } = init(ref.current);
-    camera.position.set(0, 2, 2);
-    create.ambientLight();
-    create.directionalLight();
+export const metadata = {
+  title: "create.torus",
+};
 
-    create.torus();
-
-    animate();
-    return () => {
-      destroy();
-    };
-  }, []);
-  return <div ref={ref} {...props}></div>;
-}
-
-function Ex2(props) {
-  const ref = useRef();
-  useEffect(() => {
-    const { camera, create, animate, destroy, THREE, Default } = init(
-      ref.current
-    );
-    camera.position.set(0, 0, 3);
-    create.ambientLight();
-    create.directionalLight();
-
-    create.torusKnot();
-
-    animate()
-    return () => {
-      destroy();
-    };
-  }, []);
-  return <div ref={ref} {...props}></div>;
-}
-
-
-
-export default function Reference_Create_Cube() {
+export default function Reference_Create_Torus() {
   return (
-    <Container className="pt-4 pb-5">
-      <title>create.torus | easy-three</title>
-      <h1>create.torus / create.torusKnot</h1>
+    <div>
+      <H1>create.torus / create.torusKnot</H1>
       <ReferenceContent
         name="create.torus"
         args="props : Object"
@@ -58,7 +20,7 @@ export default function Reference_Create_Cube() {
         argsInfo={
           <div>
             <span>props</span> - 設定オブジェクト。
-            <ul>
+            <ul className="list-disc list-inside ml-4">
               <li>size (Array | Number) : サイズ (デフォルト : 1)。</li>
               <li>tube (Number) : チューブの半径 (デフォルト : 0.4)。</li>
               <li>segments (Number | Array) : 分割数 (デフォルト : 64)。</li>
@@ -89,7 +51,7 @@ export default function Reference_Create_Cube() {
       >
         <p>トーラスを作成してシーンに追加します。</p>
       </ReferenceContent>
-      <p>
+      <p className="mt-4">
         segments については、通常2つの値を持つ配列で指定します。
         <br />
         配列でなく1つの数値を指定した場合、その値を2つ持つ配列として扱います。
@@ -104,7 +66,7 @@ export default function Reference_Create_Cube() {
         argsInfo={
           <div>
             <span>props</span> - 設定オブジェクト。
-            <ul>
+            <ul className="list-disc list-inside ml-4">
               <li>size (Array | Number) : サイズ (デフォルト : 1)。</li>
               <li>tube (Number) : チューブの半径 (デフォルト : 0.3)。</li>
               <li>
@@ -137,7 +99,7 @@ export default function Reference_Create_Cube() {
       >
         <p>トーラス結び目を作成してシーンに追加します。</p>
       </ReferenceContent>
-      <p>
+      <p className="mt-4">
         segments については、通常2つの値を持つ配列で指定します。
         <br />
         配列でなく1つの数値を指定した場合、その値を2つ持つ配列として扱います。
@@ -145,8 +107,8 @@ export default function Reference_Create_Cube() {
         (例 : segments: 64 は [64, 64] と同じ)
       </p>
 
-      <h2>コードの例</h2>
-      <h4>トーラス</h4>
+      <H2 className="mt-14">コードの例</H2>
+      <H3>トーラス</H3>
       <Ex1
         className="border"
         style={{
@@ -166,7 +128,7 @@ animate()
 `}
       </CodeBlock>
 
-      <h4 className="mt-5">トーラス結び目</h4>
+      <H3 className="mt-10">トーラス結び目</H3>
       <Ex2
         className="border"
         style={{
@@ -185,6 +147,6 @@ create.torusKnot()
 animate()
 `}
       </CodeBlock>
-    </Container>
+    </div>
   );
 }

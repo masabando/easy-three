@@ -1,39 +1,18 @@
-"use client";
-import Container from "react-bootstrap/Container";
 import CodeBlock from "@/components/CodeBlock";
-import ReferenceContent from "@/components/ReferenceContent";
-import { Link } from "@/components/BaseKit";
-import { useEffect, useRef } from "react";
-import { init } from "@dist/easy-three.js";
+import H1 from "@/components/H1";
+import H2 from "@/components/H2";
+import H3 from "@/components/H3";
+import { Ex1 } from "./Codes";
 
-function Ex1(props) {
-  const ref = useRef();
-  useEffect(() => {
-    const { camera, create, animate, color, destroy } = init(ref.current);
+export const metadata = {
+  title: "color",
+};
 
-    camera.position.set(-1, 1, 1);
-    create.ambientLight();
-    create.directionalLight();
-
-    create.cube({
-      option: {
-        color: color("hotpink"),
-      }
-    });
-
-    animate();
-    return () => {
-      destroy();
-    };
-  }, []);
-  return <div ref={ref} {...props}></div>;
-}
 
 export default function Page() {
   return (
-    <Container className="pt-4 pb-5">
-      <title>color | easy-three</title>
-      <h1 className="mb-5">color</h1>
+    <div>
+      <H1>color</H1>
 
       <p>
         色を指定するためのユーティリティ関数です。<br />
@@ -46,9 +25,10 @@ export default function Page() {
       <p>CSSと同様に色の名称を指定することもできます。</p>
       <CodeBlock>{`color("hotpink")`}</CodeBlock>
 
-      <h2>コードの例</h2>
-      <h4>色の指定</h4>
+      <H2 className="mt-14">コードの例</H2>
+      <H3>色の指定</H3>
       <Ex1
+        className="border my-4"
         style={{
           width: "240px",
           height: "240px",
@@ -72,6 +52,6 @@ create.cube({
 animate();
 `}
       </CodeBlock>
-    </Container>
+    </div>
   );
 }

@@ -1,91 +1,20 @@
-"use client";
-import Container from "react-bootstrap/Container";
 import CodeBlock from "@/components/CodeBlock";
-import { useEffect, useRef } from "react";
-import { init } from "@dist/easy-three.js";
-import { noto } from "@/app/layout";
 import ReferenceContent from "@/components/ReferenceContent";
-import { Note, Link } from "@/components/BaseKit";
-import { Alert } from "antd";
+import { Note } from "@/components/BaseKit";
+import H1 from "@/components/H1";
+import H2 from "@/components/H2";
+import H3 from "@/components/H3";
+import { Ex1 } from "./Codes";
 
-function Ex1(props) {
-  const ref = useRef();
-  useEffect(() => {
-    const { camera, create, helper, controls, load, animate, destroy } = init(
-      ref.current
-    );
-    create.ambientLight();
-    create.directionalLight();
-    camera.position.set(0, 1.5, -1.5);
-    controls.target.set(0, 1, 0);
+export const metadata = {
+  title: "load.bvh2",
+};
 
-    controls.connect();
-    helper.axes();
-    helper.grid();
-
-    let model;
-    let mixer;
-    load.vrm("/easy-three/model/sample.vrm", {
-      position: [0, -0.55, 0],
-    }).then((vrm) => {
-      model = vrm;
-      load.bvh2("/easy-three/motion/sampleMotion.bvh", vrm).then((_bvhObj) => {
-        mixer = _bvhObj.mixer;
-      });
-    });
-
-    animate(({ delta }) => {
-      if (model && mixer) {
-        mixer.update(delta);
-        model.update(delta);
-      }
-    });
-    return () => {
-      destroy();
-    };
-  }, []);
-  return <div ref={ref} {...props}></div>;
-}
-
-function Ex2(props) {
-  const ref = useRef();
-  useEffect(() => {
-    const { camera, create, helper, controls, load, animate, destroy } = init(
-      ref.current
-    );
-    create.ambientLight();
-    create.directionalLight();
-    camera.position.set(0, 1.5, -1.5);
-    controls.target.set(0, 1, 0);
-
-    controls.connect();
-    helper.axes();
-    helper.grid();
-
-    let model;
-    load.vrm("/easy-three/model/sample.vrm", {
-      position: [0, -0.55, 0],
-    }).then((vrm) => {
-      model = vrm;
-    });
-
-    animate(({ delta }) => {
-      if (model) {
-        model.scene.rotation.y += delta;
-      }
-    });
-    return () => {
-      destroy();
-    };
-  }, []);
-  return <div ref={ref} {...props}></div>;
-}
 
 export default function Page() {
   return (
-    <Container className="pt-4 pb-5">
-      <title>load.bvh2 | easy-three</title>
-      <h1>load.bvh2</h1>
+    <div>
+      <H1>load.bvh2</H1>
 
       <ReferenceContent
         name="load.bvh2"
@@ -101,7 +30,7 @@ export default function Page() {
             </div>
             <div>
               <span>props</span> - 設定オブジェクト。
-              <ul>
+              <ul className="list-disc list-inside ml-4">
                 <li>effectiveWeight (Number) : ウェイト (デフォルト : 1)。</li>
                 <li>
                   timeScale (Number) : タイムスケール (デフォルト : 1000)。
@@ -164,8 +93,8 @@ idList = [
 "l_foot"]`}
       </CodeBlock>
 
-      <h2>コードの例</h2>
-      <h4>BVHによるVRMモデルのアニメーション</h4>
+      <H2 className="mt-14">コードの例</H2>
+      <H3>BVHによるVRMモデルのアニメーション</H3>
       <Ex1
         className="border"
         style={{
@@ -206,6 +135,6 @@ animate(({ delta }) => {
 
 `}
       </CodeBlock>
-    </Container>
+    </div>
   );
 }

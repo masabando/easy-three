@@ -1,9 +1,8 @@
-"use client"
-import Container from "react-bootstrap/Container";
+import Container from "@/components/Container";
 
 export default function Layout({ children }) {
   return (
-    <Container className="pt-4 pb-5">
+    <Container>
       {children}
     </Container>
   );

@@ -1,13 +1,17 @@
-"use client";
-import Container from "react-bootstrap/Container";
 import CodeBlock from "@/components/CodeBlock";
 import { Link, Note } from "@/components/BaseKit";
+import H1 from "@/components/H1";
+import H2 from "@/components/H2";
+import H3 from "@/components/H3";
+
+export const metadata = {
+  title: "Default",
+};
 
 export default function Page() {
   return (
-    <Container className="pt-4 pb-5">
-      <title>Default | easy-three</title>
-      <h1 className="mb-5">Default</h1>
+    <div>
+      <H1>Default</H1>
       <p>
         初期値を定義したオブジェクトです。
         <br />
@@ -15,14 +19,14 @@ export default function Page() {
         の各要素の値を変更することで、デフォルトの設定を変更することができます。
       </p>
       <p>Default オブジェクトは以下のプロパティを持ちます。</p>
-      <ul>
+      <ul className="list-disc list-inside ml-4 my-4">
         <li>
           material (String) : マテリアルタイプ (デフォルト : "Physical")。
         </li>
         <li>color (String | Hex) : 背景色 (デフォルト : 0x1155ff)。</li>
         <li>
           texture (Object) : テクスチャの設定
-          <ul>
+          <ul className="list-disc list-inside ml-4 my-4 border rounded p-4">
             <li>
               wrapping (String) : テクスチャのラッピング (デフォルト :
               "Repeat")。
@@ -31,7 +35,7 @@ export default function Page() {
         </li>
         <li>
           event (Object) : イベントの設定
-          <ul>
+          <ul className="list-disc list-inside ml-4 my-4 border rounded p-4">
             <li>type (String) : イベントのタイプ (デフォルト : "once")。</li>
             <li>
               keyTrigger (RegExp) : キーイベントのトリガー (デフォルト :
@@ -41,10 +45,10 @@ export default function Page() {
         </li>
         <li>
           layer (Object) : レイヤーの設定
-          <ul>
+          <ul className="list-disc list-inside ml-4 my-4 border rounded p-4">
             <li>
               bloom (Number) :{" "}
-              <Link href="/reference/postprocessing/selectedBloom">
+              <Link className="text-blue-500 underline" href="/reference/postprocessing/selectedBloom">
                 postprocessing.selectedBloom
               </Link>{" "}
               がブルームエフェクトに使用するレイヤー番号 (デフォルト : 30)。
@@ -53,7 +57,7 @@ export default function Page() {
         </li>
         <li>
           shader (Object) : シェーダーの設定
-          <ul>
+          <ul className="list-disc list-inside ml-4 my-4 border rounded p-4">
             <li>
               vertexShader (String) : 頂点シェーダーのコード (デフォルト :
               下記参照)。
@@ -83,8 +87,8 @@ void main() {
         </li>
       </ul>
 
-      <h2>コードの例</h2>
-      <h4>デフォルトのマテリアルを変更する</h4>
+      <H2 className="mt-14">コードの例</H2>
+      <H3>デフォルトのマテリアルを変更する</H3>
       <p>
         material には、マテリアルの種類を文字列で指定します。
         <br />
@@ -106,6 +110,6 @@ Default.material = "Basic";
 ...
 `}
       </CodeBlock>
-    </Container>
+    </div>
   );
 }

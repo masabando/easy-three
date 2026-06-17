@@ -1,24 +1,31 @@
-"use client";
-import { EasyThreeBox, Note } from "@/components/BaseKit";
+import { Code, Note } from "@/components/BaseKit";
 import CodeBlock from "@/components/CodeBlock";
-import { init } from "@dist/easy-three";
+import H1 from "@/components/H1";
+import H2 from "@/components/H2";
+import H3 from "@/components/H3";
+import { Ex1 } from "./Codes";
+
+export const metadata = {
+  title: "背景画像の利用と環境マップ",
+};
 
 export default function Page() {
   return (
-    <div className="classroomPart">
-      <h2>1. 背景画像の利用と環境マップ</h2>
+    <div>
+      <H1>1. 背景画像の利用と環境マップ</H1>
       <p>
         このセクションでは、背景画像を利用する方法と、環境マップを使ったリアルな質感表現を学びます。
       </p>
-      <h3>背景画像の用意</h3>
+      <H2 className="mt-14">背景画像の用意</H2>
       <p>
         3Dの背景画像は、空間全体を覆うように配置されます。
         <br />
         そのため、通常に撮影された写真ではなく、全天球画像という特殊な撮影をした写真(または任意の画像)を利用します。
       </p>
-      <p>
+      <p className="mt-4">
         このような画像を無料で入手するには、
         <a
+          className="text-blue-600 underline"
           href="https://polyhaven.com"
           target="_blank"
           rel="noopener noreferrer"
@@ -33,7 +40,7 @@ export default function Page() {
         <br />
         全天球画像は、Poly Haven では HDRIs として配布されています。
       </p>
-      <p>
+      <p className="mt-4">
         背景画像に限ったことではありませんが、 もしあなたが作ったものを
         <Note>Web上に公開する場合は、 著作権に十分注意</Note>してください。
         <br />
@@ -41,9 +48,10 @@ export default function Page() {
         <Note>背景画像などの素材については、再配布していることになる</Note>
         ので注意が必要です。
       </p>
-      <p>
+      <p className="mt-4">
         ここでは、Poly Haven の
         <a
+          className="text-blue-600 underline"
           href="https://polyhaven.com/a/kloofendal_48d_partly_cloudy_puresky"
           target="_blank"
           rel="noopener noreferrer"
@@ -56,12 +64,12 @@ export default function Page() {
         <br />
         「2K」よりも「4K」の方が画質が良いですが、ファイルサイズも大きくなります。
       </p>
-      <p>
+      <p className="mt-4">
         ダウンロードした画像は、
         プログラムのファイルと同じ場所に配置してください。
       </p>
 
-      <h3>背景と環境マップの設定</h3>
+      <H2 className="mt-14">背景と環境マップの設定</H2>
       <p>
         easy-three では、背景の設定と環境マップの設定が同時にできます。<br />
         (環境マップについては、後述します。)
@@ -93,46 +101,18 @@ create.cube({
 animate()
 `}
       </CodeBlock>
-      <EasyThreeBox
-        toggleControls
-        effect={(r) => {
-          const { camera, create, animate, controls, load, destroy } = init(r);
-          camera.position.set(0, -1, 2);
-          controls.autoRotate = true;
-          create.ambientLight();
-          create.directionalLight();
-          load.background(
-            "/easy-three/texture/hdr/kloofendal_48d_partly_cloudy_puresky_1k.hdr"
-          );
-          create.cube({
-            option: {
-              color: 0x99ff99,
-              roughness: 0.1,
-              metalness: 0.7,
-            },
-          });
-          animate();
-          return {
-            destroy: () => {
-              destroy();
-            },
-            controls: (f) => {
-              if (f) controls.connect();
-              else controls.disconnect();
-            },
-          };
-        }}
-      />
+      <Ex1 />
+
       <p>
         実行すると、背景画像が表示され、キューブの表面に背景画像が反映されていることがわかります。<br />
         これが環境マップの効果です。
       </p>
-      <p>
+      <p className="mt-4">
         環境マップとは周囲の風景が反射されたような質感を表現するものなので、
         キューブの粗さが高かったり、金属感が低いと効果がわかりにくくなります。
       </p>
 
-      <p>
+      <p className="mt-4">
         背景画像や環境マップは、
         3Dの世界をよりリアルに見せるために重要な要素です。<br />
         積極的に活用すると良いでしょう。

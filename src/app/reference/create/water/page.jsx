@@ -1,97 +1,19 @@
-"use client"
-import Container from "react-bootstrap/Container";
 import CodeBlock from "@/components/CodeBlock";
-import { useEffect, useRef } from "react";
-import { init } from "@dist/easy-three.js";
 import ReferenceContent from "@/components/ReferenceContent";
-import { Note, Link } from "@/components/BaseKit";
+import { Link } from "@/components/BaseKit";
+import H1 from "@/components/H1";
+import H2 from "@/components/H2";
+import H3 from "@/components/H3";
+import { Ex1, Ex2 } from "./Codes";
 
+export const metadata = {
+  title: "create.water",
+};
 
-function Ex1(props) {
-  const ref = useRef();
-  useEffect(() => {
-    const { camera, controls, create, animate, load, destroy } = init(ref.current);
-    controls.connect();
-    camera.position.set(0, 4, -4);
-    create.ambientLight({ intensity: 1 });
-    create.directionalLight({ intensity: 1 });
-
-    create.sky();
-
-    // const cube = create.cube({ position: [0, 2, 0] });
-
-    create.plane({
-      size: 8,
-      rotation: [-Math.PI / 2, 0, 0],
-      option: {
-        map: load.texture("/easy-three/texture/img/red_brick_diff_1k.jpg"),
-      }
-    })
-
-    const water = create.water(
-      "/easy-three/texture/water/NormalMap-1.jpg",
-      "/easy-three/texture/water/NormalMap-2.jpg",
-      {
-        size: 5,
-        position: [0, 1, 0],
-        scale: 0.4,
-      }
-    );
-
-    animate(({ delta }) => {
-      // cube.rotation.x += delta;
-      // cube.rotation.y += delta;
-    });
-    return () => {
-      destroy();
-    };
-  }, []);
-  return <div ref={ref} {...props}></div>;
-}
-
-function Ex2(props) {
-  const ref = useRef();
-  useEffect(() => {
-    const { camera, controls, create, animate, load, THREE, destroy } = init(ref.current);
-    controls.connect();
-    camera.position.set(0, 4, -4);
-    create.ambientLight({ intensity: 1 });
-    create.directionalLight({ intensity: 1 });
-
-    create.sky();
-
-    create.plane({
-      size: 14,
-      rotation: [-Math.PI / 2, 0, 0],
-      option: {
-        map: load.texture("/easy-three/texture/img/red_brick_diff_1k.jpg"),
-      }
-    })
-
-    create.water(
-      "/easy-three/texture/water/NormalMap-1.jpg",
-      "/easy-three/texture/water/NormalMap-2.jpg",
-      {
-        scale: 0.4,
-        position: [0, 2.2, 0],
-        geometry: new THREE.SphereGeometry(2, 32, 32),
-      });
-
-    animate();
-    return () => {
-      destroy();
-    };
-  }, []);
-  return <div ref={ref} {...props}></div>;
-}
-
-
-
-export default function Reference_Create_Cube() {
+export default function Reference_Create_Water() {
   return (
-    <Container className="pt-4 pb-5">
-      <title>create.water | easy-three</title>
-      <h1>create.water</h1>
+    <div>
+      <H1>create.water</H1>
       <ReferenceContent
         name="create.water"
         args="normalMap0 : String, normalMap1 : String, props : Object"
@@ -105,7 +27,7 @@ export default function Reference_Create_Cube() {
               <span>normalMap1</span> - テクスチャのURL。
             </div>
             <span>props</span> - 設定オブジェクト。
-            <ul>
+            <ul className="list-disc list-inside ml-4">
               <li>size (Array | Number) : サイズ (デフォルト : 1)。</li>
               <li>
                 geometry (Geometry) : ジオメトリ (デフォルト : null)。
@@ -137,34 +59,34 @@ export default function Reference_Create_Cube() {
       >
         <p>
           水のようなオブジェクトを作成します。<br />
-          海面を表現するには、<Link href="/reference/create/ocean">create.ocean</Link> を使用してください。
+          海面を表現するには、<Link className="text-blue-500 underline" href="/reference/create/ocean">create.ocean</Link> を使用してください。
         </p>
-        <p>
+        <p className="mt-4">
           環境マップを利用したほうが、よりリアルな水面を表現できます。<br />
-          <Link href="/reference/load/background">load.background</Link> で環境マップを読み込んでおくことをお勧めします。
+          <Link className="text-blue-500 underline" href="/reference/load/background">load.background</Link> で環境マップを読み込んでおくことをお勧めします。
         </p>
-        <p>
+        <p className="mt-4">
           通常、ジオメトリは PlaneGeometryを使用します。<br />
           sizeはこのジオメトリのサイズを指定します。<br />
           他のジオメトリを使用する場合は、geometryで指定してください。
         </p>
-        <p>
+        <p className="mt-4">
           水面を表現するノーマルマップは2つ必要です。<br />
           水面を表すノーマルマップの作成については、
-          <Link href="/reference/create/ocean">create.ocean</Link>を参照してください。
+          <Link className="text-blue-500 underline" href="/reference/create/ocean">create.ocean</Link>を参照してください。
         </p>
-        <p>
+        <p className="mt-4">
           easy-three では、サンプルの水面テクスチャを2つ用意しています。<br />
           どちらもeasy-threeのオリジナル制作物であり、CC-0ライセンスで再配布を含め自由にお使いいただけます。
         </p>
-        <ul>
-          <li><a href="/easy-three/texture/water/NormalMap-1.jpg">NormalMap-1.jpg</a></li>
-          <li><a href="/easy-three/texture/water/NormalMap-2.jpg">NormalMap-2.jpg</a></li>
+        <ul className="list-disc list-inside ml-4 my-4">
+          <li><a className="text-blue-500 underline" href="/easy-three/texture/water/NormalMap-1.jpg">NormalMap-1.jpg</a></li>
+          <li><a className="text-blue-500 underline" href="/easy-three/texture/water/NormalMap-2.jpg">NormalMap-2.jpg</a></li>
         </ul>
 
       </ReferenceContent>
-      <h2>コードの例</h2>
-      <h4>水の作成</h4>
+      <H2 className="mt-14">コードの例</H2>
+      <H3>水の作成</H3>
       <Ex1
         className="border"
         style={{
@@ -203,7 +125,7 @@ animate();`
       }
       </CodeBlock>
 
-      <h4 className="mt-5">ジオメトリの変更</h4>
+      <H3 className="mt-10">ジオメトリの変更</H3>
       <Ex2
         className="border"
         style={{
@@ -241,6 +163,6 @@ create.water(
 animate();`}
       </CodeBlock>
 
-    </Container>
+    </div>
   );
 }

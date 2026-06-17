@@ -1,85 +1,18 @@
-"use client";
-import Container from "react-bootstrap/Container";
 import CodeBlock from "@/components/CodeBlock";
-import { useEffect, useRef } from "react";
-import { init } from "@dist/easy-three.js";
 import ReferenceContent from "@/components/ReferenceContent";
-import { Note } from "@/components/BaseKit";
+import H1 from "@/components/H1";
+import H2 from "@/components/H2";
+import H3 from "@/components/H3";
+import { Ex1, Ex2 } from "./Codes";
 
-function Ex1(props) {
-  const ref = useRef();
-  useEffect(() => {
-    const { camera, create, animate, destroy, THREE, Default } = init(ref.current);
-    camera.position.set(0, 0, 2);
-    create.ambientLight();
-    create.directionalLight();
+export const metadata = {
+  title: "create.shape",
+};
 
-    const shape = create.shape({
-      shapes: [
-        { position: [0, 0] },
-        { position: [1, 0] },
-        { position: [1, 1] },
-        { position: [0, 1] }
-      ],
-      option: {
-        color: Default.color,
-        side: THREE.DoubleSide
-      }
-    });
-
-    animate(({ delta }) => {
-      shape.rotation.x += delta;
-      shape.rotation.y += delta;
-    });
-    return () => {
-      destroy();
-    };
-  }, []);
-  return <div ref={ref} {...props}></div>;
-}
-
-function Ex2(props) {
-  const ref = useRef();
-  useEffect(() => {
-    const { camera, create, animate, destroy, THREE, Default } = init(
-      ref.current
-    );
-    camera.position.set(0, 0, 2);
-    create.ambientLight();
-    create.directionalLight();
-
-    const shape = create.shape({
-      shapes: [
-        { position: [0, 0] },
-        { position: [0.2, 0.3, 0.8, 0.3, 1, 0], type: "curve" },
-        { position: [0.7, 0.2, 0.7, 0.8, 1, 1], type: "curve" },
-        { position: [0.8, 0.7, 0.2, 0.7, 0, 1], type: "curve" },
-        { position: [0.3, 0.8, 0.3, 0.2, 0, 0], type: "curve" }
-      ],
-      option: {
-        color: Default.color,
-        side: THREE.DoubleSide,
-      },
-    });
-
-    animate(({ delta }) => {
-      shape.rotation.x += delta;
-      shape.rotation.y += delta;
-    })
-    return () => {
-      destroy();
-    };
-  }, []);
-  return <div ref={ref} {...props}></div>;
-}
-
-
-
-export default function Reference_Create_Cube() {
+export default function Reference_Create_Shape() {
   return (
-    <Container className="pt-4 pb-5">
-      <title>create.shape | easy-three</title>
-      <h1>create.shape</h1>
+    <div>
+      <H1>create.shape</H1>
       <ReferenceContent
         name="create.shape"
         args="props : Object"
@@ -87,7 +20,7 @@ export default function Reference_Create_Cube() {
         argsInfo={
           <div>
             <span>props</span> - 設定オブジェクト。
-            <ul>
+            <ul className="list-disc list-inside ml-4">
               <li>shapes (Array) : シェイプの配列 (デフォルト : [])。</li>
               <li>position (Array) : 位置 (デフォルト : [0, 0, 0])。</li>
               <li>rotation (Array) : 回転 (デフォルト : [0, 0, 0])。</li>
@@ -116,7 +49,7 @@ export default function Reference_Create_Cube() {
       >
         <p>任意の形のシェイプを作成してシーンに追加します。</p>
       </ReferenceContent>
-      <p>
+      <p className="mt-4">
         直線を用いる場合、shapes には position として 2要素 (x, y)
         の配列をもつオブジェクトの配列を指定します。
       </p>
@@ -128,7 +61,7 @@ export default function Reference_Create_Cube() {
     { position: [0, 1] }
   ]
 })`}</CodeBlock>
-      <p>
+      <p className="mt-4">
         ベジエ曲線を用いる場合、shapes には position として 6要素 (cp1X, cp1Y,
         cp2X, cp2Y, x, y) の配列をもつオブジェクトの配列を指定し、 type に
         "curve" を指定します。
@@ -145,8 +78,8 @@ export default function Reference_Create_Cube() {
   ]
 })`}</CodeBlock>
 
-      <h2>コードの例</h2>
-      <h4>直線によるシェイプ</h4>
+      <H2 className="mt-14">コードの例</H2>
+      <H3>直線によるシェイプ</H3>
       <Ex1
         className="border"
         style={{
@@ -180,7 +113,7 @@ animate(({ delta }) => {
 `}
       </CodeBlock>
 
-      <h4 className="mt-5">ベジエ曲線を使ったシェイプ</h4>
+      <H3 className="mt-10">ベジエ曲線を使ったシェイプ</H3>
       <Ex2
         className="border"
         style={{
@@ -214,6 +147,6 @@ animate(({ delta }) => {
 })
 `}
       </CodeBlock>
-    </Container>
+    </div>
   );
 }
