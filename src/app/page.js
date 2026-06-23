@@ -55,6 +55,19 @@ export default function Page() {
               </T>
             </Link>
             <Link
+              className="btn btn-secondary btn-soft"
+              href="https://e3web-play.web.app"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <T>
+                <>Try Online</>
+                <>Webで試す</>
+              </T>
+            </Link>
+          </div>
+          <div className="flex justify-center gap-3">
+            <Link
               className="btn btn-primary btn-soft"
               href="/reference"
             >
@@ -63,8 +76,6 @@ export default function Page() {
                 <>ドキュメント</>
               </T>
             </Link>
-          </div>
-          <div className="flex justify-center">
             <Link
               className="btn btn-primary btn-soft"
               href="/classroom"
