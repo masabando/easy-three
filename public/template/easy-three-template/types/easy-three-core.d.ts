@@ -3,6 +3,18 @@
 declare module "@masabando/easy-three" {
   import type * as THREE from "three";
 
+  export interface EasyThreeInitOptions {
+    /**
+     * ピクセル比を設定する。  
+     * (デフォルト : window.devicePixelRatio)
+     *
+     * ```js
+     * init(document.body, { pixelRatio: 2 }) // ピクセル比を設定
+     * ```
+     */
+    pixelRatio?: number;
+  }
+
   export interface EasyThreeEvent {
     // mouse, key などのイベントラッパ
     // [key: string]: any;
@@ -156,5 +168,5 @@ declare module "@masabando/easy-three" {
    * import { init } from "easy-three";
    * const { camera, create, controls, animate } = init();
    */
-  export function init(target?: string | HTMLElement): EasyThreeContext;
+  export function init(target?: string | HTMLElement, options?: EasyThreeInitOptions): EasyThreeContext;
 }
