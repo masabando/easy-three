@@ -157,7 +157,7 @@ export default function Sidebar() {
         title="base"
         icon={<BsLayers size={16} color="green" />}
         items={[
-          { href: "/reference/base/init/", label: "init" },
+          { href: "/reference/base/init/", label: "init", update: true },
           { href: "/reference/base/animate/", label: "animate" },
           { href: "/reference/base/controls/", label: "controls", update: true },
           { href: "/reference/base/color/", label: "color" },
