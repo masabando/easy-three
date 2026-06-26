@@ -14,14 +14,23 @@ export default function Page() {
       <H1>init</H1>
       <ReferenceContent
         name="init"
-        args="target : String | DOMElement"
+        args="target : String | DOMElement, options : Object"
         returnObject="Object"
         argsInfo={
-          <div>
-            <span>target</span>
-            (optional) - 描画対象のDOMセレクタ、もしくはDOM要素 (デフォルト :
-            document.body)。
-          </div>
+          <>
+            <div>
+              <span>target</span>
+              (optional) - 描画対象のDOMセレクタ、もしくはDOM要素 (デフォルト :
+              document.body)。
+            </div>
+            <div>
+              <span>options</span>
+              (optional) - 設定オブジェクト。
+              <ul className="list-disc list-inside ml-4">
+                <li>pixelRatio : Number - ピクセル比 (デフォルト : window.devicePixelRatio)</li>
+              </ul>
+            </div>
+          </>
         }
       >
         <div className="flex flex-col gap-4">
@@ -48,6 +57,7 @@ export default function Page() {
             <li>postprocessing</li>
             <li>noToneMapping</li>
             <li>destroy</li>
+            <li>tool</li>
           </ul>
         </div>
       </ReferenceContent>
@@ -60,12 +70,13 @@ export default function Page() {
         {`const { camera, create, animate } = init();
 `}
       </CodeBlock>
-
       <H3 className="mt-10">特定のDOMに描画する</H3>
-      <p>引数で描画対象のDOMセレクタ、もしくはDOM要素を指定することができます。</p>
       <p>
-        文字列(DOMセレクタ)を指定した場合、内部で{" "}
-        document.querySelector() を使用してDOM要素を取得します。
+        引数で描画対象のDOMセレクタ、もしくはDOM要素を指定することができます。
+      </p>
+      <p>
+        文字列(DOMセレクタ)を指定した場合、内部で document.querySelector()
+        を使用してDOM要素を取得します。
       </p>
       <CodeBlock>
         {`const { camera, create, animate } = init("#target");

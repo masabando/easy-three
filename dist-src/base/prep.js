@@ -1,6 +1,10 @@
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js'
 
-const prep = ({ targetName, THREE }) => {
+const prep = ({
+  targetName,
+  THREE,
+  pixelRatio = window.devicePixelRatio,
+}) => {
   const domElement = targetName ?
     (typeof targetName === "string" ? document.querySelector(targetName) : targetName) :
     document.body;
@@ -11,7 +15,7 @@ const prep = ({ targetName, THREE }) => {
 
   let renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true })
   renderer.shadowMap.enabled = true
-  renderer.setPixelRatio(window.devicePixelRatio)
+  renderer.setPixelRatio(pixelRatio)
   //renderer.outputEncoding = THREE.sRGBEncoding;
   renderer.toneMapping = THREE.ACESFilmicToneMapping;
 

@@ -4,6 +4,7 @@ import H1 from "@/components/H1";
 import H2 from "@/components/H2";
 import H3 from "@/components/H3";
 import { Ex1, Ex2 } from "./Codes";
+import MeshBaseProps from "@/app/reference/create/MeshBaseProps";
 
 export const metadata = {
   title: "create.circle",
@@ -23,27 +24,7 @@ export default function Reference_Create_Circle() {
             <ul className="list-disc list-inside ml-4">
               <li>size (Number) : サイズ (デフォルト : 1)。</li>
               <li>segments (Number) : 分割数 (デフォルト : 32)。</li>
-              <li>position (Array) : 位置 (デフォルト : [0, 0, 0])。</li>
-              <li>rotation (Array) : 回転 (デフォルト : [0, 0, 0])。</li>
-              <li>
-                option (Object) : オプション (デフォルト :{" "}
-                {`{color: Default.color }`})。
-              </li>
-              <li>
-                material (String) : マテリアルタイプ (デフォルト :
-                {`Default.material`})。
-              </li>
-              <li>
-                castShadow (Boolean) : 別のオブジェクトに影を落とすかどうか
-                (デフォルト : true)。
-              </li>
-              <li>
-                receiveShadow (Boolean) :
-                別のオブジェクトからの影を受けるかどうか (デフォルト : true)。
-              </li>
-              <li>
-                autoAdd (Boolean) : 自動でシーンに追加 (デフォルト : true)。
-              </li>
+              <MeshBaseProps />
             </ul>
           </div>
         }
@@ -64,27 +45,7 @@ export default function Reference_Create_Circle() {
                 segments (Number | Array) : 分割数 (デフォルト : [32, 1])。
               </li>
               <li>angle (Number | Array) : 描画する角度の始点と終点 (デフォルト : [0, Math.PI * 2])。</li>
-              <li>position (Array) : 位置 (デフォルト : [0, 0, 0])。</li>
-              <li>rotation (Array) : 回転 (デフォルト : [0, 0, 0])。</li>
-              <li>
-                option (Object) : オプション (デフォルト :{" "}
-                {`{color: Default.color }`})。
-              </li>
-              <li>
-                material (String) : マテリアルタイプ (デフォルト :
-                {`Default.material`})。
-              </li>
-              <li>
-                castShadow (Boolean) : 別のオブジェクトに影を落とすかどうか
-                (デフォルト : true)。
-              </li>
-              <li>
-                receiveShadow (Boolean) :
-                別のオブジェクトからの影を受けるかどうか (デフォルト : true)。
-              </li>
-              <li>
-                autoAdd (Boolean) : 自動でシーンに追加 (デフォルト : true)。
-              </li>
+              <MeshBaseProps />
             </ul>
           </div>
         }

@@ -26,8 +26,14 @@ declare module "@masabando/easy-three" {
      * ```js
      * material: 'standard' // MeshStandardMaterial を使う
      * ```
+     * オリジナルのマテリアルを使いたい場合は、THREE.Material のインスタンスを直接指定することも可能。
+     * ```js
+     * const customMaterial = new THREE.MeshBasicMaterial({ color: 0xff0000 });
+     * create.cube({
+     *   material: customMaterial // カスタムマテリアルを使う
+     * })
      */
-    material?: string;
+    material?: string | THREE.Material;
     /**
      * 自分が作り出す影を他の物体に落とすかどうか。
      * (デフォルト : true)

@@ -8,8 +8,11 @@ import addPostprocessing from './postprocessing/main.js';
 import addLoad from './load/main.js';
 import addHelper from './helper/main.js';
 import addEvent from './event/main.js'
+import addTool from './tool/main.js'
 
-export function init(targetName) {
+export function init(targetName, {
+  pixelRatio = window.devicePixelRatio,
+} = {}) {
   const Default = _Default
   const {
     domElement,
@@ -23,7 +26,7 @@ export function init(targetName) {
     color,
     noToneMapping,
     destroy,
-  } = prep({ targetName, THREE })
+  } = prep({ targetName, THREE, pixelRatio })
 
 
   const load = {}
@@ -43,6 +46,9 @@ export function init(targetName) {
   const event = {}
   addEvent({ Default, THREE, event, domElement })
 
+  const tool = {}
+  addTool({ tool, renderer })
+
   return {
     Default,
     scene,
@@ -57,6 +63,7 @@ export function init(targetName) {
     THREE,
     color,
     postprocessing,
+    tool,
     noToneMapping,
     destroy,
   }

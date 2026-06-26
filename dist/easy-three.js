@@ -55,7 +55,7 @@ var $05e1af71c54d2f4c$export$2e2bcd8739ae039 = $05e1af71c54d2f4c$var$Default;
 
 
 
-const $b0f8916483f44240$var$prep = ({ targetName: targetName, THREE: THREE })=>{
+const $b0f8916483f44240$var$prep = ({ targetName: targetName, THREE: THREE, pixelRatio: pixelRatio = window.devicePixelRatio })=>{
     const domElement = targetName ? typeof targetName === "string" ? document.querySelector(targetName) : targetName : document.body;
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
@@ -64,7 +64,7 @@ const $b0f8916483f44240$var$prep = ({ targetName: targetName, THREE: THREE })=>{
         alpha: true
     });
     renderer.shadowMap.enabled = true;
-    renderer.setPixelRatio(window.devicePixelRatio);
+    renderer.setPixelRatio(pixelRatio);
     //renderer.outputEncoding = THREE.sRGBEncoding;
     renderer.toneMapping = THREE.ACESFilmicToneMapping;
     const controls = new (0, $1LQKV$OrbitControls)(camera, renderer.domElement);
@@ -246,9 +246,9 @@ const $5206c8db530eb142$var$object = ({ Default: Default, scene: scene, THREE: T
         const op = option;
         //op.color = op.color || Default.color;
         const m = new THREE.Mesh(//new THREE[geometry](...args),
-        new geometry(...args), new THREE[`Mesh${material}Material`](material === "Normal" ? op.side ? {
+        new geometry(...args), typeof material === "string" ? new THREE[`Mesh${material}Material`](material === "Normal" ? op.side ? {
             side: op.side
-        } : {} : op));
+        } : {} : op) : material);
         m.position.set(...position);
         m.rotation.set(...rotation);
         m.castShadow = castShadow;
@@ -877,7 +877,7 @@ const $57451e4e4017cefc$var$positionalAudio = ({ scene: scene, THREE: THREE })=>
         sound.destroy = ()=>{
             sound.stop();
             sound.disconnect();
-            sound.dispose();
+            // sound.dispose();
             target.remove(listener);
         };
         return sound;
@@ -2034,11 +2034,36 @@ const $76a082e7504265af$var$addEvent = ({ Default: Default, THREE: THREE, event:
 var $76a082e7504265af$export$2e2bcd8739ae039 = $76a082e7504265af$var$addEvent;
 
 
-function $0cde3fdde307ec9a$export$2cd8252107eb640b(targetName) {
+const $72d97a0e11330b71$var$setPixelRatio = ({ renderer: renderer })=>{
+    return (ratio)=>{
+        renderer.setPixelRatio(ratio);
+    };
+};
+var $72d97a0e11330b71$export$2e2bcd8739ae039 = $72d97a0e11330b71$var$setPixelRatio;
+
+
+const $1173d806c7708ef5$var$use = [
+    {
+        name: "setPixelRatio",
+        fn: (0, $72d97a0e11330b71$export$2e2bcd8739ae039)
+    }
+];
+const $1173d806c7708ef5$var$addTool = ({ tool: tool, renderer: renderer })=>{
+    $1173d806c7708ef5$var$use.forEach((v)=>{
+        tool[v.name] = v.fn({
+            renderer: renderer
+        });
+    });
+};
+var $1173d806c7708ef5$export$2e2bcd8739ae039 = $1173d806c7708ef5$var$addTool;
+
+
+function $0cde3fdde307ec9a$export$2cd8252107eb640b(targetName, { pixelRatio: pixelRatio = window.devicePixelRatio } = {}) {
     const Default = (0, $05e1af71c54d2f4c$export$2e2bcd8739ae039);
     const { domElement: domElement, scene: scene, camera: camera, renderer: renderer, controls: controls, sizeTarget: sizeTarget, sizeTargetResize: sizeTargetResize, windowResize: windowResize, color: color, noToneMapping: noToneMapping, destroy: destroy } = (0, $b0f8916483f44240$export$2e2bcd8739ae039)({
         targetName: targetName,
-        THREE: $1LQKV$three
+        THREE: $1LQKV$three,
+        pixelRatio: pixelRatio
     });
     const load = {};
     (0, $bf21102bcb721113$export$2e2bcd8739ae039)({
@@ -2086,6 +2111,11 @@ function $0cde3fdde307ec9a$export$2cd8252107eb640b(targetName) {
         event: event,
         domElement: domElement
     });
+    const tool = {};
+    (0, $1173d806c7708ef5$export$2e2bcd8739ae039)({
+        tool: tool,
+        renderer: renderer
+    });
     return {
         Default: Default,
         scene: scene,
@@ -2100,6 +2130,7 @@ function $0cde3fdde307ec9a$export$2cd8252107eb640b(targetName) {
         THREE: $1LQKV$three,
         color: color,
         postprocessing: postprocessing,
+        tool: tool,
         noToneMapping: noToneMapping,
         destroy: destroy
     };

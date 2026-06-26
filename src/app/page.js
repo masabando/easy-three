@@ -67,7 +67,7 @@ export default function Page() {
             </Link>
           </div>
           <div className="flex justify-center gap-3">
-            <Link
+            {/* <Link
               className="btn btn-primary btn-soft"
               href="/reference"
             >
@@ -75,7 +75,7 @@ export default function Page() {
                 <>Reference</>
                 <>ドキュメント</>
               </T>
-            </Link>
+            </Link> */}
             <Link
               className="btn btn-primary btn-soft"
               href="/classroom"
