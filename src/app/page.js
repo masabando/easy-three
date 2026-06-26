@@ -54,7 +54,7 @@ export default function Page() {
                 <>使ってみる</>
               </T>
             </Link>
-            <Link
+            {/* <Link
               className="btn btn-primary btn-soft"
               href="/reference"
             >
@@ -62,7 +62,7 @@ export default function Page() {
                 <>Reference</>
                 <>ドキュメント</>
               </T>
-            </Link>
+            </Link> */}
           </div>
           <div className="flex justify-center">
             <Link

@@ -36,7 +36,7 @@ const positionalAudio = ({ scene, THREE }) => {
     sound.destroy = () => {
       sound.stop();
       sound.disconnect();
-      sound.dispose();
+      // sound.dispose();
       target.remove(listener);
     }
     return sound;

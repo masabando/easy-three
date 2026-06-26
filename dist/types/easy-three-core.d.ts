@@ -102,6 +102,11 @@ declare module "@masabando/easy-three" {
     postprocessing: EasyThreePostprocessing;
 
     /**
+     * easy-three-tool の機能群。
+     */
+    tool: EasyThreeTool;
+
+    /**
      * React用の unmount 相当のクリーンアップ関数。
      * イベントリスナや resize ハンドラなどを解除し、
      * 担当していたリソースをクリーンアップする。

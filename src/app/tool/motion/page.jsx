@@ -18,7 +18,8 @@ export default function Page() {
       color,
       THREE,
       destroy,
-    } = init(ref.current);
+      tool,
+    } = init(ref.current, { pixelRatio: 1 });
 
     controls.connect();
     camera.position.set(0, 3, 3);
@@ -123,6 +124,14 @@ export default function Page() {
     const soundBox = create.box({ size: 0.2 });
     soundBox.lookAt(0, 0, 1);
     soundBox.add(soundRef.current);
+
+
+    const mat = new THREE.MeshNormalMaterial();
+
+    create.cube({
+      position: [2, 1, 0],
+      material: mat,
+    })
 
     animate(({ delta, time }) => {
       // if (model && mixer) {

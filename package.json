@@ -1,7 +1,7 @@
 {
   "name": "@masabando/easy-three",
   "type": "module",
-  "version": "1.11.9",
+  "version": "1.12.0",
   "author": "masabando",
   "description": "A simple and easy-to-use 3D library",
   "module": "./dist/easy-three.js",
@@ -78,5 +78,13 @@
     "react-syntax-highlighter": "^15.6.1",
     "sass": "^1.82.0",
     "tailwindcss": "^4.3.1"
+  },
+  "allowScripts": {
+    "@parcel/watcher@2.5.0": true,
+    "@swc/core@1.10.1": true,
+    "lmdb@2.8.5": true,
+    "msgpackr-extract@3.0.3": true,
+    "sharp@0.34.5": true,
+    "unrs-resolver@1.12.2": true
   }
 }
