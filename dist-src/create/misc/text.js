@@ -61,37 +61,32 @@ const text = ({ create, THREE, sizeToArray, scene }) => {
     if (current.autoAdd) scene.add(mesh);
     mesh.setText = (newText) => {
       current.text = newText;
-      texture.setText(current.text);
+      texture.set({ text: current.text });
       texture.needsUpdate = true;
     }
     mesh.setFontSize = (newFontSize) => {
       current.fontSize = newFontSize;
-      texture.set({ fontSize: current.fontSize * current.resolution });
-      texture.setText(current.text);
+      texture.set({ fontSize: current.fontSize * current.resolution, text: current.text });
       texture.needsUpdate = true;
     }
     mesh.setColor = (newColor) => {
       current.color = newColor;
-      texture.set({ color: current.color });
-      texture.setText(current.text);
+      texture.set({ color: current.color, text: current.text });
       texture.needsUpdate = true;
     }
     mesh.setBackground = (newBackground) => {
       current.background = newBackground;
-      texture.set({ background: current.background });
-      texture.setText(current.text);
+      texture.set({ background: current.background, text: current.text });
       texture.needsUpdate = true;
     }
     mesh.setGuideColor = (newGuideColor) => {
       current.guideColor = newGuideColor;
-      texture.set({ guideColor: current.guideColor });
-      texture.setText(current.text);
+      texture.set({ guideColor: current.guideColor, text: current.text });
       texture.needsUpdate = true;
     }
     mesh.setGuide = (newGuide) => {
       current.guide = newGuide;
-      texture.set({ guide: current.guide });
-      texture.setText(current.text);
+      texture.set({ guide: current.guide, text: current.text });
       texture.needsUpdate = true;
     }
     return mesh;

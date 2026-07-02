@@ -795,47 +795,49 @@ const $3101df724e47b485$var$text = ({ create: create, THREE: THREE, sizeToArray:
         if (current.autoAdd) scene.add(mesh);
         mesh.setText = (newText)=>{
             current.text = newText;
-            texture.setText(current.text);
+            texture.set({
+                text: current.text
+            });
             texture.needsUpdate = true;
         };
         mesh.setFontSize = (newFontSize)=>{
             current.fontSize = newFontSize;
             texture.set({
-                fontSize: current.fontSize * current.resolution
+                fontSize: current.fontSize * current.resolution,
+                text: current.text
             });
-            texture.setText(current.text);
             texture.needsUpdate = true;
         };
         mesh.setColor = (newColor)=>{
             current.color = newColor;
             texture.set({
-                color: current.color
+                color: current.color,
+                text: current.text
             });
-            texture.setText(current.text);
             texture.needsUpdate = true;
         };
         mesh.setBackground = (newBackground)=>{
             current.background = newBackground;
             texture.set({
-                background: current.background
+                background: current.background,
+                text: current.text
             });
-            texture.setText(current.text);
             texture.needsUpdate = true;
         };
         mesh.setGuideColor = (newGuideColor)=>{
             current.guideColor = newGuideColor;
             texture.set({
-                guideColor: current.guideColor
+                guideColor: current.guideColor,
+                text: current.text
             });
-            texture.setText(current.text);
             texture.needsUpdate = true;
         };
         mesh.setGuide = (newGuide)=>{
             current.guide = newGuide;
             texture.set({
-                guide: current.guide
+                guide: current.guide,
+                text: current.text
             });
-            texture.setText(current.text);
             texture.needsUpdate = true;
         };
         return mesh;
