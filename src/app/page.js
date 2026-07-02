@@ -19,7 +19,7 @@ export default function Page() {
             <img alt="version" src="https://img.shields.io/github/v/tag/masabando/easy-three?style=flat&label=version" />
           </div>
           <div className="flex flex-wrap justify-center gap-1">
-            <img alt="npm" src="https://img.shields.io/npm/dm/%40masabando%2Feasy-three?style=flat&logo=npm" />
+            <a href="https://www.npmjs.com/package/@masabando/easy-three"><img alt="npm" src="https://img.shields.io/npm/dm/%40masabando%2Feasy-three?style=flat&logo=npm" /></a>
             <img className="ms-1" alt="jsDelivr monthly hits badge" src="https://img.shields.io/jsdelivr/gh/hm/masabando/easy-three?style=flat&logo=jsdelivr&logoColor=white" />
           </div>
           <div className="flex flex-wrap justify-center gap-1">
