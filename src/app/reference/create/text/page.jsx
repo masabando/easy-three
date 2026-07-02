@@ -1,7 +1,7 @@
 import CodeBlock from "@/components/CodeBlock";
 import ReferenceContent from "@/components/ReferenceContent";
 import { Note, Link } from "@/components/BaseKit";
-import { Ex1, Ex2 } from "./Codes";
+import { Ex1, Ex2, Ex3 } from "./Codes";
 import H1 from "@/components/H1";
 import H2 from "@/components/H2";
 import H3 from "@/components/H3";
@@ -100,13 +100,49 @@ export default function Page() {
       </p>
       <p className="mt-4">
         テキストを描画したテクスチャについては{" "}
-         <Link className="text-blue-500 underline" href="/reference/create/textTexture">create.textTexture</Link> を用いて作成しています。
+        <Link
+          className="text-blue-500 underline"
+          href="/reference/create/textTexture"
+        >
+          create.textTexture
+        </Link>{" "}
+        を用いて作成しています。
       </p>
       <p className="mt-4">
         平面のサイズについては、ガイドラインの幅 (guide)
         に0より大きな値を指定することや、 背景色 (background)
         を指定することで確認できます。
         <br />
+      </p>
+
+      <H2 className="mt-14">動的な変更</H2>
+      <ul className="list-disc list-inside ml-4">
+        <li>
+          <code>setText</code>
+        </li>
+        <li>
+          <code>setFontSize</code>
+        </li>
+        <li>
+          <code>setColor</code>
+        </li>
+        <li>
+          <code>setBackground</code>
+        </li>
+        <li>
+          <code>setGuide</code>
+        </li>
+        <li>
+          <code>setGuideColor</code>
+        </li>
+      </ul>
+      <p className="mt-4">
+        の各メソッドで、テキストの内容やフォントサイズ、色、背景色、ガイドラインの有無や色を動的に変更できます。
+      </p>
+      <p className="mt-4">
+        変更できるのは、テキストのテクスチャに関するプロパティのみで、平面のサイズ
+        (size) や位置 (position)、回転 (rotation)
+        などのプロパティは変更できません。
       </p>
 
       <H2 className="mt-14">コードの例</H2>
@@ -155,6 +191,34 @@ animate(({ delta }) => {
   text.rotation.x += delta
   text.rotation.y += delta
 })
+`}
+      </CodeBlock>
+
+      <H3 className="mt-10">動的な変更の例</H3>
+      <Ex3
+        className="border"
+        style={{
+          width: "240px",
+          height: "240px",
+        }}
+      />
+      <CodeBlock>
+        {`const { camera, create, animate } = init();
+camera.position.set(0, 0, 3);
+
+const text = create.text("easy-three", {
+  size: [3, 1],
+  font: noto.style.fontFamily,
+});
+
+animate(({ delta, frameCount }) => {
+  text.rotation.x += delta;
+  text.rotation.y += delta;
+  if (frameCount % 60 === 0) {
+    text.setFontSize(80)
+    text.setText(frameCount / 60);
+  }
+});
 `}
       </CodeBlock>
     </div>

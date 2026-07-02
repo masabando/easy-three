@@ -22,7 +22,7 @@ export default function Page() {
     } = init(ref.current, { pixelRatio: 1 });
 
     controls.connect();
-    camera.position.set(0, 3, 3);
+    camera.position.set(0, 2, 4);
 
     create.ambientLight()
 
@@ -30,30 +30,7 @@ export default function Page() {
       intensity: 3
     });
 
-    // scene.background = color(0xffffff);
-
-    // helper.grid();
-    // helper.axes();
-
-    // create.plane({
-    //   position: [0, 0, 0],
-    //   rotation: [-Math.PI / 2, 0, 0],
-    //   size: [10, 10],
-    //   option: {
-    //     color: color("#aaaaaa"),
-    //   },
-    // });
-
     let model;
-    let mixer;
-    // load.vrm("../../model/ktc-uniform_male_v1.vrm").then((vrm) => {
-    //   model = vrm;
-    //   model.scene.position.set(0, -0.5, -3);
-    //   model.scene.rotation.set(0, Math.PI, 0);
-    //   load.bvh2("../../motion/sampleMotion.bvh", vrm).then((_bvhObj) => {
-    //     mixer = _bvhObj.mixer;
-    //   });
-    // });
     load.vrm("../../model/ktc-uniform_female_v5.vrm", {
       bvh: "../../motion/sampleMotion.bvh",
       position: [0, -1.15, 0],
@@ -66,31 +43,7 @@ export default function Page() {
       intensity: 4,
     })
 
-    create.rectAreaLight({
-      helper: true,
-      size: [1, 2],
-      position: [0, 1, 3],
-    });
-
-    create.rectAreaLight({
-      helper: true,
-      intensity: 10,
-      color: 0xff0000,
-      size: [1, 2],
-      position: [2, 1, 0.5],
-      rotation: [0, Math.PI / 4, 0],
-    });
-
     const sky = create.sky();
-
-    // const ocean = create.ocean(
-    //   "/easy-three/texture/water/NormalMap-1.png",
-    //   {
-    //   size: 30,
-    //   position: [0, 0, 0],
-    //   rotation: [-Math.PI / 2, 0, 0],
-    //   textureSize: 512,
-    // });
 
     create.plane({
       size: 30,
@@ -103,51 +56,25 @@ export default function Page() {
       }
     })
 
-    // create.water({
-    //   size: 20,
-    //   color: 0xffffff,
-    //   rotation: [-Math.PI / 2, 0, 0]
-    // })
-
-    soundRef.current = create.positionalAudio(
-      "/easy-three/sound/chill_gravity.mp3",
-      camera,
-      {
-        refDistance: 30,
-        maxDistance: 200,
-        innerAngle: 90,
-        outerAngle: 180,
-        outerGain: 0,
-        helper: true,
-      }
-    )
-    const soundBox = create.box({ size: 0.2 });
-    soundBox.lookAt(0, 0, 1);
-    soundBox.add(soundRef.current);
-
-
-    const mat = new THREE.MeshNormalMaterial();
-
-    create.cube({
-      position: [2, 1, 0],
-      material: mat,
+    const text = create.text("Hello", {
+      size: [4, 1],
+      position: [0, 2, 0],
+      guide: 1,
     })
 
+
+    let frameCount = 0;
     animate(({ delta, time }) => {
-      // if (model && mixer) {
-      //   mixer.update(delta);
-      //   model.update(delta);
-      // }
-      // ocean.update(delta);
       const r = 20 + Math.sin(time * 1.5 * 0) * 18;
-      soundBox.position.x = Math.sin(time*0) * r;
-      soundBox.position.z = -Math.cos(time*0 + Math.PI/2) * r;
       if (model) {
         model.updateWithAnimation(delta);
       }
+      text.setText(frameCount + " Hello")
+      text.setColor(`hsl(${frameCount} 100% 50%)`)
+      frameCount++;
     });
+
     return () => {
-      soundRef.current.destroy();
       destroy();
     };
   }, []);

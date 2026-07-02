@@ -18,17 +18,36 @@ const text = ({ create, THREE, sizeToArray, scene }) => {
     guideColor = "#ff0000",
   } = {}) => {
     const s = sizeToArray(size, 2);
-    const texture = create.textTexture(text, {
-      fontSize: fontSize * resolution,
+    const current = {
+      text,
+      fontSize,
       font,
       fontWeight,
+      position,
+      rotation,
       color,
-      size: [s[0] * 100 * resolution, s[1] * 100 * resolution],
+      size,
+      resolution,
       textAlign,
       textBaseline,
       background,
+      side,
+      material,
+      autoAdd,
       guide,
       guideColor,
+    }
+    const texture = create.textTexture(text, {
+      fontSize: current.fontSize * current.resolution,
+      font: current.font,
+      fontWeight: current.fontWeight,
+      color: current.color,
+      size: [s[0] * 100 * current.resolution, s[1] * 100 * current.resolution],
+      textAlign: current.textAlign,
+      textBaseline: current.textBaseline,
+      background: current.background,
+      guide: current.guide,
+      guideColor: current.guideColor,
     });
     const mat = new THREE[`Mesh${material}Material`]({
       transparent: true,
@@ -37,9 +56,44 @@ const text = ({ create, THREE, sizeToArray, scene }) => {
     });
     const geometry = new THREE.PlaneGeometry(...s);
     const mesh = new THREE.Mesh(geometry, mat);
-    mesh.position.set(...position);
-    mesh.rotation.set(...rotation);
-    if (autoAdd) scene.add(mesh);
+    mesh.position.set(...current.position);
+    mesh.rotation.set(...current.rotation);
+    if (current.autoAdd) scene.add(mesh);
+    mesh.setText = (newText) => {
+      current.text = newText;
+      texture.setText(current.text);
+      texture.needsUpdate = true;
+    }
+    mesh.setFontSize = (newFontSize) => {
+      current.fontSize = newFontSize;
+      texture.set({ fontSize: current.fontSize * current.resolution });
+      texture.setText(current.text);
+      texture.needsUpdate = true;
+    }
+    mesh.setColor = (newColor) => {
+      current.color = newColor;
+      texture.set({ color: current.color });
+      texture.setText(current.text);
+      texture.needsUpdate = true;
+    }
+    mesh.setBackground = (newBackground) => {
+      current.background = newBackground;
+      texture.set({ background: current.background });
+      texture.setText(current.text);
+      texture.needsUpdate = true;
+    }
+    mesh.setGuideColor = (newGuideColor) => {
+      current.guideColor = newGuideColor;
+      texture.set({ guideColor: current.guideColor });
+      texture.setText(current.text);
+      texture.needsUpdate = true;
+    }
+    mesh.setGuide = (newGuide) => {
+      current.guide = newGuide;
+      texture.set({ guide: current.guide });
+      texture.setText(current.text);
+      texture.needsUpdate = true;
+    }
     return mesh;
   }
 }

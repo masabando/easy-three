@@ -7,6 +7,6 @@ create.ambientLight()
 create.directionalLight()
 create.cube()
 
-animate(({ delta, time }) => {
+animate(({ delta, time, clock, frameCount }) => {
 
 })

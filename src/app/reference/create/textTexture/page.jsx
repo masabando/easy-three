@@ -4,7 +4,7 @@ import { Note, Link } from "@/components/BaseKit";
 import H1 from "@/components/H1";
 import H2 from "@/components/H2";
 import H3 from "@/components/H3";
-import { Ex1, Ex2 } from "./Codes";
+import { Ex1, Ex2, Ex3 } from "./Codes";
 
 export const metadata = {
   title: "create.textTexture",
@@ -76,11 +76,29 @@ export default function Page() {
         </Note>
         。
       </p>
-      <p className="mt-4">平面以外のオブジェクトにテキストを表示する場合に使用します。<br />
+      <p className="mt-4">
+        平面以外のオブジェクトにテキストを表示する場合に使用します。
+        <br />
         単にテキストを表示したい場合は{" "}
-        <Link className="text-blue-500 underline" href="/reference/create/text">create.text</Link>{" "}
+        <Link className="text-blue-500 underline" href="/reference/create/text">
+          create.text
+        </Link>{" "}
         を使用してください。
       </p>
+
+      <H2 className="mt-14">動的な変更</H2>
+      <p className="mt-4">
+        作成したテクスチャは、 <code>set</code> メソッドで textTexture
+        の作成に必要なプロパティを全て変更することができます。
+      </p>
+      <CodeBlock>
+        {`const texture = create.textTexture("easy-three");
+texture.set({
+  text: "hello",
+  size: [400, 400],
+  background: "#ff6666"
+})`}
+      </CodeBlock>
 
       <H2 className="mt-14">コードの例</H2>
       <H3>テキストの作成</H3>
@@ -161,6 +179,49 @@ animate(({ delta }) => {
   cube.rotation.x += delta
   cube.rotation.y += delta
 })
+`}
+      </CodeBlock>
+
+      <H3 className="mt-10">テキストの更新</H3>
+      <Ex3
+        className="border"
+        style={{
+          width: "240px",
+          height: "240px",
+        }}
+      />
+      <CodeBlock>
+        {`const { camera, create, animate, THREE } = init();
+camera.position.set(0, 0, 2);
+
+create.ambientLight();
+create.directionalLight();
+
+const texture = create.textTexture("easy-three", {
+  size: [300, 300],
+  font: noto.style.fontFamily,
+  guide: 8,
+});
+
+const cube = create.cube({
+  size: 1,
+  option: {
+    transparent: true,
+    map: texture,
+    side: THREE.DoubleSide,
+  },
+});
+
+animate(({ delta, frameCount }) => {
+  cube.rotation.x += delta;
+  cube.rotation.y += delta;
+  if (frameCount % 60 === 0) {
+    texture.set({
+      text: frameCount % 1000,
+      fontSize: 100
+    });
+  }
+});
 `}
       </CodeBlock>
     </div>

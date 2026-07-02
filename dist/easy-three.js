@@ -209,14 +209,17 @@ var $b0f8916483f44240$export$2e2bcd8739ae039 = $b0f8916483f44240$var$prep;
 const $9a66eab6426948d4$var$animate = ({ controls: controls, renderer: renderer, scene: scene, camera: camera, THREE: THREE })=>{
     return (proc = ()=>{}, renderFlag = true)=>{
         const clock = new THREE.Clock();
+        let frameCount = 0;
         function loop() {
+            frameCount++;
             controls.update();
             const delta = clock.getDelta();
             const time = clock.getElapsedTime();
             proc({
                 clock: clock,
                 delta: delta,
-                time: time
+                time: time,
+                frameCount: frameCount
             });
             if (renderFlag) renderer.render(scene, camera);
         }
@@ -673,33 +676,62 @@ const $0dc93202973ecc34$var$textTexture = ({ THREE: THREE })=>{
         500
     ], textAlign: textAlign = "center", textBaseline: textBaseline = "middle", background: background = false, guide: guide = 0, guideColor: guideColor = "#ff0000" } = {})=>{
         const canvas = document.createElement("canvas");
+        const current = {
+            text: text,
+            fontSize: fontSize,
+            font: font,
+            fontWeight: fontWeight,
+            color: color,
+            size: size,
+            textAlign: textAlign,
+            textBaseline: textBaseline,
+            background: background,
+            guide: guide,
+            guideColor: guideColor
+        };
         canvas.width = size[0];
         canvas.height = size[1];
         const ctx = canvas.getContext("2d");
-        ctx.fillStyle = guideColor;
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
-        if (background) {
-            ctx.fillStyle = background;
-            ctx.fillRect(guide, guide, canvas.width - guide * 2, canvas.height - guide * 2);
-        } else ctx.clearRect(guide, guide, canvas.width - guide * 2, canvas.height - guide * 2);
-        ctx.font = `${fontWeight} ${fontSize}px ${font}`;
-        ctx.fillStyle = color;
-        ctx.textAlign = textAlign;
-        ctx.textBaseline = textBaseline;
-        switch(textAlign){
-            case "left":
-            case "start":
-                ctx.fillText(text, guide, canvas.height / 2);
-                break;
-            case "right":
-            case "end":
-                ctx.fillText(text, canvas.width - guide, canvas.height / 2);
-                break;
-            default:
-                ctx.fillText(text, canvas.width / 2, canvas.height / 2);
+        function setText(newText) {
+            current.text = newText;
+            ctx.fillStyle = current.guideColor;
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            if (current.background) {
+                ctx.fillStyle = current.background;
+                ctx.fillRect(current.guide, current.guide, canvas.width - current.guide * 2, canvas.height - current.guide * 2);
+            } else ctx.clearRect(current.guide, current.guide, canvas.width - current.guide * 2, canvas.height - current.guide * 2);
+            ctx.font = `${current.fontWeight} ${current.fontSize}px ${current.font}`;
+            ctx.fillStyle = current.color;
+            ctx.textAlign = current.textAlign;
+            ctx.textBaseline = current.textBaseline;
+            switch(textAlign){
+                case "left":
+                case "start":
+                    ctx.fillText(current.text, current.guide, canvas.height / 2);
+                    break;
+                case "right":
+                case "end":
+                    ctx.fillText(current.text, canvas.width - current.guide, canvas.height / 2);
+                    break;
+                default:
+                    ctx.fillText(current.text, canvas.width / 2, canvas.height / 2);
+            }
         }
+        setText(text);
         const texture = new THREE.CanvasTexture(canvas);
         texture.colorSpace = THREE.SRGBColorSpace;
+        texture.userData = {
+            canvas: canvas,
+            context: ctx
+        };
+        texture.set = (newOptions)=>{
+            Object.keys(newOptions).forEach((key)=>{
+                if (current.hasOwnProperty(key)) current[key] = newOptions[key];
+            });
+            setText(current.text);
+            texture.needsUpdate = true;
+        };
+        texture.needsUpdate = true;
         return texture;
     };
 };
@@ -717,20 +749,39 @@ const $3101df724e47b485$var$text = ({ create: create, THREE: THREE, sizeToArray:
         0
     ], color: color = "#000000", size: size = 1, resolution: resolution = 1, textAlign: textAlign = "center", textBaseline: textBaseline = "middle", background: background = false, side: side = "DoubleSide", material: material = "Basic", autoAdd: autoAdd = true, guide: guide = 0, guideColor: guideColor = "#ff0000" } = {})=>{
         const s = sizeToArray(size, 2);
-        const texture = create.textTexture(text, {
-            fontSize: fontSize * resolution,
+        const current = {
+            text: text,
+            fontSize: fontSize,
             font: font,
             fontWeight: fontWeight,
+            position: position,
+            rotation: rotation,
             color: color,
-            size: [
-                s[0] * 100 * resolution,
-                s[1] * 100 * resolution
-            ],
+            size: size,
+            resolution: resolution,
             textAlign: textAlign,
             textBaseline: textBaseline,
             background: background,
+            side: side,
+            material: material,
+            autoAdd: autoAdd,
             guide: guide,
             guideColor: guideColor
+        };
+        const texture = create.textTexture(text, {
+            fontSize: current.fontSize * current.resolution,
+            font: current.font,
+            fontWeight: current.fontWeight,
+            color: current.color,
+            size: [
+                s[0] * 100 * current.resolution,
+                s[1] * 100 * current.resolution
+            ],
+            textAlign: current.textAlign,
+            textBaseline: current.textBaseline,
+            background: current.background,
+            guide: current.guide,
+            guideColor: current.guideColor
         });
         const mat = new THREE[`Mesh${material}Material`]({
             transparent: true,
@@ -739,9 +790,54 @@ const $3101df724e47b485$var$text = ({ create: create, THREE: THREE, sizeToArray:
         });
         const geometry = new THREE.PlaneGeometry(...s);
         const mesh = new THREE.Mesh(geometry, mat);
-        mesh.position.set(...position);
-        mesh.rotation.set(...rotation);
-        if (autoAdd) scene.add(mesh);
+        mesh.position.set(...current.position);
+        mesh.rotation.set(...current.rotation);
+        if (current.autoAdd) scene.add(mesh);
+        mesh.setText = (newText)=>{
+            current.text = newText;
+            texture.setText(current.text);
+            texture.needsUpdate = true;
+        };
+        mesh.setFontSize = (newFontSize)=>{
+            current.fontSize = newFontSize;
+            texture.set({
+                fontSize: current.fontSize * current.resolution
+            });
+            texture.setText(current.text);
+            texture.needsUpdate = true;
+        };
+        mesh.setColor = (newColor)=>{
+            current.color = newColor;
+            texture.set({
+                color: current.color
+            });
+            texture.setText(current.text);
+            texture.needsUpdate = true;
+        };
+        mesh.setBackground = (newBackground)=>{
+            current.background = newBackground;
+            texture.set({
+                background: current.background
+            });
+            texture.setText(current.text);
+            texture.needsUpdate = true;
+        };
+        mesh.setGuideColor = (newGuideColor)=>{
+            current.guideColor = newGuideColor;
+            texture.set({
+                guideColor: current.guideColor
+            });
+            texture.setText(current.text);
+            texture.needsUpdate = true;
+        };
+        mesh.setGuide = (newGuide)=>{
+            current.guide = newGuide;
+            texture.set({
+                guide: current.guide
+            });
+            texture.setText(current.text);
+            texture.needsUpdate = true;
+        };
         return mesh;
     };
 };

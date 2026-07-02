@@ -20,7 +20,7 @@ export default function Page() {
         argsInfo={
           <>
             <div>
-              <span>proc({`{ clock, delta, time }`})</span> -
+              <span>proc({`{ clock, delta, time, frameCount }`})</span> -
               各フレームごとに実行される関数 (デフォルト : {`() => { }`})。
               <ul className="list-disc list-inside ml-4">
                 <li>
@@ -31,6 +31,9 @@ export default function Page() {
                 </li>
                 <li>
                   time (Number) : アニメーション開始からの経過時間（秒単位）。
+                </li>
+                <li>
+                  frameCount (Number) : アニメーション開始からのフレーム数。
                 </li>
               </ul>
             </div>
