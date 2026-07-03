@@ -28,6 +28,7 @@ import ocean from './misc/ocean.js';
 import sky from './misc/sky.js';
 import water from './misc/water.js';
 import positionalAudio from './misc/positionalAudio.js';
+import instances from './misc/instances.js';
 
 const use = [
   // mesh
@@ -61,7 +62,8 @@ const use = [
   { name: 'sky', fn: sky },
   { name: 'water', fn: water },
   { name: 'positionalAudio', fn: positionalAudio },
-]
+  { name: 'instances', fn: instances },
+];
 
 function sizeToArray(size, n = 3) {
   return isNaN(size) ? size : Array(n).fill(size)

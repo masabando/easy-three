@@ -1495,5 +1495,75 @@ declare module "@masabando/easy-three" {
          */
         helper?: boolean;
       }): THREE.PositionalAudio;
+    
+    /**
+     * インスタンス化されたメッシュを作成してシーンに追加する。
+     * ```js
+     * const box = create.cube({ size: 1, autoAdd: false })
+     * const instances = create.instances(box, 100, {
+     *   position: [0, 0, 0],
+     *   layout: "grid",
+     *   centering: true,
+     * })
+     * for (let i = 0; i < 100; i++) {
+     *   const instance = instances.at(i)
+     *   instance.position.set(i % 10, Math.floor(i / 10), 0)
+     *   instance.scale.set(1, 1, 1)
+     *   instance.color.set("#ff0000")
+     * }
+     * ```
+     */
+    instances(
+      /** 元のメッシュ */
+      mesh: THREE.Mesh,
+      /** インスタンスの数 */
+      count: number,
+      props?: {
+        /** 位置。 x, y, z の配列。  
+         * (デフォルト : [0, 0, 0])
+         */
+        position?: [number, number, number];
+        /** 回転。 x, y, z の配列。  
+         * (デフォルト : [0, 0, 0])
+         */
+        rotation?: [number, number, number];
+        /** 元のメッシュを削除するかどうか。  
+         * (デフォルト : true)
+         */
+        removeOriginal?: boolean;
+        /** レイアウトの間隔。 x, y, z の配列。  
+         * (デフォルト : [0, 0, 0])
+         */
+        offset?: [number, number, number];
+        /** レイアウトの種類。  
+         * (デフォルト : "line")  
+         *  none : レイアウトなし  
+         *  line : 1次元の直線上に配置  
+         *  circle : 円上に配置  
+         *  grid : 2次元のグリッド状に配置  
+         *  cube : 3次元の立方体状に配置  
+         *  (circle, grid, cube は、xy, xz, yx, yz, zx, zy の軸方向を指定可能)
+         */
+        layout?: "none" | "line" | "grid" | "grid-xy" | "grid-xz" | "grid-yx" | "grid-yz" | "grid-zx" | "grid-zy" | "circle" | "circle-xy" | "circle-xz" | "circle-yx" | "circle-yz" | "circle-zx" | "circle-zy" | "cube" | "cube-xy" | "cube-xz" | "cube-yx" | "cube-yz" | "cube-zx" | "cube-zy";
+        /** レイアウトの半径。  
+         * (デフォルト : 1)
+         */
+        radius?: number;
+        /** シャドウをキャストするかどうか。  
+         * (デフォルト : null)  
+         * null の場合は、元のメッシュの castShadow の値が使用される。
+         */
+        castShadow?: boolean | null;
+        /** シャドウを受け取るかどうか。  
+         * (デフォルト : null)  
+         * null の場合は、元のメッシュの receiveShadow の値が使用される。
+         */
+        receiveShadow?: boolean | null;
+        /** 自動的にシーンに追加するかどうか。  
+         * (デフォルト : true)
+         */
+        autoAdd?: boolean;
+      }
+    ): THREE.InstancedMesh;
   }
 }

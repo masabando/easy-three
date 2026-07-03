@@ -22,7 +22,7 @@ export default function Page() {
     } = init(ref.current, { pixelRatio: 1 });
 
     controls.connect();
-    camera.position.set(0, 2, 4);
+    camera.position.set(0, 4, 8);
 
     create.ambientLight()
 
@@ -56,12 +56,22 @@ export default function Page() {
       }
     })
 
-    const text = create.text("Hello", {
-      size: [4, 1],
-      position: [0, 2, 0],
-      guide: 1,
+    const cube = create.cube({
+      option: {
+        color: "#ffffff",
+      }
+    });
+
+    const instances = create.instances(cube, 8, {
+      position: [0, 1, 0],
+      rotation: [0, 0, 0],
+      offset: [1, 1, 1],
+      layout: "line",
+      // centering: false,
     })
 
+    instances.at(2).color.set("#ff0000");
+    instances.at(3).scale.set(3, 1, 0);
 
     let frameCount = 0;
     animate(({ delta, time }) => {
@@ -69,9 +79,6 @@ export default function Page() {
       if (model) {
         model.updateWithAnimation(delta);
       }
-      text.setText(frameCount + " Hello")
-      text.setColor(`hsl(${frameCount} 100% 50%)`)
-      frameCount++;
     });
 
     return () => {

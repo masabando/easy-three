@@ -213,7 +213,11 @@ export default function Sidebar() {
         items={[
           { href: "/reference/create/group/", label: "group" },
           { href: "/reference/create/text/", label: "text", update: true },
-          { href: "/reference/create/textTexture/", label: "textTexture", update: true },
+          {
+            href: "/reference/create/textTexture/",
+            label: "textTexture",
+            update: true,
+          },
           { href: "/reference/create/fog/", label: "fog" },
           { href: "/reference/create/sky/", label: "sky" },
           { href: "/reference/create/ocean/", label: "ocean" },
@@ -221,6 +225,11 @@ export default function Sidebar() {
           {
             href: "/reference/create/positionalAudio/",
             label: "positionalAudio",
+            nw: true,
+          },
+          {
+            href: "/reference/create/instances/",
+            label: "instances",
             nw: true,
           },
         ]}
