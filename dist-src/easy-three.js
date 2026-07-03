@@ -3,6 +3,7 @@ import * as THREE from 'three'
 import _Default from './var/default.js'
 import prep from './base/prep.js'
 import _animate from './base/animate.js'
+import _fpv from './base/fpv.js'
 import addCreate from './create/main.js'
 import addPostprocessing from './postprocessing/main.js';
 import addLoad from './load/main.js';
@@ -35,7 +36,10 @@ export function init(targetName, {
   const create = {}
   addCreate({ create, Default, scene, THREE, load })
 
-  const animate = _animate({ controls, renderer, scene, camera, THREE })
+  const fpv = _fpv({ camera, THREE, domElement, controls })
+
+  const animate = _animate({ controls, renderer, scene, camera, THREE, fpv })
+
 
   const helper = {}
   addHelper({ helper, scene, THREE })
@@ -55,6 +59,7 @@ export function init(targetName, {
     camera,
     renderer,
     controls,
+    fpv,
     create,
     load,
     helper,

@@ -15,14 +15,15 @@ export default function Page() {
       controls,
       helper,
       scene,
+      fpv,
       color,
       THREE,
       destroy,
       tool,
     } = init(ref.current, { pixelRatio: 1 });
 
-    controls.connect();
-    camera.position.set(0, 4, 8);
+    camera.position.set(0, 1.5, 3);
+    // fpv.connect()
 
     create.ambientLight()
 
@@ -56,22 +57,8 @@ export default function Page() {
       }
     })
 
-    const cube = create.cube({
-      option: {
-        color: "#ffffff",
-      }
-    });
 
-    const instances = create.instances(cube, 8, {
-      position: [0, 1, 0],
-      rotation: [0, 0, 0],
-      offset: [1, 1, 1],
-      layout: "line",
-      // centering: false,
-    })
 
-    instances.at(2).color.set("#ff0000");
-    instances.at(3).scale.set(3, 1, 0);
 
     let frameCount = 0;
     animate(({ delta, time }) => {

@@ -165,6 +165,11 @@ export default function Sidebar() {
             label: "controls",
             update: true,
           },
+          {
+            href: "/reference/base/fpv/",
+            label: "fpv",
+            nw: true,
+          },
           { href: "/reference/base/color/", label: "color" },
           { href: "/reference/base/default/", label: "Default" },
           { href: "/reference/base/destroy/", label: "destroy" },
