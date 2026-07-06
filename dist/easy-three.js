@@ -160,11 +160,21 @@ const $b0f8916483f44240$var$prep = ({ targetName: targetName, THREE: THREE, pixe
                     if (x.geometry) x.geometry.dispose();
                     if (x.material) {
                         if (Array.isArray(x.material)) x.material.forEach((m)=>{
-                            if (m.map) m.map.dispose();
+                            if (m.map) {
+                                if (Array.isArray(m.map)) m.map.forEach((map)=>{
+                                    map.dispose();
+                                });
+                                else m.map.dispose();
+                            }
                             m.dispose();
                         });
                         else {
-                            if (x.material.map) x.material.map.dispose();
+                            if (x.material.map) {
+                                if (Array.isArray(x.material.map)) x.material.map.forEach((map)=>{
+                                    map.dispose();
+                                });
+                                else x.material.map.dispose();
+                            }
                             x.material.dispose();
                         }
                     }
@@ -520,15 +530,32 @@ const $5206c8db530eb142$var$object = ({ Default: Default, scene: scene, THREE: T
         0,
         0,
         0
-    ], option: option = {
+    ], doubleSide: doubleSide = false, upsideDown: upsideDown = false, option: option = {
         color: Default.color
     }, material: material = Default.material, castShadow: castShadow = true, receiveShadow: receiveShadow = true, autoAdd: autoAdd = true } = {})=>{
         const op = option;
+        const side = op.side ? op.side : doubleSide ? THREE.DoubleSide : upsideDown ? THREE.BackSide : THREE.FrontSide;
         //op.color = op.color || Default.color;
+        function createMaterial() {
+            if (op.map && Array.isArray(op.map)) return op.map.map((mp)=>{
+                const newOp = {
+                    ...op,
+                    map: mp,
+                    side: side
+                };
+                return typeof material === "string" ? new THREE[`Mesh${material}Material`](material === "Normal" ? {
+                    side: side
+                } : newOp) : material;
+            });
+            else return typeof material === "string" ? new THREE[`Mesh${material}Material`](material === "Normal" ? {
+                side: side
+            } : {
+                ...op,
+                side: side
+            }) : material;
+        }
         const m = new THREE.Mesh(//new THREE[geometry](...args),
-        new geometry(...args), typeof material === "string" ? new THREE[`Mesh${material}Material`](material === "Normal" ? op.side ? {
-            side: op.side
-        } : {} : op) : material);
+        new geometry(...args), createMaterial());
         m.position.set(...position);
         m.rotation.set(...rotation);
         m.castShadow = castShadow;
@@ -1380,6 +1407,18 @@ const $30c5471b9d51ed43$var$instances = ({ scene: scene, THREE: THREE })=>{
 var $30c5471b9d51ed43$export$2e2bcd8739ae039 = $30c5471b9d51ed43$var$instances;
 
 
+const $482218959e94d4a9$var$material = ({ THREE: THREE, Default: Default })=>{
+    return ({ doubleSide: doubleSide = false, upsideDown: upsideDown = false, material: material = Default.material, ...props } = {})=>{
+        const side = doubleSide ? THREE.DoubleSide : upsideDown ? THREE.BackSide : THREE.FrontSide;
+        return new THREE[`Mesh${material}Material`]({
+            side: side,
+            ...props
+        });
+    };
+};
+var $482218959e94d4a9$export$2e2bcd8739ae039 = $482218959e94d4a9$var$material;
+
+
 const $f88a658689c91c8b$var$use = [
     // mesh
     {
@@ -1499,6 +1538,10 @@ const $f88a658689c91c8b$var$use = [
     {
         name: 'instances',
         fn: (0, $30c5471b9d51ed43$export$2e2bcd8739ae039)
+    },
+    {
+        name: 'material',
+        fn: (0, $482218959e94d4a9$export$2e2bcd8739ae039)
     }
 ];
 function $f88a658689c91c8b$var$sizeToArray(size, n = 3) {

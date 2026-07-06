@@ -8,7 +8,7 @@ export default function MeshBaseProps() {
         )。
       </li>
       <li>
-        material (String | Material) : マテリアルタイプ、またはマテリアルオブジェクト (デフォルト :{`Default.material`}
+        material (String | Material | Material[]) : マテリアルタイプ、またはマテリアルオブジェクト、またはマテリアルオブジェクトの配列 (デフォルト :{`Default.material`}
         )。
       </li>
       <li>
@@ -18,6 +18,12 @@ export default function MeshBaseProps() {
       <li>
         receiveShadow (Boolean) : 別のオブジェクトからの影を受けるかどうか
         (デフォルト : true)。
+      </li>
+      <li>
+        doubleSide (Boolean) : 両面表示にするか？ (デフォルト : false)。
+      </li>
+      <li>
+        upsideDown (Boolean) : 裏面表示にするか？ (デフォルト : false)。
       </li>
       <li>autoAdd (Boolean) : 自動でシーンに追加 (デフォルト : true)。</li>
     </>

@@ -3,6 +3,8 @@ const object = ({ Default, scene, THREE }) => {
     args = [1, 1, 1],
     position = [0, 0, 0],
     rotation = [0, 0, 0],
+    doubleSide = false,
+    upsideDown = false,
     option = {
       color: Default.color,
     },
@@ -12,13 +14,26 @@ const object = ({ Default, scene, THREE }) => {
     autoAdd = true,
   } = {}) => {
     const op = option;
+    const side = op.side ? op.side : (doubleSide ? THREE.DoubleSide : (upsideDown ? THREE.BackSide : THREE.FrontSide));
     //op.color = op.color || Default.color;
+    function createMaterial() {
+      if (op.map && Array.isArray(op.map)) {
+        return op.map.map((mp) => {
+          const newOp = { ...op, map: mp, side };
+          return typeof material === "string" ? new THREE[`Mesh${material}Material`](material === "Normal" ?
+            ({ side })
+            : newOp) : material;
+        })
+      } else {
+        return typeof material === "string" ? new THREE[`Mesh${material}Material`](material === "Normal" ?
+          ({ side })
+          : { ...op, side }) : material;
+      }
+    }
     const m = new THREE.Mesh(
       //new THREE[geometry](...args),
       new geometry(...args),
-      typeof material === "string" ? new THREE[`Mesh${material}Material`](material === "Normal" ?
-        (op.side ? { side: op.side } : {})
-        : op) : material
+      createMaterial()
     )
     m.position.set(...position)
     m.rotation.set(...rotation)

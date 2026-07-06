@@ -15,7 +15,7 @@ export default function Page() {
       controls,
       helper,
       scene,
-      fpv,
+      // fpv,
       color,
       THREE,
       destroy,
@@ -24,12 +24,10 @@ export default function Page() {
 
     camera.position.set(0, 1.5, 3);
     // fpv.connect()
+    controls.connect();
 
     create.ambientLight()
 
-    create.hemisphereLight({
-      intensity: 3
-    });
 
     let model;
     load.vrm("../../model/ktc-uniform_female_v5.vrm", {
@@ -40,7 +38,7 @@ export default function Page() {
       model = vrm;
     })
 
-    create.directionalLight({
+    const directionalLight = create.directionalLight({
       intensity: 4,
     })
 
@@ -57,7 +55,20 @@ export default function Page() {
       }
     })
 
+    const m1 = create.material({
+      map: load.texture("/easy-three/texture/img/monastery_stone_floor_diff_1k.jpg")
+    });
+    const m2 = create.material({
+      map: load.texture("/easy-three/texture/img/red_brick_diff_1k.jpg")
+    });
 
+
+    create.cube({
+      material: [m1, m1, m1, m2, m2, m2]
+    })
+
+
+    create.plane({ position: [1, 1, 1], doubleSide: true });
 
 
     let frameCount = 0;

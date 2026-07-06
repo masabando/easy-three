@@ -130,11 +130,27 @@ const prep = ({
           if (x.material) {
             if (Array.isArray(x.material)) {
               x.material.forEach((m) => {
-                if (m.map) m.map.dispose();
+                if (m.map) {
+                  if (Array.isArray(m.map)) {
+                    m.map.forEach((map) => {
+                      map.dispose();
+                    });
+                  } else {
+                    m.map.dispose();
+                  }
+                }
                 m.dispose();
               });
             } else {
-              if (x.material.map) x.material.map.dispose();
+              if (x.material.map) {
+                if (Array.isArray(x.material.map)) {
+                  x.material.map.forEach((map) => {
+                    map.dispose();
+                  });
+                } else {
+                  x.material.map.dispose();
+                }
+              }
               x.material.dispose();
             }
           }

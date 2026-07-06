@@ -237,6 +237,11 @@ export default function Sidebar() {
             label: "instances",
             nw: true,
           },
+          {
+            href: "/reference/create/material/",
+            label: "material",
+            nw: true,
+          },
         ]}
       />
       <ReferenceGroup

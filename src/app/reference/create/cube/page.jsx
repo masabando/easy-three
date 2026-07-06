@@ -6,6 +6,7 @@ import H2 from "@/components/H2";
 import H3 from "@/components/H3";
 import { Ex1, Ex2, Ex3, Ex4 } from "./Codes";
 import MeshBaseProps from "@/app/reference/create/MeshBaseProps";
+import Link from "next/link";
 
 export const metadata = {
   title: "create.cube",
@@ -47,7 +48,7 @@ export default function Reference_Create_Cube() {
           (例 : size: 2 は [2, 2, 2] と同じ)
         </p>
         <p className="mt-4">
-          option.material には、マテリアルの種類を文字列で指定します。
+          material には、マテリアルの種類を文字列で指定します。
           <br />
           マテリアルの種類については、
           <Note>
@@ -62,6 +63,16 @@ export default function Reference_Create_Cube() {
         <p className="mt-4">
           角丸にする場合、segments
           をある程度高く設定することで、より滑らかな角丸になります。
+        </p>
+        <p className="mt-4">
+          option に指定する値は、基本的にThree.js のマテリアルのプロパティに対応しています。
+          <br />
+          詳細は
+          <Link
+            className="link link-primary"
+            href="/reference/create/material"
+          >create.material</Link> を参照してください
+          (create.materialのオプションと同じオプションが指定できます)。
         </p>
       </ReferenceContent>
 
