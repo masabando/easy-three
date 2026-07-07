@@ -2,9 +2,9 @@
   "compilerOptions": {
     "checkJs": false,
     "allowJs": true,
-    "target": "ES2020",
-    "module": "ESNext",
-    "moduleResolution": "Node",
+    "target": "ES2022",
+    "module": "nodenext",
+    "moduleResolution": "nodenext",
     "typeRoots": ["./types", "./node_modules/@types"]
   }
 }

@@ -1302,7 +1302,7 @@ declare module "@masabando/easy-three" {
          * (デフォルト : null)
          * null の場合は、size に基づいて PlaneGeometry が自動生成される。
          */
-        geometry?: THREE.Geometry;
+        geometry?: THREE.BufferGeometry;
         /** 太陽の方向ベクトル。
          * (デフォルト : new THREE.Vector3(1, 1, 1))
          */
@@ -1371,43 +1371,43 @@ declare module "@masabando/easy-three" {
       normalMap1: string,
       props?: {
         /**
-         * PlaneGeometryのサイズ。
-         * (デフォルト : 1)
+         * PlaneGeometryのサイズ。  
+         * (デフォルト : 1)  
          * geometry が null の場合に使用される。
          */
         size?: Array<number> | number;
         /**
-         * ジオメトリ。
-         * (デフォルト : null)
+         * ジオメトリ。  
+         * (デフォルト : null)  
          * null の場合は、size に基づいて PlaneGeometry が自動生成される。
          */
-        geometry?: THREE.Geometry;
-        /** 水の色。
+        geometry?: THREE.BufferGeometry;
+        /** 水の色。  
          * (デフォルト : 0xffffff)
          */
         color?: THREE.Color | number | string;
         /**
-         * スケール。
+         * スケール。  
          * (デフォルト : 4)
          */
         scale?: number;
-        /** 流れる速度。
+        /** 流れる速度。  
          * (デフォルト : [1, 1])
          */
         flow?: Array<number>;
-        /** テクスチャのサイズ。
+        /** テクスチャのサイズ。  
          * (デフォルト : 512)
          */
         textureSize?: number | Array<number>;
-        /** 位置。
+        /** 位置。  
          * (デフォルト : [0, 0, 0])
          */
         position?: Array<number>;
-        /** 回転。
+        /** 回転。  
          * (デフォルト : [-Math.PI / 2, 0, 0])
          */
         rotation?: Array<number>;
-        /** シーンに自動追加するかどうか。
+        /** シーンに自動追加するかどうか。  
          * (デフォルト : true)
          */
         autoAdd?: boolean;
@@ -1417,7 +1417,7 @@ declare module "@masabando/easy-three" {
     };
 
     /**
-     * ポジショナルオーディオを作成してシーンに追加する。
+     * ポジショナルオーディオを作成してシーンに追加する。  
      * 作成したポジショナルオーディオは、オブジェクトにアタッチして使用する。
      * ```js
      * const audio = create.positionalAudio("sound.mp3", camera, {
@@ -1449,28 +1449,28 @@ declare module "@masabando/easy-three" {
       target: THREE.Object3D,
       props?: {
         /**
-         * 参照距離。
+         * 参照距離。  
          * (デフォルト: 1)
          * ```js
          * refDistance: 5
          * ```
          */
         refDistance?: number;
-        /** 最大距離。
+        /** 最大距離。  
          * (デフォルト: 100)
          * ```js
          * maxDistance: 500
          * ```
          */
         maxDistance?: number;
-        /** 音声をループ再生するかどうか。
+        /** 音声をループ再生するかどうか。  
          * (デフォルト: true)
          * ```js
          * loop: false
          * ```
          */
         loop?: boolean;
-        /** 音量。
+        /** 音量。  
          * (デフォルト: 1)
          * ```js
          * volume: 0.5
@@ -1478,19 +1478,19 @@ declare module "@masabando/easy-three" {
          */
         volume?: number;
         /**
-         * 距離モデル。
+         * 距離モデル。  
          * (デフォルト: "exponential")
          */
         distanceModel?: string;
-        /** 減衰係数。
+        /** 減衰係数。  
          * (デフォルト: 1)
          * ```js
          * rolloffFactor: 2
          * ```
          */
         rolloffFactor?: number;
-        /** 指向性コーンの内角度（度）。
-         * この角度内では最大音量で再生される。
+        /** 指向性コーンの内角度（度）。  
+         * この角度内では最大音量で再生される。  
          * この角度外では outerAngle に向かって音量が減衰する。
          * (デフォルト: 360)
          * ```js
@@ -1498,7 +1498,7 @@ declare module "@masabando/easy-three" {
          * ```
          */
         innerAngle?: number;
-        /** 指向性コーンの外角度（度）。
+        /** 指向性コーンの外角度（度）。  
          * この角度外では outerGain の音量で再生される。
          * (デフォルト: 360)
          * ```js
@@ -1506,14 +1506,14 @@ declare module "@masabando/easy-three" {
          * ```
          */
         outerAngle?: number;
-        /** 指向性コーンの外側の音量。
+        /** 指向性コーンの外側の音量。  
          * (デフォルト: 0)
          * ```js
          * outerGain: 0.1
          * ```
          */
         outerGain?: number;
-        /** ヘルパーを表示するかどうか。
+        /** ヘルパーを表示するかどうか。  
          * (デフォルト: false)
          * ```js
          * helper: true
@@ -1546,29 +1546,29 @@ declare module "@masabando/easy-three" {
       /** インスタンスの数 */
       count: number,
       props?: {
-        /** 位置。 x, y, z の配列。
+        /** 位置。 x, y, z の配列。  
          * (デフォルト : [0, 0, 0])
          */
         position?: [number, number, number];
-        /** 回転。 x, y, z の配列。
+        /** 回転。 x, y, z の配列。  
          * (デフォルト : [0, 0, 0])
          */
         rotation?: [number, number, number];
-        /** 元のメッシュを削除するかどうか。
+        /** 元のメッシュを削除するかどうか。  
          * (デフォルト : true)
          */
         removeOriginal?: boolean;
-        /** レイアウトの間隔。 x, y, z の配列。
+        /** レイアウトの間隔。 x, y, z の配列。  
          * (デフォルト : [0, 0, 0])
          */
         offset?: [number, number, number];
-        /** レイアウトの種類。
-         * (デフォルト : "line")
-         *  none : レイアウトなし
-         *  line : 1次元の直線上に配置
-         *  circle : 円上に配置
-         *  grid : 2次元のグリッド状に配置
-         *  cube : 3次元の立方体状に配置
+        /** レイアウトの種類。  
+         * (デフォルト : "line")  
+         *  none : レイアウトなし  
+         *  line : 1次元の直線上に配置  
+         *  circle : 円上に配置  
+         *  grid : 2次元のグリッド状に配置  
+         *  cube : 3次元の立方体状に配置  
          *  (circle, grid, cube は、xy, xz, yx, yz, zx, zy の軸方向を指定可能)
          */
         layout?:
@@ -1595,21 +1595,21 @@ declare module "@masabando/easy-three" {
           | "cube-yz"
           | "cube-zx"
           | "cube-zy";
-        /** レイアウトの半径。
+        /** レイアウトの半径。  
          * (デフォルト : 1)
          */
         radius?: number;
-        /** シャドウをキャストするかどうか。
-         * (デフォルト : null)
+        /** シャドウをキャストするかどうか。  
+         * (デフォルト : null)  
          * null の場合は、元のメッシュの castShadow の値が使用される。
          */
         castShadow?: boolean | null;
-        /** シャドウを受け取るかどうか。
-         * (デフォルト : null)
+        /** シャドウを受け取るかどうか。  
+         * (デフォルト : null)  
          * null の場合は、元のメッシュの receiveShadow の値が使用される。
          */
         receiveShadow?: boolean | null;
-        /** 自動的にシーンに追加するかどうか。
+        /** 自動的にシーンに追加するかどうか。  
          * (デフォルト : true)
          */
         autoAdd?: boolean;
@@ -1617,21 +1617,21 @@ declare module "@masabando/easy-three" {
     ): THREE.InstancedMesh;
 
     material(props?: {
-      /** マテリアルの種類。
+      /** マテリアルの種類。  
        * (デフォルト : "Physical")
        * ```js
        * material: "Basic"
        * ```
        */
       material?: string;
-      /** 両面描画するかどうか。
+      /** 両面描画するかどうか。  
        * (デフォルト : true)
        * ```js
        * doubleSide: false // 片面描画にする
        * ```
        */
       doubleSide?: boolean;
-      /** 裏面描画するかどうか。
+      /** 裏面描画するかどうか。  
        * (デフォルト : false)
        * ```js
        * upsideDown: true // 裏面描画にする
@@ -1640,5 +1640,56 @@ declare module "@masabando/easy-three" {
       upsideDown?: boolean;
       [key: string]: any;
     }): THREE.Material;
+
+    /**
+     * HTML要素を作成してシーンに追加する。
+     * ```js
+     * const htmlMesh = create.html(document.getElementById("myDiv"), {
+     *   position: [0, 0, 0], // 位置
+     *   rotation: [0, 0, 0], // 回転
+     *   scale: [1, 1, 1], // スケール
+     *   autoAdd: true // シーンに自動追加するかどうか
+     * })
+     * ```
+     */
+    html(
+      /**
+       * HTML要素。
+       */
+      domElement: HTMLElement,
+      props?: {
+        /**
+         * 位置。 x, y, z の配列。  
+         * (デフォルト : [0, 0, 0])
+         * ```js
+         * position: [x, y, z]
+         * ```
+         */
+        position?: Array<number>;
+        /**
+         * 回転。 x, y, z の配列。  
+         * (デフォルト : [0, 0, 0])
+         * ```js
+         * rotation: [x, y, z]
+         * ```
+         */
+        rotation?: Array<number>;
+      /**
+       * スケール。 x, y, z の配列。  
+       * (デフォルト : [1, 1, 1])
+       * ```js
+       * scale: [x, y, z]
+       * ```
+       */
+        scale?: Array<number>;
+      /**
+       * シーンに自動追加するかどうか。  
+       * (デフォルト : true)
+       * ```js
+       * autoAdd: false // シーンに自動追加しない
+       * ```
+       */
+      autoAdd?: boolean;
+    }): THREE.Mesh
   }
 }

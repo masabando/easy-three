@@ -1,10 +1,13 @@
 "use client";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { init } from "@dist-src/easy-three";
 import H1 from "@/components/H1";
+import { HTMLMesh } from 'three/addons/interactive/HTMLMesh.js';
 
 export default function Page() {
+  const meshRef = useRef();
   const soundRef = useRef();
+  const [count, setCount] = useState(0);
   const ref = useRef();
   useEffect(() => {
     const {
@@ -70,6 +73,27 @@ export default function Page() {
 
     create.plane({ position: [1, 1, 1], doubleSide: true });
 
+    //=========================
+    const div = document.createElement("div");
+    div.style.width = "300px";
+    div.style.height = "150px";
+    div.style.background = "white";
+    div.style.color = "black";
+    div.style.padding = "16px";
+    div.textContent = "Hello HTMLMesh";
+    div.style.position = "absolute";
+    div.style.left = "-10000px";
+    div.style.top = "0";
+    document.body.appendChild(div);
+    //=========================
+    const mesh = create.html(div, {
+      position: [-0.2, 1.5, 2],
+      scale: [2, 2, 2]
+    })
+
+    const mesh2 = create.html(meshRef.current, {
+      position: [0.2, 1.5, 2],
+    })
 
     let frameCount = 0;
     animate(({ delta, time }) => {
@@ -98,6 +122,9 @@ export default function Page() {
             }
           }}
         >positional Audio</button>
+        <button className="btn btn-primary" onClick={() => {
+          setCount(count + 1)
+        }}>counter</button>
       </div>
       <div>
         <div
@@ -108,6 +135,27 @@ export default function Page() {
             aspectRatio: "1 / 1",
           }}
         ></div>
+      </div>
+      <div>
+        <div ref={meshRef}
+          style={{
+            background: "white",
+            fontSize: "20px",
+            width: "300px",
+            height: "300px",
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            alignItems: "center",
+            position: "absolute",
+            left: "-10000px",
+            top: "0",
+            visibility: "hidden",
+          }}
+        >
+          <button className="btn btn-primary">Hello HTMLMesh</button>
+          <div>{count}</div>
+        </div>
       </div>
     </div>
   );

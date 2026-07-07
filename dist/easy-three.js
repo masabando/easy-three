@@ -7,6 +7,7 @@ import {Water as $1LQKV$Water} from "three/addons/objects/Water.js";
 import {Sky as $1LQKV$Sky} from "three/addons/objects/Sky.js";
 import {Water as $1LQKV$Water1} from "three/addons/objects/Water2.js";
 import {PositionalAudioHelper as $1LQKV$PositionalAudioHelper} from "three/addons/helpers/PositionalAudioHelper.js";
+import {HTMLMesh as $1LQKV$HTMLMesh} from "three/addons/interactive/HTMLMesh.js";
 import {EffectComposer as $1LQKV$EffectComposer} from "three/addons/postprocessing/EffectComposer.js";
 import {RenderPass as $1LQKV$RenderPass} from "three/addons/postprocessing/RenderPass.js";
 import {UnrealBloomPass as $1LQKV$UnrealBloomPass} from "three/addons/postprocessing/UnrealBloomPass.js";
@@ -1427,6 +1428,32 @@ const $482218959e94d4a9$var$material = ({ THREE: THREE, Default: Default })=>{
 var $482218959e94d4a9$export$2e2bcd8739ae039 = $482218959e94d4a9$var$material;
 
 
+
+const $28ee051bbedb3405$var$html = ({ scene: scene })=>{
+    return (domElement, { position: position = [
+        0,
+        0,
+        0
+    ], rotation: rotation = [
+        0,
+        0,
+        0
+    ], scale: scale = [
+        1,
+        1,
+        1
+    ], autoAdd: autoAdd = true } = {})=>{
+        const m = new (0, $1LQKV$HTMLMesh)(domElement);
+        m.position.set(...position);
+        m.rotation.set(...rotation);
+        m.scale.set(...scale);
+        if (autoAdd) scene.add(m);
+        return m;
+    };
+};
+var $28ee051bbedb3405$export$2e2bcd8739ae039 = $28ee051bbedb3405$var$html;
+
+
 const $f88a658689c91c8b$var$use = [
     // mesh
     {
@@ -1550,6 +1577,10 @@ const $f88a658689c91c8b$var$use = [
     {
         name: 'material',
         fn: (0, $482218959e94d4a9$export$2e2bcd8739ae039)
+    },
+    {
+        name: 'html',
+        fn: (0, $28ee051bbedb3405$export$2e2bcd8739ae039)
     }
 ];
 function $f88a658689c91c8b$var$sizeToArray(size, n = 3) {
