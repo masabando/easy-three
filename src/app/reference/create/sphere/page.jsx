@@ -77,8 +77,8 @@ create.directionalLight()
 
 const sphere = create.sphere()
 
-animate(({ clock }) => {
-  sphere.position.x = Math.sin(clock.getElapsedTime())
+animate(({ time }) => {
+  sphere.position.x = Math.sin(time)
 })
 `}
       </CodeBlock>
@@ -121,8 +121,8 @@ const sphere3 = create.sphere({
   position: [0, 0, -3],
 });
 
-animate(({ clock }) => {
-  sphere3.position.y = Math.sin(clock.getElapsedTime()) * 2;
+animate(({ time }) => {
+  sphere3.position.y = Math.sin(time) * 2;
 });
 `}
       </CodeBlock>

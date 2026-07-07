@@ -65,11 +65,11 @@ declare module "@masabando/easy-three" {
 
     /**
      * メインループ開始関数。  
-     * コールバックを渡すと、毎フレーム (time, delta, clock, frameCount) 付きで呼び出される。
+     * コールバックを渡すと、毎フレーム (time, delta, timer, frameCount) 付きで呼び出される。
      * アニメーションしない場合でも、一度は呼び出してレンダリングを開始する必要がある。  
      * 第2引数 renderFlag (デフォルト : true) を false にすると、コールバック内で明示的に renderer.render() を呼び出すまでレンダリングを行わない。
      * ```js
-     * animate(({ time, delta, clock, frameCount }) => {
+     * animate(({ time, delta, timer, frameCount }) => {
      *   // 毎フレーム実行される処理
      * })
      *
@@ -77,7 +77,7 @@ declare module "@masabando/easy-three" {
      * animate()
      *
      * // postprocessing 等を使う場合など
-     * animate(({ time, delta, clock, frameCount }) => {
+     * animate(({ time, delta, timer, frameCount }) => {
      *  // 毎フレーム実行される処理
      * }, false)
      * ```
@@ -90,8 +90,10 @@ declare module "@masabando/easy-three" {
         delta: number;
         /** フレームカウント */
         frameCount: number;
-        /** THREE.Clock インスタンス */
-        clock: THREE.Clock;
+        /** THREE.Timer インスタンス */
+        clock: THREE.Timer;
+        /** THREE.Timer インスタンス */
+        timer: THREE.Timer;
       }) => void,
       renderFlag?: boolean
     ): void;

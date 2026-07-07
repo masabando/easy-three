@@ -1,4 +1,5 @@
-import { RGBELoader } from "three/addons/loaders/RGBELoader.js";
+// import { RGBELoader } from "three/addons/loaders/RGBELoader.js";
+import { HDRLoader } from "three/addons/loaders/HDRLoader.js";
 
 const background = ({ THREE, scene }) => {
   return (url, {
@@ -17,7 +18,8 @@ const background = ({ THREE, scene }) => {
     if (manager.onProgress) loadingManager.onProgress = manager.onProgress
     if (manager.onError) loadingManager.onError = manager.onError
 
-    const t = new RGBELoader(loadingManager).load(url, (texture) => {
+    // const t = new RGBELoader(loadingManager).load(url, (texture) => {
+    const t = new HDRLoader(loadingManager).load(url, (texture) => {
       texture.mapping = THREE.EquirectangularReflectionMapping
       if (background) scene.background = texture
       if (environment) scene.environment = texture

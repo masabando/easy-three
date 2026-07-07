@@ -18,7 +18,7 @@ import {ClearMaskPass as $1LQKV$ClearMaskPass, MaskPass as $1LQKV$MaskPass} from
 import {TexturePass as $1LQKV$TexturePass} from "three/addons/postprocessing/TexturePass.js";
 import {GlitchPass as $1LQKV$GlitchPass} from "three/addons/postprocessing/GlitchPass.js";
 import {BokehPass as $1LQKV$BokehPass} from "three/addons/postprocessing/BokehPass.js";
-import {RGBELoader as $1LQKV$RGBELoader} from "three/addons/loaders/RGBELoader.js";
+import {HDRLoader as $1LQKV$HDRLoader} from "three/addons/loaders/HDRLoader.js";
 import {GLTFLoader as $1LQKV$GLTFLoader} from "three/addons/loaders/GLTFLoader.js";
 import {VRMLoaderPlugin as $1LQKV$VRMLoaderPlugin, VRMUtils as $1LQKV$VRMUtils} from "@pixiv/three-vrm";
 import {BVHLoader as $1LQKV$BVHLoader} from "three/addons/loaders/BVHLoader.js";
@@ -218,16 +218,24 @@ var $b0f8916483f44240$export$2e2bcd8739ae039 = $b0f8916483f44240$var$prep;
 
 const $9a66eab6426948d4$var$animate = ({ controls: controls, renderer: renderer, scene: scene, camera: camera, THREE: THREE, fpv: fpv })=>{
     return (proc = ()=>{}, renderFlag = true)=>{
-        const clock = new THREE.Clock();
+        // const clock = new THREE.Clock();
+        const timer = new THREE.Timer();
+        timer.connect(document);
+        const clock = timer;
+        clock.getElapsedTime = ()=>timer.getElapsed();
         let frameCount = 0;
         function loop() {
+            timer.update();
             frameCount++;
-            const delta = clock.getDelta();
-            const time = clock.getElapsedTime();
+            // const delta = clock.getDelta()
+            // const time = clock.getElapsedTime()
+            const delta = timer.getDelta();
+            const time = timer.getElapsed();
             if (fpv && fpv.isActive()) fpv.update(delta);
             controls.update();
             proc({
                 clock: clock,
+                timer: timer,
                 delta: delta,
                 time: time,
                 frameCount: frameCount
@@ -1857,6 +1865,7 @@ const $cd66eeeec2914b13$var$addPostprocessing = ({ renderer: renderer, camera: c
 var $cd66eeeec2914b13$export$2e2bcd8739ae039 = $cd66eeeec2914b13$var$addPostprocessing;
 
 
+// import { RGBELoader } from "three/addons/loaders/RGBELoader.js";
 
 const $a99c7549dd4b7f0d$var$background = ({ THREE: THREE, scene: scene })=>{
     return (url, { background: background = true, environment: environment = true, manager: manager = {
@@ -1870,7 +1879,8 @@ const $a99c7549dd4b7f0d$var$background = ({ THREE: THREE, scene: scene })=>{
         if (manager.onStart) loadingManager.onStart = manager.onStart;
         if (manager.onProgress) loadingManager.onProgress = manager.onProgress;
         if (manager.onError) loadingManager.onError = manager.onError;
-        const t = new (0, $1LQKV$RGBELoader)(loadingManager).load(url, (texture)=>{
+        // const t = new RGBELoader(loadingManager).load(url, (texture) => {
+        const t = new (0, $1LQKV$HDRLoader)(loadingManager).load(url, (texture)=>{
             texture.mapping = THREE.EquirectangularReflectionMapping;
             if (background) scene.background = texture;
             if (environment) scene.environment = texture;

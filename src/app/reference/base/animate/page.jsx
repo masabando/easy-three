@@ -20,11 +20,14 @@ export default function Page() {
         argsInfo={
           <>
             <div>
-              <span>proc({`{ clock, delta, time, frameCount }`})</span> -
+              <span>proc({`{ timer, clock, delta, time, frameCount }`})</span> -
               各フレームごとに実行される関数 (デフォルト : {`() => { }`})。
               <ul className="list-disc list-inside ml-4">
                 <li>
-                  clock (THREE.Clock) : フレーム間の時間を管理するオブジェクト。
+                  timer (THREE.Timer) : フレーム間の時間を管理するオブジェクト。
+                </li>
+                <li>
+                  clock (THREE.Timer) : フレーム間の時間を管理するオブジェクト。timerと同じものです(three.jsの変更に伴う後方互換性のために用意しています)。
                 </li>
                 <li>
                   delta (Number) : 前回のフレームからの経過時間（秒単位）。

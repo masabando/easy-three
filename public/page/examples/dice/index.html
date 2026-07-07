@@ -47,9 +47,8 @@
       materials[0], materials[5], materials[2], materials[3], materials[4], materials[1]
     ];
 
-    animate(({ clock }) => {
-      const t = clock.elapsedTime;
-      box1.position.y = Math.abs(0.5 * Math.sin(1.5 * t));
+    animate(({ time }) => {
+      box1.position.y = Math.abs(0.5 * Math.sin(1.5 * time));
       box1.rotation.x += 0.005;
       box1.rotation.y += 0.005;
     });

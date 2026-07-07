@@ -340,12 +340,12 @@ animate(({ delta }) => {
                 <div
                   className="radial-progress text-success text-2xl font-bold"
                   style={{
-                    "--value": ~~((100 * 11) / 31),
+                    "--value": ~~((100 * 11) / 32),
                     "--size": "9rem",
                     "--thickness": "0.8rem",
                   }}
                 >
-                  35%
+                  34%
                 </div>
               </div>
               <div>
@@ -443,8 +443,10 @@ const box = new THREE.Mesh(
 scene.add(box)
 
 // animation
-const clock = new THREE.Clock()
+const clock = new THREE.Timer()
+clock.connect(document)
 function animate() {
+  timer.update()
   controls.update()
   const delta = clock.getDelta()
   box.rotation.x += delta

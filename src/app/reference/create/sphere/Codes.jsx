@@ -28,8 +28,8 @@ export function Ex2(props) {
     const sphere = create.sphere({
       size: 0.3
     });
-    animate(({ clock }) => {
-      sphere.position.x = Math.sin(clock.getElapsedTime());
+    animate(({ time }) => {
+      sphere.position.x = Math.sin(time);
     });
     return () => {
       destroy()
@@ -66,8 +66,8 @@ export function Ex3(props) {
       size: 1.5,
       position: [0, 0, -3],
     });
-    animate(({ clock }) => {
-      sphere3.position.y = Math.sin(clock.getElapsedTime()) * 2;
+    animate(({ time }) => {
+      sphere3.position.y = Math.sin(time) * 2;
     });
     return () => {
       destroy()
