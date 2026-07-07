@@ -91,9 +91,9 @@ declare module "@masabando/easy-three" {
         /** フレームカウント */
         frameCount: number;
         /** THREE.Timer インスタンス */
-        timer: THREE.Timer
-        /** THREE.Timer インスタンス */
         clock: THREE.Timer;
+        /** THREE.Timer インスタンス */
+        timer: THREE.Timer;
       }) => void,
       renderFlag?: boolean
     ): void;
