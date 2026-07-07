@@ -31,7 +31,7 @@ export default function Footer() {
                 <>使い方の例</>
               </T>
             </FooterLink>
-            <FooterLink href="/reference">
+            <FooterLink href="/reference/base/init">
               <T>
                 <>Reference</>
                 <>ドキュメント</>
