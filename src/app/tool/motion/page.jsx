@@ -66,9 +66,9 @@ export default function Page() {
     });
 
 
-    create.cube({
-      material: [m1, m1, m1, m2, m2, m2]
-    })
+    // create.cube({
+    //   material: [m1, m1, m1, m2, m2, m2]
+    // })
 
 
     create.plane({ position: [1, 1, 1], doubleSide: true });
@@ -87,13 +87,14 @@ export default function Page() {
     document.body.appendChild(div);
     //=========================
     const mesh = create.html(div, {
-      position: [-0.2, 1.5, 2],
+      position: [-0.5, 1.5, -2],
       scale: [2, 2, 2]
     })
 
     const mesh2 = create.html(meshRef.current, {
-      position: [0.2, 1.5, 2],
+      position: [0.2, 1.5, -2],
     })
+
 
     let frameCount = 0;
     animate(({ delta, time }) => {
