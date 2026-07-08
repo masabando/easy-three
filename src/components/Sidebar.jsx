@@ -3,7 +3,7 @@ import T from "./Lang";
 import { Link } from "./BaseKit";
 import { usePathname } from "next/navigation";
 import { TbWorldCode } from "react-icons/tb";
-import { FaTools, FaRunning } from "react-icons/fa";
+import { FaTools, FaRunning, FaRobot } from "react-icons/fa";
 import { IoBookOutline, IoCubeOutline, IoDownloadOutline } from "react-icons/io5";
 import { FaBookBookmark } from "react-icons/fa6";
 import { MdOutlineLightbulb, MdMiscellaneousServices, MdOutlineSchool } from "react-icons/md";
@@ -140,6 +140,21 @@ export default function Sidebar() {
           <T>
             <>Tool</>
             <>ツール</>
+          </T>
+        </Link>
+      </li>
+      <li>
+        <Link
+          href="/ai/"
+          className={pathname === "/ai/" ? "bg-gray-300" : ""}
+          onClick={() => {
+            document.querySelector("#menuSidebar").checked = false;
+          }}
+        >
+          <FaRobot size={16} color="gray" />
+          <T>
+            <>AI</>
+            <>AIでの利用</>
           </T>
         </Link>
       </li>

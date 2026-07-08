@@ -37,6 +37,12 @@ export default function Footer() {
                 <>ドキュメント</>
               </T>
             </FooterLink>
+            <FooterLink href="https://e3web-play.web.app">
+              <T>
+                <>Try Online</>
+                <>Webで試す</>
+              </T>
+            </FooterLink>
             <FooterLink href="/classroom">
               <T>
                 <>Educational Use Cases</>
@@ -47,6 +53,15 @@ export default function Footer() {
               <T>
                 <>Tools</>
                 <>ツール</>
+              </T>
+            </FooterLink>
+            <FooterLink href="/llms.txt">
+              llms.txt
+            </FooterLink>
+            <FooterLink href="/ai">
+              <T>
+                <>AI</>
+                <>AIでの利用</>
               </T>
             </FooterLink>
           </div>
