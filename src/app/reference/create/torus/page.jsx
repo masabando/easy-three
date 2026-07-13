@@ -3,7 +3,7 @@ import ReferenceContent from "@/components/ReferenceContent";
 import H1 from "@/components/H1";
 import H2 from "@/components/H2";
 import H3 from "@/components/H3";
-import { Ex1, Ex2 } from "./Codes";
+import { Ex1, Ex2, Ex3 } from "./Codes";
 import MeshBaseProps from "@/app/reference/create/MeshBaseProps";
 
 export const metadata = {
@@ -25,6 +25,7 @@ export default function Reference_Create_Torus() {
               <li>size (Array | Number) : サイズ (デフォルト : 1)。</li>
               <li>tube (Number) : チューブの半径 (デフォルト : 0.4)。</li>
               <li>segments (Number | Array) : 分割数 (デフォルト : 64)。</li>
+              <li>arc (Number) : 描画する角度 (デフォルト : Math.PI * 2)。</li>
               <MeshBaseProps />
             </ul>
           </div>
@@ -84,6 +85,31 @@ create.ambientLight()
 create.directionalLight()
 
 create.torus()
+
+animate()
+`}
+      </CodeBlock>
+
+      <H3>描画する角度を指定する</H3>
+      <p>
+        arc を設定することで、描画する角度を指定できます。
+      </p>
+      <Ex3
+        className="border"
+        style={{
+          width: "240px",
+          height: "240px",
+        }}
+      />
+      <CodeBlock>
+        {`const { camera, create, animate } = init()
+camera.position.set(0, 2, 2)
+create.ambientLight()
+create.directionalLight()
+
+create.torus({
+  arc: Math.PI,
+})
 
 animate()
 `}

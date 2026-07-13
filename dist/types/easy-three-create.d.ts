@@ -278,6 +278,15 @@ declare module "@masabando/easy-three" {
      * ```
      */
     segments?: Array<number> | number;
+
+    /**
+     * 描画する角度  
+     * (デフォルト : Math.PI * 2)
+     * ```js
+     * arc: Math.PI // 半円を描く
+     * ```
+     */
+    arc?: number;
   }
 
 

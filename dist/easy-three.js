@@ -623,13 +623,14 @@ var $a07f03dd5acbaa66$export$2e2bcd8739ae039 = $a07f03dd5acbaa66$var$plane;
 
 
 const $2ba94d3f1d60bf98$var$torus = ({ create: create, THREE: THREE, sizeToArray: sizeToArray })=>{
-    return ({ size: size = 1, tube: tube = 0.4, segments: segments = 64, ...props } = {})=>{
+    return ({ size: size = 1, tube: tube = 0.4, segments: segments = 64, arc: arc = Math.PI * 2, ...props } = {})=>{
         return create.object(THREE.TorusGeometry, {
             ...props,
             args: [
                 size,
                 tube,
-                ...sizeToArray(segments, 2)
+                ...sizeToArray(segments, 2),
+                arc
             ]
         });
     };
