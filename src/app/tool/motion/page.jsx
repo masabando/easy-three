@@ -16,8 +16,10 @@ export default function Page() {
       animate,
       load,
       controls,
+      renderer,
       helper,
       scene,
+      raycaster,
       // fpv,
       color,
       THREE,
@@ -35,7 +37,8 @@ export default function Page() {
     let model;
     load.vrm("../../model/ktc-uniform_female_v5.vrm", {
       bvh: "../../motion/sampleMotion.bvh",
-      position: [0, -1.15, 0],
+      position: [2, -1.15, -2],
+      rotation: [0, Math.PI, 0],
       castShadow: false,
     }).then(vrm => {
       model = vrm;
@@ -58,50 +61,48 @@ export default function Page() {
       }
     })
 
-    const m1 = create.material({
-      map: load.texture("/easy-three/texture/img/monastery_stone_floor_diff_1k.jpg")
-    });
-    const m2 = create.material({
-      map: load.texture("/easy-three/texture/img/red_brick_diff_1k.jpg")
-    });
 
+    const texture = create.canvasTexture((context) => {
+      context.fillStyle = "red";
+      context.fillRect(100, 100, 200, 200);
+    },
+      {
+        size: 400
+      }
+    )
+    const context = texture.userData.context;
+    context.fillStyle = "white";
+    context.fillRect(0, 0, 200, 200);
+    texture.update()
 
-    // create.cube({
-    //   material: [m1, m1, m1, m2, m2, m2]
-    // })
-
-
-    create.plane({ position: [1, 1, 1], doubleSide: true });
-
-    //=========================
-    const div = document.createElement("div");
-    div.style.width = "300px";
-    div.style.height = "150px";
-    div.style.background = "white";
-    div.style.color = "black";
-    div.style.padding = "16px";
-    div.textContent = "Hello HTMLMesh";
-    div.style.position = "absolute";
-    div.style.left = "-10000px";
-    div.style.top = "0";
-    document.body.appendChild(div);
-    //=========================
-    const mesh = create.html(div, {
-      position: [-0.5, 1.5, -2],
-      scale: [2, 2, 2]
-    })
-
-    const mesh2 = create.html(meshRef.current, {
-      position: [0.2, 1.5, -2],
+    texture.update((ctx) => {
+      ctx.fillStyle = "blue";
+      ctx.fillRect(200, 200, 200, 200);
     })
 
 
-    let frameCount = 0;
-    animate(({ delta, time }) => {
+    const cube1 = create.cube({
+      position: [-1, 0, 0],
+    })
+    const cube2 = create.cube({
+      position: [1, 0, 0],
+    })
+
+    raycaster.connect()
+
+    animate(({ delta, time, frameCount }) => {
       const r = 20 + Math.sin(time * 1.5 * 0) * 18;
       if (model) {
         model.updateWithAnimation(delta);
       }
+      const intersections = raycaster.getIntersections([cube1, cube2])
+      cube1.material.color.set(0x00ff00);
+      cube2.material.color.set(0x00ff00);
+      if (intersections.length > 0) {
+        const hit = intersections[0];
+        hit.object.material.color.set(0xff0000);
+      }
+
     });
 
     return () => {

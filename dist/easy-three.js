@@ -525,6 +525,39 @@ const $63d5d05912b88f0d$var$fpv = ({ camera: camera, THREE: THREE, domElement: d
 var $63d5d05912b88f0d$export$2e2bcd8739ae039 = $63d5d05912b88f0d$var$fpv;
 
 
+const $ac61fb4de32a50f2$var$raycaster = ({ camera: camera, THREE: THREE, domElement: domElement })=>{
+    const settings = {
+        useMouse: true,
+        mouseEvent: "pointermove"
+    };
+    const caster = new THREE.Raycaster();
+    const pointer = new THREE.Vector2(1, 1);
+    function updatePointer(event) {
+        const rect = domElement.getBoundingClientRect();
+        pointer.x = (event.clientX - rect.left) / rect.width * 2 - 1;
+        pointer.y = -((event.clientY - rect.top) / rect.height * 2 - 1);
+    }
+    const connect = ({ useMouse: useMouse = true, mouseEvent: mouseEvent = "pointermove" } = {})=>{
+        settings.useMouse = useMouse;
+        settings.mouseEvent = mouseEvent;
+        if (settings.useMouse) domElement.addEventListener(settings.mouseEvent, updatePointer);
+    };
+    const disconnect = ()=>{
+        if (settings.useMouse) domElement.removeEventListener(settings.mouseEvent, updatePointer);
+    };
+    const getIntersections = (objects, { recursive: recursive = true } = {})=>{
+        caster.setFromCamera(pointer, camera);
+        return caster.intersectObjects(objects, recursive);
+    };
+    return {
+        connect: connect,
+        disconnect: disconnect,
+        getIntersections: getIntersections
+    };
+};
+var $ac61fb4de32a50f2$export$2e2bcd8739ae039 = $ac61fb4de32a50f2$var$raycaster;
+
+
 // mesh
 const $5206c8db530eb142$var$object = ({ Default: Default, scene: scene, THREE: THREE })=>{
     return (geometry, { args: args = [
@@ -1455,6 +1488,91 @@ const $28ee051bbedb3405$var$html = ({ scene: scene })=>{
 var $28ee051bbedb3405$export$2e2bcd8739ae039 = $28ee051bbedb3405$var$html;
 
 
+const $b5928c250dd1cdb5$var$canvasTexture = ({ THREE: THREE, sizeToArray: sizeToArray })=>{
+    return (proc = (context)=>{}, { size: size = [
+        500,
+        500
+    ] } = {})=>{
+        const canvas = document.createElement("canvas");
+        const options = {
+            proc: proc,
+            size: sizeToArray(size, 2)
+        };
+        // 引数が ({ ... }) なら、procの中にsizeがあるということなので、procの中でsizeを上書きする。
+        if (typeof proc === "object") {
+            options.size = sizeToArray(proc.size, 2) || sizeToArray(size, 2);
+            options.proc = ()=>{};
+        }
+        canvas.width = options.size[0];
+        canvas.height = options.size[1];
+        const ctx = canvas.getContext("2d");
+        options.proc(ctx, canvas);
+        const texture = new THREE.CanvasTexture(canvas);
+        texture.colorSpace = THREE.SRGBColorSpace;
+        texture.userData = {
+            canvas: canvas,
+            context: ctx
+        };
+        texture.needsUpdate = true;
+        texture.update = (p = ()=>{})=>{
+            p(ctx, canvas);
+            texture.needsUpdate = true;
+        };
+        return texture;
+    };
+};
+var $b5928c250dd1cdb5$export$2e2bcd8739ae039 = $b5928c250dd1cdb5$var$canvasTexture;
+
+
+const $7304f841fefa7b2f$var$canvas = ({ create: create, scene: scene, sizeToArray: sizeToArray })=>{
+    return (proc = (context)=>{}, { size: size = 1, resolution: resolution = 100, transparent: transparent = true, material: material = "Basic", ...props } = {})=>{
+        const options = {
+            proc: proc,
+            size: sizeToArray(size, 2),
+            resolution: resolution,
+            transparent: transparent,
+            material: material
+        };
+        if (typeof proc === "object") {
+            options.size = sizeToArray(proc.size, 2) || sizeToArray(size, 2);
+            options.proc = ()=>{};
+            options.resolution = proc.resolution || resolution;
+            options.transparent = proc.transparent || transparent;
+            options.material = proc.material || material;
+        }
+        const texture = create.canvasTexture(options.proc, {
+            size: [
+                options.size[0] * options.resolution,
+                options.size[1] * options.resolution
+            ]
+        });
+        const context = texture.userData.context;
+        const canvas = texture.userData.canvas;
+        const m = create.plane({
+            ...props,
+            size: options.size,
+            material: options.material,
+            option: {
+                ...props.option,
+                map: texture,
+                transparent: options.transparent
+            }
+        });
+        m.userData = {
+            texture: texture,
+            context: context,
+            canvas: canvas
+        };
+        m.update = (p = ()=>{})=>{
+            p(context, canvas);
+            texture.needsUpdate = true;
+        };
+        return m;
+    };
+};
+var $7304f841fefa7b2f$export$2e2bcd8739ae039 = $7304f841fefa7b2f$var$canvas;
+
+
 const $f88a658689c91c8b$var$use = [
     // mesh
     {
@@ -1582,6 +1700,14 @@ const $f88a658689c91c8b$var$use = [
     {
         name: 'html',
         fn: (0, $28ee051bbedb3405$export$2e2bcd8739ae039)
+    },
+    {
+        name: 'canvasTexture',
+        fn: (0, $b5928c250dd1cdb5$export$2e2bcd8739ae039)
+    },
+    {
+        name: 'canvas',
+        fn: (0, $7304f841fefa7b2f$export$2e2bcd8739ae039)
     }
 ];
 function $f88a658689c91c8b$var$sizeToArray(size, n = 3) {
@@ -2625,10 +2751,22 @@ const $72d97a0e11330b71$var$setPixelRatio = ({ renderer: renderer })=>{
 var $72d97a0e11330b71$export$2e2bcd8739ae039 = $72d97a0e11330b71$var$setPixelRatio;
 
 
+const $f400cb6b90911329$var$distance = ({ renderer: renderer })=>{
+    return (mesh1, mesh2, usePixelRatio = true)=>{
+        return mesh1.position.distanceTo(mesh2.position) * (usePixelRatio ? renderer.getPixelRatio() : 1);
+    };
+};
+var $f400cb6b90911329$export$2e2bcd8739ae039 = $f400cb6b90911329$var$distance;
+
+
 const $1173d806c7708ef5$var$use = [
     {
         name: "setPixelRatio",
         fn: (0, $72d97a0e11330b71$export$2e2bcd8739ae039)
+    },
+    {
+        name: "distance",
+        fn: (0, $f400cb6b90911329$export$2e2bcd8739ae039)
     }
 ];
 const $1173d806c7708ef5$var$addTool = ({ tool: tool, renderer: renderer })=>{
@@ -2668,6 +2806,11 @@ function $0cde3fdde307ec9a$export$2cd8252107eb640b(targetName, { pixelRatio: pix
         THREE: $1LQKV$three,
         domElement: domElement,
         controls: controls
+    });
+    const raycaster = (0, $ac61fb4de32a50f2$export$2e2bcd8739ae039)({
+        camera: camera,
+        THREE: $1LQKV$three,
+        domElement: domElement
     });
     const animate = (0, $9a66eab6426948d4$export$2e2bcd8739ae039)({
         controls: controls,
@@ -2722,6 +2865,7 @@ function $0cde3fdde307ec9a$export$2cd8252107eb640b(targetName, { pixelRatio: pix
         color: color,
         postprocessing: postprocessing,
         tool: tool,
+        raycaster: raycaster,
         noToneMapping: noToneMapping,
         destroy: destroy
     };

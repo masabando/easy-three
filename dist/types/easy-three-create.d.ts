@@ -195,6 +195,33 @@ declare module "@masabando/easy-three" {
     size?: Array<number> | number;
   }
 
+  export interface EasyThreeCanvasProps extends EasyThreePlaneProps {
+    /**
+     * テクスチャの解像度。
+     * (デフォルト : 100)
+     * ```js
+     * resolution: 1024 // 解像度を1024にする
+     * ```
+     */
+    resolution?: number;
+    /**
+     * 描画していない部分を透明にするかどうか。
+     * (デフォルト : false)
+     * ```js
+     * transparent: true // 透明にする
+     * ```
+     */
+    transparent?: boolean;
+    /**
+     * マテリアルの種類。
+     * (デフォルト : "Basic")
+     * ```js
+     * material: "Standard" // Standardマテリアルにする
+     * ```
+     */
+    material?: string;
+  }
+
   export interface EasyThreeConeProps extends createPropBase {
     /** サイズ。  
      * コーンの底面の半径と、高さの配列。  
@@ -1699,6 +1726,49 @@ declare module "@masabando/easy-three" {
        * ```
        */
       autoAdd?: boolean;
-    }): THREE.Mesh
+      }): THREE.Mesh
+    
+    /**
+     * キャンバステクスチャを作成する。
+     * ```js
+     * const texture = create.canvasTexture((ctx, canvas) => {
+     *   ctx.fillStyle = "#ff0000"
+     *   ctx.fillRect(0, 0, canvas.width, canvas.height)
+     * })
+     * ```
+     */
+    canvasTexture(
+      /**
+       * キャンバスに描画する関数
+       */
+      proc?: (ctx: CanvasRenderingContext2D, canvas: HTMLCanvasElement) => void,
+      props?: {
+        /**
+         * テクスチャのサイズ。幅と高さの配列。
+         * (デフォルト : [512, 512])
+         * ```js
+         * size: [width, height]
+         * ```
+         */
+        size?: Array<number> | number;
+      }
+    ): THREE.Mesh
+
+    /**
+     * キャンバステクスチャを適用した平面を作成する。
+     * ```js
+     * const plane = create.canvas((ctx, canvas) => {
+     *   ctx.fillStyle = "#ff0000"
+     *   ctx.fillRect(0, 0, canvas.width, canvas.height)
+     * })
+     * ```
+     */
+    canvas(
+      /**
+       * キャンバスに描画する関数
+       */
+      proc?: (ctx: CanvasRenderingContext2D, canvas: HTMLCanvasElement) => void,
+      props?: EasyThreeCanvasProps
+    ): THREE.Mesh
   }
 }

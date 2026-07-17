@@ -173,16 +173,19 @@ export default function Sidebar() {
         title="base"
         icon={<BsLayers size={16} color="green" />}
         items={[
-          { href: "/reference/base/init/", label: "init", update: true },
-          { href: "/reference/base/animate/", label: "animate", update: true },
+          { href: "/reference/base/init/", label: "init" },
+          { href: "/reference/base/animate/", label: "animate" },
           {
             href: "/reference/base/controls/",
             label: "controls",
-            update: true,
           },
           {
             href: "/reference/base/fpv/",
             label: "fpv",
+          },
+          {
+            href: "/reference/base/raycaster/",
+            label: "raycaster",
             nw: true,
           },
           { href: "/reference/base/color/", label: "color" },
@@ -232,11 +235,10 @@ export default function Sidebar() {
         icon={<MdMiscellaneousServices size={16} color="green" />}
         items={[
           { href: "/reference/create/group/", label: "group" },
-          { href: "/reference/create/text/", label: "text", update: true },
+          { href: "/reference/create/text/", label: "text" },
           {
             href: "/reference/create/textTexture/",
             label: "textTexture",
-            update: true,
           },
           { href: "/reference/create/fog/", label: "fog" },
           { href: "/reference/create/sky/", label: "sky" },
@@ -245,23 +247,22 @@ export default function Sidebar() {
           {
             href: "/reference/create/positionalAudio/",
             label: "positionalAudio",
-            nw: true,
           },
           {
             href: "/reference/create/instances/",
             label: "instances",
-            nw: true,
           },
           {
             href: "/reference/create/material/",
             label: "material",
-            nw: true,
           },
           {
             href: "/reference/create/html/",
             label: "html",
             nw: true,
           },
+          { href: "/reference/create/canvasTexture/", label: "canvasTexture", nw: true },
+          { href: "/reference/create/canvas/", label: "canvas", nw: true },
         ]}
       />
       <ReferenceGroup
@@ -276,9 +277,9 @@ export default function Sidebar() {
         title="load"
         icon={<IoDownloadOutline size={16} color="green" />}
         items={[
-          { href: "/reference/load/vrm/", label: "vrm", update: true },
+          { href: "/reference/load/vrm/", label: "vrm" },
           { href: "/reference/load/bvh/", label: "bvh", deprecated: true },
-          { href: "/reference/load/bvh2/", label: "bvh2", nw: true },
+          { href: "/reference/load/bvh2/", label: "bvh2" },
           { href: "/reference/load/gltf/", label: "gltf" },
           { href: "/reference/load/background/", label: "background" },
           { href: "/reference/load/texture/", label: "texture" },
@@ -315,12 +316,14 @@ export default function Sidebar() {
           {
             href: "/reference/tool/setPixelRatio/",
             label: "setPixelRatio",
-            nw: true,
           },
+          {
+            href: "/reference/tool/distance/",
+            label: "distance",
+            nw: true,
+          }
         ]}
       />
-      {/* </ul> */}
-      {/* </li> */}
     </ul>
   );
 }

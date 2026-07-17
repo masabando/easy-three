@@ -4,6 +4,7 @@ import _Default from './var/default.js'
 import prep from './base/prep.js'
 import _animate from './base/animate.js'
 import _fpv from './base/fpv.js'
+import _raycaster from './base/raycaster.js'
 import addCreate from './create/main.js'
 import addPostprocessing from './postprocessing/main.js';
 import addLoad from './load/main.js';
@@ -38,6 +39,8 @@ export function init(targetName, {
 
   const fpv = _fpv({ camera, THREE, domElement, controls })
 
+  const raycaster = _raycaster({ camera, THREE, domElement })
+
   const animate = _animate({ controls, renderer, scene, camera, THREE, fpv })
 
 
@@ -69,6 +72,7 @@ export function init(targetName, {
     color,
     postprocessing,
     tool,
+    raycaster,
     noToneMapping,
     destroy,
   }

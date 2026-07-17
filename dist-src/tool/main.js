@@ -1,7 +1,9 @@
 import setPixelRatio from './setPixelRatio.js';
+import distance from './distance.js';
 
 const use = [
   { name: "setPixelRatio", fn: setPixelRatio },
+  { name: "distance", fn: distance },
 ]
 
 const addTool = ({ tool, renderer }) => {

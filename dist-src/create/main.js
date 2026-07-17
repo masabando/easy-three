@@ -31,6 +31,8 @@ import positionalAudio from './misc/positionalAudio.js';
 import instances from './misc/instances.js';
 import material from './misc/material.js';
 import html from './misc/html.js';
+import canvasTexture from './misc/canvasTexture.js';
+import canvas from './misc/canvas.js';
 
 const use = [
   // mesh
@@ -67,6 +69,8 @@ const use = [
   { name: 'instances', fn: instances },
   { name: 'material', fn: material },
   { name: 'html', fn: html },
+  { name: 'canvasTexture', fn: canvasTexture },
+  { name: 'canvas', fn: canvas },
 ];
 
 function sizeToArray(size, n = 3) {

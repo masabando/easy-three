@@ -15,6 +15,53 @@ declare module "@masabando/easy-three" {
     pixelRatio?: number;
   }
 
+  export interface EasyThreeFpv {
+    /**
+     * 一人称視点カメラコントローラを有効化する。
+     */
+    connect(options?: {
+      /** マウス操作を有効化するか (デフォルト: true) */
+      mouse?: boolean;
+      /** マウス押し込みで移動するか (デフォルト: false) */
+      mouseDownMove?: boolean;
+      /** 矢印キーで移動するか (デフォルト: true) */
+      arrow?: boolean;
+      /** WASDキーで移動するか (デフォルト: true) */
+      wasd?: boolean;
+      /** タッチ操作で視点移動するか (デフォルト: true) */
+      touch?: boolean;
+      /** カメラの高さ (デフォルト: 1.6) */
+      height?: number;
+      /** 移動速度 (デフォルト: 5) */
+      speed?: number;
+      /** 視点移動速度 (デフォルト: 0.4) */
+      viewSpeed?: number;
+      /** カメラの初期位置 (デフォルト: [0, 0]) */
+      position?: [number, number];
+    }): void;
+    /**
+     * 一人称視点カメラコントローラを無効化する。
+     */
+    disconnect(): void;
+  }
+
+  export interface EasyThreeRaycaster {
+    /**
+     * レイキャスターを有効化する。
+     */
+    connect(): void;
+    /**
+     * レイキャスターを無効化する。
+     */
+    disconnect(): void;
+    /**
+     * レイキャスターの交差判定を取得する。
+     * @param objects 交差判定対象のオブジェクト配列
+     * @returns 交差判定結果の配列
+     */
+    getIntersections(objects: THREE.Object3D[]): THREE.Intersection[];
+  }
+
   export interface EasyThreeEvent {
     // mouse, key などのイベントラッパ
     // [key: string]: any;
@@ -97,6 +144,16 @@ declare module "@masabando/easy-three" {
       }) => void,
       renderFlag?: boolean
     ): void;
+
+    /**
+     * 一人称視点カメラコントローラ。
+     */
+    fpv: EasyThreeFpv;
+
+    /**
+     * レイキャスター。マウスやタッチの位置から、3D空間上のオブジェクトとの交差判定を行う。
+     */
+    raycaster: EasyThreeRaycaster;
 
     /** three.js 本体をそのまま再エクスポートしたもの */
     THREE: THREE;

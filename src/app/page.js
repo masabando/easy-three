@@ -28,17 +28,28 @@ export default function Page() {
             <img className="ms-1" alt="page build" src="https://img.shields.io/github/actions/workflow/status/masabando/easy-three/nextjs.yml?style=flat" />
           </div>
         </div>
-        <div className="text-center mt-10 text-lg">
+        <div className="text-center mt-10 px-2">
           <T>
             <>
-              <span>Create stunning</span>
-              <span className="text-xl font-medium px-1 text-shadow-[1px_1px_4px_rgba(0,130,255,0.7)]">3D</span>
-              <span>with simple code.</span>
+              <span>The easiest way to learn and build 3D on the Web.</span>
             </>
             <>
               <span>シンプルなコードで、魅力的な</span>
               <span className="text-xl font-medium px-1 text-shadow-[1px_1px_4px_rgba(0,130,255,0.7)]">3D</span>
               <span>を。</span>
+            </>
+          </T>
+        </div>
+        <div className="text-center mt-4 text-sm">
+          <T>
+            <>
+              Create interactive 3D websites with just a few lines of code. No build tools. No Node.js. Just HTML and JavaScript.
+            </>
+            <>
+              数行で、インタラクティブな3D Webサイトを作成できます。
+              <br />
+              ビルドツールも、Node.jsも不要。<br />
+              HTMLとJavaScriptだけでOK。
             </>
           </T>
         </div>
