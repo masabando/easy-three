@@ -1,8 +1,8 @@
 ---
 name: easy-three
-description: Official easy-three skill. Use when generating JavaScript, TypeScript, HTML, JSX, or React code for easy-three, beginner-friendly three.js scenes, WebGL examples, 3D objects, cameras, lights, models, VRM, GLTF, textures, events, helpers, or postprocessing.
+description: Official easy-three skill. Use when generating JavaScript, TypeScript, HTML, JSX, or React code for easy-three, beginner-friendly three.js scenes, WebGL examples, 3D objects, cameras, lights, raycasting, canvas textures, models, VRM, GLTF, textures, events, helpers, or postprocessing.
 metadata:
-  version: 1.13.x
+  version: 1.14.x
   source: https://masabando.github.io/easy-three/llms.txt
 alwaysApply: true
 applyTo: "**/*.{js,jsx,ts,tsx,html,md}"
@@ -21,7 +21,7 @@ Use this file as both:
 
 - Use this skill when the project imports `@masabando/easy-three` or `"easy-three"`.
 - Use this skill when generating beginner-friendly three.js/WebGL scenes with easy-three.
-- Use this skill when the user mentions easy-three, three.js simplification, 3D objects, scene setup, camera controls, lights, textures, GLTF, VRM, BVH, helpers, events, water, sky, ocean, text in 3D, or postprocessing.
+- Use this skill when the user mentions easy-three, three.js simplification, 3D objects, scene setup, camera controls, raycasting, lights, canvas textures, GLTF, VRM, BVH, helpers, events, water, sky, ocean, text in 3D, or postprocessing.
 - Use this skill for React components that render easy-three scenes.
 - Do not use this skill for unrelated UI-only work.
 
@@ -51,7 +51,7 @@ For CDN usage, define import maps for `three`, `three/addons/`, `@pixiv/three-vr
 
 1. Prefer easy-three helpers over raw three.js boilerplate.
 2. Always start from `init()` and finish scene setup by calling `animate()`.
-3. Use `create.*` for meshes, lights, text, helpers, sky/ocean/water, HTML meshes, audio, groups, and instancing.
+3. Use `create.*` for meshes, lights, text, canvas textures, helpers, sky/ocean/water, HTML meshes, audio, groups, and instancing.
 4. Use `load.*` for textures, video textures, cube textures, HDR backgrounds, GLTF, VRM, and BVH.
 5. Use `controls.connect()` for orbit-style controls, or `fpv.connect()` for first-person controls. Do not use both in the same scene.
 6. In React, call `init(ref.current)` inside `useEffect()` and clean up with `return () => destroy()`.
@@ -81,7 +81,9 @@ Base:
 - `color(value)`
 - `controls.connect()`, `controls.disconnect()`
 - `fpv.connect(props)`, `fpv.disconnect()`
+- `raycaster.connect(props)`, `raycaster.disconnect()`, `raycaster.getIntersections(objects, props)`
 - `tool.setPixelRatio(pixelRatio)`
+- `tool.distance(mesh1, mesh2, usePixelRatio)`
 
 Create meshes and objects:
 
@@ -115,6 +117,8 @@ Create scene features:
 - `create.material(props)`
 - `create.text(text, props)`
 - `create.textTexture(text, props)`
+- `create.canvas(proc, props)`
+- `create.canvasTexture(proc, props)`
 - `create.fog(props)`
 - `create.sky(props)`
 - `create.ocean(texture, props)`
@@ -172,7 +176,7 @@ animate(({ delta }) => {
 
 `init(target, options)` accepts no target, a CSS selector string, or an HTMLElement. `options.pixelRatio` sets the pixel ratio.
 
-`init()` returns `Default`, `scene`, `camera`, `renderer`, `controls`, `fpv`, `create`, `load`, `helper`, `event`, `animate`, `THREE`, `color`, `postprocessing`, `noToneMapping`, `destroy`, and `tool`.
+`init()` returns `Default`, `scene`, `camera`, `renderer`, `controls`, `fpv`, `raycaster`, `create`, `load`, `helper`, `event`, `animate`, `THREE`, `color`, `postprocessing`, `noToneMapping`, `destroy`, and `tool`.
 
 Do not write manual `THREE.Scene`, `THREE.WebGLRenderer`, resize listeners, or requestAnimationFrame loops unless the user explicitly asks for raw three.js. If easy-three does not expose a feature you need, destructure `THREE` from `init()` and use three.js directly for that specific part.
 
@@ -217,7 +221,9 @@ Only use `destroy()` for lifecycle cleanup such as React unmounting. In normal C
 - `color(value)`: returns a `THREE.Color`; accepts strings and hex values such as `"#ff0000"`, `0xff0000`, or `"hotpink"`.
 - `controls.connect()` / `controls.disconnect()`: enable or disable orbit-style mouse/touch camera control.
 - `fpv.connect(props)` / `fpv.disconnect()`: first-person camera control. Do not use `fpv` and `controls` together.
+- `raycaster.connect(props)` / `raycaster.disconnect()`: enable or disable object picking from the current mouse/touch position.
 - `tool.setPixelRatio(pixelRatio)`: update renderer pixel ratio at runtime.
+- `tool.distance(mesh1, mesh2, usePixelRatio)`: returns the distance between two meshes, or between a mesh and the camera. `usePixelRatio` defaults to `true`.
 
 `fpv.connect()` props:
 
@@ -236,6 +242,17 @@ fpv.connect({
 ```
 
 For `fpv.position`, pass only `[x, z]`; the camera y value comes from `height`.
+
+`raycaster.connect()` props:
+
+```js
+raycaster.connect({
+  useMouse: true,
+  mouseEvent: "pointermove",
+});
+```
+
+Use `raycaster.getIntersections(objects, props)` inside `animate()` to get the objects currently under the pointer. The result is sorted from nearest to farthest. Pass `{ recursive: false }` to ignore child objects.
 
 ## Mesh Creation
 
@@ -323,6 +340,63 @@ create.cube({
 ```
 
 Text is drawn on a plane/texture. Increase `size` or reduce `fontSize` if text is clipped.
+
+## Canvas Textures
+
+- `create.canvas(proc, props)`: creates a plane with a canvas texture applied.
+- `create.canvasTexture(proc, props)`: creates a `CanvasTexture` that can be mapped onto any mesh.
+
+Both APIs pass `(ctx, canvas)` to `proc`. Both support dynamic drawing with `update(proc?)`, and expose `userData.context` and `userData.canvas`.
+
+`create.canvas()` props include `size`, `resolution`, `transparent`, `material`, and other `create.plane()` props.
+
+`create.canvasTexture()` props include `size`, default `[500, 500]`.
+
+Use `create.canvas()` when the target is a plane. Use `create.canvasTexture()` when the texture should be applied to another mesh such as a cube or sphere.
+
+```js
+const plane = create.canvas(
+  (ctx) => {
+    ctx.fillStyle = "red";
+    ctx.fillRect(50, 50, 100, 100);
+    ctx.fillStyle = "blue";
+    ctx.fillRect(150, 150, 100, 100);
+  },
+  {
+    size: 1,
+    resolution: 300,
+    transparent: true,
+  }
+);
+
+plane.update((ctx, canvas) => {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  ctx.fillStyle = "green";
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+});
+```
+
+Canvas texture example for non-plane meshes:
+
+```js
+const { create, THREE } = init();
+
+const texture = create.canvasTexture(
+  (ctx) => {
+    ctx.fillStyle = "red";
+    ctx.fillRect(50, 50, 100, 100);
+  },
+  { size: 300 }
+);
+
+create.cube({
+  option: {
+    map: texture,
+    transparent: true,
+    side: THREE.DoubleSide,
+  },
+});
+```
 
 ## Groups and Instances
 
@@ -467,7 +541,7 @@ animate(({ delta }) => {
 
 When using async assets in `animate()`, always guard against undefined until the promise resolves.
 
-## Events
+## Events and Raycaster
 
 - `event.mouse.add(callback, option)`: registers mouse/pointer events and returns an unregister function. Callback receives `(pos, e)`, where `pos` is a `THREE.Vector2` relative to the target object and `e` is the pointer event. `option.type` defaults to `"once"`.
 - `event.key.add(callback, option)`: registers keyboard events and returns an unregister function. Callback receives `(key, e)`. `option.type` defaults to `"once"`; `option.trigger` defaults to `/[A-Za-z]/`.
@@ -489,6 +563,36 @@ event.key.add((key) => {
 });
 
 animate();
+```
+
+Raycaster example:
+
+```js
+const { camera, create, animate, controls, raycaster } = init();
+
+camera.position.set(0, 0, 3);
+controls.connect();
+raycaster.connect();
+
+create.ambientLight();
+create.directionalLight();
+
+const cube1 = create.cube({ position: [1, 0, 0] });
+const cube2 = create.cube({ position: [-1, 0, 0] });
+
+animate(({ delta }) => {
+  cube1.rotation.y += delta;
+  cube2.rotation.y += delta;
+
+  const intersections = raycaster.getIntersections([cube1, cube2]);
+
+  cube1.material.color.set(0xffffff);
+  cube2.material.color.set(0xffffff);
+
+  if (intersections.length > 0) {
+    intersections[0].object.material.color.set(0xff0000);
+  }
+});
 ```
 
 ## Postprocessing
@@ -569,7 +673,7 @@ Default.texture.wrapping = "Repeat";
 ## AI Code Generation Rules
 
 - Prefer easy-three APIs from this file and the reference pages over raw three.js boilerplate.
-- Use `create.*` for meshes, lights, text, helpers, sky/ocean/water, HTML meshes, audio, and instancing.
+- Use `create.*` for meshes, lights, text, canvas textures, helpers, sky/ocean/water, HTML meshes, audio, and instancing.
 - Use `load.*` for textures, HDR backgrounds, GLTF, VRM, BVH, cube textures, and video textures.
 - Always call `animate()`.
 - Use `delta` for frame-rate-independent animation.
@@ -578,6 +682,8 @@ Default.texture.wrapping = "Repeat";
 - Put material properties under `option`.
 - Do not set `autoAdd: false` unless you will add the object to a group/scene manually.
 - Use `controls.connect()` for orbit controls, or `fpv.connect()` for first-person controls, not both.
+- Use `raycaster.connect()` and `raycaster.getIntersections()` for pointer-based object picking.
+- Use `create.canvas()` for canvas-backed planes and `create.canvasTexture()` for canvas textures mapped onto other meshes.
 - In React, pass the ref element to `init(ref.current)` inside `useEffect()` and clean up with `return () => destroy()`.
 - In CDN/plain JavaScript usage, omit `destroy()` unless the user is explicitly tearing down a scene.
 - If easy-three lacks a needed feature, use `const { THREE } = init()` and write the minimal three.js code for that feature while keeping the rest of the scene in easy-three.
