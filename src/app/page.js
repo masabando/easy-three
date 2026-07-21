@@ -40,13 +40,13 @@ export default function Page() {
             </>
           </T>
         </div>
-        <div className="text-center mt-4 text-sm">
+        <div className="text-center mt-4 text-sm px-2">
           <T>
             <>
-              Create interactive 3D websites with just a few lines of code. No build tools. No Node.js. Just HTML and JavaScript.
+              Create interactive 3D websites and VR experiences with just a few lines of code. No build tools. No Node.js. Just HTML and JavaScript.
             </>
             <>
-              数行で、インタラクティブな3D Webサイトを作成できます。
+              数行で、インタラクティブな3D WebサイトやVR空間を作成できます。
               <br />
               ビルドツールも、Node.jsも不要。<br />
               HTMLとJavaScriptだけでOK。
@@ -242,6 +242,8 @@ animate(({ time }) => {
                     <a className="text-blue-500 underline" href="https://github.com/pixiv/three-vrm">three-vrm</a>).
                     <br />
                     Mouse-based camera operation is also easy.
+                    <br />
+                    Creating VR spaces and selecting objects via raycasting is also straightforward.
                   </>
                   <>
                     VRMモデルの表示なども簡単にできます (内部で{" "}
@@ -249,7 +251,8 @@ animate(({ time }) => {
                     を使用しています)。
                     <br />
                     mocopiでトラッキングしたモーションデータをVRMモデルに簡単に反映できます。<br />
-                    カメラの操作も簡単です。
+                    カメラの操作も簡単です。<br />
+                    さらに、VR空間の作成や、レイキャストによるオブジェクトの選択なども簡単に行えます。
                   </>
                 </T>
               </p>
