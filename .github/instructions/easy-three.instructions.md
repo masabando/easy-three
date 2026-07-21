@@ -224,7 +224,7 @@ Only use `destroy()` for lifecycle cleanup such as React unmounting. In normal C
 - `controls.connect()` / `controls.disconnect()`: enable or disable orbit-style mouse/touch camera control.
 - `fpv.connect(props)` / `fpv.disconnect()`: first-person camera control. Do not use `fpv` and `controls` together.
 - `raycaster.connect(props)` / `raycaster.disconnect()`: enable or disable object picking from the current mouse/touch position.
-- `xr.setup(props)`: enables WebXR/VR, adds a VR button, sets the initial camera pose, and optionally creates controllers and hand models.
+- `xr.setup(props)`: enables WebXR/VR, adds a VR button, and optionally creates controllers and hand models.
 - `tool.setPixelRatio(pixelRatio)`: update renderer pixel ratio at runtime.
 - `tool.distance(mesh1, mesh2, usePixelRatio)`: returns the distance between two meshes, or between a mesh and the camera. `usePixelRatio` defaults to `true`.
 
@@ -266,8 +266,6 @@ const {
   leftHand,
   rightHand,
 } = xr.setup({
-  position: [0, 1.6, 3],
-  lookAt: [0, 1.6, 0],
   leftController: true,
   rightController: true,
   leftHand: true,
@@ -277,9 +275,9 @@ const {
 });
 ```
 
-`position` sets the initial camera position. `lookAt` sets the initial camera direction. `buttonTarget` is where the VR button is appended; by default it uses the easy-three target element. `selectableObjects` is the array of objects that controllers can select.
+`buttonTarget` is where the VR button is appended; by default it uses the easy-three target element. `selectableObjects` is the array of objects that controllers can select.
 
-In XR mode, do not call `controls.connect()` or `fpv.connect()`. The XR device controls the camera position and rotation.
+In XR mode, do not call `controls.connect()` or `fpv.connect()`. The XR device controls the camera position and rotation. Direct camera pose changes such as `camera.position` are ignored while presenting in XR, but they can still be useful for non-XR preview.
 
 ## Mesh Creation
 
@@ -570,28 +568,30 @@ When using async assets in `animate()`, always guard against undefined until the
 
 ## XR
 
-Use `xr.setup()` for WebXR/VR scenes. It enables `renderer.xr`, appends a `VRButton`, sets the camera's initial position and direction, and creates controller/hand objects when enabled.
+Use `xr.setup()` for WebXR/VR scenes. It enables `renderer.xr`, appends a `VRButton`, and creates controller/hand objects when enabled.
 
 ```js
-const { create, animate, xr } = init();
+const { camera, controls, create, animate, xr } = init();
+
+// Useful for non-XR preview. XR devices control the camera in XR mode.
+camera.position.set(0, 1.6, 0);
+controls.target.set(0, 1.6, -1);
 
 create.ambientLight();
 create.directionalLight();
 create.sky();
 
 const cube1 = create.cube({
-  position: [1, 1, 0],
+  position: [1, 1, -3],
 });
 
 const cube2 = create.cube({
-  position: [-1, 1, 0],
+  position: [-1, 1, -3],
 });
 
 const ocean = create.ocean("./NormalMap-1.jpg");
 
 const { rightController } = xr.setup({
-  position: [0, 1.6, 3],
-  lookAt: [0, 1.6, 0],
   selectableObjects: [cube1, cube2],
 });
 
@@ -623,6 +623,7 @@ XR rules:
 - XR uses the same `animate()` loop. easy-three already uses `renderer.setAnimationLoop()`.
 - Use `selectableObjects` for simple controller picking.
 - Put XR setup after creating objects that should be selectable.
+- Do not pass camera pose to `xr.setup()`; set camera position only when a useful non-XR preview is needed.
 - WebXR requires a supported browser/device and a secure context such as HTTPS or localhost.
 
 ## Events and Raycaster

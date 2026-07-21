@@ -67,10 +67,6 @@ declare module "@masabando/easy-three" {
      * XR セッションをセットアップする。
      */
     setup(options?: {
-      /** XRセッションの初期位置 (デフォルト: [0, 1.6, 0]) */
-      position?: [number, number, number];
-      /** XRセッションの初期視点 (デフォルト: [0, 1.6, -1]) */
-      lookAt?: [number, number, number];
       /** 左手のコントローラを有効化するか (デフォルト: true) */
       leftController?: boolean;
       /** 右手のコントローラを有効化するか (デフォルト: true) */

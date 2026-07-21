@@ -225,6 +225,7 @@ animate(({ time }) => {
                 maxWidth: "100%",
                 aspectRatio: "4 / 3",
                 overflow: "hidden",
+                position: "relative",
               }}
             />
             <div className="mb-5 mt-20">

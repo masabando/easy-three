@@ -5,11 +5,12 @@ import { useEffect, useRef } from "react";
 export const DemoSimple = (props) => {
   const ref = useRef();
   useEffect(() => {
-    const { camera, create, animate, destroy } = init(ref.current);
+    const { camera, create, animate, destroy, xr } = init(ref.current);
     camera.position.set(1, 1, 1);
     create.ambientLight();
     create.directionalLight();
     const cube = create.cube({ rounded: true, segments: 7 });
+    xr.setup();
     animate(({ time }) => {
       cube.rotation.x = time;
       cube.rotation.y = time;
@@ -67,7 +68,7 @@ export const DemoModel = (props) => {
 export const DemoModelAnimation = (props) => {
   const ref = useRef();
   useEffect(() => {
-    const { camera, create, animate, controls, helper, load, destroy } = init(
+    const { camera, create, animate, controls, helper, load, destroy, xr } = init(
       ref.current
     );
     // controls.connect();
@@ -81,7 +82,7 @@ export const DemoModelAnimation = (props) => {
 
     const cube = create.cube({
       size: 0.5,
-      position: [1, 1, 0],
+      position: [1, 1, -1],
       rounded: true,
       segments: 7,
     });
@@ -89,13 +90,15 @@ export const DemoModelAnimation = (props) => {
     let model;
     let mixer;
     load.vrm("./model/sample.vrm", {
-      position: [0, -0.55, 0],
+      position: [-1, -0.55, 1],
     }).then((m) => {
       model = m;
       load.bvh2("./motion/sampleMotion.bvh", model).then((bvhObj) => {
         mixer = bvhObj.mixer;
       });
     });
+
+    xr.setup();
 
     animate(({ time, delta }) => {
       cube.rotation.y += delta;
@@ -138,12 +141,14 @@ export const DemoWorld = ({ worldControl, ...props }) => {
       THREE,
       postprocessing,
       destroy,
+      xr,
     } = init(ref.current);
     controlsRef.current = controls;
     if (worldControl) {
       controls.connect();
     }
-    camera.position.set(0, 2, 5);
+    camera.position.set(0, 1.6, 0);
+    controls.target.set(0, 1.6, -6);
     create.ambientLight({ intensity: 0.5 });
     create.directionalLight({ intensity: 1 });
     load.background("./texture/hdr/symmetrical_garden_02_1k.hdr");
@@ -165,7 +170,7 @@ export const DemoWorld = ({ worldControl, ...props }) => {
     };
     create.plane({
       size: 10,
-      position: [0, -1, 0],
+      position: [0, -1, -6],
       rotation: [-Math.PI / 2, 0, 0],
       option: texture.plane,
     });
@@ -173,10 +178,12 @@ export const DemoWorld = ({ worldControl, ...props }) => {
       size: 3,
       rounded: true,
       segments: 7,
-      position: [0, 0.5, 0],
+      position: [0, 0.5, -6],
       option: texture.cube,
     });
-    const group = new THREE.Group();
+    const group = create.group({
+      position: [0, 0, -6],
+    });
     let i = 0;
     const cube1 = create.cube({
       size: 1,
@@ -248,6 +255,8 @@ export const DemoWorld = ({ worldControl, ...props }) => {
     const ocean = create.ocean("/easy-three/texture/water/NormalMap-1.jpg", {
       position: [0, -1.05, 0],
     });
+
+    xr.setup()
 
     animate(({ time, delta }) => {
       ocean.update(delta);

@@ -2831,19 +2831,13 @@ const $02085b926ca309ff$var$xr = ({ THREE: THREE, renderer: renderer, scene: sce
         raycaster.ray.direction.set(0, 0, -1).applyMatrix4(tempMatrix);
         return raycaster.intersectObjects(objects, recursive);
     }
-    function setup({ position: position = [
-        0,
-        1.6,
-        3
-    ], lookAt: lookAt = [
-        0,
-        1.6,
-        0
-    ], leftController: leftController = true, rightController: rightController = true, leftHand: leftHand = true, rightHand: rightHand = true, buttonTarget: buttonTarget = domElement, selectableObjects: selectableObjects = [] } = {}) {
+    function setup({ leftController: // position = [0, 1.6, 3],
+    // lookAt = [0, 1.6, 0],
+    leftController = true, rightController: rightController = true, leftHand: leftHand = true, rightHand: rightHand = true, buttonTarget: buttonTarget = domElement, selectableObjects: selectableObjects = [] } = {}) {
         buttonTarget.appendChild((0, $1LQKV$VRButton).createButton(renderer));
         renderer.xr.enabled = true;
-        camera.position.set(...position);
-        camera.lookAt(...lookAt);
+        // camera.position.set(...position)
+        // camera.lookAt(...lookAt)
         const _leftController = leftController ? setupVRControllers(0, selectableObjects) : null;
         const _rightController = rightController ? setupVRControllers(1, selectableObjects) : null;
         const _leftHand = leftHand ? setupVRHands(0) : null;

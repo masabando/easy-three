@@ -26,6 +26,7 @@ export default function TopAnimation() {
             width: "600px",
             aspectRatio: "6 / 4",
             maxWidth: "100%",
+            position: "relative",
           }}
         />
       </div>

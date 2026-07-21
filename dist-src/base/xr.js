@@ -63,8 +63,8 @@ const xr = ({ THREE, renderer, scene, camera, domElement }) => {
   }
 
   function setup({
-    position = [0, 1.6, 3],
-    lookAt = [0, 1.6, 0],
+    // position = [0, 1.6, 3],
+    // lookAt = [0, 1.6, 0],
     leftController = true,
     rightController = true,
     leftHand = true,
@@ -74,8 +74,8 @@ const xr = ({ THREE, renderer, scene, camera, domElement }) => {
   } = {}) {
     buttonTarget.appendChild(VRButton.createButton(renderer))
     renderer.xr.enabled = true
-    camera.position.set(...position)
-    camera.lookAt(...lookAt)
+    // camera.position.set(...position)
+    // camera.lookAt(...lookAt)
 
     const _leftController = leftController ? setupVRControllers(0, selectableObjects) : null
     const _rightController = rightController ? setupVRControllers(1, selectableObjects) : null

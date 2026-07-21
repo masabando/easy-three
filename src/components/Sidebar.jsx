@@ -7,7 +7,7 @@ import { FaTools, FaRunning, FaRobot } from "react-icons/fa";
 import { IoBookOutline, IoCubeOutline, IoDownloadOutline } from "react-icons/io5";
 import { FaBookBookmark } from "react-icons/fa6";
 import { MdOutlineLightbulb, MdMiscellaneousServices, MdOutlineSchool } from "react-icons/md";
-import { BsLayers } from "react-icons/bs";
+import { BsBadgeVr, BsLayers } from "react-icons/bs";
 import { LuHandHelping, LuMouse } from "react-icons/lu";
 import { FiLayers } from "react-icons/fi";
 
@@ -79,6 +79,21 @@ export default function Sidebar() {
           <T>
             <>Getting Started</>
             <>使ってみる</>
+          </T>
+        </Link>
+      </li>
+      <li>
+        <Link
+          href="/getting-started/xr/"
+          className={pathname === "/getting-started/xr/" ? "bg-gray-300" : ""}
+          onClick={() => {
+            document.querySelector("#menuSidebar").checked = false;
+          }}
+        >
+          <BsBadgeVr size={16} color="hotpink" />
+          <T>
+            <>WebXR Support</>
+            <>WebXR対応</>
           </T>
         </Link>
       </li>
@@ -262,7 +277,11 @@ export default function Sidebar() {
             label: "html",
             nw: true,
           },
-          { href: "/reference/create/canvasTexture/", label: "canvasTexture", nw: true },
+          {
+            href: "/reference/create/canvasTexture/",
+            label: "canvasTexture",
+            nw: true,
+          },
           { href: "/reference/create/canvas/", label: "canvas", nw: true },
         ]}
       />
@@ -322,7 +341,7 @@ export default function Sidebar() {
             href: "/reference/tool/distance/",
             label: "distance",
             nw: true,
-          }
+          },
         ]}
       />
     </ul>

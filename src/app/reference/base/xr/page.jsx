@@ -24,15 +24,9 @@ export default function Page() {
         その後、<code>setup()</code> を呼び出すことで有効化されます。
       </p>
       <p className="mt-4">
-        <code>setup()</code> の引数で、コントローラーやハンドの有効化、カメラの位置や向き、ボタンの設置先などを指定することができます。
+        <code>setup()</code> の引数で、コントローラーやハンドの有効化、ボタンの設置先などを指定することができます。
       </p>
       <ul className="list-disc list-inside pl-4 my-4 space-y-2">
-        <li>
-          <code>position</code>: カメラの位置を指定します。デフォルトは <code>[0, 1.6, 3]</code> です。
-        </li>
-        <li>
-          <code>lookAt</code>: カメラの向きを指定します。デフォルトは <code>[0, 1.6, 0]</code> です。
-        </li>
         <li>
           <code>leftController</code>: 左コントローラーを有効化するかどうかを指定します。デフォルトは <code>true</code> です。
         </li>
@@ -75,8 +69,6 @@ export default function Page() {
   leftHand,
   rightHand
 } = xr.setup({
-  position: [0, 1.6, 3],
-  lookAt: [0, 1.6, 0],
   leftController: true,
   rightController: true,
   leftHand: true,
@@ -91,11 +83,21 @@ export default function Page() {
       <div className="alert alert-warning mt-4 alert-soft">
         <p>
           fpv や controls などのカメラ操作系の機能は、XR モードでは使わないでください。<br />
-          XR モードでは、カメラの位置や向きは、ユーザーの頭の動きに合わせて自動的に更新されます。
+          XR モードでは、カメラの位置や向きは、ユーザーの頭の動きに合わせて自動的に更新されます。<br />
+          <code>camera.position</code> など、カメラの位置や向きを直接変更するコードは、XR モードでは無視されます。
         </p>
       </div>
 
       <H2 className="mt-14">サンプルコード</H2>
+      <p className="mt-4">
+        以下のサンプルコードでは、2つの立方体を作成し、右コントローラーで選択可能にしています。<br />
+        選択された立方体は、赤色に変化し、回転します。<br />
+        また、海面を作成し、アニメーションで波を表現しています。
+      </p>
+      <p className="mt-4">
+        XRモードではカメラの位置などはユーザーの頭の動きに合わせて自動的に更新されるため、カメラの位置や向きを直接変更するコードは無視されます。<br />
+        しかし、このサンプルコードのように、プレビュー画面で確認しやすいようにカメラの位置や向きを設定すると良いです。
+      </p>
 
       <Ex1
         className="border mt-4"
@@ -107,17 +109,20 @@ export default function Page() {
       />
 
       <CodeBlock>
-        {`const { camera, create, animate, xr } = init();
+        {`const { camera, create, animate, controls, xr } = init();
+
+camera.position.set(0, 1.6, 0)
+controls.target.set(0, 1.6, -1)
 
 create.ambientLight();
 create.directionalLight();
 create.sky()
 
 const cube1 = create.cube({
-  position: [1, 1, 0],
+  position: [1, 1, -3],
 });
 const cube2 = create.cube({
-  position: [-1, 1, 0],
+  position: [-1, 1, -3],
 });
 
 const ocean = create.ocean("/easy-three/texture/water/NormalMap-1.jpg");
