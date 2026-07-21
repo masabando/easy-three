@@ -256,7 +256,7 @@ export const DemoWorld = ({ worldControl, ...props }) => {
       position: [0, -1.05, 0],
     });
 
-    xr.setup()
+    // xr.setup()
 
     animate(({ time, delta }) => {
       ocean.update(delta);
