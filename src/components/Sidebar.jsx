@@ -189,6 +189,7 @@ export default function Sidebar() {
             nw: true,
           },
           { href: "/reference/base/color/", label: "color" },
+          { href: "/reference/base/xr/", label: "xr", nw: true },
           { href: "/reference/base/default/", label: "Default" },
           { href: "/reference/base/destroy/", label: "destroy" },
         ]}

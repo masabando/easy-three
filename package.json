@@ -37,6 +37,7 @@
   },
   "scripts": {
     "dev": "next dev",
+    "dev:https": "next dev --experimental-https",
     "parcel": "parcel build dist-src/easy-three.js --no-cache --no-source-maps --dist-dir dist",
     "build": "next build",
     "start": "next start",

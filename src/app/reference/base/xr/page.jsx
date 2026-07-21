@@ -1,0 +1,143 @@
+import CodeBlock from "@/components/CodeBlock";
+import H1 from "@/components/H1";
+import H2 from "@/components/H2";
+import H3 from "@/components/H3";
+import { Ex1 } from "./Codes";
+
+export const metadata = {
+  title: "xr",
+};
+
+export default function Page() {
+  return (
+    <div>
+      <H1>xr</H1>
+
+      <p>Web XR を利用するための仕組みを提供します。</p>
+
+      <H2 className="mt-14">使用方法</H2>
+      <p>
+        まず、<code>init()</code> の戻り値から xr を取得します。
+      </p>
+      <CodeBlock>{`const { create, camera, animate, xr } = init();`}</CodeBlock>
+      <p className="mt-4">
+        その後、<code>setup()</code> を呼び出すことで有効化されます。
+      </p>
+      <p className="mt-4">
+        <code>setup()</code> の引数で、コントローラーやハンドの有効化、カメラの位置や向き、ボタンの設置先などを指定することができます。
+      </p>
+      <ul className="list-disc list-inside pl-4 my-4 space-y-2">
+        <li>
+          <code>position</code>: カメラの位置を指定します。デフォルトは <code>[0, 1.6, 3]</code> です。
+        </li>
+        <li>
+          <code>lookAt</code>: カメラの向きを指定します。デフォルトは <code>[0, 1.6, 0]</code> です。
+        </li>
+        <li>
+          <code>leftController</code>: 左コントローラーを有効化するかどうかを指定します。デフォルトは <code>true</code> です。
+        </li>
+        <li>
+          <code>rightController</code>: 右コントローラーを有効化するかどうかを指定します。デフォルトは <code>true</code> です。
+        </li>
+        <li>
+          <code>leftHand</code>: 左ハンドを有効化するかどうかを指定します。デフォルトは <code>true</code> です。
+        </li>
+        <li>
+          <code>rightHand</code>: 右ハンドを有効化するかどうかを指定します。デフォルトは <code>true</code> です。
+        </li>
+        <li>
+          <code>buttonTarget</code>: ボタンの設置先を指定します。デフォルトは <code>domElement</code> です。
+        </li>
+        <li>
+          <code>selectableObjects</code>: コントローラーで選択可能なオブジェクトの配列を指定します。デフォルトは <code>[]</code> です。
+        </li>
+      </ul>
+      <p className="mt-4">
+        <code>setup()</code> の戻り値として、コントローラーやハンドのオブジェクトが返されます。
+      </p>
+      <ul className="list-disc list-inside pl-4 my-4 space-y-2">
+        <li>
+          <code>leftController</code>: 左コントローラーのオブジェクトです。
+        </li>
+        <li>
+          <code>rightController</code>: 右コントローラーのオブジェクトです。
+        </li>
+        <li>
+          <code>leftHand</code>: 左ハンドのオブジェクトです。
+        </li>
+        <li>
+          <code>rightHand</code>: 右ハンドのオブジェクトです。
+        </li>
+      </ul>
+      <CodeBlock>{`const {
+  leftController,
+  rightController,
+  leftHand,
+  rightHand
+} = xr.setup({
+  position: [0, 1.6, 3],
+  lookAt: [0, 1.6, 0],
+  leftController: true,
+  rightController: true,
+  leftHand: true,
+  rightHand: true,
+  selectableObjects: [],
+})`}</CodeBlock>
+      <p className="mt-4">
+        selectableObjects に指定したオブジェクトは、コントローラーで選択可能になります。選択されたオブジェクトは、コントローラーの userData.selected に格納されます。
+      </p>
+      <CodeBlock>{`const selected = rightController.userData.selected;`}</CodeBlock>
+
+      <div className="alert alert-warning mt-4 alert-soft">
+        <p>
+          fpv や controls などのカメラ操作系の機能は、XR モードでは使わないでください。<br />
+          XR モードでは、カメラの位置や向きは、ユーザーの頭の動きに合わせて自動的に更新されます。
+        </p>
+      </div>
+
+      <H2 className="mt-14">サンプルコード</H2>
+
+      <Ex1
+        className="border mt-4"
+        style={{
+          width: "240px",
+          height: "240px",
+          position: "relative",
+        }}
+      />
+
+      <CodeBlock>
+        {`const { camera, create, animate, xr } = init();
+
+create.ambientLight();
+create.directionalLight();
+create.sky()
+
+const cube1 = create.cube({
+  position: [1, 1, 0],
+});
+const cube2 = create.cube({
+  position: [-1, 1, 0],
+});
+
+const ocean = create.ocean("/easy-three/texture/water/NormalMap-1.jpg");
+
+const { rightController } = xr.setup({
+  selectableObjects: [cube1, cube2],
+});
+
+animate(({ delta }) => {
+  ocean.update(delta);
+
+  cube1.material.color.set(0x0000ff)
+  cube2.material.color.set(0x0000ff)
+
+  if (rightController.userData.selected) {
+    rightController.userData.selected.rotation.y += delta;
+    rightController.userData.selected.material.color.set(0xff0000)
+  }
+});`}
+      </CodeBlock>
+    </div>
+  );
+}

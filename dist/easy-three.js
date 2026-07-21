@@ -23,6 +23,9 @@ import {HDRLoader as $1LQKV$HDRLoader} from "three/addons/loaders/HDRLoader.js";
 import {GLTFLoader as $1LQKV$GLTFLoader} from "three/addons/loaders/GLTFLoader.js";
 import {VRMLoaderPlugin as $1LQKV$VRMLoaderPlugin, VRMUtils as $1LQKV$VRMUtils} from "@pixiv/three-vrm";
 import {BVHLoader as $1LQKV$BVHLoader} from "three/addons/loaders/BVHLoader.js";
+import {VRButton as $1LQKV$VRButton} from "three/examples/jsm/webxr/VRButton.js";
+import {XRHandModelFactory as $1LQKV$XRHandModelFactory} from "three/examples/jsm/webxr/XRHandModelFactory.js";
+import {XRControllerModelFactory as $1LQKV$XRControllerModelFactory} from "three/examples/jsm/webxr/XRControllerModelFactory.js";
 
 
 const $05e1af71c54d2f4c$var$Default = {
@@ -2779,6 +2782,86 @@ const $1173d806c7708ef5$var$addTool = ({ tool: tool, renderer: renderer })=>{
 var $1173d806c7708ef5$export$2e2bcd8739ae039 = $1173d806c7708ef5$var$addTool;
 
 
+
+
+
+const $02085b926ca309ff$var$xr = ({ THREE: THREE, renderer: renderer, scene: scene, camera: camera, domElement: domElement })=>{
+    function setupVRHands(index) {
+        const handModelFactory = new (0, $1LQKV$XRHandModelFactory)();
+        const hand = renderer.xr.getHand(index);
+        hand.add(handModelFactory.createHandModel(hand, 'mesh'));
+        scene.add(hand);
+    }
+    function setupVRControllers(index, selectableObjects = []) {
+        const controllerModelFactory = new (0, $1LQKV$XRControllerModelFactory)();
+        const controller = renderer.xr.getController(index);
+        scene.add(controller);
+        const controllerGrip = renderer.xr.getControllerGrip(index);
+        controllerGrip.add(controllerModelFactory.createControllerModel(controllerGrip));
+        scene.add(controllerGrip);
+        const geometry = new THREE.BufferGeometry().setFromPoints([
+            new THREE.Vector3(0, 0, 0),
+            new THREE.Vector3(0, 0, -1)
+        ]);
+        const line = new THREE.Line(geometry);
+        line.name = 'line';
+        line.scale.z = 5;
+        line.material.color = new THREE.Color(index === 0 ? 0xff0000 : 0x0000ff);
+        controller.add(line.clone());
+        controller.addEventListener('selectstart', (event)=>{
+            const controller = event.target;
+            const intersections = getIntersections(controller, selectableObjects);
+            if (intersections.length > 0) {
+                const intersection = intersections[0];
+                const object = intersection.object;
+                controller.userData.selected = object;
+            }
+        });
+        controller.addEventListener('selectend', (event)=>{
+            const controller = event.target;
+            if (controller.userData.selected) controller.userData.selected = undefined;
+        });
+        return controller;
+    }
+    const tempMatrix = new THREE.Matrix4();
+    const raycaster = new THREE.Raycaster();
+    function getIntersections(controller, objects, recursive = true) {
+        tempMatrix.identity().extractRotation(controller.matrixWorld);
+        raycaster.ray.origin.setFromMatrixPosition(controller.matrixWorld);
+        raycaster.ray.direction.set(0, 0, -1).applyMatrix4(tempMatrix);
+        return raycaster.intersectObjects(objects, recursive);
+    }
+    function setup({ position: position = [
+        0,
+        1.6,
+        3
+    ], lookAt: lookAt = [
+        0,
+        1.6,
+        0
+    ], leftController: leftController = true, rightController: rightController = true, leftHand: leftHand = true, rightHand: rightHand = true, buttonTarget: buttonTarget = domElement, selectableObjects: selectableObjects = [] } = {}) {
+        buttonTarget.appendChild((0, $1LQKV$VRButton).createButton(renderer));
+        renderer.xr.enabled = true;
+        camera.position.set(...position);
+        camera.lookAt(...lookAt);
+        const _leftController = leftController ? setupVRControllers(0, selectableObjects) : null;
+        const _rightController = rightController ? setupVRControllers(1, selectableObjects) : null;
+        const _leftHand = leftHand ? setupVRHands(0) : null;
+        const _rightHand = rightHand ? setupVRHands(1) : null;
+        return {
+            leftController: _leftController,
+            rightController: _rightController,
+            leftHand: _leftHand,
+            rightHand: _rightHand
+        };
+    }
+    return {
+        setup: setup
+    };
+};
+var $02085b926ca309ff$export$2e2bcd8739ae039 = $02085b926ca309ff$var$xr;
+
+
 function $0cde3fdde307ec9a$export$2cd8252107eb640b(targetName, { pixelRatio: pixelRatio = window.devicePixelRatio } = {}) {
     const Default = (0, $05e1af71c54d2f4c$export$2e2bcd8739ae039);
     const { domElement: domElement, scene: scene, camera: camera, renderer: renderer, controls: controls, sizeTarget: sizeTarget, sizeTargetResize: sizeTargetResize, windowResize: windowResize, color: color, noToneMapping: noToneMapping, destroy: destroy } = (0, $b0f8916483f44240$export$2e2bcd8739ae039)({
@@ -2849,6 +2932,13 @@ function $0cde3fdde307ec9a$export$2cd8252107eb640b(targetName, { pixelRatio: pix
         tool: tool,
         renderer: renderer
     });
+    const xr = (0, $02085b926ca309ff$export$2e2bcd8739ae039)({
+        THREE: $1LQKV$three,
+        renderer: renderer,
+        scene: scene,
+        camera: camera,
+        domElement: domElement
+    });
     return {
         Default: Default,
         scene: scene,
@@ -2867,6 +2957,7 @@ function $0cde3fdde307ec9a$export$2cd8252107eb640b(targetName, { pixelRatio: pix
         tool: tool,
         raycaster: raycaster,
         noToneMapping: noToneMapping,
+        xr: xr,
         destroy: destroy
     };
 }

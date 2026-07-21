@@ -2,7 +2,6 @@
 import { useEffect, useRef, useState } from "react";
 import { init } from "@dist-src/easy-three";
 import H1 from "@/components/H1";
-import { HTMLMesh } from 'three/addons/interactive/HTMLMesh.js';
 
 export default function Page() {
   const meshRef = useRef();
@@ -25,11 +24,12 @@ export default function Page() {
       THREE,
       destroy,
       tool,
+      xr,
     } = init(ref.current, { pixelRatio: 1 });
 
     camera.position.set(0, 1.5, 3);
     // fpv.connect()
-    controls.connect();
+    // controls.connect();
 
     create.ambientLight()
 
@@ -90,6 +90,8 @@ export default function Page() {
 
     raycaster.connect()
 
+    xr.setup();
+
     animate(({ delta, time, frameCount }) => {
       const r = 20 + Math.sin(time * 1.5 * 0) * 18;
       if (model) {
@@ -135,6 +137,7 @@ export default function Page() {
             width: "100%",
             maxWidth: "800px",
             aspectRatio: "1 / 1",
+            position: "relative",
           }}
         ></div>
       </div>

@@ -11,6 +11,7 @@ import addLoad from './load/main.js';
 import addHelper from './helper/main.js';
 import addEvent from './event/main.js'
 import addTool from './tool/main.js'
+import _xr from './base/xr.js'
 
 export function init(targetName, {
   pixelRatio = window.devicePixelRatio,
@@ -56,6 +57,8 @@ export function init(targetName, {
   const tool = {}
   addTool({ tool, renderer })
 
+  const xr = _xr({ THREE, renderer, scene, camera, domElement })
+
   return {
     Default,
     scene,
@@ -74,6 +77,7 @@ export function init(targetName, {
     tool,
     raycaster,
     noToneMapping,
+    xr,
     destroy,
   }
 }
