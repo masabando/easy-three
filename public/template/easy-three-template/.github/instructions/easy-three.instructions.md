@@ -1,6 +1,6 @@
 ---
 name: easy-three
-description: Official easy-three skill. Use when generating JavaScript, TypeScript, HTML, JSX, or React code for easy-three, beginner-friendly three.js scenes, WebGL examples, 3D objects, cameras, lights, raycasting, canvas textures, models, VRM, GLTF, textures, events, helpers, or postprocessing.
+description: Official easy-three skill. Use when generating JavaScript, TypeScript, HTML, JSX, or React code for easy-three, beginner-friendly three.js scenes, WebGL/WebXR examples, 3D objects, cameras, lights, raycasting, canvas textures, models, VRM, GLTF, textures, events, helpers, XR, VR, controllers, hands, or postprocessing.
 metadata:
   version: 1.14.x
   source: https://masabando.github.io/easy-three/llms.txt
@@ -21,7 +21,7 @@ Use this file as both:
 
 - Use this skill when the project imports `@masabando/easy-three` or `"easy-three"`.
 - Use this skill when generating beginner-friendly three.js/WebGL scenes with easy-three.
-- Use this skill when the user mentions easy-three, three.js simplification, 3D objects, scene setup, camera controls, raycasting, lights, canvas textures, GLTF, VRM, BVH, helpers, events, water, sky, ocean, text in 3D, or postprocessing.
+- Use this skill when the user mentions easy-three, three.js simplification, 3D objects, scene setup, camera controls, raycasting, lights, canvas textures, GLTF, VRM, BVH, helpers, events, water, sky, ocean, text in 3D, XR, VR, WebXR, controllers, hands, or postprocessing.
 - Use this skill for React components that render easy-three scenes.
 - Do not use this skill for unrelated UI-only work.
 
@@ -54,11 +54,12 @@ For CDN usage, define import maps for `three`, `three/addons/`, `@pixiv/three-vr
 3. Use `create.*` for meshes, lights, text, canvas textures, helpers, sky/ocean/water, HTML meshes, audio, groups, and instancing.
 4. Use `load.*` for textures, video textures, cube textures, HDR backgrounds, GLTF, VRM, and BVH.
 5. Use `controls.connect()` for orbit-style controls, or `fpv.connect()` for first-person controls. Do not use both in the same scene.
-6. In React, call `init(ref.current)` inside `useEffect()` and clean up with `return () => destroy()`.
-7. In normal CDN/plain JavaScript snippets, do not include `destroy()` unless the scene is explicitly torn down dynamically.
-8. Put material settings under `option`.
-9. Use arrays for `position`, `rotation`, `scale`, and multi-axis `size`/`segments` props.
-10. If easy-three does not expose a required feature, destructure `THREE` from `init()` and use minimal raw three.js code only for that feature.
+6. For XR scenes, use `xr.setup()` and do not use `controls` or `fpv` camera controls in XR mode.
+7. In React, call `init(ref.current)` inside `useEffect()` and clean up with `return () => destroy()`.
+8. In normal CDN/plain JavaScript snippets, do not include `destroy()` unless the scene is explicitly torn down dynamically.
+9. Put material settings under `option`.
+10. Use arrays for `position`, `rotation`, `scale`, and multi-axis `size`/`segments` props.
+11. If easy-three does not expose a required feature, destructure `THREE` from `init()` and use minimal raw three.js code only for that feature.
 
 ## API Selection Protocol
 
@@ -82,6 +83,7 @@ Base:
 - `controls.connect()`, `controls.disconnect()`
 - `fpv.connect(props)`, `fpv.disconnect()`
 - `raycaster.connect(props)`, `raycaster.disconnect()`, `raycaster.getIntersections(objects, props)`
+- `xr.setup(props)`
 - `tool.setPixelRatio(pixelRatio)`
 - `tool.distance(mesh1, mesh2, usePixelRatio)`
 
@@ -176,7 +178,7 @@ animate(({ delta }) => {
 
 `init(target, options)` accepts no target, a CSS selector string, or an HTMLElement. `options.pixelRatio` sets the pixel ratio.
 
-`init()` returns `Default`, `scene`, `camera`, `renderer`, `controls`, `fpv`, `raycaster`, `create`, `load`, `helper`, `event`, `animate`, `THREE`, `color`, `postprocessing`, `noToneMapping`, `destroy`, and `tool`.
+`init()` returns `Default`, `scene`, `camera`, `renderer`, `controls`, `fpv`, `raycaster`, `xr`, `create`, `load`, `helper`, `event`, `animate`, `THREE`, `color`, `postprocessing`, `noToneMapping`, `destroy`, and `tool`.
 
 Do not write manual `THREE.Scene`, `THREE.WebGLRenderer`, resize listeners, or requestAnimationFrame loops unless the user explicitly asks for raw three.js. If easy-three does not expose a feature you need, destructure `THREE` from `init()` and use three.js directly for that specific part.
 
@@ -222,6 +224,7 @@ Only use `destroy()` for lifecycle cleanup such as React unmounting. In normal C
 - `controls.connect()` / `controls.disconnect()`: enable or disable orbit-style mouse/touch camera control.
 - `fpv.connect(props)` / `fpv.disconnect()`: first-person camera control. Do not use `fpv` and `controls` together.
 - `raycaster.connect(props)` / `raycaster.disconnect()`: enable or disable object picking from the current mouse/touch position.
+- `xr.setup(props)`: enables WebXR/VR, adds a VR button, sets the initial camera pose, and optionally creates controllers and hand models.
 - `tool.setPixelRatio(pixelRatio)`: update renderer pixel ratio at runtime.
 - `tool.distance(mesh1, mesh2, usePixelRatio)`: returns the distance between two meshes, or between a mesh and the camera. `usePixelRatio` defaults to `true`.
 
@@ -253,6 +256,30 @@ raycaster.connect({
 ```
 
 Use `raycaster.getIntersections(objects, props)` inside `animate()` to get the objects currently under the pointer. The result is sorted from nearest to farthest. Pass `{ recursive: false }` to ignore child objects.
+
+`xr.setup()` props:
+
+```js
+const {
+  leftController,
+  rightController,
+  leftHand,
+  rightHand,
+} = xr.setup({
+  position: [0, 1.6, 3],
+  lookAt: [0, 1.6, 0],
+  leftController: true,
+  rightController: true,
+  leftHand: true,
+  rightHand: true,
+  buttonTarget: document.body,
+  selectableObjects: [],
+});
+```
+
+`position` sets the initial camera position. `lookAt` sets the initial camera direction. `buttonTarget` is where the VR button is appended; by default it uses the easy-three target element. `selectableObjects` is the array of objects that controllers can select.
+
+In XR mode, do not call `controls.connect()` or `fpv.connect()`. The XR device controls the camera position and rotation.
 
 ## Mesh Creation
 
@@ -541,6 +568,63 @@ animate(({ delta }) => {
 
 When using async assets in `animate()`, always guard against undefined until the promise resolves.
 
+## XR
+
+Use `xr.setup()` for WebXR/VR scenes. It enables `renderer.xr`, appends a `VRButton`, sets the camera's initial position and direction, and creates controller/hand objects when enabled.
+
+```js
+const { create, animate, xr } = init();
+
+create.ambientLight();
+create.directionalLight();
+create.sky();
+
+const cube1 = create.cube({
+  position: [1, 1, 0],
+});
+
+const cube2 = create.cube({
+  position: [-1, 1, 0],
+});
+
+const ocean = create.ocean("./NormalMap-1.jpg");
+
+const { rightController } = xr.setup({
+  position: [0, 1.6, 3],
+  lookAt: [0, 1.6, 0],
+  selectableObjects: [cube1, cube2],
+});
+
+animate(({ delta }) => {
+  ocean.update(delta);
+
+  cube1.material.color.set(0x0000ff);
+  cube2.material.color.set(0x0000ff);
+
+  if (rightController.userData.selected) {
+    rightController.userData.selected.rotation.y += delta;
+    rightController.userData.selected.material.color.set(0xff0000);
+  }
+});
+```
+
+`xr.setup()` returns:
+
+- `leftController`
+- `rightController`
+- `leftHand`
+- `rightHand`
+
+Each disabled controller/hand returns `null`. When an object from `selectableObjects` is selected with a controller, it is stored in `controller.userData.selected` until selection ends.
+
+XR rules:
+
+- Do not use `controls.connect()` or `fpv.connect()` in XR mode.
+- XR uses the same `animate()` loop. easy-three already uses `renderer.setAnimationLoop()`.
+- Use `selectableObjects` for simple controller picking.
+- Put XR setup after creating objects that should be selectable.
+- WebXR requires a supported browser/device and a secure context such as HTTPS or localhost.
+
 ## Events and Raycaster
 
 - `event.mouse.add(callback, option)`: registers mouse/pointer events and returns an unregister function. Callback receives `(pos, e)`, where `pos` is a `THREE.Vector2` relative to the target object and `e` is the pointer event. `option.type` defaults to `"once"`.
@@ -683,6 +767,9 @@ Default.texture.wrapping = "Repeat";
 - Do not set `autoAdd: false` unless you will add the object to a group/scene manually.
 - Use `controls.connect()` for orbit controls, or `fpv.connect()` for first-person controls, not both.
 - Use `raycaster.connect()` and `raycaster.getIntersections()` for pointer-based object picking.
+- Use `xr.setup()` for WebXR/VR scenes, and avoid `controls.connect()` and `fpv.connect()` in XR mode.
+- Use `selectableObjects` and `controller.userData.selected` for simple XR controller selection.
+- In XR scenes, create selectable objects before calling `xr.setup({ selectableObjects })`.
 - Use `create.canvas()` for canvas-backed planes and `create.canvasTexture()` for canvas textures mapped onto other meshes.
 - In React, pass the ref element to `init(ref.current)` inside `useEffect()` and clean up with `return () => destroy()`.
 - In CDN/plain JavaScript usage, omit `destroy()` unless the user is explicitly tearing down a scene.

@@ -62,6 +62,35 @@ declare module "@masabando/easy-three" {
     getIntersections(objects: THREE.Object3D[]): THREE.Intersection[];
   }
 
+  export interface EasyThreeXR {
+    /**
+     * XR セッションをセットアップする。
+     */
+    setup(options?: {
+      /** XRセッションの初期位置 (デフォルト: [0, 1.6, 0]) */
+      position?: [number, number, number];
+      /** XRセッションの初期視点 (デフォルト: [0, 1.6, -1]) */
+      lookAt?: [number, number, number];
+      /** 左手のコントローラを有効化するか (デフォルト: true) */
+      leftController?: boolean;
+      /** 右手のコントローラを有効化するか (デフォルト: true) */
+      rightController?: boolean;
+      /** 左手のハンドトラッキングを有効化するか (デフォルト: true) */
+      leftHand?: boolean;
+      /** 右手のハンドトラッキングを有効化するか (デフォルト: true) */
+      rightHand?: boolean;
+      /** VRButton のボタンを追加する DOM 要素 (デフォルト: domElement) */
+      buttonTarget?: HTMLElement;
+      /** レイキャスターの交差判定対象オブジェクト配列 (デフォルト: []) */
+      selectableObjects?: THREE.Object3D[];
+    }): {
+      leftController: THREE.Group | null;
+      rightController: THREE.Group | null;
+      leftHand: THREE.Group | null;
+      rightHand: THREE.Group | null;
+    };
+  }
+
   export interface EasyThreeEvent {
     // mouse, key などのイベントラッパ
     // [key: string]: any;
