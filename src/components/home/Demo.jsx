@@ -68,7 +68,7 @@ export const DemoModel = (props) => {
 export const DemoModelAnimation = (props) => {
   const ref = useRef();
   useEffect(() => {
-    const { camera, create, animate, controls, helper, load, destroy, xr } = init(
+    const { camera, create, scene, animate, controls, helper, load, destroy, xr, color } = init(
       ref.current
     );
     // controls.connect();
@@ -77,12 +77,14 @@ export const DemoModelAnimation = (props) => {
     controls.target.set(0, 1, 0);
     create.ambientLight();
     create.directionalLight({ intensity: 2, position: [10, 10, -10] });
-    helper.axes();
+    // helper.axes();
     helper.grid();
+
+    scene.background = color(0xffffff);
 
     const cube = create.cube({
       size: 0.5,
-      position: [1, 1, -1],
+      position: [-1, 1, 1],
       rounded: true,
       segments: 7,
     });
@@ -90,7 +92,8 @@ export const DemoModelAnimation = (props) => {
     let model;
     let mixer;
     load.vrm("./model/sample.vrm", {
-      position: [-1, -0.55, 1],
+      position: [1, -0.55, -1],
+      rotation: [0, Math.PI, 0],
     }).then((m) => {
       model = m;
       load.bvh2("./motion/sampleMotion.bvh", model).then((bvhObj) => {
