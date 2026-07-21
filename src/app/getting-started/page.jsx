@@ -52,6 +52,49 @@ export default function Page() {
         {`import { init } from "@masabando/easy-three";`}
       </CodeBlock>
 
+      <H3>Reactでの利用</H3>
+      <T>
+        <>
+          When using React, you need to call init inside useEffect.
+          <br />
+          In the return value of useEffect, you need to call destroy to release resources.<br />
+          Don't forget to explicitly specify the height of the target element such as div.
+        </>
+        <>
+          Reactで利用する場合、useEffect内でinitを呼び出す必要があります。<br />
+          useEffectの戻り値では、destroyを呼び出してリソースを解放する必要があります。<br />
+          divなどのターゲット要素の高さを明示的に指定することを忘れないでください。
+        </>
+      </T>
+      <CodeBlock filename="JavaScript" language="jsx" className="w-140">
+        {`import { init } from "@masabando/easy-three";
+import { useEffect, useRef } from "react";
+
+export function MyComponent(props) {
+  const ref = useRef();
+
+  useEffect(() => {
+    const { camera, create, animate, destroy } = init(ref.current);
+
+    camera.position.set(0, 0, 2);
+    create.ambientLight();
+    create.directionalLight();
+    create.cube();
+
+    animate();
+
+    return () => {
+      destroy();
+    };
+  }, []);
+
+  return <div
+    ref={ref}
+    style={{ width: "300px", height: "300px" }}
+  />;
+}`}
+      </CodeBlock>
+
 
       <H2 className="mt-20">
         <T>
