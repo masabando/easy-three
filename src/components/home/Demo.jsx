@@ -144,7 +144,7 @@ export const DemoWorld = ({ worldControl, ...props }) => {
       THREE,
       postprocessing,
       destroy,
-      xr,
+      // xr,
     } = init(ref.current);
     controlsRef.current = controls;
     if (worldControl) {

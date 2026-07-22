@@ -2786,19 +2786,23 @@ var $1173d806c7708ef5$export$2e2bcd8739ae039 = $1173d806c7708ef5$var$addTool;
 
 
 const $02085b926ca309ff$var$xr = ({ THREE: THREE, renderer: renderer, scene: scene, camera: camera, domElement: domElement })=>{
+    const cameraGroup = new THREE.Group();
     function setupVRHands(index) {
         const handModelFactory = new (0, $1LQKV$XRHandModelFactory)();
         const hand = renderer.xr.getHand(index);
         hand.add(handModelFactory.createHandModel(hand, 'mesh'));
-        scene.add(hand);
+        cameraGroup.add(hand);
+    // scene.add(hand)
     }
     function setupVRControllers(index, selectableObjects = []) {
         const controllerModelFactory = new (0, $1LQKV$XRControllerModelFactory)();
         const controller = renderer.xr.getController(index);
-        scene.add(controller);
+        cameraGroup.add(controller);
+        // scene.add(controller)
         const controllerGrip = renderer.xr.getControllerGrip(index);
         controllerGrip.add(controllerModelFactory.createControllerModel(controllerGrip));
-        scene.add(controllerGrip);
+        cameraGroup.add(controllerGrip);
+        // scene.add(controllerGrip)
         const geometry = new THREE.BufferGeometry().setFromPoints([
             new THREE.Vector3(0, 0, 0),
             new THREE.Vector3(0, 0, -1)
@@ -2812,15 +2816,15 @@ const $02085b926ca309ff$var$xr = ({ THREE: THREE, renderer: renderer, scene: sce
             const controller = event.target;
             const intersections = getIntersections(controller, selectableObjects);
             if (intersections.length > 0) {
-                const intersection = intersections[0];
-                const object = intersection.object;
-                controller.userData.selected = object;
+                const intersection = intersections;
+                controller.userData.selected = intersection;
             }
         });
         controller.addEventListener('selectend', (event)=>{
             const controller = event.target;
-            if (controller.userData.selected) controller.userData.selected = undefined;
+            if (controller.userData.selected) controller.userData.selected = [];
         });
+        controller.getIntersections = (objects = selectableObjects, recursive = true)=>getIntersections(controller, objects, recursive);
         return controller;
     }
     const tempMatrix = new THREE.Matrix4();
@@ -2842,11 +2846,15 @@ const $02085b926ca309ff$var$xr = ({ THREE: THREE, renderer: renderer, scene: sce
         const _rightController = rightController ? setupVRControllers(1, selectableObjects) : null;
         const _leftHand = leftHand ? setupVRHands(0) : null;
         const _rightHand = rightHand ? setupVRHands(1) : null;
+        cameraGroup.add(camera);
+        scene.add(cameraGroup);
         return {
             leftController: _leftController,
             rightController: _rightController,
             leftHand: _leftHand,
-            rightHand: _rightHand
+            rightHand: _rightHand,
+            cameraGroup: cameraGroup,
+            getIntersections: getIntersections
         };
     }
     return {

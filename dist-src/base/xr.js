@@ -4,23 +4,28 @@ import { XRControllerModelFactory } from "three/examples/jsm/webxr/XRControllerM
 
 const xr = ({ THREE, renderer, scene, camera, domElement }) => {
 
+  const cameraGroup = new THREE.Group();
+
   function setupVRHands(index) {
     const handModelFactory = new XRHandModelFactory()
     const hand = renderer.xr.getHand(index);
     hand.add(handModelFactory.createHandModel(hand, 'mesh'))
-    scene.add(hand)
+    cameraGroup.add(hand)
+    // scene.add(hand)
   }
 
   function setupVRControllers(index, selectableObjects = []) {
     const controllerModelFactory = new XRControllerModelFactory()
     const controller = renderer.xr.getController(index)
-    scene.add(controller)
+    cameraGroup.add(controller)
+    // scene.add(controller)
 
     const controllerGrip = renderer.xr.getControllerGrip(index)
     controllerGrip.add(
       controllerModelFactory.createControllerModel(controllerGrip)
     )
-    scene.add(controllerGrip)
+    cameraGroup.add(controllerGrip)
+    // scene.add(controllerGrip)
 
     const geometry = new THREE.BufferGeometry().setFromPoints([
       new THREE.Vector3(0, 0, 0),
@@ -37,17 +42,17 @@ const xr = ({ THREE, renderer, scene, camera, domElement }) => {
       const controller = event.target
       const intersections = getIntersections(controller, selectableObjects)
       if (intersections.length > 0) {
-        const intersection = intersections[0]
-        const object = intersection.object
-        controller.userData.selected = object
+        const intersection = intersections
+        controller.userData.selected = intersection
       }
     })
     controller.addEventListener('selectend', (event) => {
       const controller = event.target
       if (controller.userData.selected) {
-        controller.userData.selected = undefined
+        controller.userData.selected = []
       }
     })
+    controller.getIntersections = (objects = selectableObjects, recursive = true) => getIntersections(controller, objects, recursive)
 
     return controller
   }
@@ -82,11 +87,16 @@ const xr = ({ THREE, renderer, scene, camera, domElement }) => {
     const _leftHand = leftHand ? setupVRHands(0) : null
     const _rightHand = rightHand ? setupVRHands(1) : null
 
+    cameraGroup.add(camera);
+    scene.add(cameraGroup);
+
     return {
       leftController: _leftController,
       rightController: _rightController,
       leftHand: _leftHand,
       rightHand: _rightHand,
+      cameraGroup,
+      getIntersections
     }
   }
 

@@ -23,32 +23,49 @@ export default function Page() {
       <p>connect の引数で、各種の設定を行うことができます。</p>
       <ul className="list-disc list-inside ml-4 mt-4">
         <li>useMouse : マウスを利用するか (デフォルト: true)</li>
-        <li>mouseEvent : どのマウスイベントを利用するか (デフォルト: "pointermove")</li>
+        <li>
+          mouseEvent : どのマウスイベントを利用するか (デフォルト:
+          "pointermove")
+        </li>
       </ul>
       <p className="mt-4">無効化する場合は、disconnect() を呼び出します。</p>
       <CodeBlock>{`raycaster.disconnect()`}</CodeBlock>
 
       <H2 className="mt-14">使用方法</H2>
-      <p>
-        まず、init() の戻り値から raycaster を取得します。
-      </p>
+      <p>まず、init() の戻り値から raycaster を取得します。</p>
       <CodeBlock>{`const { create, camera, controls, animate, raycaster } = init();`}</CodeBlock>
-      <p className="mt-4">
-        その後、connect() を呼び出すことで有効化されます。
-      </p>
+      <p className="mt-4">その後、connect() を呼び出すことで有効化されます。</p>
       <CodeBlock>{`raycaster.connect()`}</CodeBlock>
       <p className="mt-4">
-        animate() 内で raycaster.getIntersections(対象) を呼び出すことで、マウスが指しているオブジェクトを取得することができます。
+        animate() 内で raycaster.getIntersections(対象)
+        を呼び出すことで、マウスが指しているオブジェクトを取得することができます。
       </p>
       <CodeBlock>{`const intersections = raycaster.getIntersections([cube1, cube2])`}</CodeBlock>
       <p className="mt-4">
-        intersections は配列で返され、マウスが指しているオブジェクトが複数ある場合は、近い順に並んでいます。
+        intersections
+        は配列で返され、マウスが指しているオブジェクトが複数ある場合は、近い順に並んでいます。
       </p>
       <p className="mt-4">
-        なお、子オブジェクトを無視したい
-        の場合は、オプション引数で recursive を false にすることで、子オブジェクトを無視することができます。
+        なお、子オブジェクトを無視したい の場合は、オプション引数で recursive を
+        false にすることで、子オブジェクトを無視することができます。
       </p>
       <CodeBlock>{`const intersections = raycaster.getIntersections([cube1, cube2], { recursive: false })`}</CodeBlock>
+
+      <p className="mt-4">
+        intersections の各要素は、
+        <a
+          href="https://threejs.org/docs/#Raycaster.~Intersection"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          THREE.Intersection 型
+        </a>
+        のオブジェクトです。<br />
+        そのため、intersections[0].object で、交差しているオブジェクトを取得することができます。
+      </p>
+      <CodeBlock>{`const hit = intersections[0];
+hit.object.position.set(0, 1, 0);
+hit.object.material.color.set(0xff0000);`}</CodeBlock>
 
       <H2 className="mt-14">サンプルコード</H2>
 

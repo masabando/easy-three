@@ -29,13 +29,15 @@ export function Ex1(props) {
       selectableObjects: [cube1, cube2],
     });
 
+
     animate(({ delta }) => {
       ocean.update(delta);
       cube1.material.color.set(0x0000ff)
       cube2.material.color.set(0x0000ff)
-      if (rightController.userData.selected) {
-        rightController.userData.selected.rotation.y += delta;
-        rightController.userData.selected.material.color.set(0xff0000)
+      if (rightController.userData.selected?.[0]) {
+        const object = rightController.userData.selected[0].object;
+        object.rotation.y += delta;
+        object.material.color.set(0xff0000)
       }
     });
     return () => {

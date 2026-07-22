@@ -84,6 +84,8 @@ declare module "@masabando/easy-three" {
       rightController: THREE.Group | null;
       leftHand: THREE.Group | null;
       rightHand: THREE.Group | null;
+      cameraGroup: THREE.Group;
+      getIntersections: (controller: THREE.Group, objects?: THREE.Object3D[], recursive?: boolean) => THREE.Intersection[]
     };
   }
 

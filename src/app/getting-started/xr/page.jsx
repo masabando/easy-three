@@ -6,6 +6,7 @@ import { currentVersion } from "@/components/CurrentVersion";
 import H1 from "@/components/H1";
 import H2 from "@/components/H2";
 import H3 from "@/components/H3";
+import { Ex1 } from "./Codes";
 
 export const metadata = {
   title: "WebXR Support",
@@ -35,7 +36,8 @@ export default function Page() {
           <>
             easy-three では WebXR を扱うための小さな仕組みを用意しています。
             <br />
-            VR ボタンの追加、コントローラーモデルの表示、ハンドトラッキングモデルの表示、
+            VR
+            ボタンの追加、コントローラーモデルの表示、ハンドトラッキングモデルの表示、
             コントローラーのレイによるオブジェクト選択ができます。
           </>
         </T>
@@ -44,8 +46,8 @@ export default function Page() {
         <T>
           <>
             WebXR works only in supported browsers and devices. For example, use
-            Meta Quest Browser or a WebXR-compatible desktop browser connected to
-            a VR headset.
+            Meta Quest Browser or a WebXR-compatible desktop browser connected
+            to a VR headset.
           </>
           <>
             WebXR は対応しているブラウザとデバイスでのみ動作します。たとえば
@@ -57,16 +59,22 @@ export default function Page() {
 
       <div className="alert alert-info alert-soft mt-6">
         <T>
+          <>WebXR requires a secure context. Make sure to use https.</>
           <>
-            WebXR requires a secure context. Publish the page with HTTPS, or use
-            localhost while developing.
-          </>
-          <>
-            WebXR にはセキュアコンテキストが必要です。公開時は HTTPS、開発中は
-            localhost で表示してください。
+            WebXR にはセキュアコンテキストが必要です。 https
+            を使うようにしてください。
           </>
         </T>
       </div>
+
+      <Ex1
+        className="border mt-4"
+        style={{
+          width: "300px",
+          height: "300px",
+          position: "relative",
+        }}
+      />
 
       <H2 className="mt-20">
         <T>
@@ -82,9 +90,9 @@ export default function Page() {
             load three.js and easy-three.
           </>
           <>
-            はじめて easy-three を使う場合は、Getting Started ページのテンプレートから
-            始めるのがおすすめです。テンプレートには three.js と easy-three を読み込むための
-            importmap が入っています。
+            はじめて easy-three を使う場合は、Getting Started
+            ページのテンプレートから 始めるのがおすすめです。テンプレートには
+            three.js と easy-three を読み込むための importmap が入っています。
           </>
         </T>
       </p>
@@ -98,9 +106,7 @@ export default function Page() {
       </div>
       <p>
         <T>
-          <>
-            When using CDN directly, use the same importmap style as below.
-          </>
+          <>When using CDN directly, use the same importmap style as below.</>
           <>CDN から直接使う場合は、下記のように importmap を設定します。</>
         </T>
       </p>
@@ -132,8 +138,8 @@ export default function Page() {
           </>
           <>
             <code>init()</code> の戻り値から <code>xr</code> を取得し、
-            <code>xr.setup()</code> を呼び出します。これでページに VR ボタンが追加され、
-            WebXR 用の描画が有効になります。
+            <code>xr.setup()</code> を呼び出します。これでページに VR
+            ボタンが追加され、 WebXR 用の描画が有効になります。
           </>
         </T>
       </p>
@@ -163,11 +169,106 @@ animate();`}
           </div>
           <div>
             XR に入った後は、<code>controls</code> や <code>fpv</code> のような
-            カメラ操作系の機能を使わないでください。XR モードでは、ヘッドセットが
-            カメラの位置と向きを管理します。
+            カメラ操作系の機能を使わないでください。XR
+            モードでは、ヘッドセットが カメラの位置と向きを管理します。
           </div>
         </T>
       </div>
+
+      <H2 className="mt-20">
+        <T>
+          <>Play in VR</>
+          <>VRで遊ぶ</>
+        </T>
+      </H2>
+      <p>
+        <T>
+          <>
+            To play in VR, click the VR button added to the page. Put on your VR
+            headset and use the controllers to interact with the scene.
+          </>
+          <>
+            VR で遊ぶには、ページに追加された VR
+            ボタンをクリックしてください。VR
+            ヘッドセットを装着し、コントローラーを使ってシーンとインタラクションします。
+          </>
+        </T>
+      </p>
+
+      <H2 className="mt-20">
+        <T>
+          <>When Not in Fullscreen</>
+          <>全画面表示にしない場合</>
+        </T>
+      </H2>
+      <p>
+        <T>
+          <>
+            If the original (non-XR) rendering is not fullscreen, the container
+            passed to <code>init()</code> must have{" "}
+            <code>position: relative</code> for the VR button to display
+            correctly.
+          </>
+          <>
+            元の(XRモードではない)描画が全画面表示出ない場合、
+            描画対象のコンテナ (initに渡す第1引数) が
+            <code>position: relative</code>{" "}
+            でないと、VRボタンが正しく表示されません。
+          </>
+        </T>
+      </p>
+
+      <H2 className="mt-20">
+        <T>
+          <>Initial Camera Position</>
+          <>カメラの初期位置</>
+        </T>
+      </H2>
+      <p>
+        <T>
+          <>
+            The camera position set in <code>init()</code> is used only in
+            non-XR mode. In XR mode, the camera position is controlled by the
+            headset.
+          </>
+          <>
+            <code>init()</code> で設定したカメラの位置は、XR
+            モードではなく通常の描画時にのみ使われます。 XR
+            モードでは、カメラの位置はヘッドセットが管理します。
+          </>
+        </T>
+      </p>
+      <p className="mt-4">
+        <T>
+          <>
+            To change the initial camera position, put the <code>camera</code>{" "}
+            returned from <code>init()</code> into a group, and change the
+            position of that group. In XR mode, the position of the group is
+            used as the initial camera position.
+          </>
+          <>
+            カメラの初期位置を変更する場合は、
+            <code>init()</code> の戻り値から取得した <code>camera</code> を
+            グループに入れて、そのグループの位置を変更してください。 XR
+            モードでは、グループの位置がカメラの初期位置として使われます。
+            <br />
+            ただし、ここで指定した初期位置はXRモードでの地面の高さになります。
+            <br />
+            つまり、XRモード中のユーザは、その目線の高さ分だけ高い位置で見ることになることに注意してください。
+            たとえば、ユーザの目線の高さが 1.6m の場合、グループの位置が [0, 0,
+            0] だと、実際のユーザの目線は [0, 1.6, 0] になります。
+          </>
+        </T>
+      </p>
+      <CodeBlock filename="main.js" language="javascript">
+        {`// カメラを格納するグループを作成
+const cameraGroup = create.group({
+  position: [0, 0, 3],
+})
+// カメラをグループに追加
+cameraGroup.add(camera);
+`}
+      </CodeBlock>
 
       <H2 className="mt-20">
         <T>
@@ -178,14 +279,17 @@ animate();`}
       <p>
         <T>
           <>
-            Pass objects to <code>selectableObjects</code>. When a controller
-            selects one of those objects, easy-three stores it in{" "}
-            <code>controller.userData.selected</code>.
+            Pass objects to <code>selectableObjects</code>. When an object is
+            selected by the controller, the selection information is stored in{" "}
+            <code>controller.userData.selected</code>. You can get the selected
+            object with <code>controller.userData.selected[0].object</code>.
           </>
           <>
             <code>selectableObjects</code> に選択できるオブジェクトを渡します。
-            コントローラーで選択されると、選択中のオブジェクトが{" "}
+            コントローラーで選択されると、選択中の情報の配列が{" "}
             <code>controller.userData.selected</code> に入ります。
+            <code>controller.userData.selected[0].object</code>{" "}
+            で、選択中のオブジェクトを取得できます。
           </>
         </T>
       </p>
@@ -210,13 +314,51 @@ animate(({ delta }) => {
   cube1.material.color.set(0x3366ff);
   cube2.material.color.set(0x3366ff);
 
-  const selected = rightController.userData.selected;
+  const selected = rightController.userData.selected?.[0];
   if (selected) {
-    selected.rotation.y += delta;
-    selected.material.color.set(0xff3333);
+    selected.object.rotation.y += delta;
+    selected.object.material.color.set(0xff3333);
   }
 });`}
       </CodeBlock>
+
+      <H2 className="mt-20">
+        <T>
+          <>Move Selected Objects</>
+          <>選択したオブジェクトを移動する</>
+        </T>
+      </H2>
+      <p>
+        <T>
+          <>
+            The controller has no mousemove event. Instead, use the{" "}
+            <code>getIntersections()</code> method of the controller to get
+            information about objects that intersect with the controller ray.
+          </>
+          <>
+            コントローラには、mousemove イベントを設定することができません。<br />
+            代わりに、コントローラがもつ getIntersections() メソッドを使って、コントローラのレイと交差するオブジェクトの情報を取得してください。
+          </>
+        </T>
+      </p>
+      <CodeBlock>
+        {`const cube = create.cube()
+
+const { rightController } = xr.setup({
+  selectableObjects: [cube],
+});
+
+animate(() => {
+  if (rightController.userData.selected?.[0]) {
+    const intersections = rightController.getIntersections()
+    if (intersections.length > 0) {
+      const p = intersections[0].point;
+      const object = rightController.userData.selected[0].object;
+      object.position.x = p.x;
+      object.position.y = p.y;
+    }
+  }
+})`}</CodeBlock>
 
       <H3 className="mt-12">
         <T>
@@ -276,8 +418,12 @@ animate(({ delta }) => {
               </td>
               <td>
                 <T>
-                  <>Shows the left hand model when hand tracking is available.</>
-                  <>ハンドトラッキングが使える場合に左手のモデルを表示します。</>
+                  <>
+                    Shows the left hand model when hand tracking is available.
+                  </>
+                  <>
+                    ハンドトラッキングが使える場合に左手のモデルを表示します。
+                  </>
                 </T>
               </td>
             </tr>
@@ -293,7 +439,9 @@ animate(({ delta }) => {
                   <>
                     Shows the right hand model when hand tracking is available.
                   </>
-                  <>ハンドトラッキングが使える場合に右手のモデルを表示します。</>
+                  <>
+                    ハンドトラッキングが使える場合に右手のモデルを表示します。
+                  </>
                 </T>
               </td>
             </tr>
@@ -320,8 +468,12 @@ animate(({ delta }) => {
               </td>
               <td>
                 <T>
-                  <>Sets the objects that can be selected by the controller ray.</>
-                  <>コントローラーのレイで選択できるオブジェクトを指定します。</>
+                  <>
+                    Sets the objects that can be selected by the controller ray.
+                  </>
+                  <>
+                    コントローラーのレイで選択できるオブジェクトを指定します。
+                  </>
                 </T>
               </td>
             </tr>
@@ -338,14 +490,16 @@ animate(({ delta }) => {
       <p>
         <T>
           <>
-            In React, call <code>init()</code> and <code>xr.setup()</code> inside{" "}
-            <code>useEffect</code>. Return <code>destroy()</code> from the effect
-            so the renderer is cleaned up when the component is removed.
+            In React, call <code>init()</code> and <code>xr.setup()</code>{" "}
+            inside <code>useEffect</code>. Return <code>destroy()</code> from
+            the effect so the renderer is cleaned up when the component is
+            removed.
           </>
           <>
             React では <code>useEffect</code> の中で <code>init()</code> と{" "}
-            <code>xr.setup()</code> を呼び出します。コンポーネントが削除された時に
-            renderer を片付けられるよう、effect の戻り値で <code>destroy()</code>
+            <code>xr.setup()</code>{" "}
+            を呼び出します。コンポーネントが削除された時に renderer
+            を片付けられるよう、effect の戻り値で <code>destroy()</code>
             を呼び出してください。
           </>
         </T>
@@ -375,7 +529,14 @@ export function MyXRScene() {
     };
   }, []);
 
-  return <div ref={ref} style={{ width: "100%", height: "400px" }} />;
+  return <div
+           ref={ref}
+           style={{
+             width: "100%",
+             height: "400px",
+             position: "relative",
+           }}
+         />;
 }`}
       </CodeBlock>
 
@@ -392,8 +553,8 @@ export function MyXRScene() {
             the xr reference page.
           </>
           <>
-            sky、ocean、コントローラー選択を含む長めのサンプルは、xr のリファレンスページを
-            見てください。
+            sky、ocean、コントローラー選択を含む長めのサンプルは、xr
+            のリファレンスページを 見てください。
           </>
         </T>
       </p>

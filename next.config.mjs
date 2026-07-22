@@ -11,7 +11,7 @@ const nextConfig = {
   assetPrefix: "/easy-three",
   basePath: "/easy-three",
   trailingSlash: true,
-  allowedDevOrigins: ["bmini.local", "mair.local"],
+  allowedDevOrigins: ["bmini.local", "mair.local", "172.20.0.79"],
   // experimental: {
   //   urlImports: [
   //     "https://cdn.jsdelivr.net",

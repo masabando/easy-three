@@ -83,7 +83,7 @@ Base:
 - `controls.connect()`, `controls.disconnect()`
 - `fpv.connect(props)`, `fpv.disconnect()`
 - `raycaster.connect(props)`, `raycaster.disconnect()`, `raycaster.getIntersections(objects, props)`
-- `xr.setup(props)`
+- `xr.setup(props)`, `controller.getIntersections(objects, recursive)`
 - `tool.setPixelRatio(pixelRatio)`
 - `tool.distance(mesh1, mesh2, usePixelRatio)`
 
@@ -265,6 +265,8 @@ const {
   rightController,
   leftHand,
   rightHand,
+  cameraGroup,
+  getIntersections,
 } = xr.setup({
   leftController: true,
   rightController: true,
@@ -275,7 +277,13 @@ const {
 });
 ```
 
-`buttonTarget` is where the VR button is appended; by default it uses the easy-three target element. `selectableObjects` is the array of objects that controllers can select.
+`buttonTarget` is where the VR button is appended; by default it uses the easy-three target element. If the easy-three target is not fullscreen, give that target element `position: relative` so the VR button is placed correctly.
+
+`selectableObjects` is the array of objects that controllers can select. On `selectstart`, easy-three stores the full `THREE.Intersection[]` result in `controller.userData.selected`. Use `controller.userData.selected?.[0]?.object` to access the nearest selected object. On `selectend`, `controller.userData.selected` becomes an empty array.
+
+Each controller returned by `xr.setup()` also has `controller.getIntersections(objects?, recursive?)`. It raycasts from that controller and defaults to the same `selectableObjects` passed to `xr.setup()`. Use it inside `animate()` when you need continuous controller-ray intersections, such as dragging an object after selection.
+
+`cameraGroup` is a `THREE.Group` that contains the camera, controllers, and hands. Change `cameraGroup.position` when you need to offset the initial XR floor/origin. In XR mode, the headset still controls the user's live head pose relative to that group.
 
 In XR mode, do not call `controls.connect()` or `fpv.connect()`. The XR device controls the camera position and rotation. Direct camera pose changes such as `camera.position` are ignored while presenting in XR, but they can still be useful for non-XR preview.
 
@@ -591,9 +599,11 @@ const cube2 = create.cube({
 
 const ocean = create.ocean("./NormalMap-1.jpg");
 
-const { rightController } = xr.setup({
+const { rightController, cameraGroup } = xr.setup({
   selectableObjects: [cube1, cube2],
 });
+
+cameraGroup.position.set(0, 0, 0);
 
 animate(({ delta }) => {
   ocean.update(delta);
@@ -601,9 +611,10 @@ animate(({ delta }) => {
   cube1.material.color.set(0x0000ff);
   cube2.material.color.set(0x0000ff);
 
-  if (rightController.userData.selected) {
-    rightController.userData.selected.rotation.y += delta;
-    rightController.userData.selected.material.color.set(0xff0000);
+  const selected = rightController.userData.selected?.[0];
+  if (selected) {
+    selected.object.rotation.y += delta;
+    selected.object.material.color.set(0xff0000);
   }
 });
 ```
@@ -614,16 +625,43 @@ animate(({ delta }) => {
 - `rightController`
 - `leftHand`
 - `rightHand`
+- `cameraGroup`
+- `getIntersections(controller, objects?, recursive?)`
 
-Each disabled controller/hand returns `null`. When an object from `selectableObjects` is selected with a controller, it is stored in `controller.userData.selected` until selection ends.
+Each disabled controller/hand returns `null`. When an object from `selectableObjects` is selected with a controller, the controller stores the raycast intersection array in `controller.userData.selected` until selection ends. The selected object is usually `controller.userData.selected?.[0]?.object`, not `controller.userData.selected` itself.
+
+Continuous controller-ray example:
+
+```js
+const cube = create.cube();
+
+const { rightController } = xr.setup({
+  selectableObjects: [cube],
+});
+
+animate(() => {
+  const selected = rightController.userData.selected?.[0];
+  if (!selected) return;
+
+  const intersections = rightController.getIntersections();
+  if (intersections.length > 0) {
+    const point = intersections[0].point;
+    selected.object.position.x = point.x;
+    selected.object.position.y = point.y;
+  }
+});
+```
 
 XR rules:
 
 - Do not use `controls.connect()` or `fpv.connect()` in XR mode.
 - XR uses the same `animate()` loop. easy-three already uses `renderer.setAnimationLoop()`.
 - Use `selectableObjects` for simple controller picking.
+- Read selected XR objects from `controller.userData.selected?.[0]?.object`.
+- Use `controller.getIntersections()` for continuous controller-ray picking after selection.
 - Put XR setup after creating objects that should be selectable.
 - Do not pass camera pose to `xr.setup()`; set camera position only when a useful non-XR preview is needed.
+- Use `cameraGroup.position` to offset the initial XR origin/floor.
 - WebXR requires a supported browser/device and a secure context such as HTTPS or localhost.
 
 ## Events and Raycaster
@@ -769,8 +807,10 @@ Default.texture.wrapping = "Repeat";
 - Use `controls.connect()` for orbit controls, or `fpv.connect()` for first-person controls, not both.
 - Use `raycaster.connect()` and `raycaster.getIntersections()` for pointer-based object picking.
 - Use `xr.setup()` for WebXR/VR scenes, and avoid `controls.connect()` and `fpv.connect()` in XR mode.
-- Use `selectableObjects` and `controller.userData.selected` for simple XR controller selection.
+- Use `selectableObjects` and `controller.userData.selected?.[0]?.object` for simple XR controller selection.
+- Use `controller.getIntersections()` when an XR controller needs continuous raycast information, such as moving a selected object.
 - In XR scenes, create selectable objects before calling `xr.setup({ selectableObjects })`.
+- Use `cameraGroup.position` from `xr.setup()` when XR content needs a different initial floor/origin offset.
 - Use `create.canvas()` for canvas-backed planes and `create.canvasTexture()` for canvas textures mapped onto other meshes.
 - In React, pass the ref element to `init(ref.current)` inside `useEffect()` and clean up with `return () => destroy()`.
 - In CDN/plain JavaScript usage, omit `destroy()` unless the user is explicitly tearing down a scene.

@@ -27,12 +27,7 @@ export default function Page() {
       xr,
     } = init(ref.current, { pixelRatio: 1 });
 
-    camera.position.set(0, 1.5, 3);
-    // fpv.connect()
-    // controls.connect();
-
     create.ambientLight()
-
 
     let model;
     load.vrm("../../model/ktc-uniform_female_v5.vrm", {
@@ -90,7 +85,8 @@ export default function Page() {
 
     raycaster.connect()
 
-    xr.setup();
+    const { cameraGroup } = xr.setup();
+    cameraGroup.position.set(0, 0, 3);
 
     animate(({ delta, time, frameCount }) => {
       const r = 20 + Math.sin(time * 1.5 * 0) * 18;
