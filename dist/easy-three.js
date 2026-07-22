@@ -23,9 +23,9 @@ import {HDRLoader as $1LQKV$HDRLoader} from "three/addons/loaders/HDRLoader.js";
 import {GLTFLoader as $1LQKV$GLTFLoader} from "three/addons/loaders/GLTFLoader.js";
 import {VRMLoaderPlugin as $1LQKV$VRMLoaderPlugin, VRMUtils as $1LQKV$VRMUtils} from "@pixiv/three-vrm";
 import {BVHLoader as $1LQKV$BVHLoader} from "three/addons/loaders/BVHLoader.js";
-import {VRButton as $1LQKV$VRButton} from "three/examples/jsm/webxr/VRButton.js";
-import {XRHandModelFactory as $1LQKV$XRHandModelFactory} from "three/examples/jsm/webxr/XRHandModelFactory.js";
-import {XRControllerModelFactory as $1LQKV$XRControllerModelFactory} from "three/examples/jsm/webxr/XRControllerModelFactory.js";
+import {VRButton as $1LQKV$VRButton} from "three/addons/webxr/VRButton.js";
+import {XRHandModelFactory as $1LQKV$XRHandModelFactory} from "three/addons/webxr/XRHandModelFactory.js";
+import {XRControllerModelFactory as $1LQKV$XRControllerModelFactory} from "three/addons/webxr/XRControllerModelFactory.js";
 
 
 const $05e1af71c54d2f4c$var$Default = {
