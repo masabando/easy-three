@@ -257,29 +257,33 @@ animate(({ time }) => {
                 </T>
               </p>
               <CodeBlock>
-                {`const { camera, create, animate, controls, helper, load } = init();
+                {`const { camera, create, animate, controls, helper, load, xr, color } = init();
 controls.autoRotate = true
 camera.position.set(0, 2, -2)
 controls.target.set(0, 1, 0)
 create.ambientLight()
 create.directionalLight({ intensity: 2, position: [10, 10, -10] })
-helper.axes()
 helper.grid()
+
+scene.background = color(0xffffff)
 
 const cube = create.cube({
   size: 0.5,
-  position: [1, 1, 0],
+  position: [-1, 1, 1],
   rounded: true,
   segments: 7,
 })
 
 let model
 load.vrm("./model/sample.vrm", {
-  position: [0, -0.55, 0],
+  position: [1, -0.55, -1],
+  rotation: [0, Math.PI, 0],
   bvh: "./motion/sampleMotion.bvh",
 }).then((m) => {
   model = m
 })
+
+xr.setup()
 
 animate(({ delta }) => {
   cube.rotation.y += delta
@@ -330,7 +334,14 @@ animate(({ delta }) => {
     }
   }, [])
   return (
-    <div ref={ref} {...props}></div>
+    <div
+      ref={ref}
+      style={{
+        width: "500px",
+        height: "500px",
+      }}
+      {...props}
+    ></div>
   )
 }
 `}
