@@ -1,7 +1,7 @@
 import Container from "@/components/Container";
 import CodeBlock from "@/components/CodeBlock";
 import T from "@/components/Lang";
-import { Link } from "@/components/BaseKit";
+import { Link, Note } from "@/components/BaseKit";
 import { currentVersion } from "@/components/CurrentVersion";
 import H1 from "@/components/H1";
 import H2 from "@/components/H2";
@@ -194,6 +194,40 @@ animate();`}
           </>
         </T>
       </p>
+      <p className="mt-4">
+        <T>
+          <>
+            <Note>WebXR requires HTTPS.</Note>
+            <br />
+            Recommended static hosting services include GitHub Pages, Vercel,
+            and Netlify.
+          </>
+          <>
+            <Note>WebXRを利用するには、https通信が必要</Note>です。<br />
+            デプロイ先としては、GitHub Pages、Vercel、Netlifyなどの静的ホスティングサービスを使うのがおすすめです。
+          </>
+        </T>
+      </p>
+      <p className="mt-4">
+        <T>
+          <>
+            When checking locally, <Note>it is recommended to use VSCode's Live Server extension in combination with port forwarding.</Note><br />
+            The Live Server extension allows you to start a server with HTTP communication locally.<br />
+            Then, open the terminal in VSCode from the menu "View" → "Terminal", and set the Live Server port (usually 5500) from "Port Forwarding" in the "Ports" tab to issue a URL.<br />
+            By setting the display range to "Public", you can also access it from the browser of the VR headset.<br />
+            After use, it is recommended to disable port forwarding.
+          </>
+          <>
+            ローカルで確認する際には、<Note>VSCodeのLive Server拡張機能とポート転送を併用するのがおすすめ</Note>です。<br />
+            Live Server拡張機能を使うと、ローカルで http 通信でサーバーを立ち上げることができます。<br />
+            その後、VSCode のメニュー「表示」→「ターミナル」でターミナルを開き、
+            「ポート」タブにある「ポートの転送」から Live Serverのポート (通常は 5500) を設定することで、
+            URLが発行されます。<br />
+            表示範囲を「公開」にすることで、VRヘッドセットのブラウザからもアクセスできるようになります。<br />
+            なお、利用後は、ポート転送を解除することをおすすめします。
+          </>
+        </T>
+      </p>
 
       <H2 className="mt-20">
         <T>
@@ -336,8 +370,10 @@ animate(({ delta }) => {
             information about objects that intersect with the controller ray.
           </>
           <>
-            コントローラには、mousemove イベントを設定することができません。<br />
-            代わりに、コントローラがもつ getIntersections() メソッドを使って、コントローラのレイと交差するオブジェクトの情報を取得してください。
+            コントローラには、mousemove イベントを設定することができません。
+            <br />
+            代わりに、コントローラがもつ getIntersections()
+            メソッドを使って、コントローラのレイと交差するオブジェクトの情報を取得してください。
           </>
         </T>
       </p>
@@ -358,7 +394,8 @@ animate(() => {
       object.position.y = p.y;
     }
   }
-})`}</CodeBlock>
+})`}
+      </CodeBlock>
 
       <H3 className="mt-12">
         <T>
