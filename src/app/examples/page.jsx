@@ -41,6 +41,7 @@ export default function Page() {
       <H1>Examples</H1>
 
       <div className="flex justify-start flex-wrap gap-4 mt-5">
+        <ExampleLink dir="moonjelly" name="Moon Jelly" creator="Codex" />
         <ExampleLink dir="signalgarden" name="Signal Garden" creator="Codex" />
         <ExampleLink dir="pulsefield" name="Pulsefield" creator="masabando" />
         <ExampleLink dir="dice" name="Dice" creator="KUTC-KaedeYuto" />
