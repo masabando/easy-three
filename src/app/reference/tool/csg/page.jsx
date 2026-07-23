@@ -41,6 +41,12 @@ export default function Page() {
         }
       >
         メッシュ同士のブーリアン演算を行い、新しいメッシュを生成します。<br />
+        このメソッドは <a
+          href="https://github.com/gkjohnson/three-bvh-csg"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="link link-primary underline"
+        >three-bvh-csg</a> を easy-three で利用しやすくしたラッパーです。<br />
         元のメッシュは、props の設定に応じて破棄またはシーンから削除されます。<br />
         新しいメッシュの位置、回転、マテリアルなどの情報は、最初のメッシュ (mesh1) の情報を引き継ぎます。
       </ReferenceContent>

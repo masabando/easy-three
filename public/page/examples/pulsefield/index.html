@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>easy-three template</title>
+  <script type="importmap">
+    {
+      "imports": {
+        "three": "https://cdn.jsdelivr.net/npm/three@0.185.1/build/three.module.js",
+        "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.185.1/examples/jsm/",
+        "@pixiv/three-vrm": "https://cdn.jsdelivr.net/npm/@pixiv/three-vrm@3/lib/three-vrm.module.min.js",
+        "@masabando/easy-three": "https://cdn.jsdelivr.net/gh/masabando/easy-three@1.15.0/dist/easy-three.js",
+        "three-mesh-bvh": "https://cdn.jsdelivr.net/npm/three-mesh-bvh@0.9.10/build/index.module.js",
+        "three-bvh-csg": "https://cdn.jsdelivr.net/npm/three-bvh-csg@0.0.18/build/index.module.js"
+      }
+    }
+  </script>
+</head>
+
+<body>
+  <script type="module">
+    import { init } from "@masabando/easy-three";
+    const { create, camera, animate, controls, scene, color, tool } = init();
+
+    camera.position.set(1, 2, 3);
+    controls.connect();
+
+    create.ambientLight();
+    create.directionalLight();
+
+    scene.background = color("#000000");
+
+    const groundResolution = 100;
+
+    function createGround() {
+      const ground = create.canvas((ctx, canvas) => {
+        ctx.fillStyle = "#000000";
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+      }, {
+        size: 10,
+        rotation: [-Math.PI / 2, 0, 0],
+        resolution: groundResolution,
+      })
+      ground.updateTexture = (r, baseColor) => {
+        ground.update((ctx, canvas) => {
+          ctx.fillStyle = "rgba(0, 0, 0, 0.05)";
+          ctx.fillRect(0, 0, canvas.width, canvas.height);
+          ctx.beginPath();
+          ctx.strokeStyle = baseColor;
+          ctx.ellipse(canvas.width / 2, canvas.height / 2, r, r, 0, 0, Math.PI * 2);
+          ctx.stroke();
+        })
+      }
+      return ground;
+    }
+
+
+    function calcDistance(mesh) {
+      return Math.sqrt(mesh.position.x * mesh.position.x + mesh.position.z * mesh.position.z);
+    }
+
+    function createLights({
+      size = 0.5,
+      position = [-1, -1],
+      geometry = "cube",
+    } = {}) {
+      const cubeTexture = create.canvasTexture((ctx, canvas) => {
+        ctx.fillStyle = "#000000";
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+      }, {
+        size: 10,
+      });
+      const cube = create[geometry]({
+        size: geometry === "sphere" ? size / 2 : size,
+        position: [position[0], size / 2, position[1]],
+        material: create.material({
+          material: "Basic",
+          map: cubeTexture,
+        })
+      })
+      cube.userData = {
+        r: calcDistance(cube),
+        light: false,
+      }
+      cube.updateTexture = (r, baseColor) => {
+        cubeTexture.update((ctx, canvas) => {
+          const cubeR = cube.userData.r * groundResolution;
+          if (r > cubeR && !cube.userData.light) {
+            cube.userData.light = true;
+            ctx.fillStyle = baseColor;
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+          } else {
+            ctx.fillStyle = "rgba(0, 0, 0, 0.01)";
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            if (r < cubeR && cube.userData.light) {
+              cube.userData.light = false;
+            }
+          }
+        })
+      }
+      return cube;
+    }
+
+    const ground = createGround();
+
+    const geometries = ["cube", "sphere"];
+    const lightCubes = [];
+    for (let i = 0; i < 50; i++) {
+      lightCubes.push(createLights({
+        geometry: geometries[Math.floor(Math.random() * geometries.length)],
+        size: Math.random() * 0.4 + 0.1,
+        position: [Math.random() * 10 - 5, Math.random() * 10 - 5],
+      }));
+    }
+
+    animate(({ frameCount }) => {
+      const baseColor = `hsl(${frameCount % 360}, 100%, 50%)`;
+      const r = (frameCount * 2) % (ground.material.map.image.width / 2);
+      ground.updateTexture(r, baseColor);
+      lightCubes.forEach((cube) => {
+        cube.updateTexture(r, baseColor);
+      })
+    })
+  </script>
+</body>
+
+</html>

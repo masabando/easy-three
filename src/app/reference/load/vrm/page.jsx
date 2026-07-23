@@ -53,7 +53,15 @@ export default function Page() {
           </>
         }
       >
-        <p>VRMモデルを読み込み、オプションに基づいてシーンに追加します。</p>
+        <p>
+          <a
+            href="https://github.com/pixiv/three-vrm"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="link link-primary underline"
+          >@pixiv/three-vrm</a> を使用して
+          VRMモデルを読み込み、オプションに基づいてシーンに追加します。
+        </p>
         <p className="mt-4">BVHファイルを読み込み、VRMモデルに適用することもできます。</p>
       </ReferenceContent>
 
