@@ -24,19 +24,23 @@ export default function Page() {
       THREE,
       destroy,
       tool,
-      xr,
+      // xr,
+      transformControls,
     } = init(ref.current, { pixelRatio: 1 });
 
     create.ambientLight()
+    camera.position.set(0, 1.6, 3)
+    controls.connect()
 
     let model;
     load.vrm("../../model/ktc-uniform_female_v5.vrm", {
       bvh: "../../motion/sampleMotion.bvh",
       position: [2, -1.15, -2],
       rotation: [0, Math.PI, 0],
-      castShadow: false,
+      castShadow: true,
     }).then(vrm => {
       model = vrm;
+      transformControls.attach(model.scene)
     })
 
     const directionalLight = create.directionalLight({
@@ -76,25 +80,47 @@ export default function Page() {
     })
 
 
-    const cube1 = create.cube({
-      position: [-1, 0, 0],
-    })
     const cube2 = create.cube({
-      position: [1, 0, 0],
+      position: [1.5, 0, 0],
     })
+
+    // transformControls.attach(cube2, {
+    //   mode: "rotate",
+    // })
 
     raycaster.connect()
 
-    const { cameraGroup } = xr.setup();
-    cameraGroup.position.set(0, 0, 3);
+
+    tool.csg(
+      create.cube({
+        size: 1,
+        option: {
+          transmission: 0.9,
+          roughness: 0.1,
+          thickness: 0.5
+        }
+      }),
+      create.sphere({
+        size: 0.6,
+        option: {
+          color: "orange"
+        },
+      }),
+    )
+
+
+
+
+
+    // const { cameraGroup } = xr.setup();
+    // cameraGroup.position.set(0, 0, 3);
 
     animate(({ delta, time, frameCount }) => {
       const r = 20 + Math.sin(time * 1.5 * 0) * 18;
       if (model) {
         model.updateWithAnimation(delta);
       }
-      const intersections = raycaster.getIntersections([cube1, cube2])
-      cube1.material.color.set(0x00ff00);
+      const intersections = raycaster.getIntersections([cube2])
       cube2.material.color.set(0x00ff00);
       if (intersections.length > 0) {
         const hit = intersections[0];

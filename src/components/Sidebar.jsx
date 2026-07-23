@@ -205,6 +205,7 @@ export default function Sidebar() {
           },
           { href: "/reference/base/color/", label: "color" },
           { href: "/reference/base/xr/", label: "xr", nw: true },
+          { href: "/reference/base/transformControls/", label: "transformControls", nw: true },
           { href: "/reference/base/default/", label: "Default" },
           { href: "/reference/base/destroy/", label: "destroy" },
         ]}
@@ -340,6 +341,11 @@ export default function Sidebar() {
           {
             href: "/reference/tool/distance/",
             label: "distance",
+            nw: true,
+          },
+          {
+            href: "/reference/tool/csg/",
+            label: "csg",
             nw: true,
           },
         ]}

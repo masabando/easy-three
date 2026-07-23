@@ -23,9 +23,11 @@ import {HDRLoader as $1LQKV$HDRLoader} from "three/addons/loaders/HDRLoader.js";
 import {GLTFLoader as $1LQKV$GLTFLoader} from "three/addons/loaders/GLTFLoader.js";
 import {VRMLoaderPlugin as $1LQKV$VRMLoaderPlugin, VRMUtils as $1LQKV$VRMUtils} from "@pixiv/three-vrm";
 import {BVHLoader as $1LQKV$BVHLoader} from "three/addons/loaders/BVHLoader.js";
+import {ADDITION as $1LQKV$ADDITION, SUBTRACTION as $1LQKV$SUBTRACTION, REVERSE_SUBTRACTION as $1LQKV$REVERSE_SUBTRACTION, DIFFERENCE as $1LQKV$DIFFERENCE, INTERSECTION as $1LQKV$INTERSECTION, Brush as $1LQKV$Brush, Evaluator as $1LQKV$Evaluator} from "three-bvh-csg";
 import {VRButton as $1LQKV$VRButton} from "three/addons/webxr/VRButton.js";
 import {XRHandModelFactory as $1LQKV$XRHandModelFactory} from "three/addons/webxr/XRHandModelFactory.js";
 import {XRControllerModelFactory as $1LQKV$XRControllerModelFactory} from "three/addons/webxr/XRControllerModelFactory.js";
+import {TransformControls as $1LQKV$TransformControls} from "three/addons/controls/TransformControls.js";
 
 
 const $05e1af71c54d2f4c$var$Default = {
@@ -2762,6 +2764,50 @@ const $f400cb6b90911329$var$distance = ({ renderer: renderer })=>{
 var $f400cb6b90911329$export$2e2bcd8739ae039 = $f400cb6b90911329$var$distance;
 
 
+
+const $f5cb25838630d673$var$csg = ({ scene: scene })=>{
+    function disposeMaterial(material) {
+        if (Array.isArray(material)) material.forEach((mat)=>mat.dispose());
+        else material.dispose();
+    }
+    const modeList = {
+        "add": (0, $1LQKV$ADDITION),
+        "subtract": (0, $1LQKV$SUBTRACTION),
+        "reverseSubtract": (0, $1LQKV$REVERSE_SUBTRACTION),
+        "difference": (0, $1LQKV$DIFFERENCE),
+        "intersect": (0, $1LQKV$INTERSECTION)
+    };
+    return (mesh1, mesh2, { mode: mode = "subtract", dispose: dispose = true, remove: remove = true } = {})=>{
+        mesh1.updateWorldMatrix(true, false);
+        mesh2.updateWorldMatrix(true, false);
+        const brush1 = new (0, $1LQKV$Brush)(mesh1.geometry, mesh1.material);
+        const brush2 = new (0, $1LQKV$Brush)(mesh2.geometry, mesh2.material);
+        brush1.matrix.copy(mesh1.matrixWorld);
+        brush2.matrix.copy(mesh2.matrixWorld);
+        brush1.matrix.decompose(brush1.position, brush1.quaternion, brush1.scale);
+        brush2.matrix.decompose(brush2.position, brush2.quaternion, brush2.scale);
+        brush1.updateMatrixWorld(true);
+        brush2.updateMatrixWorld(true);
+        const evaluator = new (0, $1LQKV$Evaluator)();
+        const result = evaluator.evaluate(brush1, brush2, modeList[mode]);
+        result.material = Array.isArray(mesh1.material) ? mesh1.material.map((mat)=>mat.clone()) : mesh1.material.clone();
+        scene.add(result);
+        if (dispose) {
+            mesh1.geometry.dispose();
+            mesh2.geometry.dispose();
+            disposeMaterial(mesh1.material);
+            disposeMaterial(mesh2.material);
+        }
+        if (remove) {
+            scene.remove(mesh1);
+            scene.remove(mesh2);
+        }
+        return result;
+    };
+};
+var $f5cb25838630d673$export$2e2bcd8739ae039 = $f5cb25838630d673$var$csg;
+
+
 const $1173d806c7708ef5$var$use = [
     {
         name: "setPixelRatio",
@@ -2770,12 +2816,17 @@ const $1173d806c7708ef5$var$use = [
     {
         name: "distance",
         fn: (0, $f400cb6b90911329$export$2e2bcd8739ae039)
+    },
+    {
+        name: "csg",
+        fn: (0, $f5cb25838630d673$export$2e2bcd8739ae039)
     }
 ];
-const $1173d806c7708ef5$var$addTool = ({ tool: tool, renderer: renderer })=>{
+const $1173d806c7708ef5$var$addTool = ({ tool: tool, renderer: renderer, scene: scene })=>{
     $1173d806c7708ef5$var$use.forEach((v)=>{
         tool[v.name] = v.fn({
-            renderer: renderer
+            renderer: renderer,
+            scene: scene
         });
     });
 };
@@ -2864,6 +2915,25 @@ const $02085b926ca309ff$var$xr = ({ THREE: THREE, renderer: renderer, scene: sce
 var $02085b926ca309ff$export$2e2bcd8739ae039 = $02085b926ca309ff$var$xr;
 
 
+
+const $d02a0849ee4ca0dd$var$transformControls = ({ camera: camera, renderer: renderer, controls: controls, scene: scene })=>{
+    const attach = (object, { mode: mode = "translate", disableOrbitControls: disableOrbitControls = true } = {})=>{
+        const c = new (0, $1LQKV$TransformControls)(camera, renderer.domElement);
+        c.attach(object);
+        if (disableOrbitControls) c.addEventListener("dragging-changed", (event)=>{
+            controls.enabled = !event.value;
+        });
+        c.setMode(mode);
+        scene.add(c.getHelper());
+        return c;
+    };
+    return {
+        attach: attach
+    };
+};
+var $d02a0849ee4ca0dd$export$2e2bcd8739ae039 = $d02a0849ee4ca0dd$var$transformControls;
+
+
 function $0cde3fdde307ec9a$export$2cd8252107eb640b(targetName, { pixelRatio: pixelRatio = window.devicePixelRatio } = {}) {
     const Default = (0, $05e1af71c54d2f4c$export$2e2bcd8739ae039);
     const { domElement: domElement, scene: scene, camera: camera, renderer: renderer, controls: controls, sizeTarget: sizeTarget, sizeTargetResize: sizeTargetResize, windowResize: windowResize, color: color, noToneMapping: noToneMapping, destroy: destroy } = (0, $b0f8916483f44240$export$2e2bcd8739ae039)({
@@ -2932,7 +3002,8 @@ function $0cde3fdde307ec9a$export$2cd8252107eb640b(targetName, { pixelRatio: pix
     const tool = {};
     (0, $1173d806c7708ef5$export$2e2bcd8739ae039)({
         tool: tool,
-        renderer: renderer
+        renderer: renderer,
+        scene: scene
     });
     const xr = (0, $02085b926ca309ff$export$2e2bcd8739ae039)({
         THREE: $1LQKV$three,
@@ -2940,6 +3011,12 @@ function $0cde3fdde307ec9a$export$2cd8252107eb640b(targetName, { pixelRatio: pix
         scene: scene,
         camera: camera,
         domElement: domElement
+    });
+    const transformControls = (0, $d02a0849ee4ca0dd$export$2e2bcd8739ae039)({
+        camera: camera,
+        renderer: renderer,
+        controls: controls,
+        scene: scene
     });
     return {
         Default: Default,
@@ -2960,6 +3037,7 @@ function $0cde3fdde307ec9a$export$2cd8252107eb640b(targetName, { pixelRatio: pix
         raycaster: raycaster,
         noToneMapping: noToneMapping,
         xr: xr,
+        transformControls: transformControls,
         destroy: destroy
     };
 }

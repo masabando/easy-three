@@ -12,6 +12,7 @@ import addHelper from './helper/main.js';
 import addEvent from './event/main.js'
 import addTool from './tool/main.js'
 import _xr from './base/xr.js'
+import _transformControls from './base/transformControls.js'
 
 export function init(targetName, {
   pixelRatio = window.devicePixelRatio,
@@ -55,9 +56,11 @@ export function init(targetName, {
   addEvent({ Default, THREE, event, domElement })
 
   const tool = {}
-  addTool({ tool, renderer })
+  addTool({ tool, renderer, scene })
 
   const xr = _xr({ THREE, renderer, scene, camera, domElement })
+
+  const transformControls = _transformControls({ camera, renderer, controls, scene })
 
   return {
     Default,
@@ -78,6 +81,7 @@ export function init(targetName, {
     raycaster,
     noToneMapping,
     xr,
+    transformControls,
     destroy,
   }
 }
