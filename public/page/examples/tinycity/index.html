@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tiny City at Night | easy-three</title>
+  <script type="importmap">
+    {
+      "imports": {
+        "three": "https://cdn.jsdelivr.net/npm/three@0.185.1/build/three.module.js",
+        "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.185.1/examples/jsm/",
+        "@pixiv/three-vrm": "https://cdn.jsdelivr.net/npm/@pixiv/three-vrm@3/lib/three-vrm.module.min.js",
+        "@masabando/easy-three": "https://cdn.jsdelivr.net/gh/masabando/easy-three@1.15.0/dist/easy-three.js",
+        "three-mesh-bvh": "https://cdn.jsdelivr.net/npm/three-mesh-bvh@0.9.10/build/index.module.js",
+        "three-bvh-csg": "https://cdn.jsdelivr.net/npm/three-bvh-csg@0.0.18/build/index.module.js"
+      }
+    }
+  </script>
+  <style>
+    body { margin: 0; background: #050816; overflow: hidden; }
+  </style>
+</head>
+
+<body>
+  <script type="module">
+    import { init } from "@masabando/easy-three";
+
+    const { camera, create, animate, controls, scene, color } = init();
+
+    scene.background = color("#050816");
+    create.fog({ color: "#050816", near: 4, far: 13 });
+    camera.position.set(4.6, 3.4, 5.5);
+    camera.lookAt(0, 0.8, 0);
+    controls.connect();
+    controls.target.set(0, 0.7, 0);
+
+    create.ambientLight({ intensity: 0.8, color: 0x5b6ee1 });
+    create.directionalLight({ intensity: 2.4, color: 0xffdf9e, position: [3, 6, 4] });
+
+    create.plane({
+      size: [10, 10],
+      rotation: [-Math.PI / 2, 0, 0],
+      position: [0, -0.03, 0],
+      material: "Basic",
+      option: { color: 0x080b18 },
+    });
+
+    function makeWindowTexture(seed, accent) {
+      return create.canvasTexture((ctx, canvas) => {
+        ctx.fillStyle = "#111827";
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        for (let y = 18; y < canvas.height - 18; y += 30) {
+          for (let x = 14; x < canvas.width - 12; x += 24) {
+            const on = Math.sin(seed * 12.989 + x * 0.37 + y * 0.19) > -0.2;
+            ctx.fillStyle = on ? accent : "#172033";
+            ctx.fillRect(x, y, 9, 13);
+          }
+        }
+      }, { size: [160, 240] });
+    }
+
+    const buildings = [];
+    const accents = ["#fde68a", "#93c5fd", "#fca5a5", "#c4b5fd", "#86efac"];
+    for (let z = -4; z <= 2.8; z += 1.15) {
+      for (let x = -4; x <= 4; x += 0.86) {
+        if (Math.random() < 0.15) continue;
+        const height = 0.7 + Math.random() * 2.7;
+        const width = 0.42 + Math.random() * 0.2;
+        const depth = 0.42 + Math.random() * 0.2;
+        const texture = makeWindowTexture(Math.random(), accents[Math.floor(Math.random() * accents.length)]);
+        const building = create.cube({
+          size: [width, height, depth],
+          position: [x + Math.random() * 0.18, height / 2, z + Math.random() * 0.18],
+          material: "Basic",
+          option: { map: texture },
+        });
+        building.userData = { base: height, phase: Math.random() * 10 };
+        buildings.push(building);
+      }
+    }
+
+    const traffic = [];
+    for (let i = 0; i < 12; i++) {
+      const car = create.cube({
+        size: [0.12, 0.04, 0.22],
+        position: [-4 + Math.random() * 8, 0.04, -4.7 + (i % 3) * 0.28],
+        material: "Basic",
+        option: { color: i % 2 ? 0xff3d5a : 0x61dafb },
+      });
+      car.userData = { speed: 0.5 + Math.random() * 0.7 };
+      traffic.push(car);
+    }
+
+    animate(({ time, delta }) => {
+      buildings.forEach((building) => {
+        building.scale.y = 1 + Math.sin(time * 0.7 + building.userData.phase) * 0.01;
+      });
+      traffic.forEach((car) => {
+        car.position.x += delta * car.userData.speed;
+        if (car.position.x > 4.6) car.position.x = -4.6;
+      });
+    });
+  </script>
+</body>
+
+</html>

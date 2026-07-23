@@ -41,6 +41,11 @@ export default function Page() {
       <H1>Examples</H1>
 
       <div className="flex justify-start flex-wrap gap-4 mt-5">
+        <ExampleLink dir="kinetictypography" name="Kinetic Typography" creator="Codex" />
+        <ExampleLink dir="tinycity" name="Tiny City" creator="Codex" />
+        <ExampleLink dir="floatinglanterns" name="Floating Lanterns" creator="Codex" />
+        <ExampleLink dir="museumwall" name="Museum Wall" creator="Codex" />
+        <ExampleLink dir="weathercubes" name="Weather Cubes" creator="Codex" />
         <ExampleLink dir="moonjelly" name="Moon Jelly" creator="Codex" />
         <ExampleLink dir="signalgarden" name="Signal Garden" creator="Codex" />
         <ExampleLink dir="pulsefield" name="Pulsefield" creator="masabando" />

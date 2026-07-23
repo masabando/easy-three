@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Museum Wall | easy-three</title>
+  <script type="importmap">
+    {
+      "imports": {
+        "three": "https://cdn.jsdelivr.net/npm/three@0.185.1/build/three.module.js",
+        "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.185.1/examples/jsm/",
+        "@pixiv/three-vrm": "https://cdn.jsdelivr.net/npm/@pixiv/three-vrm@3/lib/three-vrm.module.min.js",
+        "@masabando/easy-three": "https://cdn.jsdelivr.net/gh/masabando/easy-three@1.15.0/dist/easy-three.js",
+        "three-mesh-bvh": "https://cdn.jsdelivr.net/npm/three-mesh-bvh@0.9.10/build/index.module.js",
+        "three-bvh-csg": "https://cdn.jsdelivr.net/npm/three-bvh-csg@0.0.18/build/index.module.js"
+      }
+    }
+  </script>
+  <style>
+    body { margin: 0; background: #e9e1d2; overflow: hidden; }
+  </style>
+</head>
+
+<body>
+  <script type="module">
+    import { init } from "@masabando/easy-three";
+
+    const { camera, create, animate, controls, scene, color } = init();
+
+    scene.background = color("#e9e1d2");
+    camera.position.set(0, 1.5, 5.3);
+    camera.lookAt(0, 1.1, 0);
+    controls.connect();
+    controls.target.set(0, 1.1, 0);
+
+    create.ambientLight({ intensity: 1.8, color: 0xfff4df });
+    create.directionalLight({ intensity: 2.5, color: 0xfff0d0, position: [0, 4, 4] });
+
+    create.plane({
+      size: [8, 4.5],
+      position: [0, 1.25, -0.15],
+      material: "Basic",
+      option: { color: 0xd8c9b2 },
+    });
+    create.plane({
+      size: [8, 3],
+      rotation: [-Math.PI / 2, 0, 0],
+      position: [0, -0.9, 1.8],
+      material: "Basic",
+      option: { color: 0x7c5f45 },
+    });
+
+    function makeArtworkTexture(title, palette) {
+      return create.canvasTexture((ctx, canvas) => {
+        ctx.fillStyle = palette[0];
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        ctx.fillStyle = palette[1];
+        ctx.fillRect(25, 30, canvas.width - 50, canvas.height - 60);
+        ctx.fillStyle = palette[2];
+        ctx.beginPath();
+        ctx.arc(canvas.width * 0.36, canvas.height * 0.42, 42, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.fillStyle = palette[3];
+        ctx.fillRect(canvas.width * 0.5, canvas.height * 0.24, 62, 120);
+        ctx.fillStyle = "#111827";
+        ctx.font = "bold 22px sans-serif";
+        ctx.textAlign = "center";
+        ctx.fillText(title, canvas.width / 2, canvas.height - 24);
+      }, { size: [280, 360] });
+    }
+
+    const artworks = [
+      ["SUN ROOM", -2.45, ["#f8fafc", "#fde68a", "#ef4444", "#2563eb"]],
+      ["GREEN NOTE", -0.82, ["#f8fafc", "#bbf7d0", "#059669", "#f97316"]],
+      ["BLUE STEP", 0.82, ["#f8fafc", "#bfdbfe", "#1d4ed8", "#facc15"]],
+      ["RED QUIET", 2.45, ["#f8fafc", "#fecaca", "#be123c", "#7c3aed"]],
+    ];
+
+    const frames = artworks.map(([title, x, palette], i) => {
+      const frame = create.group({ position: [x, 1.28, 0.02] });
+      const back = create.cube({
+        size: [1.18, 1.52, 0.08],
+        material: "Basic",
+        option: { color: 0x33251d },
+        autoAdd: false,
+      });
+      const art = create.plane({
+        size: [1, 1.3],
+        position: [0, 0, 0.055],
+        material: "Basic",
+        option: { map: makeArtworkTexture(title, palette) },
+        autoAdd: false,
+      });
+      const label = create.text(title, {
+        size: [0.9, 0.18],
+        fontSize: 40,
+        resolution: 2,
+        color: "#4b3628",
+        position: [0, -0.93, 0.06],
+        autoAdd: false,
+      });
+      frame.add(back);
+      frame.add(art);
+      frame.add(label);
+      frame.userData = { i, baseX: x };
+      return frame;
+    });
+
+    const spotlight = create.sphere({
+      size: 0.07,
+      position: [0, 2.55, 0.35],
+      material: "Basic",
+      option: { color: 0xfff2bd },
+    });
+
+    animate(({ time }) => {
+      frames.forEach((frame) => {
+        frame.rotation.y = Math.sin(time * 0.7 + frame.userData.i) * 0.06;
+        frame.position.y = 1.28 + Math.sin(time * 0.5 + frame.userData.i) * 0.025;
+      });
+      spotlight.position.x = Math.sin(time * 0.55) * 2.5;
+    });
+  </script>
+</body>
+
+</html>
