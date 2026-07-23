@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Signal Garden | easy-three</title>
+  <script type="importmap">
+    {
+      "imports": {
+        "three": "https://cdn.jsdelivr.net/npm/three@0.185.1/build/three.module.js",
+        "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.185.1/examples/jsm/",
+        "@pixiv/three-vrm": "https://cdn.jsdelivr.net/npm/@pixiv/three-vrm@3/lib/three-vrm.module.min.js",
+        "@masabando/easy-three": "https://cdn.jsdelivr.net/gh/masabando/easy-three@1.15.0/dist/easy-three.js",
+        "three-mesh-bvh": "https://cdn.jsdelivr.net/npm/three-mesh-bvh@0.9.10/build/index.module.js",
+        "three-bvh-csg": "https://cdn.jsdelivr.net/npm/three-bvh-csg@0.0.18/build/index.module.js"
+      }
+    }
+  </script>
+  <style>
+    body {
+      margin: 0;
+      background: #020407;
+      overflow: hidden;
+    }
+  </style>
+</head>
+
+<body>
+  <script type="module">
+    import { init } from "@masabando/easy-three";
+
+    const { camera, create, animate, controls, scene, color, tool } = init();
+
+    scene.background = color("#020407");
+    camera.position.set(3.5, 3, 4.5);
+    controls.connect();
+    controls.target.set(0, 0.6, 0);
+
+    create.ambientLight({ intensity: 0.9 });
+    create.directionalLight({
+      intensity: 2,
+      position: [2, 5, 3],
+    });
+
+    const gardenSize = 8;
+    const resolution = 120;
+
+    const ground = create.canvas((ctx, canvas) => {
+      ctx.fillStyle = "#020407";
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+    }, {
+      size: gardenSize,
+      resolution,
+      rotation: [-Math.PI / 2, 0, 0],
+      position: [0, -0.02, 0],
+    });
+
+    ground.updateSignal = (time) => {
+      ground.update((ctx, canvas) => {
+        const center = canvas.width / 2;
+        ctx.fillStyle = "rgba(2, 4, 7, 0.12)";
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+        for (let i = 0; i < 5; i++) {
+          const radius = ((time * 70) + i * 95) % center;
+          const hue = (time * 45 + i * 42) % 360;
+          ctx.beginPath();
+          ctx.strokeStyle = `hsla(${hue}, 100%, 62%, ${0.9 - i * 0.13})`;
+          ctx.lineWidth = Math.max(1, 5 - i);
+          ctx.arc(center, center, radius, 0, Math.PI * 2);
+          ctx.stroke();
+        }
+      });
+    };
+
+    const coreCube = create.cube({
+      size: 1.25,
+      rotation: [0.35, 0.55, 0.1],
+      option: {
+        color: 0x4de3ff,
+        metalness: 0.2,
+        roughness: 0.08,
+      },
+    });
+    const coreSphere = create.sphere({
+      size: 0.72,
+      autoAdd: false,
+    });
+    const core = tool.csg(coreCube, coreSphere, {
+      mode: "subtract",
+    });
+    core.position.y = 0.72;
+
+    const rings = [
+      create.torus({
+        size: 1.15,
+        tube: 0.01,
+        rotation: [Math.PI / 2, 0, 0],
+        option: { color: 0x35f6ff, transparent: true, opacity: 0.65 },
+      }),
+      create.torus({
+        size: 1.75,
+        tube: 0.015,
+        rotation: [Math.PI / 2, 0, 0],
+        option: { color: 0xff46ba, transparent: true, opacity: 0.45 },
+      }),
+      create.torus({
+        size: 2.45,
+        tube: 0.012,
+        rotation: [Math.PI / 2, 0, 0],
+        option: { color: 0xffd34d, transparent: true, opacity: 0.4 },
+      }),
+    ];
+
+    const signals = [];
+    for (let i = 0; i < 42; i++) {
+      const angle = (Math.PI * 2 * i) / 42;
+      const radius = 1.4 + (i % 4) * 0.55;
+      const height = 0.1 + (i % 5) * 0.08;
+      const mesh = create.sphere({
+        size: 0.07 + (i % 3) * 0.025,
+        position: [
+          Math.cos(angle) * radius,
+          height,
+          Math.sin(angle) * radius,
+        ],
+        option: {
+          color: 0x111827,
+          metalness: 0.1,
+          roughness: 0.25,
+        },
+      });
+      mesh.userData = {
+        angle,
+        radius,
+        offset: i * 0.22,
+      };
+      signals.push(mesh);
+    }
+
+    animate(({ time, delta }) => {
+      ground.updateSignal(time);
+
+      const hue = (time * 50) % 360;
+      core.rotation.x += delta * 0.25;
+      core.rotation.y += delta * 0.55;
+      core.material.color.set(`hsl(${hue}, 100%, 62%)`);
+
+      rings.forEach((ring, i) => {
+        ring.rotation.z += delta * (0.12 + i * 0.05);
+        ring.position.y = 0.04 + Math.sin(time * 1.6 + i) * 0.025;
+      });
+
+      signals.forEach((signal) => {
+        const phase = Math.sin(time * 3.2 - signal.userData.radius * 2.1 + signal.userData.offset);
+        const lit = Math.max(0, phase);
+        signal.position.y = 0.12 + lit * 0.75;
+        signal.scale.setScalar(1 + lit * 1.8);
+        signal.material.color.set(`hsl(${(hue + signal.userData.angle * 80) % 360}, 100%, ${18 + lit * 56}%)`);
+      });
+    });
+  </script>
+</body>
+
+</html>
