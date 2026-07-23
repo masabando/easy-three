@@ -21,7 +21,7 @@ Use this file as both:
 
 - Use this skill when the project imports `@masabando/easy-three` or `"easy-three"`.
 - Use this skill when generating beginner-friendly three.js/WebGL scenes with easy-three.
-- Use this skill when the user mentions easy-three, three.js simplification, 3D objects, scene setup, camera controls, raycasting, lights, canvas textures, GLTF, VRM, BVH, helpers, events, water, sky, ocean, text in 3D, XR, VR, WebXR, controllers, hands, or postprocessing.
+- Use this skill when the user mentions easy-three, three.js simplification, 3D objects, scene setup, camera controls, transform controls, raycasting, CSG/boolean mesh operations, lights, canvas textures, GLTF, VRM, BVH, helpers, events, water, sky, ocean, text in 3D, XR, VR, WebXR, controllers, hands, or postprocessing.
 - Use this skill for React components that render easy-three scenes.
 - Do not use this skill for unrelated UI-only work.
 
@@ -45,7 +45,7 @@ CDN/import-map import:
 import { init } from "easy-three";
 ```
 
-For CDN usage, define import maps for `three`, `three/addons/`, `@pixiv/three-vrm`, and `easy-three` as shown in the official getting-started documentation.
+For CDN usage, define import maps for `three`, `three/addons/`, `@pixiv/three-vrm`, `three-mesh-bvh`, `three-bvh-csg`, and `easy-three` as shown in the official getting-started documentation.
 
 ## Usage Rules
 
@@ -55,11 +55,13 @@ For CDN usage, define import maps for `three`, `three/addons/`, `@pixiv/three-vr
 4. Use `load.*` for textures, video textures, cube textures, HDR backgrounds, GLTF, VRM, and BVH.
 5. Use `controls.connect()` for orbit-style controls, or `fpv.connect()` for first-person controls. Do not use both in the same scene.
 6. For XR scenes, use `xr.setup()` and do not use `controls` or `fpv` camera controls in XR mode.
-7. In React, call `init(ref.current)` inside `useEffect()` and clean up with `return () => destroy()`.
-8. In normal CDN/plain JavaScript snippets, do not include `destroy()` unless the scene is explicitly torn down dynamically.
-9. Put material settings under `option`.
-10. Use arrays for `position`, `rotation`, `scale`, and multi-axis `size`/`segments` props.
-11. If easy-three does not expose a required feature, destructure `THREE` from `init()` and use minimal raw three.js code only for that feature.
+7. Use `transformControls.attach(object)` when users need to move, rotate, or scale an object interactively.
+8. Use `tool.csg(mesh1, mesh2, props)` for boolean mesh operations such as subtract, add, difference, and intersect.
+9. In React, call `init(ref.current)` inside `useEffect()` and clean up with `return () => destroy()`.
+10. In normal CDN/plain JavaScript snippets, do not include `destroy()` unless the scene is explicitly torn down dynamically.
+11. Put material settings under `option`.
+12. Use arrays for `position`, `rotation`, `scale`, and multi-axis `size`/`segments` props.
+13. If easy-three does not expose a required feature, destructure `THREE` from `init()` and use minimal raw three.js code only for that feature.
 
 ## API Selection Protocol
 
@@ -82,10 +84,12 @@ Base:
 - `color(value)`
 - `controls.connect()`, `controls.disconnect()`
 - `fpv.connect(props)`, `fpv.disconnect()`
+- `transformControls.attach(object, props)`
 - `raycaster.connect(props)`, `raycaster.disconnect()`, `raycaster.getIntersections(objects, props)`
 - `xr.setup(props)`, `controller.getIntersections(objects, recursive)`
 - `tool.setPixelRatio(pixelRatio)`
 - `tool.distance(mesh1, mesh2, usePixelRatio)`
+- `tool.csg(mesh1, mesh2, props)`
 
 Create meshes and objects:
 
@@ -178,7 +182,7 @@ animate(({ delta }) => {
 
 `init(target, options)` accepts no target, a CSS selector string, or an HTMLElement. `options.pixelRatio` sets the pixel ratio.
 
-`init()` returns `Default`, `scene`, `camera`, `renderer`, `controls`, `fpv`, `raycaster`, `xr`, `create`, `load`, `helper`, `event`, `animate`, `THREE`, `color`, `postprocessing`, `noToneMapping`, `destroy`, and `tool`.
+`init()` returns `Default`, `scene`, `camera`, `renderer`, `controls`, `fpv`, `raycaster`, `xr`, `transformControls`, `create`, `load`, `helper`, `event`, `animate`, `THREE`, `color`, `postprocessing`, `noToneMapping`, `destroy`, and `tool`.
 
 Do not write manual `THREE.Scene`, `THREE.WebGLRenderer`, resize listeners, or requestAnimationFrame loops unless the user explicitly asks for raw three.js. If easy-three does not expose a feature you need, destructure `THREE` from `init()` and use three.js directly for that specific part.
 
@@ -223,10 +227,12 @@ Only use `destroy()` for lifecycle cleanup such as React unmounting. In normal C
 - `color(value)`: returns a `THREE.Color`; accepts strings and hex values such as `"#ff0000"`, `0xff0000`, or `"hotpink"`.
 - `controls.connect()` / `controls.disconnect()`: enable or disable orbit-style mouse/touch camera control.
 - `fpv.connect(props)` / `fpv.disconnect()`: first-person camera control. Do not use `fpv` and `controls` together.
+- `transformControls.attach(object, props)`: attach a three.js `TransformControls` helper to an object so the user can translate, rotate, or scale it interactively.
 - `raycaster.connect(props)` / `raycaster.disconnect()`: enable or disable object picking from the current mouse/touch position.
 - `xr.setup(props)`: enables WebXR/VR, adds a VR button, and optionally creates controllers and hand models.
 - `tool.setPixelRatio(pixelRatio)`: update renderer pixel ratio at runtime.
 - `tool.distance(mesh1, mesh2, usePixelRatio)`: returns the distance between two meshes, or between a mesh and the camera. `usePixelRatio` defaults to `true`.
+- `tool.csg(mesh1, mesh2, props)`: performs a CSG/boolean operation between two meshes and returns the result mesh.
 
 `fpv.connect()` props:
 
@@ -245,6 +251,17 @@ fpv.connect({
 ```
 
 For `fpv.position`, pass only `[x, z]`; the camera y value comes from `height`.
+
+`transformControls.attach()` props:
+
+```js
+transformControls.attach(object, {
+  mode: "translate",
+  disableOrbitControls: true,
+});
+```
+
+`mode` accepts `"translate"`, `"rotate"`, or `"scale"`. When `disableOrbitControls` is `true`, easy-three disables the normal orbit controls while the transform handle is being dragged. The return value is the underlying three.js `TransformControls` instance.
 
 `raycaster.connect()` props:
 
@@ -286,6 +303,18 @@ Each controller returned by `xr.setup()` also has `controller.getIntersections(o
 `cameraGroup` is a `THREE.Group` that contains the camera, controllers, and hands. Change `cameraGroup.position` when you need to offset the initial XR floor/origin. In XR mode, the headset still controls the user's live head pose relative to that group.
 
 In XR mode, do not call `controls.connect()` or `fpv.connect()`. The XR device controls the camera position and rotation. Direct camera pose changes such as `camera.position` are ignored while presenting in XR, but they can still be useful for non-XR preview.
+
+`tool.csg()` props:
+
+```js
+tool.csg(mesh1, mesh2, {
+  mode: "subtract",
+  dispose: true,
+  remove: true,
+});
+```
+
+`mode` accepts `"add"`, `"subtract"`, `"reverseSubtract"`, `"difference"`, and `"intersect"`. The default mode is `"subtract"`. When `dispose` is `true`, easy-three disposes the original meshes' geometry and material after the operation. When `remove` is `true`, easy-three removes the original meshes from the scene. `tool.csg()` adds the result mesh to the scene and returns it.
 
 ## Mesh Creation
 
@@ -452,6 +481,68 @@ instances.at(1).color.set("#ff0000");
 instances.at(2).rotation.set(Math.PI / 4, Math.PI / 4, 0);
 instances.at(3).scale.set(1.5, 1.5, 1.5);
 ```
+
+## Transform Controls
+
+Use `transformControls.attach(object, props)` when the user should manipulate an object directly in the scene.
+
+```js
+const { camera, create, animate, controls, transformControls } = init();
+
+camera.position.set(0, 0, 3);
+controls.connect();
+
+create.ambientLight();
+create.directionalLight();
+
+const cube = create.cube();
+
+transformControls.attach(cube, {
+  mode: "translate",
+  disableOrbitControls: true,
+});
+
+animate();
+```
+
+Use `"translate"` for movement, `"rotate"` for rotation, and `"scale"` for scaling. Prefer `disableOrbitControls: true` when orbit controls are connected, so dragging the transform handle does not also rotate the camera.
+
+## CSG Boolean Mesh Operations
+
+Use `tool.csg(mesh1, mesh2, props)` for boolean operations between two meshes. This is useful for subtracting holes, combining meshes, or creating intersection shapes without writing raw CSG setup code.
+
+```js
+const { camera, create, animate, controls, tool } = init();
+
+camera.position.set(0, 1.6, 2);
+controls.connect();
+
+create.ambientLight();
+create.directionalLight();
+
+const cube = create.cube();
+const sphere = create.sphere({
+  size: 0.7,
+});
+
+const result = tool.csg(cube, sphere, {
+  mode: "subtract",
+});
+
+result.material.color.set(0x66aaff);
+
+animate();
+```
+
+CSG modes:
+
+- `"subtract"`: subtract `mesh2` from `mesh1`; this is the default.
+- `"add"`: combine `mesh1` and `mesh2`.
+- `"reverseSubtract"`: subtract `mesh1` from `mesh2`.
+- `"difference"`: keep the non-overlapping parts.
+- `"intersect"`: keep only the overlapping part.
+
+By default, `tool.csg()` disposes and removes the original meshes. Pass `{ dispose: false, remove: false }` when the originals should remain usable or visible after the operation.
 
 ## Lights
 
@@ -805,12 +896,16 @@ Default.texture.wrapping = "Repeat";
 - Put material properties under `option`.
 - Do not set `autoAdd: false` unless you will add the object to a group/scene manually.
 - Use `controls.connect()` for orbit controls, or `fpv.connect()` for first-person controls, not both.
+- Use `transformControls.attach(object)` when the user needs interactive object translation, rotation, or scaling.
+- When using `transformControls` with orbit controls, keep `disableOrbitControls: true` unless the user explicitly wants simultaneous camera and object dragging.
 - Use `raycaster.connect()` and `raycaster.getIntersections()` for pointer-based object picking.
 - Use `xr.setup()` for WebXR/VR scenes, and avoid `controls.connect()` and `fpv.connect()` in XR mode.
 - Use `selectableObjects` and `controller.userData.selected?.[0]?.object` for simple XR controller selection.
 - Use `controller.getIntersections()` when an XR controller needs continuous raycast information, such as moving a selected object.
 - In XR scenes, create selectable objects before calling `xr.setup({ selectableObjects })`.
 - Use `cameraGroup.position` from `xr.setup()` when XR content needs a different initial floor/origin offset.
+- Use `tool.csg(mesh1, mesh2, { mode })` for boolean mesh operations. Prefer it over raw `three-bvh-csg` setup.
+- Remember that `tool.csg()` removes and disposes the original meshes by default; use `{ remove: false, dispose: false }` if later code still needs them.
 - Use `create.canvas()` for canvas-backed planes and `create.canvasTexture()` for canvas textures mapped onto other meshes.
 - In React, pass the ref element to `init(ref.current)` inside `useEffect()` and clean up with `return () => destroy()`.
 - In CDN/plain JavaScript usage, omit `destroy()` unless the user is explicitly tearing down a scene.
