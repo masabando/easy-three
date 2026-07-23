@@ -89,6 +89,10 @@ declare module "@masabando/easy-three" {
     };
   }
 
+  export interface EasyThreeTransformControls {
+    attach(object: THREE.Object3D): TransformControls;
+  }
+
   export interface EasyThreeEvent {
     // mouse, key などのイベントラッパ
     // [key: string]: any;
@@ -242,6 +246,16 @@ declare module "@masabando/easy-three" {
      * この値を書き換えることで、easy-three 全体の挙動を変更できる。
      */
     Default: EasyThreeDefault;
+
+    /**
+     * XR 機能群。
+     */
+    xr: EasyThreeXR;
+
+    /**
+     * TransformControls 機能群。
+     */
+    transformControls: EasyThreeTransformControls;
   }
 
   /**

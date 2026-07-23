@@ -2,7 +2,7 @@
 name: easy-three
 description: Official easy-three skill. Use when generating JavaScript, TypeScript, HTML, JSX, or React code for easy-three, beginner-friendly three.js scenes, WebGL/WebXR examples, 3D objects, cameras, lights, raycasting, canvas textures, models, VRM, GLTF, textures, events, helpers, XR, VR, controllers, hands, or postprocessing.
 metadata:
-  version: 1.14.x
+  version: 1.15.x
   source: https://masabando.github.io/easy-three/llms.txt
 alwaysApply: true
 applyTo: "**/*.{js,jsx,ts,tsx,html,md}"
