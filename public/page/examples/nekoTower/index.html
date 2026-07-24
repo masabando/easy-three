@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Neko Tower | easy-three</title>
+  <script type="importmap">
+    {
+      "imports": {
+        "three": "https://cdn.jsdelivr.net/npm/three@0.185.1/build/three.module.js",
+        "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.185.1/examples/jsm/",
+        "@pixiv/three-vrm": "https://cdn.jsdelivr.net/npm/@pixiv/three-vrm@3/lib/three-vrm.module.min.js",
+        "@masabando/easy-three": "https://cdn.jsdelivr.net/gh/masabando/easy-three@1.15.0/dist/easy-three.js",
+        "three-mesh-bvh": "https://cdn.jsdelivr.net/npm/three-mesh-bvh@0.9.10/build/index.module.js",
+        "three-bvh-csg": "https://cdn.jsdelivr.net/npm/three-bvh-csg@0.0.18/build/index.module.js"
+      }
+    }
+  </script>
+</head>
+
+<body>
+  <script type="module">
+    import { init } from "@masabando/easy-three";
+    const { create, camera, animate, controls, scene, color, helper, postprocessing } = init();
+
+    function random(min, max) {
+      return Math.random() * (max - min) + min;
+    }
+
+
+
+
+    function createTower({
+      circleCount = 10,
+      nekoCount = 2,
+      size = [10, 50, 10],
+      resolution = 10,
+    } = {}) {
+
+      const textureSize = [
+        (size[0] + size[2]) * resolution * 2,
+        size[1] * resolution
+      ];
+
+      // parts data
+      const parts = {
+        circle: Array.from({ length: circleCount }, () => ({
+          position: [random(0, textureSize[0]), random(0, textureSize[1])],
+          size: random(20, 100),
+          color: `hsl(${random(0, 360)}, 100%, 50%)`,
+          velocity: [random(80, -80), random(50, 120)],
+          type: "circle",
+        })),
+        neko: Array.from({ length: nekoCount }, () => ({
+          position: [random(0, textureSize[0]), random(0, textureSize[1])],
+          size: random(10, 70),
+          velocity: [random(80, -80), random(50, 120)],
+          type: "neko",
+        })),
+      }
+
+      // draw functions
+      const draw = {
+        circle: (ctx, canvas, c) => {
+          const lw = c.size / 15;
+          ctx.lineWidth = lw;
+          ctx.strokeStyle = c.color;
+          ctx.beginPath();
+          ctx.arc(c.position[0], c.position[1], c.size, 0, Math.PI * 2);
+          ctx.stroke();
+          // draw circle on the other side of the texture for seamless effect
+          if (c.position[0] < c.size + lw || canvas.width - c.size - lw < c.position[0]) {
+            ctx.beginPath();
+            ctx.arc(
+              c.position[0] + (c.position[0] < canvas.width / 2 ? canvas.width : -canvas.width),
+              c.position[1],
+              c.size, 0, Math.PI * 2);
+            ctx.stroke();
+          }
+          if (c.position[1] < c.size + lw || canvas.height - c.size - lw < c.position[1]) {
+            ctx.beginPath();
+            ctx.arc(
+              c.position[0],
+              c.position[1] + (c.position[1] < canvas.height / 2 ? canvas.height : -canvas.height),
+              c.size, 0, Math.PI * 2);
+            ctx.stroke();
+          }
+        },
+        neko: (ctx, canvas, c) => {
+          ctx.drawImage(nekoImage, c.position[0], c.position[1], c.size, c.size);
+          // draw neko on the other side of the texture for seamless effect
+          if (c.position[0] < c.size || canvas.width - c.size < c.position[0]) {
+            ctx.drawImage(
+              nekoImage,
+              c.position[0] + (c.position[0] < canvas.width / 2 ? canvas.width : -canvas.width),
+              c.position[1], c.size, c.size
+            );
+          }
+          if (c.position[1] < c.size || canvas.height - c.size < c.position[1]) {
+            ctx.drawImage(
+              nekoImage,
+              c.position[0],
+              c.position[1] + (c.position[1] < canvas.height / 2 ? canvas.height : -canvas.height),
+              c.size, c.size
+            );
+          }
+        },
+      }
+
+
+      const texture = create.canvasTexture((ctx, canvas) => {
+        ctx.fillStyle = "#000000";
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+      }, {
+        size: textureSize,
+      })
+      const tex = {
+        front: texture,
+        right: texture.clone(),
+        back: texture.clone(),
+        left: texture.clone(),
+      }
+      tex.front.repeat.set(size[0] / (2*size[0] + 2*size[2]), 1)
+      tex.front.offset.set(0, 0);
+      tex.right.repeat.set(size[2] / (2*size[0] + 2*size[2]), 1)
+      tex.right.offset.set(size[0] / (2*size[0] + 2*size[2]), 0);
+      tex.back.repeat.set(size[0] / (2*size[0] + 2*size[2]), 1)
+      tex.back.offset.set((size[0] + size[2]) / (2*size[0] + 2*size[2]), 0);
+      tex.left.repeat.set(size[2] / (2*size[0] + 2*size[2]), 1)
+      tex.left.offset.set((size[0] + size[2] + size[0]) / (2*size[0] + 2*size[2]), 0);
+
+      const materials = [
+        create.material({ map: tex.right }),// right
+        create.material({ map: tex.left }),// left
+        create.material({ color: "#000000" }),// top
+        create.material({ color: "#000000" }),// bottom
+        create.material({ map: tex.front }),// front
+        create.material({ map: tex.back }),// back
+      ]
+
+      // the tower
+      const tower = create.box({
+        position: [0, size[1] / 2, 0],
+        size: size,
+        material: materials,
+        option: {
+          color: "#ffffff",
+        }
+      })
+
+      // draw function
+      tower.userData.draw = () => {
+        texture.update((ctx, canvas) => {
+          ctx.fillStyle = "#000000";
+          ctx.fillRect(0, 0, canvas.width, canvas.height);
+          parts.circle.forEach((data) => {
+            draw.circle(ctx, canvas, data);
+          })
+          parts.neko.forEach((data) => {
+            draw.neko(ctx, canvas, data);
+          })
+        })
+      }
+
+      // step function
+      tower.userData.step = (delta) => {
+        [...parts.circle, ...parts.neko].forEach((c) => {
+          c.position[0] = (c.position[0] + c.velocity[0] * delta + textureSize[0]) % textureSize[0];
+          c.position[1] = (c.position[1] - c.velocity[1] * delta + textureSize[1]) % textureSize[1];
+        })
+      }
+
+      // main update function
+      tower.update = (delta) => {
+        tower.userData.step(delta);
+        tower.userData.draw();
+      }
+
+      return tower;
+    }
+
+
+    function main() {
+      camera.position.set(40, 60, 40);
+      controls.target.set(0, 20, 0);
+      controls.connect();
+      controls.autoRotate = true;
+
+      create.ambientLight();
+      create.directionalLight();
+
+      scene.background = color("#222222");
+
+      const tower = createTower({
+        circleCount: 20,
+        nekoCount: 6,
+        size: [10, 60, 10],
+        resolution: 10,
+      });
+
+      const smallTowers = Array.from({ length: 4 }, (_, i) => {
+        const t = tower.clone();
+        const scale = 0.3 + Math.random() * 0.4;
+        t.scale.set(scale, scale, scale);
+        const ix = i % 2;
+        const iz = Math.floor(i / 2);
+        t.position.set(
+          -40 + ix*50 + random(0, 30),
+          scale * 60 / 2,
+          -40 + iz*50 + random(0, 30)
+        );
+        scene.add(t);
+        return t;
+      })
+
+      const gridHelper = helper.grid({ size: 100, divisions: 10 });
+
+      const { selectedBloom, addSelectedBloom } = postprocessing.selectedBloom({
+        exposure: 1,
+        strength: 1,
+      });
+      addSelectedBloom(tower, ...smallTowers, gridHelper);
+
+      animate(({ delta, time }) => {
+        tower.update(delta);
+        selectedBloom()
+      }, false)
+    }
+
+
+    // load neko image
+    const nekoImage = new Image();
+    nekoImage.onload = () => {
+      main()
+    }
+    nekoImage.src = "./neko.png";
+
+  </script>
+</body>
+
+</html>
