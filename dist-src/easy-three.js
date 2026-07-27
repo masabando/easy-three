@@ -37,7 +37,7 @@ export function init(targetName, {
   addLoad({ load, Default, THREE, scene })
 
   const create = {}
-  addCreate({ create, Default, scene, THREE, load })
+  addCreate({ create, Default, scene, THREE, load, camera })
 
   const fpv = _fpv({ camera, THREE, domElement, controls })
 

@@ -1608,29 +1608,29 @@ declare module "@masabando/easy-three" {
          *  (circle, grid, cube は、xy, xz, yx, yz, zx, zy の軸方向を指定可能)
          */
         layout?:
-          | "none"
-          | "line"
-          | "grid"
-          | "grid-xy"
-          | "grid-xz"
-          | "grid-yx"
-          | "grid-yz"
-          | "grid-zx"
-          | "grid-zy"
-          | "circle"
-          | "circle-xy"
-          | "circle-xz"
-          | "circle-yx"
-          | "circle-yz"
-          | "circle-zx"
-          | "circle-zy"
-          | "cube"
-          | "cube-xy"
-          | "cube-xz"
-          | "cube-yx"
-          | "cube-yz"
-          | "cube-zx"
-          | "cube-zy";
+        | "none"
+        | "line"
+        | "grid"
+        | "grid-xy"
+        | "grid-xz"
+        | "grid-yx"
+        | "grid-yz"
+        | "grid-zx"
+        | "grid-zy"
+        | "circle"
+        | "circle-xy"
+        | "circle-xz"
+        | "circle-yx"
+        | "circle-yz"
+        | "circle-zx"
+        | "circle-zy"
+        | "cube"
+        | "cube-xy"
+        | "cube-xz"
+        | "cube-yx"
+        | "cube-yz"
+        | "cube-zx"
+        | "cube-zy";
         /** レイアウトの半径。  
          * (デフォルト : 1)
          */
@@ -1710,22 +1710,22 @@ declare module "@masabando/easy-three" {
          * ```
          */
         rotation?: Array<number>;
-      /**
-       * スケール。 x, y, z の配列。  
-       * (デフォルト : [1, 1, 1])
-       * ```js
-       * scale: [x, y, z]
-       * ```
-       */
+        /**
+         * スケール。 x, y, z の配列。  
+         * (デフォルト : [1, 1, 1])
+         * ```js
+         * scale: [x, y, z]
+         * ```
+         */
         scale?: Array<number>;
-      /**
-       * シーンに自動追加するかどうか。  
-       * (デフォルト : true)
-       * ```js
-       * autoAdd: false // シーンに自動追加しない
-       * ```
-       */
-      autoAdd?: boolean;
+        /**
+         * シーンに自動追加するかどうか。  
+         * (デフォルト : true)
+         * ```js
+         * autoAdd: false // シーンに自動追加しない
+         * ```
+         */
+        autoAdd?: boolean;
       }): THREE.Mesh
     
     /**
@@ -1770,5 +1770,51 @@ declare module "@masabando/easy-three" {
       proc?: (ctx: CanvasRenderingContext2D, canvas: HTMLCanvasElement) => void,
       props?: EasyThreeCanvasProps
     ): THREE.Mesh
+
+    audio(
+      /**
+       * 音声ファイルのURL。
+       */
+      soundFile: string,
+      props?: {
+        /** 音声をループ再生するかどうか。  
+         * (デフォルト: true)
+         * ```js
+         * loop: false
+         * ```
+         */
+        loop?: boolean;
+        /** 音量。  
+         * (デフォルト: 0.5)
+         * ```js
+         * volume: 0.5
+         * ```
+         */
+        volume?: number;
+        /**
+         * サウンドを再生するオブジェクト。  
+         * (デフォルト: camera)
+         */
+        target?: THREE.Object3D;
+        /**
+         * AudioAnalyser の FFT サイズ。
+         */
+        fftSize?: number;
+        /**
+         * 音声がロードされたときのコールバック関数。
+         */
+        onLoad?: (payload: {
+          audio: THREE.Audio;
+          analyser: THREE.AudioAnalyser;
+        }) => void;
+        /**
+         * 音声のロード中にエラーが発生したときのコールバック関数。
+         */
+        onError?: (error: ErrorEvent) => void;
+        /** 音声のロード進捗を取得するコールバック関数。  
+         */
+        onProgress?: (event: ProgressEvent) => void;
+      }
+    ): { audio: THREE.Audio; analyser: THREE.AudioAnalyser }
   }
 }

@@ -1416,6 +1416,11 @@ const $30c5471b9d51ed43$var$instances = ({ scene: scene, THREE: THREE })=>{
                         dummy.updateMatrix();
                         m.setMatrixAt(index, dummy.matrix);
                         m.instanceMatrix.needsUpdate = true;
+                    },
+                    get: ()=>{
+                        m.getMatrixAt(index, dummy.matrix);
+                        dummy.matrix.decompose(dummy.position, dummy.quaternion, dummy.scale);
+                        return dummy.position.clone();
                     }
                 },
                 rotation: {
@@ -1426,6 +1431,11 @@ const $30c5471b9d51ed43$var$instances = ({ scene: scene, THREE: THREE })=>{
                         dummy.updateMatrix();
                         m.setMatrixAt(index, dummy.matrix);
                         m.instanceMatrix.needsUpdate = true;
+                    },
+                    get: ()=>{
+                        m.getMatrixAt(index, dummy.matrix);
+                        dummy.matrix.decompose(dummy.position, dummy.quaternion, dummy.scale);
+                        return dummy.rotation.clone();
                     }
                 },
                 scale: {
@@ -1436,6 +1446,11 @@ const $30c5471b9d51ed43$var$instances = ({ scene: scene, THREE: THREE })=>{
                         dummy.updateMatrix();
                         m.setMatrixAt(index, dummy.matrix);
                         m.instanceMatrix.needsUpdate = true;
+                    },
+                    get: ()=>{
+                        m.getMatrixAt(index, dummy.matrix);
+                        dummy.matrix.decompose(dummy.position, dummy.quaternion, dummy.scale);
+                        return dummy.scale.clone();
                     }
                 },
                 color: {
@@ -1443,6 +1458,11 @@ const $30c5471b9d51ed43$var$instances = ({ scene: scene, THREE: THREE })=>{
                         const colorObj = new THREE.Color(color);
                         m.setColorAt(index, colorObj);
                         m.instanceColor.needsUpdate = true;
+                    },
+                    get: ()=>{
+                        const colorObj = new THREE.Color();
+                        m.getColorAt(index, colorObj);
+                        return colorObj;
                     }
                 }
             };
@@ -1576,6 +1596,41 @@ const $7304f841fefa7b2f$var$canvas = ({ create: create, scene: scene, sizeToArra
     };
 };
 var $7304f841fefa7b2f$export$2e2bcd8739ae039 = $7304f841fefa7b2f$var$canvas;
+
+
+const $a767e1cd6a2cee36$var$audio = ({ THREE: THREE, camera: camera })=>{
+    return (soundFile, { loop: loop = true, volume: volume = 0.5, target: target = camera, fftSize: fftSize = 128, onLoad: onLoad = ()=>{}, onError: onError = ()=>{}, onProgress: onProgress = ()=>{} } = {})=>{
+        const config = {
+            fftSize: fftSize
+        };
+        const listener = new THREE.AudioListener();
+        target.add(listener);
+        const audio = new THREE.Audio(listener);
+        const audioLoader = new THREE.AudioLoader();
+        const analyser = new THREE.AudioAnalyser(audio, config.fftSize);
+        audioLoader.load(soundFile, function(buffer) {
+            audio.setBuffer(buffer);
+            audio.setLoop(loop);
+            audio.setVolume(volume);
+            onLoad({
+                audio: audio,
+                analyser: analyser
+            });
+        }, onProgress, onError);
+        audio.destroy = ()=>{
+            audio.stop();
+            audio.disconnect();
+            audio.remove();
+            target.remove(listener);
+            audio.destroy = ()=>{};
+        };
+        return {
+            audio: audio,
+            analyser: analyser
+        };
+    };
+};
+var $a767e1cd6a2cee36$export$2e2bcd8739ae039 = $a767e1cd6a2cee36$var$audio;
 
 
 const $f88a658689c91c8b$var$use = [
@@ -1713,12 +1768,16 @@ const $f88a658689c91c8b$var$use = [
     {
         name: 'canvas',
         fn: (0, $7304f841fefa7b2f$export$2e2bcd8739ae039)
+    },
+    {
+        name: 'audio',
+        fn: (0, $a767e1cd6a2cee36$export$2e2bcd8739ae039)
     }
 ];
 function $f88a658689c91c8b$var$sizeToArray(size, n = 3) {
     return isNaN(size) ? size : Array(n).fill(size);
 }
-const $f88a658689c91c8b$var$addCreate = ({ Default: Default, create: create, scene: scene, THREE: THREE, load: load })=>{
+const $f88a658689c91c8b$var$addCreate = ({ Default: Default, create: create, scene: scene, THREE: THREE, load: load, camera: camera })=>{
     $f88a658689c91c8b$var$use.forEach((v)=>{
         create[v.name] = v.fn({
             Default: Default,
@@ -1726,7 +1785,8 @@ const $f88a658689c91c8b$var$addCreate = ({ Default: Default, create: create, sce
             scene: scene,
             sizeToArray: $f88a658689c91c8b$var$sizeToArray,
             THREE: THREE,
-            load: load
+            load: load,
+            camera: camera
         });
     });
 };
@@ -2954,7 +3014,8 @@ function $0cde3fdde307ec9a$export$2cd8252107eb640b(targetName, { pixelRatio: pix
         Default: Default,
         scene: scene,
         THREE: $1LQKV$three,
-        load: load
+        load: load,
+        camera: camera
     });
     const fpv = (0, $63d5d05912b88f0d$export$2e2bcd8739ae039)({
         camera: camera,

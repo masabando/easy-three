@@ -108,6 +108,7 @@ const instances = create.instances(cube, 8)
       <CodeBlock>
         {`const cube = create.cube()
 const instances = create.instances(cube, 8)
+
 // インスタンスの2番目の位置を変更
 instances.at(2).position.set(0, 2, 0)
 // インスタンスの3番目のスケールを変更
@@ -116,6 +117,22 @@ instances.at(3).scale.set(3, 1, 0)
 instances.at(4).color.set("#ff0000")
 `}
       </CodeBlock>
+
+      <p className="mt-4">
+        また、各インデックスの位置や回転、スケール、色などを get で個別に取得することもできます。
+      </p>
+      <CodeBlock>
+        {`const cube = create.cube()
+const instances = create.instances(cube, 8)
+
+// インスタンスの2番目の位置を取得
+const position = instances.at(2).position.get()
+
+// インスタンスの2番目の位置を変更 (yのみ1増加)
+instances.at(2).position.set(position.x, position.y + 1, position.z)
+`}
+      </CodeBlock>
+
       <H2 className="mt-14">コードの例</H2>
       <H3>インスタンスの配置</H3>
       <p>

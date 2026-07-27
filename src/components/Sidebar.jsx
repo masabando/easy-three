@@ -205,7 +205,11 @@ export default function Sidebar() {
           },
           { href: "/reference/base/color/", label: "color" },
           { href: "/reference/base/xr/", label: "xr", nw: true },
-          { href: "/reference/base/transformControls/", label: "transformControls", nw: true },
+          {
+            href: "/reference/base/transformControls/",
+            label: "transformControls",
+            nw: true,
+          },
           { href: "/reference/base/default/", label: "Default" },
           { href: "/reference/base/destroy/", label: "destroy" },
         ]}
@@ -262,12 +266,18 @@ export default function Sidebar() {
           { href: "/reference/create/ocean/", label: "ocean" },
           { href: "/reference/create/water/", label: "water" },
           {
+            href: "/reference/create/audio/",
+            label: "audio",
+            nw: true,
+          },
+          {
             href: "/reference/create/positionalAudio/",
             label: "positionalAudio",
           },
           {
             href: "/reference/create/instances/",
             label: "instances",
+            update: true,
           },
           {
             href: "/reference/create/material/",

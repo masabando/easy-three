@@ -105,6 +105,15 @@ const instances = ({ scene, THREE }) => {
             m.setMatrixAt(index, dummy.matrix);
             m.instanceMatrix.needsUpdate = true;
           },
+          get: () => {
+            m.getMatrixAt(index, dummy.matrix);
+            dummy.matrix.decompose(
+              dummy.position,
+              dummy.quaternion,
+              dummy.scale
+            )
+            return dummy.position.clone();
+          }
         },
         rotation: {
           set: (x, y, z) => {
@@ -119,6 +128,15 @@ const instances = ({ scene, THREE }) => {
             m.setMatrixAt(index, dummy.matrix);
             m.instanceMatrix.needsUpdate = true;
           },
+          get: () => {
+            m.getMatrixAt(index, dummy.matrix);
+            dummy.matrix.decompose(
+              dummy.position,
+              dummy.quaternion,
+              dummy.scale
+            )
+            return dummy.rotation.clone();
+          }
         },
         scale: {
           set: (x, y, z) => {
@@ -133,12 +151,26 @@ const instances = ({ scene, THREE }) => {
             m.setMatrixAt(index, dummy.matrix);
             m.instanceMatrix.needsUpdate = true;
           },
+          get: () => {
+            m.getMatrixAt(index, dummy.matrix);
+            dummy.matrix.decompose(
+              dummy.position,
+              dummy.quaternion,
+              dummy.scale
+            )
+            return dummy.scale.clone();
+          }
         },
         color: {
           set: (color) => {
             const colorObj = new THREE.Color(color);
             m.setColorAt(index, colorObj);
             m.instanceColor.needsUpdate = true;
+          },
+          get: () => {
+            const colorObj = new THREE.Color();
+            m.getColorAt(index, colorObj);
+            return colorObj;
           }
         }
       }

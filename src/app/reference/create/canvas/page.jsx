@@ -118,7 +118,7 @@ plane.update()
         }}
       />
       <CodeBlock>
-        {`const { camera, create, animate, THREE } = init()
+        {`const { camera, create, animate } = init()
 camera.position.set(0, 0, 3);
 
 create.ambientLight();

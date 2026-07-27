@@ -33,6 +33,7 @@ import material from './misc/material.js';
 import html from './misc/html.js';
 import canvasTexture from './misc/canvasTexture.js';
 import canvas from './misc/canvas.js';
+import audio from './misc/audio.js';
 
 const use = [
   // mesh
@@ -71,15 +72,16 @@ const use = [
   { name: 'html', fn: html },
   { name: 'canvasTexture', fn: canvasTexture },
   { name: 'canvas', fn: canvas },
+  { name: 'audio', fn: audio },
 ];
 
 function sizeToArray(size, n = 3) {
   return isNaN(size) ? size : Array(n).fill(size)
 }
 
-const addCreate = ({ Default, create, scene, THREE, load }) => {
+const addCreate = ({ Default, create, scene, THREE, load, camera }) => {
   use.forEach((v) => {
-    create[v.name] = v.fn({ Default, create, scene, sizeToArray, THREE, load });
+    create[v.name] = v.fn({ Default, create, scene, sizeToArray, THREE, load, camera });
   })
 }
 

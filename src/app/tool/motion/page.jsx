@@ -6,6 +6,7 @@ import H1 from "@/components/H1";
 export default function Page() {
   const meshRef = useRef();
   const soundRef = useRef();
+  const analyserRef = useRef();
   const [count, setCount] = useState(0);
   const ref = useRef();
   useEffect(() => {
@@ -40,7 +41,6 @@ export default function Page() {
       castShadow: true,
     }).then(vrm => {
       model = vrm;
-      transformControls.attach(model.scene)
     })
 
     const directionalLight = create.directionalLight({
@@ -60,76 +60,41 @@ export default function Page() {
       }
     })
 
+    // audio
 
-    const texture = create.canvasTexture((context) => {
-      context.fillStyle = "red";
-      context.fillRect(100, 100, 200, 200);
-    },
-      {
-        size: 400
+    const fftSize = 128;
+    const { audio: sound, analyser } = create.audio("/easy-three/sound/neon_eternity.mp3", {
+      fftSize,
+      onLoad: ({ audio: sound, analyser }) => {
+        soundRef.current = sound;
+        analyserRef.current = analyser;
       }
-    )
-    const context = texture.userData.context;
-    context.fillStyle = "white";
-    context.fillRect(0, 0, 200, 200);
-    texture.update()
-
-    texture.update((ctx) => {
-      ctx.fillStyle = "blue";
-      ctx.fillRect(200, 200, 200, 200);
     })
 
-
-    const cube2 = create.cube({
-      position: [1.5, 0, 0],
+    const soundCubes = Array.from({ length: fftSize/2 }).map((_, i) => {
+      return create.cube({
+        size: [0.02, 0.05, 0.02],
+        position: [i * 0.025 - fftSize/2 * 0.025 / 2, 0, 0],
+      })
     })
 
-    // transformControls.attach(cube2, {
-    //   mode: "rotate",
-    // })
-
-    raycaster.connect()
-
-
-    tool.csg(
-      create.cube({
-        size: 1,
-        option: {
-          transmission: 0.9,
-          roughness: 0.1,
-          thickness: 0.5
-        }
-      }),
-      create.sphere({
-        size: 0.6,
-        option: {
-          color: "orange"
-        },
-      }),
-    )
-
-
-
-
-
-    // const { cameraGroup } = xr.setup();
-    // cameraGroup.position.set(0, 0, 3);
 
     animate(({ delta, time, frameCount }) => {
-      const r = 20 + Math.sin(time * 1.5 * 0) * 18;
       if (model) {
         model.updateWithAnimation(delta);
       }
-      const intersections = raycaster.getIntersections([cube2])
-      cube2.material.color.set(0x00ff00);
-      if (intersections.length > 0) {
-        const hit = intersections[0];
-        hit.object.material.color.set(0xff0000);
+      if (sound.isPlaying) {
+        const frequencyData = analyser.getFrequencyData();
+        soundCubes.forEach((cube, i) => {
+          cube.scale.y = frequencyData[i] / 10;
+          cube.position.y = 0.05 * cube.scale.y / 2;
+          cube.material.color = color(`hsl(240, ${100*frequencyData[i]/255}%, 50%)`)
+        });
       }
-
     });
 
     return () => {
+      sound.destroy();
       destroy();
     };
   }, []);
@@ -149,7 +114,7 @@ export default function Page() {
           }}
         >positional Audio</button>
         <button className="btn btn-primary" onClick={() => {
-          setCount(count + 1)
+          console.log(analyserRef.current.getFrequencyData());
         }}>counter</button>
       </div>
       <div>

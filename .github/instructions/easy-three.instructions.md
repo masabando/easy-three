@@ -131,6 +131,7 @@ Create scene features:
 - `create.water(normalMap0, normalMap1, props)`
 - `create.html(domElement, props)`
 - `create.positionalAudio(soundFile, target, props)`
+- `create.audio(soundFile, props)`
 
 Load assets:
 
@@ -480,7 +481,12 @@ instances.at(0).position.set(0, 0, 0);
 instances.at(1).color.set("#ff0000");
 instances.at(2).rotation.set(Math.PI / 4, Math.PI / 4, 0);
 instances.at(3).scale.set(1.5, 1.5, 1.5);
+
+const position = instances.at(2).position.get();
+instances.at(2).position.set(position.x, position.y + 1, position.z);
 ```
+
+Use `instances.at(index).position.get()`, `.rotation.get()`, `.scale.get()`, and `.color.get()` to read a single instance's current transform or color. The setters and getters work per instance without converting the instanced mesh back into separate meshes.
 
 ## Transform Controls
 
@@ -567,6 +573,46 @@ Avoid `create.spotLight()` with VRM models; the reference warns that this combin
 - `create.water(normalMap0, normalMap1, props)`: water mesh. Can accept a custom `geometry`.
 - `create.html(domElement, props)`: creates a mesh from an HTMLElement. Useful for HTML UI in 3D.
 - `create.positionalAudio(soundFile, target, props)`: positional audio attached to a target object.
+- `create.audio(soundFile, props)`: non-positional audio with a listener attached to `props.target` or the camera by default. Returns `{ audio, analyser }`.
+
+`create.audio()` props include `loop`, `volume`, `target`, `fftSize`, `onLoad`, `onError`, and `onProgress`.
+
+Browser audio playback must start from a user gesture such as a click or tap. Do not call `audio.play()` automatically on load.
+
+```js
+const { camera, create, animate } = init();
+
+camera.position.set(0, 0, 3);
+create.ambientLight();
+create.directionalLight();
+
+const box = create.box();
+const { audio, analyser } = create.audio("/easy-three/sound/neon_eternity.mp3", {
+  fftSize: 128,
+  onLoad: ({ audio, analyser }) => {
+    console.log(audio, analyser);
+  },
+});
+
+animate(({ delta }) => {
+  if (!audio.isPlaying) return;
+
+  const frequencyData = analyser.getFrequencyData();
+  box.rotation.x += delta;
+  box.rotation.y += delta;
+  box.scale.y = Math.max(0.2, frequencyData[0] / 32);
+});
+
+document.querySelector(".playButton").addEventListener("click", () => {
+  if (audio.isPlaying) {
+    audio.stop();
+  } else {
+    audio.play();
+  }
+});
+```
+
+In React, call `audio.destroy()` in the `useEffect` cleanup before or alongside `destroy()` so the audio listener is removed from the target.
 
 Example water:
 
@@ -907,6 +953,8 @@ Default.texture.wrapping = "Repeat";
 - Use `tool.csg(mesh1, mesh2, { mode })` for boolean mesh operations. Prefer it over raw `three-bvh-csg` setup.
 - Remember that `tool.csg()` removes and disposes the original meshes by default; use `{ remove: false, dispose: false }` if later code still needs them.
 - Use `create.canvas()` for canvas-backed planes and `create.canvasTexture()` for canvas textures mapped onto other meshes.
+- Use `create.audio(soundFile, props)` for regular audio playback and frequency analysis. Start playback only from a user gesture, and call `audio.destroy()` during React cleanup.
+- Use `create.positionalAudio(soundFile, target, props)` only when the sound should be spatially attached to a 3D object.
 - In React, pass the ref element to `init(ref.current)` inside `useEffect()` and clean up with `return () => destroy()`.
 - In CDN/plain JavaScript usage, omit `destroy()` unless the user is explicitly tearing down a scene.
 - If easy-three lacks a needed feature, use `const { THREE } = init()` and write the minimal three.js code for that feature while keeping the rest of the scene in easy-three.
