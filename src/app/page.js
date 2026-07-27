@@ -13,8 +13,11 @@ export default function Page() {
     <div className="py-20">
       <title>easy-three</title>
       <div>
-        <h1 className="text-4xl text-center">easy-three</h1>
-        <div className="flex flex-col items-center gap-2 mt-4">
+        <h1 className="text-4xl text-center flex justify-around items-center">
+          <img src="/easy-three/logo/easy-three-logo-text-light.png?2" className="h-13 max-w-full" alt="easy-three" />
+          {/* easy-three */}
+        </h1>
+        <div className="flex flex-col items-center gap-2 mt-10">
           <div>
             <img alt="version" src="https://img.shields.io/github/v/tag/masabando/easy-three?style=flat&label=version" />
           </div>

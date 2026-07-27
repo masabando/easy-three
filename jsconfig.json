@@ -5,5 +5,13 @@
       "@dist/*": ["./dist/*"],
       "@dist-src/*": ["./dist-src/*"]
     }
-  }
+  },
+  "exclude": [
+    "node_modules",
+    "dist",
+    "dist-src",
+    ".next",
+    "public/template",
+    "public/**/*.zip"
+  ]
 }

@@ -5,12 +5,12 @@ import { useEffect, useRef } from "react";
 export const DemoSimple = (props) => {
   const ref = useRef();
   useEffect(() => {
-    const { camera, create, animate, destroy, xr } = init(ref.current);
+    const { camera, create, animate, destroy } = init(ref.current);
     camera.position.set(1, 1, 1);
     create.ambientLight();
     create.directionalLight();
     const cube = create.cube({ rounded: true, segments: 7 });
-    xr.setup();
+    // xr.setup();
     animate(({ time }) => {
       cube.rotation.x = time;
       cube.rotation.y = time;
