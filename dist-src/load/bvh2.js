@@ -52,9 +52,10 @@ const bvh = ({ THREE }) => {
     function createClip(vrm, bvh) {
       const bones = nameList.map((boneName) => vrm.bone(boneName));
       const tracks = [];
+      const isVrm0 = vrm.meta?.metaVersion === "0";
 
       for (let i = 0; i < idList.length; i++) {
-        const keys = createKeys(idList[i], bvh.clip.tracks);
+        const keys = createKeys(idList[i], bvh.clip.tracks, isVrm0);
         if (!keys) continue;
 
         const bone = bones[i];
@@ -86,7 +87,7 @@ const bvh = ({ THREE }) => {
     }
 
 
-    function createKeys(id, tracks) {
+    function createKeys(id, tracks, isVrm0) {
       const posTrack = findTrack(`${id}.position`, tracks);
       const rotTrack = findTrack(`${id}.quaternion`, tracks);
 
@@ -97,19 +98,17 @@ const bvh = ({ THREE }) => {
 
         key["time"] = parseInt(posTrack.times[i] * timeScale);
 
-        key["rot"] = [
-          -rotTrack.values[i * 4],
-          rotTrack.values[i * 4 + 1],
-          -rotTrack.values[i * 4 + 2],
-          rotTrack.values[i * 4 + 3],
-        ];
+        const x = rotTrack.values[i * 4];
+        const y = rotTrack.values[i * 4 + 1];
+        const z = rotTrack.values[i * 4 + 2];
+        const w = rotTrack.values[i * 4 + 3];
+        key["rot"] = isVrm0 ? [-x, y, -z, w] : [x, y, z, w];
 
         if (id == "root") {
-          key["pos"] = [
-            -posTrack.values[i * 3] * rate,
-            posTrack.values[i * 3 + 1] * rate,
-            -posTrack.values[i * 3 + 2] * rate
-          ];
+          const x = posTrack.values[i * 3] * rate;
+          const y = posTrack.values[i * 3 + 1] * rate;
+          const z = posTrack.values[i * 3 + 2] * rate;
+          key["pos"] = isVrm0 ? [-x, y, -z] : [x, y, z];
         }
         keys.push(key);
       }
