@@ -4,7 +4,7 @@ import { ClearPass } from 'three/addons/postprocessing/ClearPass.js';
 import { MaskPass, ClearMaskPass } from 'three/addons/postprocessing/MaskPass.js';
 import { TexturePass } from 'three/addons/postprocessing/TexturePass.js';
 
-const mask = ({ renderer, scene, camera, THREE, sizeTarget }) => {
+const mask = ({ renderer, scene, camera, THREE }) => {
   return (texture) => {
     renderer.autoClear = false;
     const clearPass = new ClearPass();
@@ -12,7 +12,8 @@ const mask = ({ renderer, scene, camera, THREE, sizeTarget }) => {
     const maskPass = new MaskPass(scene, camera);
     const texturePass = new TexturePass(texture);
     const outputPass = new OutputPass();
-    const renderTarget = new THREE.WebGLRenderTarget(sizeTarget.scrollWidth, sizeTarget.scrollHeight, {
+    const size = renderer.getSize(new THREE.Vector2());
+    const renderTarget = new THREE.WebGLRenderTarget(size.x, size.y, {
       stencilBuffer: true,
     });
     const composer = new EffectComposer(renderer, renderTarget);
@@ -22,9 +23,9 @@ const mask = ({ renderer, scene, camera, THREE, sizeTarget }) => {
     composer.addPass(clearMaskPass);
     composer.addPass(outputPass);
     return {
-      mask: (time) => {
+      mask: () => {
         renderer.clear();
-        composer.render(time);
+        composer.render();
       }
     }
   }

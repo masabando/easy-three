@@ -1949,7 +1949,7 @@ var $64bc4e94f23ce7bf$export$2e2bcd8739ae039 = $64bc4e94f23ce7bf$var$pixel;
 
 
 
-const $4a2aed6a42ac671a$var$mask = ({ renderer: renderer, scene: scene, camera: camera, THREE: THREE, sizeTarget: sizeTarget })=>{
+const $4a2aed6a42ac671a$var$mask = ({ renderer: renderer, scene: scene, camera: camera, THREE: THREE })=>{
     return (texture)=>{
         renderer.autoClear = false;
         const clearPass = new (0, $1LQKV$ClearPass)();
@@ -1957,7 +1957,8 @@ const $4a2aed6a42ac671a$var$mask = ({ renderer: renderer, scene: scene, camera: 
         const maskPass = new (0, $1LQKV$MaskPass)(scene, camera);
         const texturePass = new (0, $1LQKV$TexturePass)(texture);
         const outputPass = new (0, $1LQKV$OutputPass)();
-        const renderTarget = new THREE.WebGLRenderTarget(sizeTarget.scrollWidth, sizeTarget.scrollHeight, {
+        const size = renderer.getSize(new THREE.Vector2());
+        const renderTarget = new THREE.WebGLRenderTarget(size.x, size.y, {
             stencilBuffer: true
         });
         const composer = new (0, $1LQKV$EffectComposer)(renderer, renderTarget);
@@ -1967,9 +1968,9 @@ const $4a2aed6a42ac671a$var$mask = ({ renderer: renderer, scene: scene, camera: 
         composer.addPass(clearMaskPass);
         composer.addPass(outputPass);
         return {
-            mask: (time)=>{
+            mask: ()=>{
                 renderer.clear();
-                composer.render(time);
+                composer.render();
             }
         };
     };

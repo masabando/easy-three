@@ -53,10 +53,10 @@ const texture = load.texture("path_to_texture_file.jpg")
 
 const { mask } = postprocessing.mask(texture)
 
-animate(({ delta, time }) => {
+animate(({ delta }) => {
   torusKnot.rotation.x += delta
   torusKnot.rotation.y += delta
-  mask(time)
+  mask()
 }, false)
 `}
       </CodeBlock>
@@ -82,10 +82,10 @@ const texture = load.background("path_to_HDR_file.hdr", {
 
 const { mask } = postprocessing.mask(texture)
 
-animate(({ delta, time }) => {
+animate(({ delta }) => {
   torusKnot.rotation.x += delta
   torusKnot.rotation.y += delta
-  mask(time)
+  mask()
 }, false)
 `}
       </CodeBlock>

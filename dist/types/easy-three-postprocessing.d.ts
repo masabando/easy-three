@@ -115,19 +115,19 @@ declare module "@masabando/easy-three" {
 
     /**
      * マスクエフェクトを追加。  
-     * 戻り値の mask(time) を animate() 内で呼び出すことでエフェクトが適用される。  
+     * 戻り値の mask() を animate() 内で呼び出すことでエフェクトが適用される。
      * animate の第2引数には false を指定して、自動レンダリングを無効化する必要がある。
      * ```js
      * const torusKnot = create.torusKnot()
      * const texture = load.texture("./path/to/texture.png")
      * const { mask } = postprocessing.mask(texture)
-     * animate(({ time, delta }) => {
-     *  mask(time)
+     * animate(() => {
+     *  mask()
      * }, false)
      * ```
      */
     mask(texture: THREE.Texture): {
-      mask: (time) => void;
+      mask: () => void;
     };
 
     /**

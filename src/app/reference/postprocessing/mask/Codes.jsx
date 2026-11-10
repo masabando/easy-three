@@ -14,10 +14,10 @@ export function Ex1(props) {
       "/easy-three/texture/img/red_brick_diff_1k.jpg"
     );
     const { mask } = postprocessing.mask(texture);
-    animate(({ delta, time }) => {
+    animate(({ delta }) => {
       torusKnot.rotation.x += delta;
       torusKnot.rotation.y += delta;
-      mask(time)
+      mask()
     }, false);
     return () => {
       destroy();
@@ -43,10 +43,10 @@ export function Ex2(props) {
       }
     );
     const { mask } = postprocessing.mask(texture);
-    animate(({ delta, time }) => {
+    animate(({ delta }) => {
       torusKnot.rotation.x += delta;
       torusKnot.rotation.y += delta;
-      mask(time);
+      mask();
     }, false);
     return () => {
       destroy();
